@@ -83,8 +83,6 @@ public class MainActivity extends BaseActivity{
     public static final int INDEX_TASK_PAGE = 2;
     public static final int INDEX_MINE_PAGE = 3;
 
-    //提交测试
-
     /**
      * 用于fragment管理
      */
