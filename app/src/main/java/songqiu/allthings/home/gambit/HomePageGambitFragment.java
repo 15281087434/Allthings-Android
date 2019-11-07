@@ -49,6 +49,7 @@ import songqiu.allthings.iterface.GambitItemListener;
 import songqiu.allthings.iterface.HomeHotGambitListener;
 import songqiu.allthings.iterface.TaskSignListener;
 import songqiu.allthings.login.LoginActivity;
+import songqiu.allthings.photoview.PhotoViewActivity;
 import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.LogUtil;
@@ -464,15 +465,17 @@ public class HomePageGambitFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.addGambitImg:
                 if(ClickUtil.onClick()) {
-                    Intent intent;
-                    if(CheckLogin.isLogin(activity)) {
-                        intent = new Intent(activity,JoinGambitActivity.class);
-                        intent.putExtra("talktype",2);
-                        startActivity(intent);
-                    }else {
-                        intent = new Intent(activity,LoginActivity.class);
-                        startActivity(intent);
-                    }
+//                    Intent intent;
+//                    if(CheckLogin.isLogin(activity)) {
+//                        intent = new Intent(activity,JoinGambitActivity.class);
+//                        intent.putExtra("talktype",2);
+//                        startActivity(intent);
+//                    }else {
+//                        intent = new Intent(activity,LoginActivity.class);
+//                        startActivity(intent);
+//                    }
+                    Intent intent = new Intent(getActivity(), PhotoViewActivity.class);
+                    startActivity(intent);
                 }
                 break;
         }
