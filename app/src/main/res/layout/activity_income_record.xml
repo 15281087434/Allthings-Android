@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <include layout="@layout/common_title_layout"/>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_420.0"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"
+        android:layout_marginTop="@dimen/x_ui_px_120.0"
+        android:background="@mipmap/income_record_bg">
+
+        <TextView
+            android:id="@+id/propertyTypeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前金币"
+            android:layout_marginTop="@dimen/x_ui_px_60.0"
+            android:layout_marginLeft="@dimen/x_ui_px_60.0"
+            android:textColor="@color/main_bg_white"
+            android:textSize="@dimen/x_ui_px_36.0"/>
+
+        <TextView
+            android:id="@+id/approximateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="≈100.00元"
+            android:textSize="@dimen/x_ui_px_32.0"
+            android:layout_marginTop="@dimen/x_ui_px_62.0"
+            android:layout_toRightOf="@+id/propertyTypeTv"
+            android:textColor="@color/FFDE5C51"/>
+
+        <TextView
+            android:id="@+id/withDrawTv"
+            android:layout_width="@dimen/x_ui_px_128.0"
+            android:layout_height="@dimen/x_ui_px_56.0"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/x_ui_px_60.0"
+            android:layout_marginRight="@dimen/x_ui_px_60.0"
+            android:text="提现"
+            android:textSize="@dimen/x_ui_px_30.0"
+            android:gravity="center"
+            android:textColor="@color/FFE7A722"
+            android:background="@drawable/rectangle_fofofor_white"/>
+
+        <TextView
+            android:id="@+id/propertyNumTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10000"
+            android:textSize="@dimen/x_ui_px_76.0"
+            android:textStyle="bold"
+            android:textColor="@color/main_bg_white"
+            android:layout_marginTop="@dimen/x_ui_px_110.0"
+            android:layout_marginLeft="@dimen/x_ui_px_60.0"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_90.0"
+            android:layout_marginTop="@dimen/x_ui_px_258.0"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+                <TextView
+                    android:id="@+id/todayPropertyTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今日金币"
+                    android:textSize="@dimen/x_ui_px_28.0"
+                    android:textColor="@color/main_bg_white"/>
+                <TextView
+                    android:id="@+id/todayPropertyNumTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="@dimen/x_ui_px_36.0"
+                    android:textColor="@color/main_bg_white"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="@dimen/x_ui_px_2.0"
+                android:layout_height="@dimen/x_ui_px_40.0"
+                android:background="@color/main_bg_white"
+                android:layout_gravity="center_vertical"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+                <TextView
+                    android:id="@+id/totalPropertyTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="累计金币"
+                    android:textSize="@dimen/x_ui_px_28.0"
+                    android:textColor="@color/main_bg_white"/>
+                <TextView
+                    android:id="@+id/totalPropertyNumTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="@dimen/x_ui_px_36.0"
+                    android:textColor="@color/main_bg_white"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/hintTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x_ui_px_60.0"
+            android:textSize="@dimen/x_ui_px_28.0"
+            android:textColor="@color/FFF9F1CC"
+            android:layout_marginTop="@dimen/x_ui_px_364.0"
+            android:text="当前汇率：10000金币=1元（汇率可浮动）"/>
+
+    </RelativeLayout>
+
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/x_ui_px_38.0"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_above="@+id/tv"
+        >
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/refesh_loading"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/reyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </android.support.v7.widget.RecyclerView>
+
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="仅显示7天内收益明细"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/x_ui_px_40.0"
+        android:layout_marginTop="@dimen/x_ui_px_20.0"
+        android:textSize="@dimen/x_ui_px_28.0"
+        android:textColor="@color/FF999999"/>
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+</RelativeLayout>

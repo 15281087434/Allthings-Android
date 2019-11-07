@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <ImageView
+        android:id="@+id/prestrainImg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/icon_prestrain_look"
+        android:scaleType="fitXY"
+        />
+   
+    <TextView
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_1.0"
+        android:background="@color/white"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/refesh_loading"/>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical">
+           <RelativeLayout
+               android:id="@+id/hintLayout"
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/x_ui_px_64.0"
+               android:background="@color/FFE0F9F0"
+               android:visibility="gone">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerInParent="true"
+                   android:text="见怪为您推荐10条新内容"
+                   android:textSize="@dimen/x_ui_px_28.0"
+                   android:textColor="@color/normal_color"/>
+
+           </RelativeLayout>
+
+           <android.support.v7.widget.RecyclerView
+               android:id="@+id/recycle"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               />
+           <include layout="@layout/layout_empty_content"/>
+       </LinearLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+</LinearLayout>

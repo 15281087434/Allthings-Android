@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/taskSignLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/taskSignImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/task_sign"/>
+            <TextView
+                android:id="@+id/taskSignTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="999"
+                android:textSize="@dimen/x_ui_px_20.0"
+                android:textColor="@color/FFD5D5D5"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/taskSignDayTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1天"
+            android:textSize="@dimen/x_ui_px_24.0"
+            android:textColor="@color/FFBFBFBF"
+            android:layout_marginTop="@dimen/x_ui_px_2.0"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/x_ui_px_111.0"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_110.0"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/nameTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="阅读文章"
+            android:textSize="@dimen/x_ui_px_32.0"
+            android:textColor="@color/bottom_tab_tv"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="right"
+            android:layout_marginRight="@dimen/x_ui_px_30.0">
+
+            <TextView
+                android:id="@+id/numTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x_ui_px_28.0"
+                android:textColor="@color/FFDE5C51"
+                android:text="+9999金币"/>
+            <TextView
+                android:id="@+id/timeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x_ui_px_24.0"
+                android:textColor="@color/FFBFBFBF"
+                android:text="2012-10-10  10:20"
+                android:layout_marginTop="@dimen/x_ui_px_5.0"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_1.0"
+        android:background="@color/line_color"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+</LinearLayout>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/common_title_layout"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x_ui_px_40.0"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/img1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_alipay_setting_logo_gray"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_alipay_setting_link_gray"
+                android:layout_marginLeft="@dimen/x_ui_px_20.0"/>
+            <ImageView
+                android:id="@+id/img2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_alipay_setting_gray"
+                android:layout_marginLeft="@dimen/x_ui_px_20.0"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/x_ui_px_75.0"
+            android:layout_marginRight="@dimen/x_ui_px_75.0"
+            android:layout_marginTop="@dimen/x_ui_px_45.0"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_alipay_setting_acount"/>
+
+            <EditText
+                android:id="@+id/aplipayEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入支付宝账号"
+                android:textColorHint="@color/FF999999"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:textColor="@color/bottom_tab_tv"
+                android:background="@null"
+                android:paddingTop="@dimen/x_ui_px_15.0"
+                android:paddingBottom="@dimen/x_ui_px_15.0"
+                android:layout_marginLeft="@dimen/x_ui_px_15.0"
+                />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            android:layout_marginLeft="@dimen/x_ui_px_75.0"
+            android:layout_marginRight="@dimen/x_ui_px_75.0"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/x_ui_px_75.0"
+            android:layout_marginRight="@dimen/x_ui_px_75.0"
+            android:layout_marginTop="@dimen/x_ui_px_60.0"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_alipay_setting_name"/>
+
+            <EditText
+                android:id="@+id/aplipayNameEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入支付宝真实姓名"
+                android:textColorHint="@color/FF999999"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:textColor="@color/bottom_tab_tv"
+                android:background="@null"
+                android:paddingTop="@dimen/x_ui_px_15.0"
+                android:paddingBottom="@dimen/x_ui_px_15.0"
+                android:layout_marginLeft="@dimen/x_ui_px_15.0"
+                />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            android:layout_marginLeft="@dimen/x_ui_px_75.0"
+            android:layout_marginRight="@dimen/x_ui_px_75.0"/>
+
+
+        <TextView
+            android:id="@+id/nextTv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_88.0"
+            android:layout_marginLeft="@dimen/x_ui_px_136.0"
+            android:layout_marginRight="@dimen/x_ui_px_136.0"
+            android:layout_marginTop="@dimen/x_ui_px_96.0"
+            android:background="@drawable/rectangle_common_login_999999"
+            android:textSize="@dimen/x_ui_px_36.0"
+            android:textColor="@color/FFFFFCFC"
+            android:gravity="center"
+            android:text="确定"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+
+</RelativeLayout>

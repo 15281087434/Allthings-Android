@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/labelTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_label_gary"
+        android:gravity="center"
+        android:paddingLeft="@dimen/x_ui_px_20.0"
+        android:paddingRight="@dimen/x_ui_px_20.0"
+        android:paddingTop="@dimen/x_ui_px_6.0"
+        android:paddingBottom="@dimen/x_ui_px_6.0"
+        android:orientation="vertical"
+        android:textColor="@color/bottom_tab_tv"
+        android:textSize="@dimen/x_ui_px_32.0">
+
+    </TextView>
+
+</LinearLayout>

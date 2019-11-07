@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/parentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/x_ui_px_90.0"
+                android:background="@drawable/white_around_radius">
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="奖励规则"
+                    android:textColor="@color/bottom_tab_tv"
+                    android:textSize="@dimen/x_ui_px_36.0"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/x_ui_px_40.0"
+                    />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/reyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x_ui_px_20.0">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/headImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_dialog_head"
+                android:layout_gravity="center_horizontal"
+                />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/closeImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_dialog_close"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/x_ui_px_40.0"
+            />
+
+</LinearLayout>

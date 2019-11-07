@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_120.0"
+        android:background="@drawable/rectangle_f0f0f0_white">
+
+        <ImageView
+            android:id="@+id/selectImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/withdraw_select"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/numTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bottom_tab_tv"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:text=""
+                />
+            <TextView
+                android:id="@+id/hintTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bottom_tab_tv"
+                android:textSize="@dimen/x_ui_px_28.0"
+                android:text=""
+                android:visibility="gone"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

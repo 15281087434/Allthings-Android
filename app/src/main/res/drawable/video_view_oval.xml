@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval" >
+
+    <solid android:color="@color/video_view_oval" />
+
+
+    <size
+        android:width="@dimen/x_ui_px_16.0"
+        android:height="@dimen/x_ui_px_16.0" />
+
+</shape>

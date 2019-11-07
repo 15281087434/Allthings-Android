@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/x_ui_px_100.0"
+        android:src="@mipmap/state_empty_earnings"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="暂时没有收入记录哦!"
+        android:layout_marginTop="@dimen/x_ui_px_40.0"
+        android:textSize="@dimen/x_ui_px_32.0"
+        android:textColor="@color/FF999999"/>
+
+</LinearLayout>

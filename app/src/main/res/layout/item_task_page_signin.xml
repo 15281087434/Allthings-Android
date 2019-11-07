@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_460.0"
+        android:background="@mipmap/task_heard">
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="现金收益(元)"
+            android:layout_marginTop="@dimen/x_ui_px_96.0"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/x_ui_px_32.0"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/moneyTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_marginTop="@dimen/x_ui_px_18.0"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:layout_below="@+id/tv1"
+            android:textSize="@dimen/x_ui_px_80.0"/>
+
+        <TextView
+            android:id="@+id/goldTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="金币:0个"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:layout_below="@+id/moneyTv"
+            android:layout_marginTop="@dimen/x_ui_px_16.0"
+            android:textSize="@dimen/x_ui_px_32.0"/>
+
+        <TextView
+            android:id="@+id/withdrawImg"
+            android:layout_width="@dimen/x_ui_px_128.0"
+            android:layout_height="@dimen/x_ui_px_56.0"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/goldTv"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:text="提现"
+            android:textSize="@dimen/x_ui_px_28.0"
+            android:gravity="center"
+            android:textColor="@color/normal_color"
+            android:background="@drawable/rectangle_compile_info_bg"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_246.0"
+        android:layout_marginLeft="@dimen/x_ui_px_15.0"
+        android:layout_marginRight="@dimen/x_ui_px_15.0"
+        android:layout_marginTop="@dimen/x_ui_px_330.0"
+        android:background="@mipmap/task_sign_bg">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="签到累计金币"
+            android:textSize="@dimen/x_ui_px_28.0"
+            android:textColor="@color/FF666666"
+            android:layout_marginLeft="@dimen/x_ui_px_35.0"
+            android:layout_marginTop="@dimen/x_ui_px_40.0"/>
+
+        <TextView
+            android:id="@+id/signGoldTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="@dimen/x_ui_px_36.0"
+            android:textStyle="bold"
+            android:textColor="@color/FFDE5C51"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x_ui_px_35.0"
+            android:layout_marginTop="@dimen/x_ui_px_40.0"/>
+
+        <GridView
+            android:id="@+id/siginRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x_ui_px_35.0"
+            android:layout_marginRight="@dimen/x_ui_px_35.0"
+            android:layout_marginTop="@dimen/x_ui_px_116.0"
+            android:numColumns="7"
+            android:horizontalSpacing="@dimen/x_ui_px_38.0"
+            android:listSelector="@android:color/transparent"
+            >
+        </GridView>
+
+    </RelativeLayout>
+
+    <!--签到结束-->
+
+
+</RelativeLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_208.0">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/rightPicImg"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0">
+
+            <TextView
+                android:id="@+id/titleTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textColor="@color/bottom_tab_tv"
+                android:textSize="@dimen/x_ui_px_40.0"
+                android:text="广告"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="@dimen/x_ui_px_52.0"
+                android:layout_height="@dimen/x_ui_px_32.0"
+                android:background="@drawable/rectangle_advertising"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/x_ui_px_20.0"
+                android:text="广告"
+                android:gravity="center"
+                android:textColor="@color/normal_color"
+                android:layout_below="@+id/titleTv"
+                android:layout_marginTop="@dimen/x_ui_px_8.0"/>
+
+            <ImageView
+                android:id="@+id/deleteImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_cancel"
+                android:padding="@dimen/x_ui_px_8.0"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/titleTv"/>
+        </RelativeLayout>
+
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/rightPicImg"
+            android:layout_width="@dimen/x_ui_px_252.0"
+            android:layout_height="@dimen/x_ui_px_152.0"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/pic_default_small"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_12.0"
+        android:background="@color/line_color"
+        />
+
+</LinearLayout>

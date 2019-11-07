@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/report_buttom_radius"
+    android:id="@+id/parentLayout"
+    >
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="#00000000"
+            android:listSelector="#00000000"
+            android:scrollbars="none"
+            android:divider="@null" >
+        </ListView>
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            />
+        <TextView
+            android:id="@+id/btnSure"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_120.0"
+            android:layout_gravity="center"
+            android:text="取消"
+            android:textSize="@dimen/x_ui_px_36.0"
+            android:gravity="center"
+            android:textColor="@color/FF999999"
+            />
+    </LinearLayout>

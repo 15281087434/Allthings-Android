@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/common_title_layout"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/state_location"
+            android:layout_marginTop="@dimen/x_ui_px_77.0"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/x_ui_px_77.0">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/location"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前："
+                android:layout_marginLeft="@dimen/x_ui_px_15.0"
+                android:textSize="@dimen/x_ui_px_32.0"
+                android:textColor="@color/bottom_tab_tv"/>
+
+            <TextView
+                android:id="@+id/currentCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="本地"
+                android:layout_marginLeft="@dimen/x_ui_px_15.0"
+                android:textSize="@dimen/x_ui_px_32.0"
+                android:textColor="@color/bottom_tab_tv"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/locationTv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_88.0"
+            android:layout_marginTop="@dimen/x_ui_px_58.0"
+            android:layout_marginLeft="@dimen/x_ui_px_131.0"
+            android:layout_marginRight="@dimen/x_ui_px_131.0"
+            android:background="@mipmap/common_botton"
+            android:text="获取定位"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_ui_px_35.0"/>
+
+        <TextView
+            android:id="@+id/chooseTv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_88.0"
+            android:layout_marginTop="@dimen/x_ui_px_58.0"
+            android:layout_marginLeft="@dimen/x_ui_px_131.0"
+            android:layout_marginRight="@dimen/x_ui_px_131.0"
+            android:background="@mipmap/common_botton"
+            android:text="手动选择"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_ui_px_35.0"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+
+
+</RelativeLayout>

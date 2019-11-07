@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/common_title_layout"/>
+
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/magicIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/x_ui_px_90.0"
+            app:tabBackground="@color/white"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+
+</RelativeLayout>

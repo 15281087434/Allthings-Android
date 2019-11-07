@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/common_title_layout"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x_ui_px_272.0"
+                android:orientation="vertical"
+                android:background="@mipmap/withdraw_heard">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/x_ui_px_48.0"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/currentTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="当前现金(元)"
+                        android:textColor="@color/FF666666"
+                        android:textSize="@dimen/x_ui_px_36.0"/>
+                    <TextView
+                        android:id="@+id/numTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/bottom_tab_tv"
+                        android:textSize="@dimen/x_ui_px_76.0"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/approximateTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="≈1.00元"
+                        android:textSize="@dimen/x_ui_px_32.0"
+                        android:textColor="@color/FFDE5C51"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x_ui_px_130.0"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    android:layout_gravity="center_vertical"
+                    android:text="选择金额"
+                    android:textColor="@color/FF666666"
+                    android:textSize="@dimen/x_ui_px_26.0"/>
+
+            </LinearLayout>
+
+            <GridView
+                android:id="@+id/gridView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                android:layout_marginRight="@dimen/x_ui_px_30.0"
+                android:numColumns="2"
+                android:horizontalSpacing="@dimen/x_ui_px_26.0"
+                android:verticalSpacing="@dimen/x_ui_px_40.0"
+                android:listSelector="@android:color/transparent"
+                >
+
+            </GridView>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/goldWithdrawTv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_88.0"
+            android:layout_marginLeft="@dimen/x_ui_px_135.0"
+            android:layout_marginRight="@dimen/x_ui_px_135.0"
+            android:layout_marginBottom="@dimen/x_ui_px_40.0"
+            android:background="@mipmap/common_botton"
+            android:textSize="@dimen/x_ui_px_36.0"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="立即提现"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+
+</RelativeLayout>

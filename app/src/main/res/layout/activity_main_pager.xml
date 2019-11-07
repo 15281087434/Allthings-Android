@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_428.0"
+            android:background="@mipmap/main_pager_bg">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x_ui_px_64.0"
+                >
+
+                <ImageView
+                    android:id="@+id/backImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/arrow_back_white"
+                    android:layout_marginLeft="@dimen/x_ui_px_10.0"
+                    android:padding="@dimen/x_ui_px_16.0"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/x_ui_px_30.0">
+
+                <ImageView
+                    android:id="@+id/userIcon"
+                    android:layout_width="@dimen/x_ui_px_80.0"
+                    android:layout_height="@dimen/x_ui_px_80.0"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    android:src="@mipmap/head_default"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/userIcon"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="@dimen/x_ui_px_15.0"
+                    android:layout_marginTop="@dimen/x_ui_px_10.0"
+                    android:layout_marginRight="@dimen/x_ui_px_200.0">
+
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/userIntroduce"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:layout_marginTop="@dimen/x_ui_px_12.0"
+                        android:textSize="@dimen/x_ui_px_28.0"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:lineSpacingExtra="@dimen/x_ui_px_8.0"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/x_ui_px_26.0">
+                        <TextView
+                            android:id="@+id/upTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="@dimen/x_ui_px_24.0"
+                            android:textColor="@color/white"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="获赞"
+                            android:textSize="@dimen/x_ui_px_24.0"
+                            android:textColor="@color/white"/>
+
+                        <TextView
+                            android:id="@+id/fansTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="@dimen/x_ui_px_24.0"
+                            android:textColor="@color/white"
+                            android:layout_marginLeft="@dimen/x_ui_px_40.0"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="粉丝"
+                            android:textSize="@dimen/x_ui_px_24.0"
+                            android:textColor="@color/white"/>
+                        <TextView
+                            android:id="@+id/attentionTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="@dimen/x_ui_px_24.0"
+                            android:textColor="@color/white"
+                            android:layout_marginLeft="@dimen/x_ui_px_40.0"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="关注"
+                            android:textSize="@dimen/x_ui_px_24.0"
+                            android:textColor="@color/white"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/compileTv"
+                    android:layout_width="@dimen/x_ui_px_116.0"
+                    android:layout_height="@dimen/x_ui_px_56.0"
+                    android:layout_marginTop="@dimen/x_ui_px_30.0"
+                    android:background="@drawable/rectangle_compile_info_bg"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/x_ui_px_30.0"
+                    android:text="编辑资料"
+                    android:textSize="@dimen/x_ui_px_24.0"
+                    android:textColor="@color/normal_color"
+                    android:gravity="center" />
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/magicIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_90.0"
+            android:layout_marginTop="@dimen/x_ui_px_10.0"
+            />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:layout_marginTop="@dimen/x_ui_px_5.0"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:background="@color/line_color"
+            />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        </android.support.v4.view.ViewPager>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+
+
+</RelativeLayout>

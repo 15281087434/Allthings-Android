@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/parentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/x_ui_px_90.0"
+                android:background="@drawable/white_around_radius">
+                <LinearLayout
+                    android:id="@+id/layout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_112.0"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/dialog_no_interest"
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+                    <TextView
+                        android:id="@+id/tv1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="不感兴趣"
+                        android:textColor="@color/bottom_tab_tv"
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:layout_marginLeft="@dimen/x_ui_px_22.0"
+                        />
+                    <TextView
+                        android:id="@+id/tv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="不喜欢此类广告"
+                        android:textColor="@color/FF999999"
+                        android:textSize="@dimen/x_ui_px_28.0"
+                        android:layout_marginRight="@dimen/x_ui_px_30.0"
+                        />
+
+                </LinearLayout>
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_1.0"
+                    android:background="@color/line_color"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+                <LinearLayout
+                    android:id="@+id/layout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_112.0"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/dialog_feedback"
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+                    <TextView
+                        android:id="@+id/tv3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="垃圾内容"
+                        android:textColor="@color/bottom_tab_tv"
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:layout_marginLeft="@dimen/x_ui_px_22.0"
+                        />
+                    <TextView
+                        android:id="@+id/tv4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="视频、图片内容质量差"
+                        android:textColor="@color/FF999999"
+                        android:textSize="@dimen/x_ui_px_28.0"
+                        android:layout_marginRight="@dimen/x_ui_px_30.0"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/headImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_dialog_head"
+                android:layout_gravity="center_horizontal"
+                />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/closeImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_dialog_close"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/x_ui_px_40.0"
+            />
+
+</LinearLayout>

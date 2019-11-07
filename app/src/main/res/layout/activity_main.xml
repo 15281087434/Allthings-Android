@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+
+            <include layout="@layout/award_layout" />
+
+            <include layout="@layout/circle_layout"/>
+
+        </RelativeLayout>
+
+
+
+        <!--底部tab-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_98.0"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:background="@color/FFF9FAFD"
+            android:weightSum="4"
+            >
+
+            <LinearLayout
+                android:id="@+id/homePageLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/homePageImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/tab_home_normal" />
+
+                <TextView
+                    android:id="@+id/homePageTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="首页"
+                    android:textColor="@color/FF666666"
+                    android:textSize="@dimen/x_ui_px_22.0"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lookLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/lookImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/tab_look_normal" />
+
+                <TextView
+                    android:id="@+id/lookTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="快看"
+                    android:textColor="@color/FF666666"
+                    android:textSize="@dimen/x_ui_px_22.0" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/taskLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/taskImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/tab_task_normal" />
+
+                <TextView
+                    android:id="@+id/taskTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="任务"
+                    android:textColor="@color/FF666666"
+                    android:textSize="@dimen/x_ui_px_22.0" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mineLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/mineImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/tab_mine_normal" />
+
+                <TextView
+                    android:id="@+id/mineTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的"
+                    android:textColor="@color/FF666666"
+                    android:textSize="@dimen/x_ui_px_22.0" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+
+</RelativeLayout>

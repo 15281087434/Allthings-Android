@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:paddingLeft="@dimen/x_ui_px_30.0"
+            android:paddingTop="@dimen/x_ui_px_10.0"
+            android:paddingBottom="@dimen/x_ui_px_10.0"
+            android:paddingRight="@dimen/x_ui_px_30.0"
+            android:hint="优质评论会被优先展示哦!"
+            android:gravity="top"
+            android:textSize="@dimen/x_ui_px_36.0"
+            android:textColor="@color/FF999999"
+            android:maxLength="140"
+            />
+        
+        <TextView
+            android:id="@+id/publishTv"
+            android:layout_width="@dimen/x_ui_px_104.0"
+            android:layout_height="@dimen/x_ui_px_52.0"
+            android:layout_gravity="right"
+            android:text="发布"
+            android:textColor="@color/main_bg_white"
+            android:gravity="center"
+            android:textSize="@dimen/x_ui_px_24.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:background="@drawable/rectangle_common_no_attention"
+            android:layout_marginBottom="@dimen/x_ui_px_30.0"/>
+    </LinearLayout>
+
+</LinearLayout>

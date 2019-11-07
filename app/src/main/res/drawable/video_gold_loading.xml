@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false" >
+
+    <item
+        android:drawable="@mipmap/video_gold_1"
+        android:duration="100"/>
+    <item
+        android:drawable="@mipmap/video_gold_2"
+        android:duration="100"/>
+    <item
+        android:drawable="@mipmap/video_gold_3"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@mipmap/video_gold_4"
+        android:duration="100"/>
+    <item
+        android:drawable="@mipmap/video_gold_5"
+        android:duration="100"/>
+</animation-list>

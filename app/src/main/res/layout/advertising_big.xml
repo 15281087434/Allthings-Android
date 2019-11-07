@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/advertisingLayout"
+    android:paddingBottom="@dimen/x_ui_px_40.0"
+    android:visibility="gone"
+    >
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/advertisingImg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_388.0"
+            android:src="@mipmap/pic_default"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            />
+
+        <com.heartfor.heartvideo.video.HeartVideo
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_388.0"
+            android:visibility="gone"
+            />
+        <TextView
+            android:layout_width="@dimen/x_ui_px_52.0"
+            android:layout_height="@dimen/x_ui_px_32.0"
+            android:background="@drawable/bg_radius_a6000000"
+            android:layout_marginTop="@dimen/x_ui_px_20.0"
+            android:layout_marginLeft="@dimen/x_ui_px_20.0"
+            android:text="广告"
+            android:textColor="@color/main_bg_white"
+            android:textSize="@dimen/x_ui_px_20.0"
+            android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/advertisingCloseImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x_ui_px_10.0"
+            android:layout_marginRight="@dimen/x_ui_px_10.0"
+            android:src="@mipmap/icon_advertising_close"
+            android:padding="@dimen/x_ui_px_10.0"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/jumpLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_96.0"
+        android:background="@drawable/rectangle_f0f0f0_2px_white"
+        android:paddingLeft="@dimen/x_ui_px_20.0"
+        android:paddingRight="@dimen/x_ui_px_20.0"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"
+        >
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="广告"
+            android:textSize="@dimen/x_ui_px_40.0"
+            android:textColor="@color/bottom_tab_tv"
+            android:singleLine="true"
+            android:maxEms="11"
+            android:ellipsize="end"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x_ui_px_20.0"
+            android:layout_toLeftOf="@+id/downloadLayout"/>
+
+        <LinearLayout
+            android:id="@+id/downloadLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_advertising_download"
+                android:layout_marginRight="@dimen/x_ui_px_12.0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x_ui_px_28.0"
+                android:text="立即下载"
+                android:textColor="@color/normal_color"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

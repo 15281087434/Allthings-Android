@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/layout">
+
+    <TextView
+        android:id="@+id/titleTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:textColor="@color/bottom_tab_tv"
+        android:textSize="@dimen/x_ui_px_40.0"
+        android:layout_marginTop="@dimen/x_ui_px_28.0"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"
+        android:text="草船借箭是一个故事"
+        android:singleLine="true"
+        android:maxEms="21"
+        android:ellipsize="end"
+        android:textStyle="bold"
+        />
+
+    <songqiu.allthings.view.GridViewInScroll
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/x_ui_px_20.0"
+        android:numColumns="3"
+        android:horizontalSpacing="@dimen/x_ui_px_10.0"
+        android:verticalSpacing="@dimen/x_ui_px_10.0"
+        android:listSelector="@android:color/transparent"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0">
+
+    </songqiu.allthings.view.GridViewInScroll>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/x_ui_px_20.0"
+            android:layout_marginBottom="@dimen/x_ui_px_28.0"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/x_ui_px_28.0"
+                    android:textColor="@color/FF999999"
+                    android:text="大力·悬疑"
+                    android:maxEms="10"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_2.0"
+        android:background="@color/line_color"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+</LinearLayout>

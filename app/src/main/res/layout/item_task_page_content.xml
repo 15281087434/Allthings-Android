@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="@dimen/x_ui_px_30.0"
+        android:layout_marginBottom="@dimen/x_ui_px_30.0">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0">
+
+                <TextView
+                    android:id="@+id/titleTv"
+                    android:layout_width="@dimen/x_ui_px_250.0"
+                    android:layout_height="wrap_content"
+                    android:text="首次邀请好友"
+                    android:textColor="@color/bottom_tab_tv"
+                    android:textSize="@dimen/x_ui_px_36.0"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:ellipsize="end"/>
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/money_red"
+                    />
+                <TextView
+                    android:id="@+id/numTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="32元"
+                    android:textColor="@color/FFDE5C51"
+                    android:layout_marginLeft="@dimen/x_ui_px_12.0"
+                    android:textSize="@dimen/x_ui_px_28.0"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/descriptionTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/FF999999"
+                android:textSize="@dimen/x_ui_px_28.0"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                android:text="邀请好友最高可获得31元，首次邀请额外奖励1元"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:layout_marginTop="@dimen/x_ui_px_5.0"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/buttonttTv"
+            android:layout_width="@dimen/x_ui_px_160.0"
+            android:layout_height="@dimen/x_ui_px_60.0"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:background="@drawable/rectangle_0fc189_8px_white"
+            android:gravity="center"
+            android:text="去邀请"
+            android:textColor="@color/normal_color"
+            android:textSize="@dimen/x_ui_px_27.0"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_1.0"
+        android:background="@color/line_color"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+</LinearLayout>

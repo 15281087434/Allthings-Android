@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_bg">#F3F3F7</color>
+    <color name="gray">#B8B8B8</color>
+    <color name="green">#00bebe</color>
+    <color name="blue">#87afff</color>
+
+    <color name="title_startColor">#68B3FC</color>
+    <color name="title_endColor">#54A6F7</color>
+
+    <color name="main_startColor">#FBFCFC</color>
+    <color name="main_endColor">#F5F7F9</color>
+
+    <color name="unread_startColor">#EC5147</color>
+    <color name="unread_endColor">#ED745E</color>
+
+    <color name="category_tab_text">#ff707070</color>
+
+    <color name="category_tab_highlight_text">#FC8936</color>
+
+    <!--通用字体 黑色-->
+    <color name="common_tx_color">#111111</color>
+    <!--通用字体 灰色-->
+    <color name="common_tx_grey_color">#9294A5</color>
+
+    <color name="A8A8A8">#A8A8A8</color>
+
+    <color name="item_line_color">#F1F1F1</color>
+
+
+    <color name="colorPrimary">#68B3FC</color>
+    <color name="colorPrimaryDark">#EC5147</color>
+    <color name="colorAccent">#ED745E</color>
+
+    <color name="video_view_oval">#19C058</color>
+
+
+
+    <color name="FF707070">#707070</color>
+
+
+    <color name="FFA0A4B4">#A0A4B4</color>
+
+    <color name="FF777171">#777171</color>
+    <color name="FFFBFBFB">#FBFBFB</color>
+    <color name="FF179962">#179962</color>
+
+    <color name="FFA7A6A7">#A7A6A7</color>
+
+
+
+    <!--使用-->
+    <color name="black">#000000</color>
+
+    <!--<color name="trans_4">#99000000</color>&lt;!&ndash;40%透明度&ndash;&gt;-->
+    <color name="trans_6">#A6000000</color><!--60%透明度-->
+
+    <color name="main_bg_white">#FFFFFF</color>
+    <color name="main_bg_white_4c">#4cFFFFFF</color>
+
+    <color name="main_bg_white_night">#2B2B2B</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="FFEEEEEE">#EEEEEE</color>
+
+    <!--线-->
+    <color name="line_color">#f0f0f0</color>
+    <color name="line_color_night">#191919</color>
+    <color name="FFA2A2A2">#A2A2A2</color>
+
+    <color name="FFE7A722">#FFC700</color>
+    <color name="FFFFFCFC">#FFFCFC</color>
+    <color name="FFE2E2E2">#E2E2E2</color>
+    <!--状态栏-->
+    <color name="FFF9FAFD">#F9FAFD</color>
+
+    <color name="FFF9FAFD_night">#191919</color>
+
+    <color name="FFBFBFBF">#BFBFBF</color>
+
+    <color name="FFEFEFEF">#EFEFEF</color>
+
+
+
+
+    <!--用户协议-->
+    <color name="FF6FA4EB">#6FA4EB</color>
+
+    <color name="FFDE5C51">#E8616A</color>
+    <!--底部导航文字颜色 -->
+    <color name="bottom_tab_tv">#333333</color>
+    <color name="bottom_tab_tv_night">#ACACAC</color>
+
+
+    <color name="FF666666">#666666</color>
+
+
+    <color name="FF999999">#999999</color>
+    <color name="FF999999_night">#515151</color>
+
+    <!--app通用字体 比如首页标签tab字体-->
+    <color name="normal_color">#14D2D1</color>
+
+    <color name="task_top_color">#0CD982</color>
+    <color name="task_top_color_night">#044c2d</color>
+
+
+    <!--未签金币颜色-->
+    <color name="FFD5D5D5">#D5D5D5</color>
+    <!--已签金币颜色-->
+    <color name="FFFFF8B0">#FFF8B0</color>
+
+    <color name="FFF9F1CC">#F9F1CC</color>
+
+    <color name="FF3B3B3B">#3B3B3B</color>
+
+    <color name="FF5098FC">#5098FC</color>
+
+    <color name="FFE0F9F0">#D6FFFF</color>
+
+
+
+
+
+
+
+</resources>

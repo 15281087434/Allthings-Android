@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    >
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/line"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/x_ui_px_12.0"-->
+        <!--android:background="@color/line_color"-->
+        <!--android:orientation="horizontal">-->
+    <!--</LinearLayout>-->
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_76.0"
+        android:orientation="vertical"
+        android:background="@color/normal_color">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:src="@mipmap/icon_choiceness_left"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/timeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今日精选"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_ui_px_28.0"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/icon_choiceness_right"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

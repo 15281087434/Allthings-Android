@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- 滑动广告-->
+    <songqiu.allthings.view.banner.RollPagerView
+        android:id="@+id/roll_page_home"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_332.0"
+        app:rollviewpager_hint_gravity="center"
+        app:rollviewpager_play_delay="3000"
+        />
+
+</LinearLayout>

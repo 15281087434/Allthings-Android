@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    >
+    <LinearLayout
+        android:id="@+id/videoAwardLayout"
+        android:layout_width="@dimen/x_ui_px_240.0"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@drawable/video_award_bg"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="看视频奖励"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/x_ui_px_32.0"
+            android:textColor="@color/main_bg_white"
+            android:layout_marginTop="@dimen/x_ui_px_16.0"/>
+
+        <TextView
+            android:id="@+id/goldTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/x_ui_px_72.0"
+            android:textColor="@color/FFE7A722"
+            android:text="+0"
+            android:layout_marginTop="-5dp"/>
+
+        <ImageView
+            android:id="@+id/videoGoldImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/video_gold_loading"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-10dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

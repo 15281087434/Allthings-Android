@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/main_bg_white">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        />
+
+    <TextView
+        android:id="@+id/jumpTv"
+        android:layout_width="@dimen/x_ui_px_124.0"
+        android:layout_height="@dimen/x_ui_px_44.0"
+        android:background="@drawable/jump_advertising_bg"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"
+        android:layout_marginTop="@dimen/x_ui_px_60.0"
+        android:text="跳过广告"
+        android:textSize="@dimen/x_ui_px_22.0"
+        android:textColor="@color/main_bg_white"
+        android:gravity="center"/>
+
+</RelativeLayout>

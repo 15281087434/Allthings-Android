@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/common_title_layout"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/smartRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/relativeLayout"
+                >
+                <pl.droidsonroids.gif.GifImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/refesh_loading"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                    <include layout="@layout/layout_empty_content"/>
+                </LinearLayout>
+
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x_ui_px_160.0"
+                android:layout_alignParentBottom="true">
+
+                <TextView
+                    android:id="@+id/invateTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_88.0"
+                    android:layout_marginLeft="@dimen/x_ui_px_134.0"
+                    android:layout_marginRight="@dimen/x_ui_px_134.0"
+                    android:background="@mipmap/common_botton"
+                    android:layout_centerInParent="true"
+                    android:text="邀请更多好友"
+                    android:textSize="@dimen/x_ui_px_36.0"
+                    android:textColor="@color/FFFFFCFC"
+                    android:gravity="center"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+
+</RelativeLayout>

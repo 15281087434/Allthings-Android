@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_112.0"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/titleImg"
+            android:layout_width="@dimen/x_ui_px_140.0"
+            android:layout_height="@dimen/x_ui_px_60.0"
+            android:background="@drawable/bg_task_tag"
+            android:gravity="center"
+            android:textColor="@color/main_bg_white"
+            android:textSize="@dimen/x_ui_px_28.0"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            />
+
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="限时10天"
+            android:layout_marginLeft="@dimen/x_ui_px_19.0"
+            android:textSize="@dimen/x_ui_px_23.0"
+            android:textColor="@color/FFBFBFBF"
+            android:visibility="gone"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_1.0"
+        android:background="@color/line_color"
+        />
+
+</LinearLayout>

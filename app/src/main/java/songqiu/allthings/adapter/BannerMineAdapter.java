@@ -1,0 +1,91 @@
+package songqiu.allthings.adapter;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.generic.RoundingParams;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.util.ArrayList;
+
+import songqiu.allthings.R;
+import songqiu.allthings.bean.BannerBean;
+import songqiu.allthings.http.HttpServicePath;
+import songqiu.allthings.util.StringUtil;
+import songqiu.allthings.view.banner.LoopPagerAdapter;
+import songqiu.allthings.view.banner.RollPagerView;
+
+/**
+ * ***********************************************
+ * 包路径：
+ * 类描述：
+ * 创建人：杨延辉[PHONE：15281087434]
+ * 创建时间：2019/5/14+14:18
+ * 修改人：
+ * 修改时间：2019/5/14+14:18
+ * 修改备注：
+ * ***********************************************
+ */
+public class BannerMineAdapter extends LoopPagerAdapter {
+
+    ArrayList<BannerBean> bannerBeans;
+    public BannerMineAdapter(RollPagerView viewPager, ArrayList<BannerBean> bannerBeans) {
+        super(viewPager);
+        this.bannerBeans = bannerBeans;
+    }
+
+    @Override
+    public View getView(ViewGroup container, final int position) {
+
+//        View contentView  = LayoutInflater.from(container.getContext()).inflate(R.layout.banner_mine_item,null);
+//        SimpleDraweeView view  = contentView.findViewById(R.id.sdv_banner);
+//        view.setScaleType(ImageView.ScaleType.CENTER);
+//        if(bannerBeans==null||bannerBeans.size()<=0){
+//            view.setBackgroundResource(R.mipmap.banner_mine_default);
+//        }else{
+//            view.setImageURI(bannerBeans.get(position).photo);
+//        }
+//        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));*/
+
+        SimpleDraweeView view = new SimpleDraweeView(container.getContext());
+        view.setScaleType(ImageView.ScaleType.CENTER);
+//设置圆角
+        RoundingParams roundingParams = RoundingParams.fromCornersRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,10,container.getContext().getResources().getDisplayMetrics()));
+        // alternatively use fromCornersRadii or asCircle
+        GenericDraweeHierarchy hierarchy = GenericDraweeHierarchyBuilder.newInstance(container.getContext().getResources()).build();
+
+        hierarchy.setRoundingParams(roundingParams);
+        view.setHierarchy(hierarchy);
+
+        if(bannerBeans==null||bannerBeans.size()<=0){
+            view.setBackgroundResource(R.mipmap.banner_mine_default);
+        }else{
+//            DraweeController controller = Fresco.newDraweeControllerBuilder()
+//                    .setUri(bannerBeans.get(position).photo)
+//                    .setOldController(view.getController())
+//                    .setTapToRetryEnabled(true).build();
+//            view.setController(controller);
+            view.setBackgroundResource(R.mipmap.banner_mine_default);
+        }
+
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        return view;
+    }
+
+    @Override
+    public int getRealCount() {
+        return bannerBeans == null ? 0 : bannerBeans.size();
+    }
+
+
+}
+

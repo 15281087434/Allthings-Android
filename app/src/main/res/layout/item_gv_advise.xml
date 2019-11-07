@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/item_img_album"
+        android:layout_width="@dimen/x_ui_px_210.0"
+        android:layout_height="@dimen/x_ui_px_210.0"
+        android:scaleType="fitXY"
+        android:layout_marginTop="@dimen/x_ui_px_20.0"/>
+    <ImageView
+        android:id="@+id/removeImg"
+        android:layout_width="@dimen/x_ui_px_40.0"
+        android:layout_height="@dimen/x_ui_px_40.0"
+        android:src="@mipmap/delete_img"
+        android:layout_marginLeft="@dimen/x_ui_px_180.0"
+        />
+</RelativeLayout>

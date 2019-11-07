@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/common_title_layout"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="邀请码可以问你的好友获得哦"
+            android:layout_marginTop="@dimen/x_ui_px_60.0"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/x_ui_px_28.0"
+            android:textColor="@color/normal_color"/>
+
+        <EditText
+            android:id="@+id/codeEt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_96.0"
+            android:layout_marginTop="@dimen/x_ui_px_60.0"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:background="@drawable/rectangle_bfbfbf_white"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/x_ui_px_20.0"
+            android:paddingRight="@dimen/x_ui_px_20.0"
+            android:textColor="@color/bottom_tab_tv"
+            android:textSize="@dimen/x_ui_px_36.0"
+            android:hint="输入好友邀请码，立即拿奖励"
+            android:textColorHint="@color/FF666666"/>
+
+        <TextView
+            android:id="@+id/nextTv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_88.0"
+            android:layout_marginLeft="@dimen/x_ui_px_136.0"
+            android:layout_marginRight="@dimen/x_ui_px_136.0"
+            android:layout_marginTop="@dimen/x_ui_px_68.0"
+            android:background="@drawable/rectangle_common_login_11995c"
+            android:textSize="@dimen/x_ui_px_36.0"
+            android:textColor="@color/FFFFFCFC"
+            android:gravity="center"
+            android:text="确定"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+
+</RelativeLayout>

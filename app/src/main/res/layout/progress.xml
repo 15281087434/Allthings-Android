@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+	android:orientation="vertical"
+
+    >
+
+    <LinearLayout
+        android:layout_width="@dimen/x_ui_px_500.0"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/x_ui_px_92.0"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/x_ui_px_40.0"
+                    android:layout_marginBottom="@dimen/x_ui_px_40.0"
+                    android:background="@color/main_bg_white"
+                    android:orientation="vertical">
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x_ui_px_300.0"
+                        android:background="@mipmap/icon_upload_version"
+                        >
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/x_ui_px_100.0"
+                            android:gravity="center_horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="发现新版本"
+                                android:textSize="@dimen/x_ui_px_44.0"
+                                android:textStyle="bold"
+                                android:textColor="@color/main_bg_white"/>
+                            <TextView
+                                android:id="@+id/versionTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="v 1.0.0"
+                                android:textSize="@dimen/x_ui_px_32.0"
+                                android:textColor="@color/main_bg_white"
+                                android:layout_marginTop="@dimen/x_ui_px_10.0"/>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <!--style="?android:attr/progressBarStyleHorizontal"-->
+                    <ProgressBar
+                        android:id="@+id/progress"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x_ui_px_58.0"
+                        android:layout_marginRight="@dimen/x_ui_px_62.0"
+                        android:layout_marginTop="@dimen/x_ui_px_60.0"
+                        style="@style/progressbar_upload_version"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/white_below_radius"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/x_ui_px_60.0"
+                        >
+
+                        <Button
+                            android:id="@+id/btn_switch"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x_ui_px_88.0"
+                            android:layout_marginLeft="@dimen/x_ui_px_58.0"
+                            android:layout_marginRight="@dimen/x_ui_px_62.0"
+                            android:background="@mipmap/common_botton"
+                            android:layout_marginBottom="@dimen/x_ui_px_60.0"
+                            android:layout_marginTop="@dimen/x_ui_px_40.0"
+                            android:text="开始"
+                            android:textSize="@dimen/x_ui_px_36.0"
+                            android:textColor="@color/FFFFFCFC"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            />
+
+                        <Button
+                            android:id="@+id/btn_cancel"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x_ui_px_88.0"
+                            android:layout_marginLeft="@dimen/x_ui_px_58.0"
+                            android:layout_marginRight="@dimen/x_ui_px_62.0"
+                            android:background="@mipmap/common_botton"
+                            android:text="取消"
+                            android:textSize="@dimen/x_ui_px_36.0"
+                            android:textColor="@color/FFFFFCFC"
+                            android:gravity="center"
+                            android:layout_marginBottom="@dimen/x_ui_px_60.0"
+                            />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/headImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_dialog_head"
+                android:layout_gravity="center_horizontal"
+                />
+        </FrameLayout>
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

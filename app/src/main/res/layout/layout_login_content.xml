@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/loginLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="gone"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/x_ui_px_80.0"
+        >
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@mipmap/state_empty_attention" />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="暂时没有登录哦\n快去登录吧!"
+            android:layout_marginTop="@dimen/x_ui_px_40.0"
+            android:textSize="@dimen/x_ui_px_28.0"
+            android:textColor="@color/FFBFBFBF"/>
+
+    </LinearLayout>
+
+
+       <TextView
+           android:id="@+id/loginTv"
+           android:layout_marginTop="@dimen/x_ui_px_100.0"
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/x_ui_px_88.0"
+           android:layout_marginLeft="@dimen/x_ui_px_136.0"
+           android:layout_marginRight="@dimen/x_ui_px_136.0"
+           android:background="@mipmap/common_botton"
+           android:text="去登录"
+           android:textSize="@dimen/x_ui_px_36.0"
+           android:textColor="@color/white"
+           android:gravity="center"/>
+
+</LinearLayout>

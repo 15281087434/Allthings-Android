@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/x_ui_px_332.0"
+    android:orientation="vertical">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_banner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <LinearLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_140.0"
+        android:orientation="horizontal"
+        android:background="@mipmap/banner_title"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/x_ui_px_32.0"
+            android:textColor="@color/main_bg_white"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:lines="2"
+            android:ellipsize="end"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:layout_marginBottom="@dimen/x_ui_px_20.0"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

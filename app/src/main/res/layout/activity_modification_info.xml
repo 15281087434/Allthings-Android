@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/common_title_layout"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_above="@+id/sureTv">
+                <LinearLayout
+                    android:id="@+id/chooseHeadLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_118.0"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="选择"
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:textColor="@color/FF666666"
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        />
+
+                    <ImageView
+                        android:id="@+id/userIcon"
+                        android:layout_width="@dimen/x_ui_px_81.0"
+                        android:layout_height="@dimen/x_ui_px_81.0"
+                        android:src="@mipmap/head_default"
+                        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/arrow_next"
+                        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_1.0"
+                    android:background="@color/line_color"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_112.0"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="昵称"
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:textColor="@color/FF666666"
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        />
+
+
+                    <EditText
+                        android:id="@+id/nichengEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/x_ui_px_100.0"
+                        android:background="@null"
+                        android:maxLength="10"
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:textColor="@color/bottom_tab_tv"
+                        android:textColorHint="@color/bottom_tab_tv"
+                        android:hint="昵称字数最多十个字哦"
+                        android:gravity="right|center_vertical"
+                        android:layout_marginRight="@dimen/x_ui_px_85.0"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_1.0"
+                    android:background="@color/line_color"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+                <LinearLayout
+                    android:id="@+id/sixLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_112.0"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="性别"
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:textColor="@color/FF666666"
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        />
+
+                    <TextView
+                        android:id="@+id/sixTv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text=""
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:textColor="@color/bottom_tab_tv"
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        android:hint="请选择"
+                        android:textColorHint="@color/bottom_tab_tv"
+                        android:gravity="right"
+                        android:layout_marginRight="@dimen/x_ui_px_40.0"
+                        />
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/arrow_next"
+                        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_1.0"
+                    android:background="@color/line_color"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+                <LinearLayout
+                    android:id="@+id/addressLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_112.0"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="居住地"
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:textColor="@color/FF666666"
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        />
+
+                    <TextView
+                        android:id="@+id/addressTv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text=""
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:textColor="@color/bottom_tab_tv"
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        android:hint="请选择"
+                        android:textColorHint="@color/bottom_tab_tv"
+                        android:gravity="right"
+                        android:layout_marginRight="@dimen/x_ui_px_40.0"
+                        />
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/arrow_next"
+                        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_1.0"
+                    android:background="@color/line_color"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="个人简介"
+                    android:textSize="@dimen/x_ui_px_36.0"
+                    android:textColor="@color/FF666666"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    android:layout_marginTop="@dimen/x_ui_px_30.0"
+                    />
+
+
+               <FrameLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="@dimen/x_ui_px_352.0"
+                   android:layout_marginLeft="@dimen/x_ui_px_60.0"
+                   android:layout_marginRight="@dimen/x_ui_px_60.0"
+                   android:layout_marginTop="@dimen/x_ui_px_42.0">
+                   <EditText
+                       android:id="@+id/introduceeEt"
+                       android:layout_width="match_parent"
+                       android:layout_height="@dimen/x_ui_px_352.0"
+                       android:background="@drawable/user_page_compile"
+                       android:padding="@dimen/x_ui_px_10.0"
+                       android:gravity="left|top"
+                       android:textSize="@dimen/x_ui_px_32.0"
+                       android:textColor="@color/bottom_tab_tv"
+                       android:maxLength="140"
+                       />
+
+                   <TextView
+                       android:id="@+id/numTv"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="0/140"
+                       android:textColor="@color/FF999999"
+                       android:textSize="@dimen/x_ui_px_28.0"
+                       android:paddingRight="@dimen/x_ui_px_8.0"
+                       android:layout_marginBottom="@dimen/x_ui_px_8.0"
+                       android:layout_gravity="bottom|right"/>
+               </FrameLayout>
+            </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/sureTv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x_ui_px_88.0"
+                android:layout_marginLeft="@dimen/x_ui_px_134.0"
+                android:layout_marginRight="@dimen/x_ui_px_134.0"
+                android:background="@drawable/rectangle_common_login_999999"
+                android:layout_marginBottom="@dimen/x_ui_px_40.0"
+                android:text="确定"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:textColor="@color/FFFFFCFC"
+                android:gravity="center"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+
+
+</RelativeLayout>

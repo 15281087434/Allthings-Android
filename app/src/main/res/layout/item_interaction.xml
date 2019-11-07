@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/x_ui_px_111.0"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_110.0"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+
+        <ImageView
+            android:id="@+id/userIcon"
+            android:layout_width="@dimen/x_ui_px_70.0"
+            android:layout_height="@dimen/x_ui_px_70.0"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:src="@mipmap/head_default"/>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/x_ui_px_12.0">
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="阿西吧"
+                android:textColor="@color/bottom_tab_tv"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:maxLength="10"
+                android:singleLine="true"
+                android:ellipsize="end"/>
+            <ImageView
+                android:id="@+id/dotImg"
+                android:layout_width="@dimen/x_ui_px_16.0"
+                android:layout_height="@dimen/x_ui_px_16.0"
+                android:src="@drawable/bg_circle_de5c51"
+                android:layout_toRightOf="@+id/userName"
+                android:layout_marginLeft="@dimen/x_ui_px_12.0"
+                android:layout_marginTop="@dimen/x_ui_px_18.0"/>
+
+            <TextView
+                android:id="@+id/typeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取消了赞"
+                android:textColor="@color/FF999999"
+                android:textSize="@dimen/x_ui_px_28.0"
+                android:layout_below="@+id/userName"
+                android:maxLength="12"
+                android:singleLine="true"
+                android:ellipsize="end"
+                />
+
+            <TextView
+                android:id="@+id/timeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2010-10-10"
+                android:textColor="@color/FF999999"
+                android:textSize="@dimen/x_ui_px_28.0"
+                android:layout_below="@+id/userName"
+                android:layout_toRightOf="@+id/typeTv"
+                android:layout_marginLeft="@dimen/x_ui_px_40.0"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/stateTv"
+            android:layout_width="@dimen/x_ui_px_116.0"
+            android:layout_height="@dimen/x_ui_px_56.0"
+            android:layout_marginRight="@dimen/x_ui_px_34.0"
+            android:background="@drawable/rectangle_common_attention"
+            android:textSize="@dimen/x_ui_px_24.0"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="关注"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_1.0"
+        android:background="@color/line_color"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+</LinearLayout>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_140.0"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_zhifubao_gray"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/x_ui_px_12.0">
+
+            <TextView
+                android:id="@+id/nameTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付宝提现"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:textColor="@color/bottom_tab_tv"/>
+            <TextView
+                android:id="@+id/timeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018-10-10  12:00"
+                android:textSize="@dimen/x_ui_px_28.0"
+                android:textColor="@color/FF999999"
+                android:layout_marginTop="@dimen/x_ui_px_8.0"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:orientation="vertical"
+            android:gravity="right">
+            <TextView
+                android:id="@+id/numTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+50元"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:textColor="@color/FFDE5C51"
+                />
+
+
+            <TextView
+                android:id="@+id/stateTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="进行中"
+                android:textSize="@dimen/x_ui_px_28.0"
+                android:textColor="@color/FFDE5C51"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_1.0"
+        android:background="@color/line_color"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+</LinearLayout>

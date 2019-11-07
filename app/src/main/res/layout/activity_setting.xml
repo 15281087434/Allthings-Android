@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/common_title_layout"/>
+
+        <LinearLayout
+            android:id="@+id/compileInfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_112.0"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="编辑资料"
+                android:textColor="@color/bottom_tab_tv"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/arrow_next"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+        <LinearLayout
+            android:id="@+id/cleanCacheLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_112.0"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="清除缓存"
+                android:textColor="@color/bottom_tab_tv"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+            <TextView
+                android:id="@+id/cacheTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/x_ui_px_30.0"
+                android:text="0B"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:textColor="@color/FF666666"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_112.0"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="字体大小"
+                android:textColor="@color/bottom_tab_tv"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/x_ui_px_30.0"
+                android:text="中"
+                android:textSize="@dimen/x_ui_px_24.0"
+                android:textColor="@color/bottom_tab_tv"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:visibility="gone"/>
+        <LinearLayout
+            android:id="@+id/protocolLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_112.0"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="用户协议"
+                android:textColor="@color/bottom_tab_tv"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/arrow_next"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+        <LinearLayout
+            android:id="@+id/privaceLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_112.0"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="隐私政策"
+                android:textColor="@color/bottom_tab_tv"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/arrow_next"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_112.0"
+            android:orientation="horizontal"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="侵权投诉"
+                android:textColor="@color/bottom_tab_tv"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/arrow_next"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_112.0"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="检查版本"
+                android:textColor="@color/bottom_tab_tv"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+            <TextView
+                android:id="@+id/versionTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/x_ui_px_30.0"
+                android:text="1.0.0"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:textColor="@color/FF666666"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+        <LinearLayout
+            android:id="@+id/aboutLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_112.0"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="关于我们"
+                android:textColor="@color/bottom_tab_tv"
+                android:textSize="@dimen/x_ui_px_36.0"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/arrow_next"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/loginoutTv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_88.0"
+            android:layout_marginTop="@dimen/x_ui_px_126.0"
+            android:layout_marginLeft="@dimen/x_ui_px_124.0"
+            android:layout_marginRight="@dimen/x_ui_px_124.0"
+            android:background="@drawable/rectangle_common_login_999999"
+            android:textColor="@color/FFFFFCFC"
+            android:text="退出登录"
+            android:textSize="@dimen/x_ui_px_36.0"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+
+</RelativeLayout>

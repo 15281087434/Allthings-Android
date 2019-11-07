@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+
+    <com.heartfor.heartvideo.video.HeartVideo
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_420.0"
+        />
+
+    <RelativeLayout
+        android:id="@+id/toDetailLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_112.0"
+        >
+        <LinearLayout
+            android:id="@+id/userLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0">
+
+            <ImageView
+                android:id="@+id/userIcon"
+                android:layout_width="@dimen/x_ui_px_72.0"
+                android:layout_height="@dimen/x_ui_px_72.0"
+                android:src="@mipmap/head_default"
+                />
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x_ui_px_28.0"
+                android:textColor="@color/FF666666"
+                android:text="大力·悬疑"
+                android:maxEms="5"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:layout_marginLeft="@dimen/x_ui_px_16.0"/>
+
+            <TextView
+                android:id="@+id/attentionTv"
+                android:layout_width="@dimen/x_ui_px_88.0"
+                android:layout_height="@dimen/x_ui_px_35.0"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                android:gravity="center"
+                android:text="+ 关注"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x_ui_px_19.0"
+                android:background="@drawable/rectangle_common_attention"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/setTopTv"
+                android:layout_width="@dimen/x_ui_px_52.0"
+                android:layout_height="@dimen/x_ui_px_32.0"
+                android:textSize="@dimen/x_ui_px_16.0"
+                android:textColor="@color/FFDE5C51"
+                android:background="@drawable/rectangle_common_red"
+                android:text="置顶"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/x_ui_px_16.0"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x_ui_px_22.0">
+
+
+            <LinearLayout
+                android:id="@+id/likeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/x_ui_px_44.0"
+                android:paddingTop="@dimen/x_ui_px_10.0"
+                android:paddingBottom="@dimen/x_ui_px_10.0"
+                >
+
+                <ImageView
+                    android:id="@+id/likeImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:src="@mipmap/item_like" />
+                <TextView
+                    android:id="@+id/likeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="@dimen/x_ui_px_28.0"
+                    android:textColor="@color/FF666666"
+                    android:layout_marginLeft="@dimen/x_ui_px_10.0"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/x_ui_px_44.0"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/home_comment"/>
+                <TextView
+                    android:id="@+id/commentTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="@dimen/x_ui_px_28.0"
+                    android:textColor="@color/FF666666"
+                    android:layout_marginLeft="@dimen/x_ui_px_10.0"/>
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/settingImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/home_ellipsis"
+                android:padding="8dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
