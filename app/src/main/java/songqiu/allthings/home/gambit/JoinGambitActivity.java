@@ -249,7 +249,11 @@ public class JoinGambitActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        EventBus.getDefault().post(new EventTags.GambitRefresh());
+                        if(1==talktype) {
+                            EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
+                        }else {
+                            EventBus.getDefault().post(new EventTags.GambitRefresh());
+                        }
                         ToastUtil.showToast(JoinGambitActivity.this,baseBean.msg);
                         finish();
                     }

@@ -28,6 +28,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,8 +57,10 @@ import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.GambitItemListener;
+import songqiu.allthings.iterface.PhotoViewListener;
 import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.login.LoginActivity;
+import songqiu.allthings.photoview.PhotoViewActivity;
 import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.CopyButtonLibrary;
@@ -140,7 +144,6 @@ public class HotGambitDetailActivity extends BaseActivity{
     int talkid;
     int pageNo = 1;
 
-
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_hot_gambit_detail);
@@ -148,6 +151,9 @@ public class HotGambitDetailActivity extends BaseActivity{
 
     @Override
     public void init() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         StatusBarUtils.with(HotGambitDetailActivity.this).init().setStatusTextColorWhite(true, HotGambitDetailActivity.this);
         boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
         modeUi(dayModel);
@@ -156,6 +162,10 @@ public class HotGambitDetailActivity extends BaseActivity{
         scrollViewListener();
         initRecyclerView();
         getData();
+        //
+        pageNo = 1;
+        getNewstList(pageNo,false); //获取最新列表
+        getHotList();
     }
 
     public void modeUi(boolean isDay) {
@@ -177,14 +187,6 @@ public class HotGambitDetailActivity extends BaseActivity{
                 }
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        pageNo = 1;
-        getNewstList(pageNo,false); //获取最新列表
-        getHotList();
     }
 
     public void initRecyclerView() {
@@ -240,6 +242,18 @@ public class HotGambitDetailActivity extends BaseActivity{
             }
         });
 
+        newGambitAdapter.setPhotoViewListener(new PhotoViewListener() {
+            @Override
+            public void toPhotoView(int potision, int clickPhotoPotision) {
+                if(null != newList && 0!= newList.size()) {
+                    Intent intent = new Intent(HotGambitDetailActivity.this, PhotoViewActivity.class);
+                    intent.putExtra("photoArray",newList.get(potision).images);
+                    intent.putExtra("clickPhotoPotision",clickPhotoPotision);
+                    startActivity(intent);
+                }
+            }
+        });
+
         hotGambitAdapter.setGambitItemListener(new GambitItemListener() {
             @Override
             public void addLike(String url, int type, int mid) {
@@ -257,6 +271,18 @@ public class HotGambitDetailActivity extends BaseActivity{
                     delMyselfGambit(talk_id);
                 }else {//举报
                     showReportWindow();
+                }
+            }
+        });
+
+        hotGambitAdapter.setPhotoViewListener(new PhotoViewListener() {
+            @Override
+            public void toPhotoView(int potision, int clickPhotoPotision) {
+                if(null != hotList && 0!= hotList.size()) {
+                    Intent intent = new Intent(HotGambitDetailActivity.this, PhotoViewActivity.class);
+                    intent.putExtra("photoArray",hotList.get(potision).images);
+                    intent.putExtra("clickPhotoPotision",clickPhotoPotision);
+                    startActivity(intent);
                 }
             }
         });
@@ -650,6 +676,19 @@ public class HotGambitDetailActivity extends BaseActivity{
                 });
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void toHotGambitDetailRefresh(EventTags.HotGambitDetailRefresh hotGambitDetailRefresh) {
+        pageNo = 1;
+        getNewstList(pageNo,false); //获取最新列表
+        getHotList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @OnClick({R.id.backImg1,R.id.backImg,R.id.shareImg, R.id.shareImg1, R.id.attentionTv,R.id.showEdit})

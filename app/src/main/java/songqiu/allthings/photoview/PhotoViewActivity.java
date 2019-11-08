@@ -10,7 +10,10 @@ import java.util.Collections;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import songqiu.allthings.R;
+import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.base.BaseActivity;
+import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.statusbar.StatusBarUtils;
 
 /*******
  *
@@ -37,36 +40,32 @@ public class PhotoViewActivity extends BaseActivity {
 
     @Override
     public void init() {
-        initParam();
-        initPhotoView();
+        StatusBarUtils.with(PhotoViewActivity.this).init().setStatusTextColorWhite(true, PhotoViewActivity.this);
+        String [] urls = getIntent().getStringArrayExtra("photoArray");
+        int clickPhotoPotision = getIntent().getIntExtra("clickPhotoPotision",0);
+        if(null == urls || urls.length == 0) return;
+        initParam(urls);
+        initPhotoView(clickPhotoPotision);
     }
 
-    private void initParam() {
+    private void initParam(String [] urls) {
         //需要加载的网络图片
-        String[] urls = {
-                "http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg",
-                "http://b.hiphotos.baidu.com/image/pic/item/5243fbf2b2119313999ff97a6c380cd790238d1f.jpg",
-                "http://f.hiphotos.baidu.com/image/pic/item/43a7d933c895d1430055e4e97af082025baf07dc.jpg",
-                "http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg",
-                "http://b.hiphotos.baidu.com/image/pic/item/5243fbf2b2119313999ff97a6c380cd790238d1f.jpg",
-                "http://f.hiphotos.baidu.com/image/pic/item/43a7d933c895d1430055e4e97af082025baf07dc.jpg"
-        };
-
         urlList = new ArrayList<>();
         Collections.addAll(urlList, urls);
     }
 
-    public void initPhotoView() {
+    public void initPhotoView(int clickPhotoPotision) {
         PhotoPagerAdapter viewPagerAdapter = new PhotoPagerAdapter(getSupportFragmentManager(), urlList);
         viewpager.setAdapter(viewPagerAdapter);
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                tvNum.setText(String.valueOf(position + 1) + "/" + urlList.size());
+//                tvNum.setText(String.valueOf(clickPhotoPotision + 1) + "/" + urlList.size());
             }
 
             @Override
             public void onPageSelected(int position) {
+//                tvNum.setText(String.valueOf(position + 1) + "/" + urlList.size());
             }
 
             @Override
@@ -74,5 +73,6 @@ public class PhotoViewActivity extends BaseActivity {
 
             }
         });
+        viewpager.setCurrentItem(clickPhotoPotision);
     }
 }

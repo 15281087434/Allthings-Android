@@ -30,6 +30,7 @@ import songqiu.allthings.bean.HotGambitCommonBean;
 import songqiu.allthings.home.gambit.GambitDetailActivity;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.iterface.GambitItemListener;
+import songqiu.allthings.iterface.PhotoViewListener;
 import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
@@ -59,6 +60,7 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
     private final int TYPE_BIG_PIC = 1;
     private final int TYPE_MORE_PIC = 2;
     GambitItemListener gambitItemListener;
+    PhotoViewListener photoViewListener;
 
     public GambitCommonAdapter(Context context, List<HotGambitCommonBean> item) {
         this.context = context;
@@ -353,6 +355,16 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
                 }
             }
         });
+
+        holder.bigPicImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(ClickUtil.onClick()) {
+                    photoViewListener.toPhotoView(position,0);
+                }
+            }
+        });
+
     }
 
 
@@ -372,9 +384,12 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
         holder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(context, GambitDetailActivity.class);
-                intent.putExtra("talkid",item.get(position).id);
-                context.startActivity(intent);
+                if(ClickUtil.onClick()) {
+                    photoViewListener.toPhotoView(position,i);
+                }
+//                Intent intent = new Intent(context, GambitDetailActivity.class);
+//                intent.putExtra("talkid",item.get(position).id);
+//                context.startActivity(intent);
             }
         });
         holder.userName.setText(item.get(position).user_nickname);
@@ -597,6 +612,10 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
 
     public void setGambitItemListener(GambitItemListener gambitItemListener) {
         this.gambitItemListener = gambitItemListener;
+    }
+
+    public void setPhotoViewListener(PhotoViewListener photoViewListener) {
+        this.photoViewListener = photoViewListener;
     }
 
 }

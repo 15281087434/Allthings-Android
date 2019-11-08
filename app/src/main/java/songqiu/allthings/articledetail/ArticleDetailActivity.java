@@ -1,30 +1,22 @@
 package songqiu.allthings.articledetail;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -34,7 +26,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -56,11 +47,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.tencent.qq.QQ;
@@ -70,7 +58,6 @@ import pl.droidsonroids.gif.GifImageView;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
-import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.adapter.ArticleDetailCommentAdapter;
 import songqiu.allthings.adapter.ArticleDetailRandAdapter;
 import songqiu.allthings.base.BaseActivity;
@@ -81,7 +68,6 @@ import songqiu.allthings.bean.AwardRuleBean;
 import songqiu.allthings.bean.ReadAwardBean;
 import songqiu.allthings.bean.ReportBean;
 import songqiu.allthings.bean.VideoDetailCommentBean;
-import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
@@ -91,12 +77,11 @@ import songqiu.allthings.iterface.DialogDeleteListener;
 import songqiu.allthings.iterface.VideoDetailCommentItemListener;
 import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.mine.userpage.UserPagerActivity;
-import songqiu.allthings.search.SearchActivity;
 import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.ClickUtil;
+import songqiu.allthings.util.WebViewJsUtil;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.DateUtil;
-import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.GlideLoadUtils;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.ScrollLinearLayoutManager;
@@ -108,7 +93,6 @@ import songqiu.allthings.util.WindowUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.theme.ShareUrl;
 import songqiu.allthings.util.theme.ThemeManager;
-import songqiu.allthings.videodetail.VideoDetailActivity;
 import songqiu.allthings.view.CommentWindow;
 import songqiu.allthings.view.CustomCircleProgress;
 import songqiu.allthings.view.DialogAwardRule;
@@ -231,6 +215,9 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     CustomCircleProgress circleProgress;
 
 
+    private String method = WebViewJsUtil.JSCALLJAVA;
+
+
     int progress;
     int circleTime = 300;
     public final int PROGRESS_CIRCLE_STARTING = 0x110;
@@ -258,6 +245,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             }
         }
     };
+
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -336,7 +324,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         }
     }
 
-    @SuppressLint({"SetJavaScriptEnabled", "ClickableViewAccessibility"})
+//    @SuppressLint({"SetJavaScriptEnabled", "ClickableViewAccessibility"})
     private void initTaskDetailView() {
         contentWeb.getSettings().setJavaScriptEnabled(true);
         contentWeb.getSettings().setDomStorageEnabled(true);
@@ -360,17 +348,30 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             contentWeb.getSettings().setMixedContentMode(WebSettings
                     .MIXED_CONTENT_ALWAYS_ALLOW);  //注意安卓5.0以上的权限
         }
-        contentWeb.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return false;
-            }
+//        contentWeb.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onPageFinished(WebView view, String url) {
+//                prestrainLayout.setVisibility(View.GONE);
+//            }
+//        });
 
+
+//        String[] imgs = WebViewJsUtil.returnImageUrlsFromHtml(articleDetailBean.content);
+//        contentWeb.addJavascriptInterface(new ImageJavascriptInterface(this,imgs), method);
+        contentWeb.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
                 prestrainLayout.setVisibility(View.GONE);
+                WebViewJsUtil.setWebImageClick(view,method);
             }
         });
+
         contentWeb.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
@@ -383,6 +384,17 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 return true;
             }
         });
+//        contentWeb.addJavascriptInterface(new JsInterface(), "android");
+    }
+
+    /**
+     * JS调用APP接口
+     */
+    public class JsInterface {
+        @JavascriptInterface
+        public void toPhotoView() {
+            LogUtil.i("**************************");
+        }
     }
 
     public void initRecycl() {
@@ -547,6 +559,9 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 LogUtil.i("init:"+SharedPreferencedUtils.getInteger(ArticleDetailActivity.this,SharedPreferencedUtils.ARTICLE_READ_TIME,0));
             }
         }
+
+        String[] imgs = WebViewJsUtil.returnImageUrlsFromHtml(articleDetailBean.content);
+        contentWeb.addJavascriptInterface(new ImageJavascriptInterface(this,imgs), method);
     }
 
     public void getAdvertise() {

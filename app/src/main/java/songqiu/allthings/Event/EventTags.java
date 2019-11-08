@@ -176,6 +176,10 @@ public class EventTags {
 
     }
 
+    public static class HotGambitDetailRefresh {
+
+    }
+
     public static class TaskRefresh {
 
     }

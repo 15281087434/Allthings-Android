@@ -47,6 +47,7 @@ import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.GambitItemListener;
 import songqiu.allthings.iterface.HomeHotGambitListener;
+import songqiu.allthings.iterface.PhotoViewListener;
 import songqiu.allthings.iterface.TaskSignListener;
 import songqiu.allthings.login.LoginActivity;
 import songqiu.allthings.photoview.PhotoViewActivity;
@@ -210,6 +211,20 @@ public class HomePageGambitFragment extends BaseFragment {
                     delMyselfGambit(talk_id);
                 }else {//举报
                     showReportWindow();
+                }
+            }
+        });
+        //浏览图片
+        newGambitAdapter.setPhotoViewListener(new PhotoViewListener() {
+            @Override
+            public void toPhotoView(int potision,int clickPhotoPotision) {
+                if(null != newList && 0!= newList.size()) {
+//                    newList.get(potision).images
+                    Intent intent = new Intent(activity, PhotoViewActivity.class);
+                    intent.putExtra("photoArray",newList.get(potision).images);
+                    intent.putExtra("clickPhotoPotision",clickPhotoPotision);
+                    startActivity(intent);
+//                    activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 }
             }
         });
@@ -465,17 +480,27 @@ public class HomePageGambitFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.addGambitImg:
                 if(ClickUtil.onClick()) {
-//                    Intent intent;
-//                    if(CheckLogin.isLogin(activity)) {
-//                        intent = new Intent(activity,JoinGambitActivity.class);
-//                        intent.putExtra("talktype",2);
-//                        startActivity(intent);
-//                    }else {
-//                        intent = new Intent(activity,LoginActivity.class);
-//                        startActivity(intent);
-//                    }
-                    Intent intent = new Intent(getActivity(), PhotoViewActivity.class);
-                    startActivity(intent);
+                    Intent intent;
+                    if(CheckLogin.isLogin(activity)) {
+                        intent = new Intent(activity,JoinGambitActivity.class);
+                        intent.putExtra("talktype",2);
+                        startActivity(intent);
+                    }else {
+                        intent = new Intent(activity,LoginActivity.class);
+                        startActivity(intent);
+                    }
+//                    String[] urls = {
+//                            "http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg",
+//                            "http://b.hiphotos.baidu.com/image/pic/item/5243fbf2b2119313999ff97a6c380cd790238d1f.jpg",
+//                            "http://f.hiphotos.baidu.com/image/pic/item/43a7d933c895d1430055e4e97af082025baf07dc.jpg",
+//                            "http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg",
+//                            "http://b.hiphotos.baidu.com/image/pic/item/5243fbf2b2119313999ff97a6c380cd790238d1f.jpg",
+//                            "http://f.hiphotos.baidu.com/image/pic/item/43a7d933c895d1430055e4e97af082025baf07dc.jpg"
+//                    };
+//                    Intent intent = new Intent(activity, PhotoViewActivity.class);
+//                    intent.putExtra("photoArray",urls);
+//                    startActivity(intent);
+//                    activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 }
                 break;
         }

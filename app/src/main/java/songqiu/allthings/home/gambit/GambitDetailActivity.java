@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,6 +64,7 @@ import songqiu.allthings.iterface.CommentListener;
 import songqiu.allthings.iterface.VideoDetailCommentItemListener;
 import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.mine.userpage.UserPagerActivity;
+import songqiu.allthings.photoview.PhotoViewActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
@@ -306,6 +308,16 @@ public class GambitDetailActivity extends BaseActivity {
             gridView.setVisibility(View.VISIBLE);
             GambitMorePicAdapter gambitMorePicAdapter = new GambitMorePicAdapter(this,gambitDetailBean.images);
             gridView.setAdapter(gambitMorePicAdapter);
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    if(null == gambitDetailBean) return;
+                    Intent intent = new Intent(GambitDetailActivity.this, PhotoViewActivity.class);
+                    intent.putExtra("photoArray",gambitDetailBean.images);
+                    intent.putExtra("clickPhotoPotision",i);
+                    startActivity(intent);
+                }
+            });
         }
     }
 
@@ -518,6 +530,7 @@ public class GambitDetailActivity extends BaseActivity {
                     @Override
                     public void run() {
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
+                        EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
                         if (1 == type) {
                             gambitDetailBean.is_follow = 1;
                             attentionTv.setText("已关注");
@@ -545,6 +558,7 @@ public class GambitDetailActivity extends BaseActivity {
                     @Override
                     public void run() {
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
+                        EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
                         if(url.equals(HttpServicePath.URL_LIKE)) {
                             gambitDetailBean.is_up = 1;
                             gambitDetailBean.up_num = gambitDetailBean.up_num + 1;
@@ -600,6 +614,7 @@ public class GambitDetailActivity extends BaseActivity {
                     @Override
                     public void run() {
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
+                        EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
                         finish();
                     }
                 });
@@ -624,6 +639,8 @@ public class GambitDetailActivity extends BaseActivity {
                         //评论数
                         gambitDetailBean.comment_num = gambitDetailBean.comment_num+1;
                         commentNumTv.setText(String.valueOf(gambitDetailBean.comment_num));
+                        EventBus.getDefault().post(new EventTags.GambitRefresh());
+                        EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
                     }
                 });
             }
@@ -643,6 +660,7 @@ public class GambitDetailActivity extends BaseActivity {
                     @Override
                     public void run() {
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
+                        EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
                         item1.remove(position);
                         videoDetailCommentAdapter.notifyDataSetChanged();
                         //评论数
@@ -681,7 +699,8 @@ public class GambitDetailActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.backImg,R.id.attentionTv,R.id.likeLayout,R.id.reportLayout,R.id.layout,R.id.showEdit,R.id.collectImg,R.id.shareImg,R.id.lookCommentImg})
+    @OnClick({R.id.backImg,R.id.attentionTv,R.id.likeLayout,R.id.reportLayout,R.id.layout,R.id.showEdit,R.id.collectImg,R.id.shareImg,R.id.lookCommentImg,
+                R.id.bigPicImg})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.backImg:
@@ -742,6 +761,14 @@ public class GambitDetailActivity extends BaseActivity {
                     }
                 }, 200);
                 break;
+            case R.id.bigPicImg:
+                if(null == gambitDetailBean) return;
+                Intent intent1 = new Intent(this, PhotoViewActivity.class);
+                intent1.putExtra("photoArray",gambitDetailBean.images);
+                intent1.putExtra("clickPhotoPotision",0);
+                startActivity(intent1);
+                break;
+
         }
     }
 
