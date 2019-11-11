@@ -250,8 +250,8 @@ public class HomePageAttentionFragment extends BaseFragment {
         return list;
     }
     //举报弹窗
-    public void showReportWindow() {
-        ReportPopupWindows rw = new ReportPopupWindows(activity, reportList());
+    public void showReportWindow(int mid,int type) {
+        ReportPopupWindows rw = new ReportPopupWindows(activity, reportList(),mid,type);
         WindowUtil.windowDeploy(activity,rw,line);
     }
 
@@ -331,7 +331,8 @@ public class HomePageAttentionFragment extends BaseFragment {
 
             @Override
             public void report() {
-                showReportWindow();
+                if(null == item || 0 == item.size()) return;
+                showReportWindow(item.get(position).articleid,item.get(position).type);
             }
 
             @Override

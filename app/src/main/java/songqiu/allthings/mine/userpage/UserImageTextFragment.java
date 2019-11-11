@@ -120,7 +120,8 @@ public class UserImageTextFragment extends BaseFragment {
 
             @Override
             public void share(int type,int position,int shareType) {
-                showReportWindow();
+                if(null == item || 0 == item.size()) return;
+                showReportWindow(item.get(position).articleid,item.get(position).type);
             }
 
             @Override
@@ -145,8 +146,8 @@ public class UserImageTextFragment extends BaseFragment {
     }
 
     //举报弹窗
-    public void showReportWindow() {
-        ReportPopupWindows rw = new ReportPopupWindows(activity, reportList());
+    public void showReportWindow(int mid,int type) {
+        ReportPopupWindows rw = new ReportPopupWindows(activity, reportList(),mid,type);
         WindowUtil.windowDeploy(activity, rw, line);
     }
 

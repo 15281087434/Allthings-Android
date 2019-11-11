@@ -139,15 +139,16 @@ public class UserTopicFragment extends BaseFragment {
                 if(1==type) {//删除
                     delMyselfGambit(talk_id);
                 }else {//举报
-                    showReportWindow();
+                    if(null == list || 0 == list.size()) return;
+                    showReportWindow(talk_id,3);
                 }
             }
         });
     }
 
     //举报弹窗
-    public void showReportWindow() {
-        ReportPopupWindows rw = new ReportPopupWindows(activity, reportList());
+    public void showReportWindow(int mid,int type) {
+        ReportPopupWindows rw = new ReportPopupWindows(activity, reportList(),mid,type);
         WindowUtil.windowDeploy(activity, rw, line);
     }
 

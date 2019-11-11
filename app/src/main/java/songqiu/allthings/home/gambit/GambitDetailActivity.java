@@ -215,7 +215,7 @@ public class GambitDetailActivity extends BaseActivity {
                 if (id == mUserId) {
                     delComment(commentId, article_id, type, position);
                 } else {
-                    showReportWindow();
+                    showReportWindow(commentId,4);
                 }
             }
         });
@@ -412,8 +412,8 @@ public class GambitDetailActivity extends BaseActivity {
     }
 
     //举报弹窗
-    public void showReportWindow() {
-        ReportPopupWindows rw = new ReportPopupWindows(this, reportList());
+    public void showReportWindow(int mid,int type) {
+        ReportPopupWindows rw = new ReportPopupWindows(this, reportList(),mid,type);
         WindowUtil.windowDeploy(this, rw, line);
     }
 
@@ -727,7 +727,7 @@ public class GambitDetailActivity extends BaseActivity {
                 if (gambitDetailBean.userid == mUserId) {
                     delMyselfGambit(talkid);
                 }else {
-                    showReportWindow();
+                    showReportWindow(gambitDetailBean.id,3);
                 }
                 break;
             case R.id.layout:

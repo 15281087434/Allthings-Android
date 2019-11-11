@@ -348,7 +348,7 @@ public class VideoDetailActivity extends BaseActivity {
                 if (userId == id) {
                     delComment(commentId, articleid, type, position);
                 } else {
-                    showReportWindow();
+                    showReportWindow(commentId,4);
                 }
             }
         });
@@ -748,8 +748,8 @@ public class VideoDetailActivity extends BaseActivity {
     }
 
     //举报弹窗
-    public void showReportWindow() {
-        ReportPopupWindows rw = new ReportPopupWindows(this, reportList());
+    public void showReportWindow(int mid,int type) {
+        ReportPopupWindows rw = new ReportPopupWindows(this, reportList(),mid,type);
         WindowUtil.windowDeploy(this, rw, backImg);
     }
 
@@ -822,7 +822,8 @@ public class VideoDetailActivity extends BaseActivity {
 
             @Override
             public void report() {
-                showReportWindow();
+                if (null == videoDetailBean) return;
+                showReportWindow(videoDetailBean.articleid,2);
                 rw.dismiss();
             }
 

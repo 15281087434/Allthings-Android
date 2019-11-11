@@ -47,7 +47,9 @@ public class GuideAdvertisingActivity extends BaseActivity {
     public void init() {
         StatusBarUtils.with(GuideAdvertisingActivity.this).init().setStatusTextColorWhite(true, GuideAdvertisingActivity.this);
         advertiseBean = (AdvertiseBean)getIntent().getSerializableExtra("advertiseBean");
-        setAdvertising(advertiseBean);
+        if(null != advertiseBean) {
+            setAdvertising(advertiseBean);
+        }
         toMainActivity();
     }
 
@@ -63,6 +65,7 @@ public class GuideAdvertisingActivity extends BaseActivity {
     }
 
     public void setAdvertising(AdvertiseBean advertiseBean) {
+        if(StringUtil.isEmpty(advertiseBean.url)) return;
         String url = advertiseBean.url.replaceAll("\"","");;
         if(!StringUtil.isEmpty(url)) {
             if (!url.contains("http")) {

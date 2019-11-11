@@ -11,12 +11,12 @@ package songqiu.allthings.http;
  ********/
 public class HttpServicePath {
 
-//    public static String BaseUrl = "http://192.168.0.88/"; //测试
+    public static String BaseUrl = "http://192.168.0.88/"; //测试
 //    public static String BasePicUrl = "http://47.108.29.87:81"; //图片地址
     public static String BasePicUrl = "http://1097.oss-cn-chengdu.aliyuncs.com/"; //OSS图片前缀
 
     //官方安卓 511、OPPO 512、vivo 513、华为 514、应用宝 515 、UC 516、360 517、百度 518、小米 519 魅族 520  联想 521
-    public static String BaseUrl = "https://jianguaiapp.com:511/"; //正式
+//    public static String BaseUrl = "https://jianguaiapp.com:511/"; //正式
 
     //检测版本号
     public static String URL_VERSION = BaseUrl+"version";
@@ -214,5 +214,10 @@ public class HttpServicePath {
 
     //固定位置广告 //1=启动页，5=文章详细页，6=视频详细页，7=搜索页，8=任务页
     public static String URL_ADVERTISE = BaseUrl+"advertise";
+
+    //不喜欢
+    public static String URL_UNLIKE = BaseUrl+"interest";
+    //举报  //label:0=内容低俗，1=广告软文，2=政治敏感，3=色情低俗，4=违法信息，5=错误观念引导，6=人身攻击，7=涉嫌侵权，如：[1,3,4,5]   mid:内容id    type:1=文章，2=视频，3=话题，4=评论
+    public static String URL_REPORT = BaseUrl+"report";
 
 }

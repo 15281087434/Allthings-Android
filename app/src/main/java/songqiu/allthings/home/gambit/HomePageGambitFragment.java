@@ -210,7 +210,7 @@ public class HomePageGambitFragment extends BaseFragment {
                 if(1==type) {//删除
                     delMyselfGambit(talk_id);
                 }else {//举报
-                    showReportWindow();
+                    showReportWindow(talk_id,3);
                 }
             }
         });
@@ -237,8 +237,8 @@ public class HomePageGambitFragment extends BaseFragment {
     }
 
     //举报弹窗
-    public void showReportWindow() {
-        ReportPopupWindows rw = new ReportPopupWindows(activity, reportList());
+    public void showReportWindow(int mid,int type) {
+        ReportPopupWindows rw = new ReportPopupWindows(activity, reportList(),mid,type);
         WindowUtil.windowDeploy(activity, rw, reyclerView);
     }
 

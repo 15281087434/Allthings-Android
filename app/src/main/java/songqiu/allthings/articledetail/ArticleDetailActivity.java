@@ -348,21 +348,6 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             contentWeb.getSettings().setMixedContentMode(WebSettings
                     .MIXED_CONTENT_ALWAYS_ALLOW);  //注意安卓5.0以上的权限
         }
-//        contentWeb.setWebViewClient(new WebViewClient() {
-//            @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-//                return false;
-//            }
-//
-//            @Override
-//            public void onPageFinished(WebView view, String url) {
-//                prestrainLayout.setVisibility(View.GONE);
-//            }
-//        });
-
-
-//        String[] imgs = WebViewJsUtil.returnImageUrlsFromHtml(articleDetailBean.content);
-//        contentWeb.addJavascriptInterface(new ImageJavascriptInterface(this,imgs), method);
         contentWeb.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -441,7 +426,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 if (userId == id) {
                     delComment(commentId, article_id, type, position);
                 } else {
-                    showReportWindow();
+                    showReportWindow(commentId,4);
                 }
             }
         });
@@ -934,8 +919,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
 
     //举报弹窗
-    public void showReportWindow() {
-        ReportPopupWindows rw = new ReportPopupWindows(this, reportList());
+    public void showReportWindow(int mid,int type) {
+        ReportPopupWindows rw = new ReportPopupWindows(this, reportList(),mid,type);
         WindowUtil.windowDeploy(this, rw, backImg);
     }
 
@@ -1014,8 +999,10 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
             @Override
             public void report() {
-                showReportWindow();
-                rw.dismiss();
+                if(null != articleDetailBean) {
+                    showReportWindow(articleDetailBean.articleid,1);
+                    rw.dismiss();
+                }
             }
 
             @Override
@@ -1118,6 +1105,30 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         }
     }
 
+    //调用不喜欢接口
+    public void unLike(int bid,int mid,int type) {
+        //bid 1=不敢兴趣，2=反馈垃圾内容，3=拉黑作者
+        //mid 文章视频id
+        //type 1=文章，2=视频
+        Map<String, String> map = new HashMap<>();
+        map.put("bid",bid+"");
+        map.put("mid",mid+"");
+        map.put("type",type+"");
+        OkHttp.post(this, HttpServicePath.URL_UNLIKE, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+
+            }
+        });
+    }
+
+    public void doDeletel(int bid) {
+        if(null == articleDetailBean) return;
+        if(CheckLogin.isLogin(this)) {
+            unLike(bid,articleDetailBean.articleid,1);
+        }
+    }
+
     public void initDialog() {
         DialogDelete dialogDelete = new DialogDelete(this,4);
         dialogDelete.setCanceledOnTouchOutside(true);
@@ -1126,22 +1137,23 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         dialogDelete.setDialogDeleteListener(new DialogDeleteListener() {
             @Override
             public void delete1() {
-
+                doDeletel(1);
             }
 
             @Override
             public void delete2() {
-
+                doDeletel(2);
             }
 
             @Override
             public void delete3() {
-
+                doDeletel(3);
             }
 
             @Override
             public void delete4() {
-                showReportWindow();
+                if(null == articleDetailBean) return;
+                showReportWindow(articleDetailBean.articleid,1);
             }
         });
     }

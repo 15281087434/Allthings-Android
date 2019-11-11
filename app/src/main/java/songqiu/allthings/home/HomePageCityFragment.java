@@ -45,6 +45,7 @@ import songqiu.allthings.iterface.DialogDeleteListener;
 import songqiu.allthings.iterface.HomeItemListener;
 import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.location.LocationActivity;
+import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
@@ -171,6 +172,36 @@ public class HomePageCityFragment extends BaseFragment {
         });
     }
 
+    //调用不喜欢接口
+    public void unLike(int bid,int mid,int type) {
+        //bid 1=不敢兴趣，2=反馈垃圾内容，3=拉黑作者
+        //mid 文章视频id
+        //type 1=文章，2=视频
+        Map<String, String> map = new HashMap<>();
+        map.put("bid",bid+"");
+        map.put("mid",mid+"");
+        map.put("type",type+"");
+        OkHttp.post(activity, HttpServicePath.URL_UNLIKE, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+
+            }
+        });
+    }
+
+
+    public void doDeletel(int position,int bid,int mid) {
+        if(CheckLogin.isLogin(activity)) {
+            if(1 == item.get(position).type) {
+                unLike(bid,mid,1);
+            }else {
+                unLike(bid,mid,2);
+            }
+        }
+        item.remove(position);
+        adapter.notifyDataSetChanged();
+    }
+
     public void initDialog(int position) {
         DialogDelete dialogDelete = new DialogDelete(activity,3);
         dialogDelete.setCanceledOnTouchOutside(true);
@@ -180,22 +211,19 @@ public class HomePageCityFragment extends BaseFragment {
             @Override
             public void delete1() {
                 if(null == item || 0 == item.size()) return;
-                item.remove(position);
-                adapter.notifyDataSetChanged();
+                doDeletel(position,1,item.get(position).articleid);
             }
 
             @Override
             public void delete2() {
                 if(null == item || 0 == item.size()) return;
-                item.remove(position);
-                adapter.notifyDataSetChanged();
+                doDeletel(position,2,item.get(position).articleid);
             }
 
             @Override
             public void delete3() {
                 if(null == item || 0 == item.size()) return;
-                item.remove(position);
-                adapter.notifyDataSetChanged();
+                doDeletel(position,3,item.get(position).articleid);
             }
 
             @Override

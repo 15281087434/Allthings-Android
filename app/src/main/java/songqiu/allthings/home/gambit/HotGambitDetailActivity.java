@@ -237,7 +237,7 @@ public class HotGambitDetailActivity extends BaseActivity{
                 if(1==type) {//删除
                     delMyselfGambit(talk_id);
                 }else {//举报
-                    showReportWindow();
+                    showReportWindow(talk_id,4);
                 }
             }
         });
@@ -270,7 +270,7 @@ public class HotGambitDetailActivity extends BaseActivity{
                 if(1==type) {//删除
                     delMyselfGambit(talk_id);
                 }else {//举报
-                    showReportWindow();
+                    showReportWindow(talk_id,4);
                 }
             }
         });
@@ -409,8 +409,8 @@ public class HotGambitDetailActivity extends BaseActivity{
     }
 
     //举报弹窗
-    public void showReportWindow() {
-        ReportPopupWindows rw = new ReportPopupWindows(this, reportList());
+    public void showReportWindow(int mid,int type) {
+        ReportPopupWindows rw = new ReportPopupWindows(this, reportList(),mid,type);
         WindowUtil.windowDeploy(this, rw, line);
     }
 

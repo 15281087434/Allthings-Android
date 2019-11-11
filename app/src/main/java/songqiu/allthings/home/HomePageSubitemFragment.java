@@ -55,6 +55,7 @@ import songqiu.allthings.bean.HomeSubitemBean;
 import songqiu.allthings.bean.LookVideoBean;
 import songqiu.allthings.bean.ReportBean;
 import songqiu.allthings.bean.TabClassBean;
+import songqiu.allthings.bean.UserInfoBean;
 import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
@@ -64,6 +65,7 @@ import songqiu.allthings.iterface.DialogDeleteListener;
 import songqiu.allthings.iterface.HomeItemListener;
 import songqiu.allthings.iterface.TaskDialogSignListener;
 import songqiu.allthings.iterface.WindowShareListener;
+import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
@@ -241,7 +243,8 @@ public class HomePageSubitemFragment extends BaseFragment {
 
             @Override
             public void report() {
-                showReportWindow();
+                if(null == item || 0 == item.size()) return;
+                showReportWindow(item.get(position).articleid,item.get(position).type);
             }
 
             @Override
@@ -278,8 +281,8 @@ public class HomePageSubitemFragment extends BaseFragment {
         return list;
     }
     //举报弹窗
-    public void showReportWindow() {
-        ReportPopupWindows rw = new ReportPopupWindows(activity, reportList());
+    public void showReportWindow(int mid,int type) {
+        ReportPopupWindows rw = new ReportPopupWindows(activity, reportList(),mid,type);
         WindowUtil.windowDeploy(activity,rw,line);
     }
 
@@ -311,6 +314,35 @@ public class HomePageSubitemFragment extends BaseFragment {
         oks.show(MobSDK.getContext());
     }
 
+    //调用不喜欢接口
+    public void unLike(int bid,int mid,int type) {
+        //bid 1=不敢兴趣，2=反馈垃圾内容，3=拉黑作者
+        //mid 文章视频id
+        //type 1=文章，2=视频
+        Map<String, String> map = new HashMap<>();
+        map.put("bid",bid+"");
+        map.put("mid",mid+"");
+        map.put("type",type+"");
+        OkHttp.post(activity, HttpServicePath.URL_UNLIKE, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+
+            }
+        });
+    }
+
+    public void doDeletel(int position,int bid,int mid) {
+        if(CheckLogin.isLogin(activity)) {
+            if(1 == item.get(position).type) {
+                unLike(bid,mid,1);
+            }else {
+                unLike(bid,mid,2);
+            }
+        }
+        item.remove(position);
+        adapter.notifyDataSetChanged();
+    }
+
     public void initDialog(int position,int type) {
         if(1== type) {
             DialogDelete dialogDelete = new DialogDelete(activity,3);
@@ -321,22 +353,19 @@ public class HomePageSubitemFragment extends BaseFragment {
                 @Override
                 public void delete1() {
                     if(null == item || 0 == item.size()) return;
-                    item.remove(position);
-                    adapter.notifyDataSetChanged();
+                    doDeletel(position,1,item.get(position).articleid);
                 }
 
                 @Override
                 public void delete2() {
                     if(null == item || 0 == item.size()) return;
-                    item.remove(position);
-                    adapter.notifyDataSetChanged();
+                    doDeletel(position,2,item.get(position).articleid);
                 }
 
                 @Override
                 public void delete3() {
                     if(null == item || 0 == item.size()) return;
-                    item.remove(position);
-                    adapter.notifyDataSetChanged();
+                    doDeletel(position,3,item.get(position).articleid);
                 }
 
                 @Override

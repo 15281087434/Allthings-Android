@@ -15,16 +15,27 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.adapter.ReportAdapter;
 import songqiu.allthings.bean.ReportBean;
+import songqiu.allthings.bean.UserInfoBean;
+import songqiu.allthings.http.BaseBean;
+import songqiu.allthings.http.HttpServicePath;
+import songqiu.allthings.http.OkHttp;
+import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
+import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.videodetail.VideoDetailActivity;
 
@@ -42,8 +53,11 @@ public class ReportPopupWindows extends PopupWindow {
 
 
     private View mView;
+    private List<Integer> labelList;
+//    private int mid; //内容id
+//    private int type;//1=文章，2=视频，3=话题，4=评论
 
-    public ReportPopupWindows(Context context, List<ReportBean> list) {
+    public ReportPopupWindows(Context context, List<ReportBean> list,int mid,int type) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mView = inflater.inflate(R.layout.report_bottom_popup, null);
@@ -51,7 +65,8 @@ public class ReportPopupWindows extends PopupWindow {
         ListView listView = (ListView)mView.findViewById(R.id.listView);
         LinearLayout parentLayout = mView.findViewById(R.id.parentLayout);
         View line = mView.findViewById(R.id.line);
-
+        //
+        labelList = new ArrayList<>();
         boolean dayModel = SharedPreferencedUtils.getBoolean(context,SharedPreferencedUtils.dayModel,true);
         if(dayModel) {
             parentLayout.setBackgroundResource(R.drawable.report_buttom_radius);
@@ -82,6 +97,7 @@ public class ReportPopupWindows extends PopupWindow {
             public void onClick(View v) {
                 String text = btnSure.getText().toString();
                 if(text.equals("确定")) {
+                    toReport(context,labelList,mid,type);
                     dismiss();
                     new Handler().postDelayed(new Runnable(){
                         public void run() {
@@ -102,8 +118,17 @@ public class ReportPopupWindows extends PopupWindow {
             public void onItemSelected(int position, List<ReportBean> list) {
                 boolean isClick = list.get(position).isClick;
                 if(isClick) {
+                    if(null != labelList && 0!=labelList.size()) {
+                        for(int i = 0;i<labelList.size();i++) {
+                            if(labelList.get(i) == position) {
+                                labelList.remove(i);
+                            }
+                        }
+                    }
                     isClick = false;
                 }else {
+                    //向数组里添加
+                    labelList.add(position);
                     isClick = true;
                 }
                 list.get(position).isClick = isClick;
@@ -130,7 +155,20 @@ public class ReportPopupWindows extends PopupWindow {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
 
+
+    public void toReport(Context context,List<Integer> labelList,int mid,int type) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("label",labelList);
+        map.put("mid",mid);
+        map.put("type",type);
+        OkHttp.postObject(context, HttpServicePath.URL_REPORT, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+
+            }
+        });
     }
 
 }
