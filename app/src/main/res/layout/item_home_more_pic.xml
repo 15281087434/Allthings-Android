@@ -17,8 +17,8 @@
         android:layout_marginLeft="@dimen/x_ui_px_30.0"
         android:layout_marginRight="@dimen/x_ui_px_30.0"
         android:text="草船借箭是一个故事"
-        android:singleLine="true"
-        android:maxEms="21"
+        android:maxLines="2"
+        android:lineSpacingExtra="@dimen/x_ui_px_4.0"
         android:ellipsize="end"
         android:textStyle="bold"
         />

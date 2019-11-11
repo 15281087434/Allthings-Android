@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:orientation="vertical"
-    android:id="@+id/layout"
-    >
+    android:id="@+id/layout">
 
     <TextView
         android:id="@+id/titleTv"
@@ -17,9 +17,9 @@
         android:layout_marginTop="@dimen/x_ui_px_28.0"
         android:layout_marginLeft="@dimen/x_ui_px_30.0"
         android:layout_marginRight="@dimen/x_ui_px_30.0"
-        android:text="草船借箭是一个故事"
-        android:singleLine="true"
-        android:maxEms="21"
+        tools:text="草船借箭是一个故事"
+        android:maxLines="2"
+        android:lineSpacingExtra="@dimen/x_ui_px_4.0"
         android:ellipsize="end"
         android:textStyle="bold"
         />

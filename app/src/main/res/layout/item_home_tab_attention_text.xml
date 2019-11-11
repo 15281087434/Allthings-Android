@@ -84,8 +84,8 @@
                 android:textColor="@color/bottom_tab_tv"
                 android:textSize="@dimen/x_ui_px_40.0"
                 android:ellipsize="end"
-                android:lines="1"
-                android:lineSpacingExtra="@dimen/x_ui_px_12.0"
+                android:maxLines="2"
+                android:lineSpacingExtra="@dimen/x_ui_px_4.0"
                 android:textStyle="bold"
                 tools:text="草船借箭是我国古典名著《三国演义》中赤壁之战的一个故事。借箭由周瑜故意提出限十天造十万支箭，机智的诸葛亮一眼识破是一条害人之计，却淡定表示“只需要三天”。"
                 />
