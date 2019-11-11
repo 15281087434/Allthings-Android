@@ -275,7 +275,7 @@ public class HomePageFragment extends BaseFragment {
         commonNavigator = new CommonNavigator(activity);
         commonNavigator.setEnablePivotScroll(true);
 //        commonNavigator.setLeftPadding(95);
-//        commonNavigator.setRightPadding(95);
+        commonNavigator.setRightPadding(60);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
