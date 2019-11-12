@@ -51,6 +51,7 @@ import songqiu.allthings.api.BaseSubscriber;
 import songqiu.allthings.api.NetApi;
 import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.base.BaseActivity;
+import songqiu.allthings.base.BaseMainActivity;
 import songqiu.allthings.bean.BaseBean;
 import songqiu.allthings.bean.ChangePage;
 import songqiu.allthings.bean.ReadAwardBean;
@@ -76,7 +77,7 @@ import songqiu.allthings.util.theme.ThemeManager;
 import songqiu.allthings.videodetail.VideoDetailActivity;
 import songqiu.allthings.view.CustomCircleProgress;
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseMainActivity {
 
     public static final int INDEX_HOME_PAGE = 0;
     public static final int INDEX_LOOK_PAGE = 1;
