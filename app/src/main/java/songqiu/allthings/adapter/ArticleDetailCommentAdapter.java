@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
+import songqiu.allthings.util.theme.ThemeManager;
 
 /*******
  *
@@ -40,16 +42,21 @@ import songqiu.allthings.util.StringUtil;
  *类描述：
  *
  ********/
-public class ArticleDetailCommentAdapter extends RecyclerView.Adapter<ArticleDetailCommentAdapter.ViewHolder> {
+public class ArticleDetailCommentAdapter extends RecyclerView.Adapter<ArticleDetailCommentAdapter.ViewHolder> implements ThemeManager.OnThemeChangeListener{
 
-    //    OnItemClickListener mListener;
     Context context;
     List<VideoDetailCommentBean> item;
     VideoDetailCommentItemListener videoDetailCommentItemListener;
+    List<ViewHolder> viewHolderList = new ArrayList<>();
 
     public ArticleDetailCommentAdapter(Context context, List<VideoDetailCommentBean> item) {
         this.context = context;
         this.item = item;
+        ThemeManager.registerThemeChangeListener(this);
+    }
+
+    public void setAdapterDayModel(ThemeManager.ThemeMode themeMode) {
+        ThemeManager.setThemeMode(themeMode);
     }
 
     @NonNull
@@ -63,7 +70,7 @@ public class ArticleDetailCommentAdapter extends RecyclerView.Adapter<ArticleDet
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        ((MessageViewholder)holder).isReadImg.setImageResource(R.mipmap.home_news);
+        viewHolderList.add(holder);
         VideoDetailCommentBean videoDetailCommentBean = item.get(position);
         RequestOptions options = new RequestOptions()
                 .circleCrop().transforms(new GlideCircleTransform(context))
@@ -126,6 +133,16 @@ public class ArticleDetailCommentAdapter extends RecyclerView.Adapter<ArticleDet
     @Override
     public int getItemCount() {
         return item.size();
+    }
+
+    @Override
+    public void onThemeChanged() {
+        if(null != viewHolderList && 0 != viewHolderList.size()) {
+            for (ViewHolder viewHolder:viewHolderList) {
+                viewHolder.timeTv.setTextColor(context.getResources().getColor(ThemeManager.getCurrentThemeRes(context, R.color.FF999999)));
+                viewHolder.contentTv.setTextColor(context.getResources().getColor(ThemeManager.getCurrentThemeRes(context, R.color.bottom_tab_tv)));
+            }
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

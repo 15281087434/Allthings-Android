@@ -523,6 +523,7 @@
                 </android.support.v7.widget.RecyclerView>
 
                 <TextView
+                    android:id="@+id/line1"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x_ui_px_12.0"
                     android:background="@color/line_color"/>
@@ -555,6 +556,7 @@
                         android:textSize="@dimen/x_ui_px_28.0" />
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/line2"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x_ui_px_1.0"
                     android:background="@color/line_color"
@@ -606,6 +608,7 @@
         android:background="@color/main_bg_white"
         android:layout_above="@+id/bottomLayout"
         android:layout_below="@+id/titleLayout"
+        android:visibility="gone"
         >
 
         <ImageView

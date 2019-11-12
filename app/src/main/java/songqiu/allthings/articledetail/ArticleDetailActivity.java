@@ -158,14 +158,18 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     TextView commentNumTv;
     @BindView(R.id.likeImg)
     ImageView likeImg;
+    @BindView(R.id.lookCommentImg)
+    ImageView lookCommentImg;
+    @BindView(R.id.collectImg)
+    ImageView collectImg;
+    @BindView(R.id.shareImg)
+    ImageView shareImg;
     @BindView(R.id.articleRecycle)
     RecyclerView articleRecycle;
     @BindView(R.id.commentRecycl)
     RecyclerView commentRecycl;
     @BindView(R.id.showEdit)
     TextView showEdit;
-    @BindView(R.id.collectImg)
-    ImageView collectImg;
     @BindView(R.id.bottomLayout)
     LinearLayout bottomLayout;
     @BindView(R.id.smartRefreshLayout)
@@ -180,6 +184,19 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     LinearLayout shadowLayout;
     @BindView(R.id.emptyLayout)
     LinearLayout emptyLayout;
+    @BindView(R.id.likeLayout)
+    RelativeLayout likeLayout;
+    @BindView(R.id.nuLikeLayout)
+    RelativeLayout nuLikeLayout;
+    @BindView(R.id.shareFriendLayout)
+    RelativeLayout shareFriendLayout;
+    @BindView(R.id.shareWxLayout)
+    RelativeLayout shareWxLayout;
+    @BindView(R.id.line1)
+    TextView line1;
+    @BindView(R.id.line2)
+    TextView line2;
+
     int articleid;
     int pageNo = 1;
 
@@ -258,13 +275,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             EventBus.getDefault().register(this);
         }
         ThemeManager.registerThemeChangeListener(this);
-        boolean dayModel = SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true);
-        modeUi(dayModel);
-//        if(dayModel) {
-////            ThemeManager.setThemeMode(ThemeManager.ThemeMode.DAY);
-//        }else {
-////            ThemeManager.setThemeMode(ThemeManager.ThemeMode.NIGHT);
-//        }
+
         articleid = getIntent().getIntExtra("articleid", 1);
         smartRefreshLayout.setEnableRefresh(false);
         initTaskDetailView();
@@ -276,6 +287,14 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         getComment(articleid, pageNo);
         getAdvertise();
         initBroadcastReceiver();
+
+        boolean dayModel = SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true);
+//        modeUi(dayModel);
+        if(dayModel) {
+            ThemeManager.setThemeMode(ThemeManager.ThemeMode.DAY);
+        }else {
+            ThemeManager.setThemeMode(ThemeManager.ThemeMode.NIGHT);
+        }
     }
 
     public void initBroadcastReceiver() {
@@ -310,17 +329,36 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         titleLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.FFF9FAFD)));
         titleTv.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.bottom_tab_tv)));
         timeTv.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.FF999999)));
-        lookImg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_look));
+        lookCommentImg.setImageDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.mipmap.item_comment)));
+        shareImg.setImageDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.mipmap.item_share)));
+        lookImg.setImageDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.mipmap.icon_look)));
         lookNumTv.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.FF999999)));
         contentWeb.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.main_bg_white)));
+        prestrainLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.main_bg_white)));
         if (SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true)) {
             if (null != articleDetailBean) {
                 contentWeb.loadDataWithBaseURL(null, getHtmlData(articleDetailBean.content), "text/html", "utf-8", null);
             }
-        } else {
+        }else {
             if (null != articleDetailBean) {
                 contentWeb.loadDataWithBaseURL(null, getHtmlDataNight(articleDetailBean.content), "text/html", "utf-8", null);
             }
+        }
+        //
+        likeLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.drawable.article_tv_bg)));
+        nuLikeLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.drawable.article_tv_bg)));
+        shareFriendLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.drawable.article_tv_bg)));
+        shareWxLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.drawable.article_tv_bg)));
+        jumpLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.drawable.rectangle_f0f0f0_2px_white)));
+        advertisingTitleTv.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.bottom_tab_tv)));
+        line1.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.color.line_color)));
+        line2.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.color.line_color)));
+        bottomLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.color.FFF9FAFD)));
+        showEdit.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.drawable.bg_search_gary)));
+        if(null != articleDetailBean && 0!= articleDetailBean.is_collect) {
+            //对收藏图标不做处理
+        }else {
+            collectImg.setImageDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.mipmap.item_collect)));
         }
     }
 
@@ -369,18 +407,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 return true;
             }
         });
-//        contentWeb.addJavascriptInterface(new JsInterface(), "android");
     }
 
-    /**
-     * JS调用APP接口
-     */
-    public class JsInterface {
-        @JavascriptInterface
-        public void toPhotoView() {
-            LogUtil.i("**************************");
-        }
-    }
 
     public void initRecycl() {
         item = new ArrayList<>();
@@ -507,12 +535,12 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             attentionTitleTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
         }
         //
-        contentWeb.loadDataWithBaseURL(null, getHtmlData(articleDetailBean.content), "text/html", "utf-8", null);
-//        if(SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true)) {
-//            contentWeb.loadDataWithBaseURL(null, getHtmlData(articleDetailBean.content), "text/html", "utf-8", null);
-//        }else {
-//            contentWeb.loadDataWithBaseURL(null, getHtmlDataNight(articleDetailBean.content), "text/html", "utf-8", null);
-//        }
+//        contentWeb.loadDataWithBaseURL(null, getHtmlData(articleDetailBean.content), "text/html", "utf-8", null);
+        if(SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true)) {
+            contentWeb.loadDataWithBaseURL(null, getHtmlData(articleDetailBean.content), "text/html", "utf-8", null);
+        }else {
+            contentWeb.loadDataWithBaseURL(null, getHtmlDataNight(articleDetailBean.content), "text/html", "utf-8", null);
+        }
         likeNumTv.setText(ShowNumUtil.showUnm(articleDetailBean.up_num));
         if(0==articleDetailBean.is_original) {
             originalTv.setText("原创");
@@ -529,7 +557,12 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         }
 
         if (0 == articleDetailBean.is_collect) {
-            collectImg.setImageResource(R.mipmap.item_collect);
+            boolean dayModel = SharedPreferencedUtils.getBoolean(ArticleDetailActivity.this, SharedPreferencedUtils.dayModel, true);
+            if(dayModel) {
+                collectImg.setImageResource(R.mipmap.item_collect);
+            }else {
+                collectImg.setImageResource(R.mipmap.item_collect_night);
+            }
         } else {
             collectImg.setImageResource(R.mipmap.item_collect_pre);
         }
@@ -641,6 +674,17 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         if (null != articleDetailRandBean && 0 != articleDetailRandBean.size()) {
                             item.addAll(articleDetailRandBean);
                             articleDetailRandAdapter.notifyDataSetChanged();
+
+                            new Handler().postDelayed(new Runnable(){
+                                public void run() {
+                                    boolean dayModel = SharedPreferencedUtils.getBoolean(ArticleDetailActivity.this, SharedPreferencedUtils.dayModel, true);
+                                    if(dayModel) {
+                                        articleDetailRandAdapter.setAdapterDayModel(ThemeManager.ThemeMode.DAY);
+                                    }else {
+                                        articleDetailRandAdapter.setAdapterDayModel(ThemeManager.ThemeMode.NIGHT);
+                                    }
+                                }
+                            }, 2000);
                         }
                     }
                 });
@@ -786,7 +830,12 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                             collectImg.setImageResource(R.mipmap.item_collect_pre);
                         } else {
                             articleDetailBean.is_collect = 0;
-                            collectImg.setImageResource(R.mipmap.item_collect);
+                            boolean dayModel = SharedPreferencedUtils.getBoolean(ArticleDetailActivity.this, SharedPreferencedUtils.dayModel, true);
+                            if(dayModel) {
+                                collectImg.setImageResource(R.mipmap.item_collect);
+                            }else {
+                                collectImg.setImageResource(R.mipmap.item_collect_night);
+                            }
                         }
                     }
                 });
@@ -1074,19 +1123,19 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void dayMoulde(EventTags.DayMoulde dayMoulde) {
-        modeUi(dayMoulde.getMoulde());
-//        if (dayMoulde.getMoulde()) {
-////            ThemeManager.setThemeMode(ThemeManager.ThemeMode.DAY);
-////            if(null != articleDetailRandAdapter) {
-////                articleDetailRandAdapter.setAdapterDayModel(ThemeManager.ThemeMode.DAY);
-////            }
-//
-//        } else {
-////            ThemeManager.setThemeMode(ThemeManager.ThemeMode.NIGHT);
-////            if(null != articleDetailRandAdapter) {
-////                articleDetailRandAdapter.setAdapterDayModel(ThemeManager.ThemeMode.NIGHT);
-////            }
-//        }
+//        modeUi(dayMoulde.getMoulde());
+        if (dayMoulde.getMoulde()) {
+            ThemeManager.setThemeMode(ThemeManager.ThemeMode.DAY);
+            if(null != articleDetailRandAdapter) {
+                articleDetailRandAdapter.setAdapterDayModel(ThemeManager.ThemeMode.DAY);
+            }
+
+        } else {
+            ThemeManager.setThemeMode(ThemeManager.ThemeMode.NIGHT);
+            if(null != articleDetailRandAdapter) {
+                articleDetailRandAdapter.setAdapterDayModel(ThemeManager.ThemeMode.NIGHT);
+            }
+        }
     }
 
     public void modeUi(boolean isDay) {

@@ -72,13 +72,13 @@ public class FeedbackAndHelpActivity extends BaseActivity {
         if(isDay) {
             shadowLayout.setVisibility(View.GONE);
             StatusBarUtils.with(this)
-                    .setColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.FFF9FAFD)))
+                    .setColor(getResources().getColor(R.color.FFF9FAFD))
                     .init()
                     .setStatusTextColorAndPaddingTop(true, this);
         }else {
             shadowLayout.setVisibility(View.VISIBLE);
             StatusBarUtils.with(this)
-                    .setColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.trans_6)))
+                    .setColor(getResources().getColor( R.color.trans_6))
                     .init()
                     .setStatusTextColorAndPaddingTop(true, this);
         }

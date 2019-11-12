@@ -73,7 +73,8 @@ public class PhotoFragment extends Fragment {
         RequestOptions options = new RequestOptions()
                 .error(R.mipmap.pic_default_zhengfangxing)
                 .placeholder(R.mipmap.pic_default_zhengfangxing).fitCenter();
-        Glide.with(getContext()).load(url).apply(options).into(mPhotoView);
+        //.apply(options)
+        Glide.with(getContext()).load(url).into(mPhotoView);
         return view;
     }
 

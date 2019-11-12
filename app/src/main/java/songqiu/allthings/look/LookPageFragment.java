@@ -206,7 +206,7 @@ public class LookPageFragment extends BaseFragment {
         //新建导航栏
         CommonNavigator commonNavigator = new CommonNavigator(activity);
         commonNavigator.setEnablePivotScroll(true);
-        commonNavigator.setRightPadding(60);
+        commonNavigator.setRightPadding(90);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -218,7 +218,7 @@ public class LookPageFragment extends BaseFragment {
                 SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
                 simplePagerTitleView.setText(list.get(index).name);
                 //设置被选中的item颜色
-                simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.normal_color));
+                simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.black));
                 //设置为被选中item颜色
                 simplePagerTitleView.setNormalColor(getResources().getColor(R.color.FFA2A2A2));
                 simplePagerTitleView.setSelectedSize(19);

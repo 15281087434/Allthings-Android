@@ -2,6 +2,7 @@ package songqiu.allthings.util.theme;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -37,14 +38,15 @@ public class ThemeManager {
      *
      * @param themeMode
      */
+
     public static void setThemeMode(ThemeMode themeMode) {
 //        if (mThemeMode != themeMode) {
-            mThemeMode = themeMode;
-            if (mThemeChangeListenerList.size() > 0) {
-                for (OnThemeChangeListener listener : mThemeChangeListenerList) {
-                    listener.onThemeChanged();
-                }
+        mThemeMode = themeMode;
+        if (mThemeChangeListenerList.size() > 0) {
+            for (OnThemeChangeListener listener : mThemeChangeListenerList) {
+                listener.onThemeChanged();
             }
+        }
 //        }
     }
 

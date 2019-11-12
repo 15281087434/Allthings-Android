@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,6 +48,7 @@ public class ArticleDetailRandAdapter extends RecyclerView.Adapter<ArticleDetail
 
     Context context;
     List<ArticleDetailRandBean> item;
+    List<ViewHolder> viewHolderList = new ArrayList<>();
 
 
     public ArticleDetailRandAdapter(Context context, List<ArticleDetailRandBean> item) {
@@ -71,6 +73,7 @@ public class ArticleDetailRandAdapter extends RecyclerView.Adapter<ArticleDetail
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        viewHolderList.add(holder);
         if(0==position) {
             holder.line.setVisibility(View.GONE);
         }else {
@@ -128,8 +131,16 @@ public class ArticleDetailRandAdapter extends RecyclerView.Adapter<ArticleDetail
 
     @Override
     public void onThemeChanged() {
-
+        if(null != viewHolderList && 0 != viewHolderList.size()) {
+            for (ViewHolder viewHolder:viewHolderList) {
+                viewHolder.contentTv.setTextColor(context.getResources().getColor(ThemeManager.getCurrentThemeRes(context, R.color.bottom_tab_tv)));
+                viewHolder.line.setBackgroundDrawable(context.getResources().getDrawable(ThemeManager.getCurrentThemeRes(context, R.color.line_color)));
+                viewHolder.advertisingTv.setBackgroundDrawable(context.getResources().getDrawable(ThemeManager.getCurrentThemeRes(context, R.drawable.rectangle_advertising)));
+            }
+        }
     }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.contentTv)
