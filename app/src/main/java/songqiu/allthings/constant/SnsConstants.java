@@ -35,5 +35,7 @@ public class SnsConstants {
 	public static String URL_ABOUT = URL_BASE_H5+"about.html";
 	//关于我们 夜间
 	public static String URL_ABOUT_NIGHT = URL_BASE_H5+"about_black.html";
+	//注销账号
+	public static String URL_ZHUXIAO =  URL_BASE_H5+"zhuxiao_info.html";
 
 }

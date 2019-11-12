@@ -89,7 +89,8 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.backImg,R.id.loginoutTv,R.id.cleanCacheLayout,R.id.compileInfoLayout,R.id.protocolLayout,R.id.privaceLayout,R.id.aboutLayout})
+    @OnClick({R.id.backImg,R.id.loginoutTv,R.id.cleanCacheLayout,R.id.compileInfoLayout,R.id.protocolLayout,R.id.privaceLayout,
+            R.id.aboutLayout,R.id.accountLayout})
     public void onViewClick(View view) {
         Intent intent;
         boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
@@ -148,6 +149,11 @@ public class SettingActivity extends BaseActivity {
                 }else {
                     intent.putExtra("url", SnsConstants.URL_ABOUT_NIGHT);
                 }
+                startActivity(intent);
+                break;
+            case R.id.accountLayout:
+                intent = new Intent(SettingActivity.this, CommentWebViewActivity.class);
+                intent.putExtra("url", SnsConstants.URL_ZHUXIAO);
                 startActivity(intent);
                 break;
         }
