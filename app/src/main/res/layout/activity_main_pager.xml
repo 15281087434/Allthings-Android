@@ -151,6 +151,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/x_ui_px_90.0"
             android:layout_marginTop="@dimen/x_ui_px_10.0"
+            android:layout_marginRight="@dimen/x_ui_px_50.0"
+            android:layout_marginLeft="@dimen/x_ui_px_50.0"
             />
 
 

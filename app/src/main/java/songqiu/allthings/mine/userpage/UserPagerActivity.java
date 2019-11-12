@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextPaint;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -221,8 +222,8 @@ public class UserPagerActivity extends BaseActivity {
         //新建导航栏
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setEnablePivotScroll(true);
-        commonNavigator.setLeftPadding(95);
-        commonNavigator.setRightPadding(95);
+        commonNavigator.setAdjustMode(true);
+
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -239,10 +240,9 @@ public class UserPagerActivity extends BaseActivity {
                 //设置为被选中item颜色
                 simplePagerTitleView.setNormalColor(getResources().getColor(R.color.FFA2A2A2));
                 simplePagerTitleView.setSelectedSize(19);
-                simplePagerTitleView.setDeselectedSize(18);
-//                TextPaint tp = simplePagerTitleView.getPaint();
-//                tp.setFakeBoldText(true);
-
+                simplePagerTitleView.setDeselectedSize(17);
+                TextPaint tp = simplePagerTitleView.getPaint();
+                tp.setFakeBoldText(true);
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -258,7 +258,7 @@ public class UserPagerActivity extends BaseActivity {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
                 indicator.setColors(getResources().getColor(R.color.normal_color));
                 indicator.setYOffset(13);
-                indicator.setXOffset(35);
+                indicator.setXOffset(45);
                 return indicator;
             }
 

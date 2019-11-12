@@ -139,6 +139,7 @@ public class AttentionActivity extends BaseActivity {
         //新建导航栏
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setEnablePivotScroll(true);
+        commonNavigator.setAdjustMode(true);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -154,7 +155,7 @@ public class AttentionActivity extends BaseActivity {
                 //设置为被选中item颜色
                 simplePagerTitleView.setNormalColor(getResources().getColor(R.color.FFA2A2A2));
                 simplePagerTitleView.setSelectedSize(19);
-                simplePagerTitleView.setDeselectedSize(18);
+                simplePagerTitleView.setDeselectedSize(17);
                 TextPaint tp = simplePagerTitleView.getPaint();
                 tp.setFakeBoldText(true);
 
@@ -173,7 +174,7 @@ public class AttentionActivity extends BaseActivity {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
                 indicator.setColors(getResources().getColor(R.color.normal_color));
                 indicator.setYOffset(13);
-                indicator.setXOffset(35);
+                indicator.setXOffset(90);
                 return indicator;
             }
 

@@ -213,6 +213,7 @@ public class InformActivity extends BaseActivity {
         //新建导航栏
         commonNavigator = new CommonNavigator(this);
         commonNavigator.setEnablePivotScroll(true);
+        commonNavigator.setAdjustMode(true);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -223,7 +224,7 @@ public class InformActivity extends BaseActivity {
                 SimplePagerTitleView colorTransitionPagerTitleView = new SimplePagerTitleView(context);
                 colorTransitionPagerTitleView.setNormalColor(ContextCompat.getColor(context, R.color.FFA2A2A2));
                 colorTransitionPagerTitleView.setSelectedColor(ContextCompat.getColor(context, R.color.normal_color));
-                colorTransitionPagerTitleView.setSelectedSize(18);
+                colorTransitionPagerTitleView.setSelectedSize(19);
                 colorTransitionPagerTitleView.setDeselectedSize(17);
                 TextPaint tp = colorTransitionPagerTitleView.getPaint();
                 tp.setFakeBoldText(true);
@@ -251,7 +252,7 @@ public class InformActivity extends BaseActivity {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
                 indicator.setColors(getResources().getColor(R.color.normal_color));
                 indicator.setYOffset(13);
-                indicator.setXOffset(35);
+                indicator.setXOffset(53);
                 return indicator;
             }
 

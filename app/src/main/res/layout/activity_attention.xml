@@ -15,10 +15,11 @@
 
         <net.lucode.hackware.magicindicator.MagicIndicator
             android:id="@+id/magicIndicator"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/x_ui_px_90.0"
             app:tabBackground="@color/white"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/x_ui_px_100.0"
+            android:layout_marginRight="@dimen/x_ui_px_100.0"
             />
         <TextView
             android:layout_width="match_parent"
