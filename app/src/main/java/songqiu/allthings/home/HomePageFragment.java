@@ -274,8 +274,7 @@ public class HomePageFragment extends BaseFragment {
         //新建导航栏
         commonNavigator = new CommonNavigator(activity);
         commonNavigator.setEnablePivotScroll(true);
-//        commonNavigator.setLeftPadding(95);
-        commonNavigator.setRightPadding(90);
+        commonNavigator.setRightPadding(100);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {

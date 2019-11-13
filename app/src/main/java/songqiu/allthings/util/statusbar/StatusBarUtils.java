@@ -556,9 +556,11 @@ public class StatusBarUtils {
     public void setStatusTextColorWhite(boolean useDart, Activity activity) {
         if (isFlyme()) {
             processFlyMe(useDart, activity);
-        } else if (isMIUI()) {
-            processMIUI(useDart, activity);
-        } else {
+        }
+//        else if (isMIUI()) {
+//            processMIUI(!useDart, activity);
+//        }
+        else {
             if (useDart) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -580,9 +582,11 @@ public class StatusBarUtils {
     public void setStatusTextColorAndPaddingTop(boolean useDart, Activity activity) {
         if (isFlyme()) {
             processFlyMe(useDart, activity);
-        } else if (isMIUI()) {
-            processMIUI(useDart, activity);
-        } else if (Build.MANUFACTURER.equalsIgnoreCase("OPPO")) {
+        }
+//        else if (isMIUI()) {
+//            processMIUI(useDart, activity);
+//        }
+        else if (Build.MANUFACTURER.equalsIgnoreCase("OPPO")) {
             if (useDart) {
                 setOPPOStatusTextColor(useDart, activity);
                 activity.getWindow().getDecorView().findViewById(android.R.id.content).setPadding(0, StatusBarUtils.getStatusBarHeight(activity), 0, StatusBarUtils.navigationHeight);
