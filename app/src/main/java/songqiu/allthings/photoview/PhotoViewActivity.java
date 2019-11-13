@@ -27,7 +27,7 @@ import songqiu.allthings.util.statusbar.StatusBarUtils;
 public class PhotoViewActivity extends BaseActivity {
 
     @BindView(R.id.viewpager)
-    ViewPager viewpager;
+    ViewPagerFix viewpager;
     @BindView(R.id.tv_num)
     TextView tvNum;
 
