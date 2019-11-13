@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -154,7 +154,7 @@
                 android:layout_height="@dimen/x_ui_px_246.0"
                 android:layout_marginLeft="@dimen/x_ui_px_15.0"
                 android:layout_marginRight="@dimen/x_ui_px_15.0"
-                android:layout_marginTop="@dimen/x_ui_px_330.0"
+                android:layout_marginTop="-65dp"
                 android:background="@mipmap/task_sign_bg">
 
                 <LinearLayout
@@ -240,7 +240,7 @@
                 android:layout_height="@dimen/x_ui_px_173.0"
                 app:rollviewpager_hint_gravity="center"
                 app:rollviewpager_play_delay="3000"
-                android:layout_marginTop="@dimen/x_ui_px_590.0"
+                android:layout_marginTop="@dimen/x_ui_px_15.0"
                 android:layout_marginLeft="@dimen/x_ui_px_30.0"
                 android:layout_marginRight="@dimen/x_ui_px_30.0"
                 />
@@ -249,7 +249,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/y_ui_px_770.0"
                 >
 
                 <LinearLayout
@@ -390,7 +389,7 @@
 
 
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 
 

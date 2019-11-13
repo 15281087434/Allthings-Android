@@ -259,6 +259,8 @@ public class MinePageFragment extends BaseFragment {
                                 }else {
                                     roll_page_mine.setScrollable(true);
                                 }
+                            }else {
+                                roll_page_mine.setVisibility(View.GONE);
                             }
                         }
                     });
