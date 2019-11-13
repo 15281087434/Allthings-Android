@@ -191,11 +191,11 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 int is_up = homeAttentionBean.is_up;
                 if (0 == is_up) {
                     if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean);
+                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
                     }
                 } else {
                     if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean);
+                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
                     }
                 }
             }
@@ -292,11 +292,11 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 int is_up = homeAttentionBean.is_up;
                 if (0 == is_up) {
                     if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean);
+                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
                     }
                 } else {
                     if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean);
+                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
                     }
                 }
             }
@@ -400,11 +400,11 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 int is_up = homeAttentionBean.is_up;
                 if (0 == is_up) {
                     if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean);
+                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
                     }
                 } else {
                     if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean);
+                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
                     }
                 }
             }
@@ -503,11 +503,11 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 int is_up = homeAttentionBean.is_up;
                 if (0 == is_up) {
                     if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean);
+                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
                     }
                 } else {
                     if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean);
+                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
                     }
                 }
             }
@@ -591,11 +591,11 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 int is_up = homeAttentionBean.is_up;
                 if (0 == is_up) {
                     if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 2, homeAttentionBean.articleid, homeAttentionBean);
+                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 2, homeAttentionBean.articleid, homeAttentionBean,holder);
                     }
                 } else {
                     if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 2, homeAttentionBean.articleid, homeAttentionBean);
+                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 2, homeAttentionBean.articleid, homeAttentionBean,holder);
                     }
                 }
             }
@@ -655,9 +655,9 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         @BindView(R.id.describeTv)
         TextView describeTv;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
@@ -691,9 +691,9 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         @BindView(R.id.rightPic)
         ImageView rightPic;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
@@ -731,9 +731,9 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         @BindView(R.id.describeTv)
         TextView describeTv;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
@@ -767,9 +767,9 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         @BindView(R.id.gridView)
         GridViewInScroll gridView;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
@@ -802,9 +802,9 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         @BindView(R.id.videoView)
         HeartVideo videoView;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)

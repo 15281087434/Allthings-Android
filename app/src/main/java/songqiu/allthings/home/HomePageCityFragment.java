@@ -141,7 +141,7 @@ public class HomePageCityFragment extends BaseFragment {
             }
 
             @Override
-            public void addLike(String url, int type, int mid,HomeSubitemBean homeSubitemBean) {
+            public void addLike(String url, int type, int mid,HomeSubitemBean homeSubitemBean,RecyclerView.ViewHolder viewHolder) {
                 like(url,type,mid,homeSubitemBean);
             }
 

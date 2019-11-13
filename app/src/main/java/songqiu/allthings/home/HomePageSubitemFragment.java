@@ -173,8 +173,8 @@ public class HomePageSubitemFragment extends BaseFragment {
            }
 
            @Override
-           public void addLike(String url, int type, int mid,HomeSubitemBean homeSubitemBean) {
-               like(url,type,mid,homeSubitemBean);
+           public void addLike(String url, int type, int mid,HomeSubitemBean homeSubitemBean,RecyclerView.ViewHolder viewHolder) {
+               like(url,type,mid,homeSubitemBean,viewHolder);
            }
 
            @Override
@@ -478,7 +478,7 @@ public class HomePageSubitemFragment extends BaseFragment {
     }
 
     //点赞/取消点赞
-    public void like(String url,int type,int mid,HomeSubitemBean homeSubitemBean) {
+    public void like(String url,int type,int mid,HomeSubitemBean homeSubitemBean,RecyclerView.ViewHolder viewHolder) {
         Map<String,String> map = new HashMap<>();
         map.put("type",type+"");
         map.put("mid",mid+"");
@@ -492,11 +492,20 @@ public class HomePageSubitemFragment extends BaseFragment {
                             if(url.equals(HttpServicePath.URL_LIKE)) {
                                 homeSubitemBean.is_up = 1;
                                 homeSubitemBean.up_num = homeSubitemBean.up_num+1;
+                                if(viewHolder instanceof HomeTabClassAdapter.LookVideoHolder) {
+                                    ((HomeTabClassAdapter.LookVideoHolder) viewHolder).likeTv.setText(String.valueOf(homeSubitemBean.up_num));
+                                    ((HomeTabClassAdapter.LookVideoHolder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FFDE5C51));
+                                    ((HomeTabClassAdapter.LookVideoHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                }
                             }else {
                                 homeSubitemBean.is_up = 0;
                                 homeSubitemBean.up_num = homeSubitemBean.up_num-1;
+                                if(viewHolder instanceof HomeTabClassAdapter.LookVideoHolder) {
+                                    ((HomeTabClassAdapter.LookVideoHolder) viewHolder).likeTv.setText(String.valueOf(homeSubitemBean.up_num));
+                                    ((HomeTabClassAdapter.LookVideoHolder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FF666666));
+                                    ((HomeTabClassAdapter.LookVideoHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                }
                             }
-                            adapter.notifyDataSetChanged();
                         }
                     });
                 }

@@ -46,6 +46,7 @@ import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.adapter.HomeAttentionAdapter;
+import songqiu.allthings.adapter.HomeTabClassAdapter;
 import songqiu.allthings.base.BaseFragment;
 import songqiu.allthings.bean.HomeAttentionBean;
 import songqiu.allthings.bean.HomeSubitemBean;
@@ -161,8 +162,8 @@ public class HomePageAttentionFragment extends BaseFragment {
             }
 
             @Override
-            public void addLike(String url, int type, int mid, HomeAttentionBean homeAttentionBean) {
-                like(url, type, mid, homeAttentionBean);
+            public void addLike(String url, int type, int mid, HomeAttentionBean homeAttentionBean,RecyclerView.ViewHolder viewHolder) {
+                like(url, type, mid, homeAttentionBean,viewHolder);
             }
 
             @Override
@@ -355,7 +356,7 @@ public class HomePageAttentionFragment extends BaseFragment {
     }
 
     //点赞/取消点赞
-    public void like(String url,int type,int mid,HomeAttentionBean homeAttentionBean) {
+    public void like(String url,int type,int mid,HomeAttentionBean homeAttentionBean,RecyclerView.ViewHolder viewHolder) {
         Map<String,String> map = new HashMap<>();
         map.put("type",type+"");
         map.put("mid",mid+"");
@@ -369,11 +370,52 @@ public class HomePageAttentionFragment extends BaseFragment {
                             if(url.equals(HttpServicePath.URL_LIKE)) {
                                 homeAttentionBean.is_up = 1;
                                 homeAttentionBean.up_num = homeAttentionBean.up_num+1;
+                                if(viewHolder instanceof HomeAttentionAdapter.TextViewholder) {
+                                    ((HomeAttentionAdapter.TextViewholder) viewHolder).likeTv.setText(String.valueOf(homeAttentionBean.up_num));
+                                    ((HomeAttentionAdapter.TextViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FFDE5C51));
+                                    ((HomeAttentionAdapter.TextViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                }else if(viewHolder instanceof HomeAttentionAdapter.RightPicViewholder) {
+                                    ((HomeAttentionAdapter.RightPicViewholder) viewHolder).likeTv.setText(String.valueOf(homeAttentionBean.up_num));
+                                    ((HomeAttentionAdapter.RightPicViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FFDE5C51));
+                                    ((HomeAttentionAdapter.RightPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                }else if(viewHolder instanceof HomeAttentionAdapter.BigPicViewholder) {
+                                    ((HomeAttentionAdapter.BigPicViewholder) viewHolder).likeTv.setText(String.valueOf(homeAttentionBean.up_num));
+                                    ((HomeAttentionAdapter.BigPicViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FFDE5C51));
+                                    ((HomeAttentionAdapter.BigPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                }else if(viewHolder instanceof HomeAttentionAdapter.MorePicViewholder) {
+                                    ((HomeAttentionAdapter.MorePicViewholder) viewHolder).likeTv.setText(String.valueOf(homeAttentionBean.up_num));
+                                    ((HomeAttentionAdapter.MorePicViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FFDE5C51));
+                                    ((HomeAttentionAdapter.MorePicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                }else if(viewHolder instanceof HomeAttentionAdapter.Viewholder) {
+                                    ((HomeAttentionAdapter.Viewholder) viewHolder).likeTv.setText(String.valueOf(homeAttentionBean.up_num));
+                                    ((HomeAttentionAdapter.Viewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FFDE5C51));
+                                    ((HomeAttentionAdapter.Viewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                }
                             }else {
                                 homeAttentionBean.is_up = 0;
                                 homeAttentionBean.up_num = homeAttentionBean.up_num-1;
+                                if(viewHolder instanceof HomeAttentionAdapter.TextViewholder) {
+                                    ((HomeAttentionAdapter.TextViewholder) viewHolder).likeTv.setText(String.valueOf(homeAttentionBean.up_num));
+                                    ((HomeAttentionAdapter.TextViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FF666666));
+                                    ((HomeAttentionAdapter.TextViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                }else if(viewHolder instanceof HomeAttentionAdapter.RightPicViewholder) {
+                                    ((HomeAttentionAdapter.RightPicViewholder) viewHolder).likeTv.setText(String.valueOf(homeAttentionBean.up_num));
+                                    ((HomeAttentionAdapter.RightPicViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FF666666));
+                                    ((HomeAttentionAdapter.RightPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                }else if(viewHolder instanceof HomeAttentionAdapter.BigPicViewholder) {
+                                    ((HomeAttentionAdapter.BigPicViewholder) viewHolder).likeTv.setText(String.valueOf(homeAttentionBean.up_num));
+                                    ((HomeAttentionAdapter.BigPicViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FF666666));
+                                    ((HomeAttentionAdapter.BigPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                }else if(viewHolder instanceof HomeAttentionAdapter.MorePicViewholder) {
+                                    ((HomeAttentionAdapter.MorePicViewholder) viewHolder).likeTv.setText(String.valueOf(homeAttentionBean.up_num));
+                                    ((HomeAttentionAdapter.MorePicViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FF666666));
+                                    ((HomeAttentionAdapter.MorePicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                }else if(viewHolder instanceof HomeAttentionAdapter.Viewholder) {
+                                    ((HomeAttentionAdapter.Viewholder) viewHolder).likeTv.setText(String.valueOf(homeAttentionBean.up_num));
+                                    ((HomeAttentionAdapter.Viewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FF666666));
+                                    ((HomeAttentionAdapter.Viewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                }
                             }
-                            adapter.notifyDataSetChanged();
                         }
                     });
                 }

@@ -460,11 +460,11 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
                 int is_up = item.get(position).is_up;
                 if (0 == is_up) {
                     if (null != homeItemListener) {
-                        homeItemListener.addLike(HttpServicePath.URL_LIKE, 2, item.get(position).articleid, item.get(position));
+                        homeItemListener.addLike(HttpServicePath.URL_LIKE, 2, item.get(position).articleid, item.get(position),holder);
                     }
                 } else {
                     if (null != homeItemListener) {
-                        homeItemListener.addLike(HttpServicePath.URL_NO_LIKE, 2, item.get(position).articleid, item.get(position));
+                        homeItemListener.addLike(HttpServicePath.URL_NO_LIKE, 2, item.get(position).articleid, item.get(position),holder);
                     }
                 }
             }
