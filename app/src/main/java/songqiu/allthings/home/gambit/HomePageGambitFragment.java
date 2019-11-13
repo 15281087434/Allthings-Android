@@ -274,6 +274,9 @@ public class HomePageGambitFragment extends BaseFragment {
                             if(null != bannerBeanList && 0!=bannerBeanList.size()) {
                                 mBannerList.addAll(bannerBeanList);
                                 mBannerAdapter.notifyDataSetChanged();
+                                if(1==bannerBeanList.size()) {
+                                    rollPageHome.pause();
+                                }
                             }
                         }
                     });

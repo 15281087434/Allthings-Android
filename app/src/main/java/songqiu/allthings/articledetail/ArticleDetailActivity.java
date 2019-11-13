@@ -697,7 +697,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         map.put("articleid", articleid + "");
         map.put("type", 1 + "");
         map.put("page", page + "");
-        map.put("num", 10 + "");
+        map.put("num", 2 + "");
         OkHttp.post(this, smartRefreshLayout, HttpServicePath.URL_COMMENT, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
@@ -723,6 +723,17 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                             item1.addAll(videoDetailCommentBeanList);
                             videoDetailCommentAdapter.notifyDataSetChanged();
                         }
+                        //
+                        new Handler().postDelayed(new Runnable(){
+                            public void run() {
+                                boolean dayModel = SharedPreferencedUtils.getBoolean(ArticleDetailActivity.this, SharedPreferencedUtils.dayModel, true);
+                                if(dayModel) {
+                                    videoDetailCommentAdapter.setAdapterDayModel(ThemeManager.ThemeMode.DAY);
+                                }else {
+                                    videoDetailCommentAdapter.setAdapterDayModel(ThemeManager.ThemeMode.NIGHT);
+                                }
+                            }
+                        }, 500);
                     }
                 });
             }
