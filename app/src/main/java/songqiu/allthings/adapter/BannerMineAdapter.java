@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import songqiu.allthings.R;
 import songqiu.allthings.bean.BannerBean;
 import songqiu.allthings.http.HttpServicePath;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.view.banner.LoopPagerAdapter;
 import songqiu.allthings.view.banner.RollPagerView;
@@ -68,12 +69,16 @@ public class BannerMineAdapter extends LoopPagerAdapter {
         if(bannerBeans==null||bannerBeans.size()<=0){
             view.setBackgroundResource(R.mipmap.banner_mine_default);
         }else{
-//            DraweeController controller = Fresco.newDraweeControllerBuilder()
-//                    .setUri(bannerBeans.get(position).photo)
-//                    .setOldController(view.getController())
-//                    .setTapToRetryEnabled(true).build();
-//            view.setController(controller);
-            view.setBackgroundResource(R.mipmap.banner_mine_default);
+            if (!bannerBeans.get(position).photo.contains("http")) {
+                bannerBeans.get(position).photo = HttpServicePath.BasePicUrl + bannerBeans.get(position).photo;
+            }
+            LogUtil.i(""+bannerBeans.get(position).photo);
+            DraweeController controller = Fresco.newDraweeControllerBuilder()
+                    .setUri(bannerBeans.get(position).photo)
+                    .setOldController(view.getController())
+                    .setTapToRetryEnabled(true).build();
+            view.setController(controller);
+//            view.setBackgroundResource(R.mipmap.banner_mine_default);
         }
 
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

@@ -9,4 +9,6 @@ public class BannerBean {
     public String title;
     public String photo;
     public int url_id;
+    public int jump_type;
+    public String url;
 }

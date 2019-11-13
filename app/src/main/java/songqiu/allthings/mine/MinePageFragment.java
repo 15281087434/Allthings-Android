@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -28,12 +29,14 @@ import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.adapter.BannerLooperAdapter;
 import songqiu.allthings.adapter.BannerMineAdapter;
+import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.base.BaseFragment;
 import songqiu.allthings.bean.BannerBean;
 import songqiu.allthings.bean.InviteParameterBean;
 import songqiu.allthings.bean.RedNewsBean;
 import songqiu.allthings.bean.UserCenterBean;
 import songqiu.allthings.constant.SnsConstants;
+import songqiu.allthings.home.gambit.HotGambitDetailActivity;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
@@ -55,6 +58,7 @@ import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.TokenManager;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
+import songqiu.allthings.videodetail.VideoDetailActivity;
 import songqiu.allthings.view.ProGrossCircleView;
 import songqiu.allthings.view.banner.ColorPointHintView;
 import songqiu.allthings.view.banner.RollPagerView;
@@ -114,6 +118,7 @@ public class MinePageFragment extends BaseFragment {
             EventBus.getDefault().register(this);
         }
         initBanner();
+        initBannerEvent();
     }
 
     @Override
@@ -135,17 +140,50 @@ public class MinePageFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
+    public void initBannerEvent() {
+        roll_page_mine.setOnItemClickListener(position -> {
+            if (mBannerList == null || position >= mBannerList.size()) {
+                return;
+            }
+            //0 不跳转 1 跳转文章 2视频 3 h5url 4 收入记录页面 5 邀请好友页面
+            Intent intent;
+            if(1==mBannerList.get(position).jump_type) { //文章
+                intent= new Intent(activity, ArticleDetailActivity.class);
+                intent.putExtra("articleid", mBannerList.get(position).url_id);
+                startActivity(intent);
+            }else if(2==mBannerList.get(position).jump_type) { //视频
+                intent= new Intent(activity, VideoDetailActivity.class);
+                intent.putExtra("articleid", mBannerList.get(position).url_id);
+                startActivity(intent);
+            }else if(3==mBannerList.get(position).jump_type) { //h5
+                intent= new Intent(activity, CommentWebViewActivity.class);
+                intent.putExtra("url", mBannerList.get(position).url);
+                startActivity(intent);
+            }else if(4==mBannerList.get(position).jump_type) { //
+                if(StringUtil.isEmpty(token)) {
+                    intent = new Intent(activity,LoginActivity.class);
+                }else {
+                    intent = new Intent(activity,IncomeRecordActivity.class);
+                }
+                startActivity(intent);
+            }else if(5==mBannerList.get(position).jump_type) { //邀请好友
+                if(StringUtil.isEmpty(token)) {
+                    intent = new Intent(activity,LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    getInviteParameter();
+                }
+            }
+        });
+    }
     public void initBanner() {
         mBannerList = new ArrayList<>();
-        BannerBean b = new BannerBean();
-        mBannerList.add(b);
-        mBannerList.add(b);
         mBannerAdapter = new BannerMineAdapter(roll_page_mine, (ArrayList<BannerBean>) mBannerList);
         roll_page_mine.setAdapter(mBannerAdapter);
         roll_page_mine.setHintView(new ColorPointHintView(activity, Color.WHITE, Color.GRAY));
         roll_page_mine.setHintPadding(0, 0, 0, 10);
         roll_page_mine.resume();
-//        getBanner();
+        getBanner();
     }
 
     public void initUi(boolean isLogin){
@@ -195,6 +233,31 @@ public class MinePageFragment extends BaseFragment {
         //存入userid
         SharedPreferencedUtils.setInteger(activity, "SYSUSERID", userCenterBean.userid);
         SnsConstants.URL_DOWNLOAD = userCenterBean.android_url;
+    }
+
+    public void getBanner() {
+        Map<String, String> map = new HashMap<>();
+        map.put("type",3+""); //1、文章  2、话题 3、会员中心
+        OkHttp.post(activity, HttpServicePath.URL_BANNER, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+                if(null != activity) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Gson gson = new Gson();
+                            String data = gson.toJson(baseBean.data);
+                            if (StringUtil.isEmpty(data)) return;
+                            List<BannerBean> bannerBeanList = gson.fromJson(data, new TypeToken<List<BannerBean>>() {}.getType());
+                            if(null != bannerBeanList && 0!=bannerBeanList.size()) {
+                                mBannerList.addAll(bannerBeanList);
+                                mBannerAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public void getUserCenter() {
