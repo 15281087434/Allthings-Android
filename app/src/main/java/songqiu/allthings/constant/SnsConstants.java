@@ -6,6 +6,8 @@ public class SnsConstants {
 
 	public static String URL_BASE_H5 = "http://h5.jianguaiapp.com/";
 
+	public static String URL_GUANWANG = "http://h5.jianguaiapp.com/download.html";
+
 
 	public static String URL_DOWNLOAD;
 

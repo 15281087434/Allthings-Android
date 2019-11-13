@@ -1,5 +1,7 @@
 package songqiu.allthings.util.theme;
 
+import songqiu.allthings.constant.SnsConstants;
+
 /*******
  *
  *Created by ???
@@ -11,11 +13,11 @@ package songqiu.allthings.util.theme;
  ********/
 public class ShareUrl {
     public static String getUrl(int id,int type) { //1?? 2??  3??
-        return  "http://h5.jianguaiapp.com/download.html?id="+id+"&type="+type;
+        return SnsConstants.URL_GUANWANG+"?id="+id+"&type="+type;
     }
 
     public static String getUrl(int id,int type,int isMoment) { //isMoment = 1 ????????
-        return  "http://h5.jianguaiapp.com/download.html?id="+id+"&type="+type+"&isMoment="+isMoment;
+        return  SnsConstants.URL_GUANWANG+"?id="+id+"&type="+type+"&isMoment="+isMoment;
     }
 
 

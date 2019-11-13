@@ -161,6 +161,10 @@ public class HomePageChoicenessFragment extends BaseFragment {
                                 mBannerAdapter.notifyDataSetChanged();
                                 if(1==bannerBeanList.size()) {
                                     rollPageHome.pause();
+                                    rollPageHome.setHintViewVisibility(false);
+                                    rollPageHome.setScrollable(false);
+                                }else {
+                                    rollPageHome.setScrollable(true);
                                 }
                             }
                         }

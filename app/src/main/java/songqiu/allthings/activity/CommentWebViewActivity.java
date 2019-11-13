@@ -140,7 +140,7 @@ public class CommentWebViewActivity extends BaseActivity {
         if(!StringUtil.isEmpty(SnsConstants.URL_DOWNLOAD)) {
             oks.setTitleUrl(SnsConstants.URL_DOWNLOAD);
         }else {
-            oks.setTitleUrl("https://jianguaiapp.com/download.html");
+            oks.setTitleUrl(SnsConstants.URL_GUANWANG);
         }
         // text是分享文本，所有平台都需要这个字段
         StringBuffer sb = new StringBuffer();
@@ -152,7 +152,7 @@ public class CommentWebViewActivity extends BaseActivity {
         if(!StringUtil.isEmpty(SnsConstants.URL_DOWNLOAD)) {
             oks.setUrl(SnsConstants.URL_DOWNLOAD);
         }else {
-            oks.setUrl("https://jianguaiapp.com/download.html");
+            oks.setUrl(SnsConstants.URL_GUANWANG);
         }
         //启动分享
         oks.show(this);

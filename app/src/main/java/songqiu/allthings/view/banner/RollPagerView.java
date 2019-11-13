@@ -27,13 +27,14 @@ import java.util.TimerTask;
 
 import songqiu.allthings.R;
 import songqiu.allthings.util.DensityUtil;
+import songqiu.allthings.view.CustomScrollViewPager;
 
 /**
  * Created by cc on 2018/8/7.
  */
 
 public class RollPagerView  extends RelativeLayout implements ViewPager.OnPageChangeListener {
-    private ViewPager mViewPager;
+    private CustomScrollViewPager mViewPager;
     private PagerAdapter mAdapter;
     private OnItemClickListener mOnItemClickListener;
     //用户手势检测
@@ -116,7 +117,7 @@ public class RollPagerView  extends RelativeLayout implements ViewPager.OnPageCh
         paddingTop = (int) type.getDimension(R.styleable.RollViewPager_rollviewpager_hint_paddingTop, 0);
         paddingBottom = (int) type.getDimension(R.styleable.RollViewPager_rollviewpager_hint_paddingBottom, DensityUtil.dip2px(getContext(),4));
 
-        mViewPager = new ViewPager(getContext());
+        mViewPager = new CustomScrollViewPager(getContext());
         mViewPager.setId(R.id.viewpager_inner);
         mViewPager.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         addView(mViewPager);
@@ -419,5 +420,16 @@ public class RollPagerView  extends RelativeLayout implements ViewPager.OnPageCh
     public void onPageSelected(int arg0) {
         mHintViewDelegate.setCurrentPosition(arg0, (HintView) mHintView);
     }
+
+    public void setHintViewVisibility(boolean visibility) {
+        if(!visibility) {
+            mHintView.setVisibility(GONE);
+        }
+    }
+
+    public void setScrollable(boolean scrollable) {
+        mViewPager.setScrollable(scrollable);
+    }
+
 
 }

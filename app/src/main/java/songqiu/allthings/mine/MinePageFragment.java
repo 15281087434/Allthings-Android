@@ -254,6 +254,10 @@ public class MinePageFragment extends BaseFragment {
                                 mBannerAdapter.notifyDataSetChanged();
                                 if(1==bannerBeanList.size()) {
                                     roll_page_mine.pause();
+                                    roll_page_mine.setHintViewVisibility(false);
+                                    roll_page_mine.setScrollable(false);
+                                }else {
+                                    roll_page_mine.setScrollable(true);
                                 }
                             }
                         }

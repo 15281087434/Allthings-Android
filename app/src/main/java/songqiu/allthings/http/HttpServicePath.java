@@ -16,7 +16,7 @@ public class HttpServicePath {
     public static String BasePicUrl = "http://1097.oss-cn-chengdu.aliyuncs.com/"; //OSS图片前缀
 
     //官方安卓 511、OPPO 512、vivo 513、华为 514、应用宝 515 、UC 516、360 517、百度 518、小米 519 魅族 520  联想 521
-//    public static String BaseUrl = "https://jianguaiapp.com:511/"; //正式
+//    public static String BaseUrl = "https://jianguaiapp.com:519/"; //正式
 
     //检测版本号
     public static String URL_VERSION = BaseUrl+"version";

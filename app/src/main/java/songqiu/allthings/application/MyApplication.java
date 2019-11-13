@@ -68,7 +68,7 @@ public class MyApplication extends Application {
     //版本号
     public String versionName;
     //渠道号 官方安卓 1、OPPO 2、vivo 3、华为 4、应用宝 5 、UC 6、360 7、百度 8、小米 9
-    public String channel="1";
+    public String channel="9";
 
 
     public static MyApplication getInstance() {
