@@ -166,7 +166,41 @@
 -keep class songqiu.allthings.base.** { *; }
 -keep class songqiu.allthings.bean.** { *; }
 -keep class songqiu.allthings.util.** { *; }
+-keep class songqiu.allthings.view.** { *; }
+-keep class songqiu.allthings.wxapi.** { *; }
 
+
+-dontwarn sun.misc.**
+-dontwarn retrofit.**
+
+#retrofit2.x
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+#Rxjava RxAndroid
+-dontwarn rx.*
+-dontwarn sun.misc.**
+
+ -dontwarn android.test.**
+ -dontwarn android.support.test.**
+
+-dontwarn org.hamcrest.**
+-keep class org.hamcrest.** {
+     *;
+  }
+-dontwarn com.scwang.smartrefresh.**
+-keep class com.scwang.smartrefresh.** {
+     *;
+  }
+-dontwarn org.junit.**
+-keep class org.junit.** {
+     *;
+  }
+-dontwarn com.squareup.**
+-keep class com.squareup.** {
+       *;
+    }
 
 
 #---------------------------------第三方---------------------------------
@@ -178,6 +212,10 @@
     <fields>;
     <methods>;
 }
+
+-keep class com.heartfor.heartvideo.** { *; }
+-keep class net.lucode.hackware.magicindicator.** { *; }
+
 
 
 # ButterKnife
@@ -258,6 +296,7 @@
 -dontwarn **.R$*
 
 
+
 -keep class com.tencent.mm.sdk.** {
    *;
 }
@@ -291,6 +330,7 @@
 -dontwarn anetwork.**
 -dontwarn com.ut.**
 -dontwarn com.ta.**
+
 
 #bugly
 -dontwarn com.tencent.bugly.**

@@ -28,9 +28,6 @@ import com.google.gson.Gson;
 import com.heartfor.heartvideo.video.HeartVideo;
 import com.heartfor.heartvideo.video.HeartVideoManager;
 import com.heartfor.heartvideo.video.PlayerStatus;
-import com.pili.pldroid.player.PLOnInfoListener;
-import com.tbruyelle.rxpermissions2.Permission;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
