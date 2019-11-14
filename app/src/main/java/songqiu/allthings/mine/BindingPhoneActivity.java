@@ -59,6 +59,8 @@ public class BindingPhoneActivity extends BaseActivity {
 
     @BindView(R.id.backImg)
     ImageView backImg;
+    @BindView(R.id.titleTv)
+    TextView titleTv;
 
     @BindView(R.id.phoneEt)
     EditText phoneEt;
@@ -92,7 +94,7 @@ public class BindingPhoneActivity extends BaseActivity {
         modeUi(dayModel);
         weChatBean = (WeChatBean)getIntent().getSerializableExtra("weChatBean");
         type = getIntent().getIntExtra("type",1);
-
+        titleTv.setText("绑定手机");
         EditTextCheckUtil.textChangeListener textChangeListener = new EditTextCheckUtil.textChangeListener(loginTv);
         textChangeListener.addAllEditText(phoneEt, codeEt);
         EditTextCheckUtil.setChangeListener(new IEditTextChangeListener() {
