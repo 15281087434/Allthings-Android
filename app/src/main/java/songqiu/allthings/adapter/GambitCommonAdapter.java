@@ -2,6 +2,7 @@ package songqiu.allthings.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -36,10 +37,12 @@ import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.PicParameterUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.TokenManager;
+import songqiu.allthings.util.ViewProportion;
 import songqiu.allthings.view.GridViewInScroll;
 
 /*******
@@ -250,8 +253,37 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
                 item.get(position).images[0] = HttpServicePath.BasePicUrl + item.get(position).images[0];
             }
         }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int[] imgSize = PicParameterUtil.getImgWH(item.get(position).images[0]);
+                if(null != imgSize) {
+                    if(imgSize[0]>imgSize[1]) { //宽大于高
+                        holder.bigPicImg.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.bigPicImg.setLayoutParams(ViewProportion.getLinearParams(holder.bigPicImg, 1.2));
+                            }
+                        });
+                    }else if(imgSize[0]<imgSize[1]) { //高大于宽
+                        holder.bigPicImg.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.bigPicImg.setLayoutParams(ViewProportion.getLinearParams(holder.bigPicImg, 0.75));
+                            }
+                        });
+                    }else {
+                        holder.bigPicImg.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.bigPicImg.setLayoutParams(ViewProportion.getLinearParams(holder.bigPicImg, 1));
+                            }
+                        });
+                    }
+                }
+            }
+        }).start();
         Glide.with(context).load(item.get(position).images[0]).apply(options1).into(holder.bigPicImg);
-
         holder.userName.setText(item.get(position).user_nickname);
         //变色
         if (item.get(position).descriptions.contains("#")) {

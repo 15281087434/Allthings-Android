@@ -71,10 +71,12 @@ import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.GlideLoadUtils;
 import songqiu.allthings.util.KeyBoardUtils;
 import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.PicParameterUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
+import songqiu.allthings.util.ViewProportion;
 import songqiu.allthings.util.WindowUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.theme.ShareUrl;
@@ -300,8 +302,38 @@ public class GambitDetailActivity extends BaseActivity {
                     gambitDetailBean.images[0] = HttpServicePath.BasePicUrl + gambitDetailBean.images[0];
                 }
             }
-            Glide.with(this).load(gambitDetailBean.images[0]).apply(options1).into(bigPicImg);
+//            Glide.with(this).load(gambitDetailBean.images[0]).apply(options1).into(bigPicImg);
             GlideLoadUtils.getInstance().glideLoad(this,gambitDetailBean.images[0],options1,bigPicImg);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int[] imgSize = PicParameterUtil.getImgWH(gambitDetailBean.images[0]);
+                    if(null != imgSize) {
+                        if(imgSize[0]>imgSize[1]) { //宽大于高
+                            bigPicImg.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    bigPicImg.setLayoutParams(ViewProportion.getLinearParams(bigPicImg, 1.2));
+                                }
+                            });
+                        }else if(imgSize[0]<imgSize[1]) { //高大于宽
+                           bigPicImg.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    bigPicImg.setLayoutParams(ViewProportion.getLinearParams(bigPicImg, 0.75));
+                                }
+                            });
+                        }else {
+                            bigPicImg.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    bigPicImg.setLayoutParams(ViewProportion.getLinearParams(bigPicImg, 1));
+                                }
+                            });
+                        }
+                    }
+                }
+            }).start();
         }
         //多图
         if(gambitDetailBean.num >= 2) {
