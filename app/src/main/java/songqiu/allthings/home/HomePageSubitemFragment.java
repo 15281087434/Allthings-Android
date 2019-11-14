@@ -408,6 +408,13 @@ public class HomePageSubitemFragment extends BaseFragment {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void hidePrestrain(EventTags.HidePrestrain hidePrestrain) {
+        prestrainImg.setVisibility(View.GONE);
+        prestrainlookImg.setVisibility(View.GONE);
+    }
+
+
     public void getData(int page,boolean ringDown) {
         String url = HttpServicePath.BaseUrl+ tag;
         Map<String,String> map = new HashMap<>();

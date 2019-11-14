@@ -20,12 +20,16 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.adapter.BannerLooperAdapter;
@@ -151,7 +155,6 @@ public class HomePageChoicenessFragment extends BaseFragment {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            prestrainImg.setVisibility(View.GONE);
                             Gson gson = new Gson();
                             String data = gson.toJson(baseBean.data);
                             if (StringUtil.isEmpty(data)) return;
@@ -185,6 +188,10 @@ public class HomePageChoicenessFragment extends BaseFragment {
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void hidePrestrain(EventTags.HidePrestrain hidePrestrain) {
+        prestrainImg.setVisibility(View.GONE);
+    }
 
     public void getData(int page,boolean ringDown) {
         String url = HttpServicePath.BaseUrl+ tag;

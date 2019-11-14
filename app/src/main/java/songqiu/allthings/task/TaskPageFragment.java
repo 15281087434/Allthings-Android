@@ -70,6 +70,7 @@ import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.NetWorkUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
@@ -361,7 +362,6 @@ public class TaskPageFragment extends BaseFragment {
                         @Override
                         public void run() {
                             signList.clear();
-                            prestrainImg.setVisibility(View.GONE);
                             int dayOfWeek =  DateUtil.getDayOfWeek();
                             Gson gson = new Gson();
                             String data = gson.toJson(baseBean.data);
@@ -426,6 +426,11 @@ public class TaskPageFragment extends BaseFragment {
     }
 
     public void getTaskList() {
+        if (!NetWorkUtil.isNetworkConnected(activity)) {
+            ToastUtil.showToast(activity,"网络无连接，请检查网络！");
+            prestrainImg.setVisibility(View.GONE);
+            return;
+        }
         Map<String, String> map = new HashMap<>();
         OkHttp.post(activity,HttpServicePath.URL_TASKLISK, map, new RequestCallBack() {
             @Override
@@ -435,7 +440,6 @@ public class TaskPageFragment extends BaseFragment {
                         @Override
                         public void run() {
                             list.clear();
-                            prestrainImg.setVisibility(View.GONE);
                             Gson gson = new Gson();
                             String data = gson.toJson(baseBean.data);
                             if (StringUtil.isEmpty(data)) return;
@@ -555,6 +559,7 @@ public class TaskPageFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void noNetwork(EventTags.TaskNoNetwork noNetwork) {
+        prestrainImg.setVisibility(View.GONE);
         if (noNetwork.type) {
             layout.setVisibility(View.VISIBLE);
             emptyLayout.setVisibility(View.GONE);

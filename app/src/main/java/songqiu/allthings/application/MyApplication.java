@@ -44,6 +44,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import songqiu.allthings.R;
 import songqiu.allthings.util.GlideIBoxingMediaLoader;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.UCropIBoxingCrop;
@@ -174,6 +175,7 @@ public class MyApplication extends Application {
 
     private void getAndroidId() {
         andoridId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+//        LogUtil.i("andoridId："+andoridId);
     }
 
 

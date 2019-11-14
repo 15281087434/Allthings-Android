@@ -178,6 +178,11 @@ public class LookPageSubitemFragment extends BaseFragment {
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void hidePrestrain(EventTags.HidePrestrain hidePrestrain) {
+        prestrainImg.setVisibility(View.GONE);
+    }
+
     public void getData(int page,boolean ringDown) {
         Map<String,String> map = new HashMap<>();
         String url;

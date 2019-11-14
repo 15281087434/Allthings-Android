@@ -188,6 +188,11 @@ public class HomePageAttentionFragment extends BaseFragment {
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void hidePrestrain(EventTags.HidePrestrain hidePrestrain) {
+        prestrainImg.setVisibility(View.GONE);
+    }
+
 
     public void getData(int page,boolean ringDown) {
         String url = HttpServicePath.BaseUrl + tag;
@@ -202,7 +207,6 @@ public class HomePageAttentionFragment extends BaseFragment {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            prestrainImg.setVisibility(View.GONE);
                             Gson gson = new Gson();
                             String data = gson.toJson(baseBean.data);
                             List<HomeAttentionBean> homeAttentionList = gson.fromJson(data, new TypeToken<List<HomeAttentionBean>>() {

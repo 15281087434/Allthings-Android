@@ -347,6 +347,9 @@ public class OkHttp {
                 long duration = endTime-startTime;
                 LogUtil.i(requestPath+"====>"+duration+" "+ str);
                 if(str.contains("DOCTYPE")) {
+                    if(requestPath.substring(requestPath.length()-9,requestPath.length()).equals("/tasklist")) {
+                        EventBus.getDefault().post(new EventTags.TaskNoNetwork(true));
+                    }
                     if(requestPath.substring(requestPath.length()-9,requestPath.length()).equals("advertise")) {
                         EventBus.getDefault().post(new EventTags.Advertising());
                         return;
@@ -405,6 +408,7 @@ public class OkHttp {
 
     public static void post(final Context context, SmartRefreshLayout smartRefreshLayout,String requestPath, Map<String, String> params, final RequestCallBack listener) {
         if (!NetWorkUtil.isNetworkConnected(context)) {
+            EventBus.getDefault().post(new EventTags.HidePrestrain());
             ToastUtil.showToast(context,"网络无连接，请检查网络！");
             if (smartRefreshLayout != null) {
                 smartRefreshLayout.finishLoadmore();
@@ -462,6 +466,7 @@ public class OkHttp {
                     smartRefreshLayout.finishLoadmore();
                     smartRefreshLayout.finishRefresh();
                 }
+                EventBus.getDefault().post(new EventTags.HidePrestrain());
 //                Looper.prepare();
 //                Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
 //                Looper.loop();
@@ -473,6 +478,7 @@ public class OkHttp {
                     smartRefreshLayout.finishLoadmore();
                     smartRefreshLayout.finishRefresh();
                 }
+                EventBus.getDefault().post(new EventTags.HidePrestrain());
                 String str = response.body().string();
                 long endTime = System.currentTimeMillis();
                 long duration = endTime-startTime;

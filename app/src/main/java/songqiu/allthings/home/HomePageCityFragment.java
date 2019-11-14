@@ -233,6 +233,7 @@ public class HomePageCityFragment extends BaseFragment {
         });
     }
 
+
     public void getData(int page,String city,boolean ringDown) {
         String url = HttpServicePath.BaseUrl+ tag;
         Map<String,String> map = new HashMap<>();
@@ -247,7 +248,6 @@ public class HomePageCityFragment extends BaseFragment {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            prestrainImg.setVisibility(View.GONE);
                             Gson gson = new Gson();
                             String data = gson.toJson(baseBean.data);
                             List<HomeSubitemBean> classifyBeanList = gson.fromJson(data, new TypeToken<List<HomeSubitemBean>>() {}.getType());
@@ -293,6 +293,12 @@ public class HomePageCityFragment extends BaseFragment {
         String city = chooseCity.getCity();
         this.city = city;
         getData(pageNo,city,false);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void hidePrestrain(EventTags.HidePrestrain hidePrestrain) {
+        prestrainImg.setVisibility(View.GONE);
     }
 
 
