@@ -168,6 +168,9 @@
 -keep class songqiu.allthings.util.** { *; }
 -keep class songqiu.allthings.view.** { *; }
 -keep class songqiu.allthings.wxapi.** { *; }
+-keep class songqiu.allthings.http.** { *; }
+
+
 
 
 -dontwarn sun.misc.**
@@ -201,7 +204,6 @@
 -keep class com.squareup.** {
        *;
     }
-
 
 #---------------------------------第三方---------------------------------
 -keep class com.google.gson.** {*;}
