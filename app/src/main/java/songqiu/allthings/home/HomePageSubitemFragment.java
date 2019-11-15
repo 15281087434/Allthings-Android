@@ -484,6 +484,28 @@ public class HomePageSubitemFragment extends BaseFragment {
         adapter.notifyDataSetChanged();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshLook(EventTags.RefreshLook refreshLook) {
+        if(null == item || 0 == item.size()) return;
+        if(refreshLook.url.equals(HttpServicePath.URL_LIKE)) {
+            for(int i =0;i<item.size();i++) {
+                if(item.get(i).articleid == refreshLook.mid) {
+                    item.get(i).is_up = 1;
+                    item.get(i).up_num = item.get(i).up_num+1;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }else {
+            for(int i =0;i<item.size();i++) {
+                if(item.get(i).articleid == refreshLook.mid) {
+                    item.get(i).is_up = 0;
+                    item.get(i).up_num = item.get(i).up_num-1;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
     //点赞/取消点赞
     public void like(String url,int type,int mid,HomeSubitemBean homeSubitemBean,RecyclerView.ViewHolder viewHolder) {
         Map<String,String> map = new HashMap<>();

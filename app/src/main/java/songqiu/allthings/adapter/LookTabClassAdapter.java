@@ -338,6 +338,8 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
         return item.size();
     }
 
+
+
     @Override
     public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);

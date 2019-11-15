@@ -1,6 +1,8 @@
 package songqiu.allthings.Event;
 
 
+import android.support.v7.widget.RecyclerView;
+
 import songqiu.allthings.bean.EarningsBean;
 
 /*******
@@ -146,6 +148,30 @@ public class EventTags {
 
         public void setPosition(int position) {
             this.position = position;
+        }
+    }
+
+    public static class RefreshLook { //刷新视频列表
+        public String url;
+        public int mid;
+        public RefreshLook(String url,int mid) {
+            this.url = url;
+            this.mid = mid;
+        }
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public int getMid() {
+            return mid;
+        }
+
+        public void setMid(int mid) {
+            this.mid = mid;
         }
     }
 

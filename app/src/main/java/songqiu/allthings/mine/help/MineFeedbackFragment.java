@@ -26,6 +26,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import songqiu.allthings.R;
 import songqiu.allthings.adapter.MineFeedbackAdapter;
@@ -36,6 +37,8 @@ import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.MineFeedbackListener;
+import songqiu.allthings.login.LoginActivity;
+import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.VibratorUtil;
 
@@ -60,6 +63,8 @@ public class MineFeedbackFragment extends BaseFragment {
     TextView tvMessage;
     @BindView(R.id.emptyLayout)
     LinearLayout emptyLayout;
+    @BindView(R.id.loginLayout)
+    LinearLayout loginLayout;
 
     List<MineFeedbackBean> item;
     MineFeedbackAdapter adapter;
@@ -85,8 +90,16 @@ public class MineFeedbackFragment extends BaseFragment {
     @Override
     public void init() {
         initRecyc();
-        getFeedBack(pageNo,false);
+        if(CheckLogin.isLogin(activity)) {
+            loginLayout.setVisibility(View.GONE);
+            smartRefreshLayout.setVisibility(View.VISIBLE);
+            getFeedBack(pageNo,false);
+        }else {
+            loginLayout.setVisibility(View.VISIBLE);
+            smartRefreshLayout.setVisibility(View.GONE);
+        }
     }
+
 
     public void initRecyc() {
         item = new ArrayList<>();
@@ -162,6 +175,16 @@ public class MineFeedbackFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    @OnClick({R.id.loginTv})
+    public void onViewClick(View view) {
+        switch (view.getId()) {
+            case R.id.loginTv:
+                Intent intent = new Intent(activity, LoginActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 
 }

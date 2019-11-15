@@ -603,6 +603,7 @@ public class VideoDetailActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        EventBus.getDefault().post(new EventTags.RefreshLook(url,mid));
                         if (url.equals(HttpServicePath.URL_LIKE)) {
                             videoDetailBean.is_up = 1;
                             videoDetailBean.up_num = videoDetailBean.up_num + 1;

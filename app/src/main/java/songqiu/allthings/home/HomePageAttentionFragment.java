@@ -93,10 +93,6 @@ public class HomePageAttentionFragment extends BaseFragment {
     TextView tvMessage;
     @BindView(R.id.emptyLayout)
     LinearLayout emptyLayout;
-    @BindView(R.id.loginTv)
-    TextView loginTv;
-    @BindView(R.id.loginLayout)
-    LinearLayout loginLayout;
     @BindView(R.id.prestrainImg)
     ImageView prestrainImg;
 
@@ -458,7 +454,6 @@ public class HomePageAttentionFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void toLogin(EventTags.ToLogin toLogin) {
-        loginLayout.setVisibility(View.VISIBLE);
         smartRefreshLayout.setVisibility(View.GONE);
         prestrainImg.setVisibility(View.GONE);
     }
@@ -466,7 +461,6 @@ public class HomePageAttentionFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginSucceed(EventTags.LoginSucceed loginSucceed) {
         prestrainImg.setVisibility(View.GONE);
-        loginLayout.setVisibility(View.GONE);
         smartRefreshLayout.setVisibility(View.VISIBLE);
         pageNo = 1;
         getData(pageNo,false);
@@ -478,14 +472,14 @@ public class HomePageAttentionFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.loginTv})
-    public void onViewClick(View view) {
-        switch (view.getId()) {
-            case R.id.loginTv:
-                Intent intent = new Intent(activity, LoginActivity.class);
-                startActivity(intent);
-                break;
-        }
-    }
+//    @OnClick({R.id.loginTv})
+//    public void onViewClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.loginTv:
+//                Intent intent = new Intent(activity, LoginActivity.class);
+//                startActivity(intent);
+//                break;
+//        }
+//    }
 
 }

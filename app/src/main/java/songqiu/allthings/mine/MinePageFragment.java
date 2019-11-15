@@ -379,24 +379,28 @@ public class MinePageFragment extends BaseFragment {
                 break;
             case R.id.collectLayout:
                 if(ClickUtil.onClick()) {
-                    if(StringUtil.isEmpty(token)) {
-                        intent = new Intent(activity,LoginActivity.class);
-                        startActivity(intent);
-                    }else {
-                        intent = new Intent(activity,CollectActivity.class);
-                        startActivity(intent);
-                    }
+                    intent = new Intent(activity,CollectActivity.class);
+                    startActivity(intent);
+//                    if(StringUtil.isEmpty(token)) {
+//                        intent = new Intent(activity,LoginActivity.class);
+//                        startActivity(intent);
+//                    }else {
+//                        intent = new Intent(activity,CollectActivity.class);
+//                        startActivity(intent);
+//                    }
                 }
                 break;
             case R.id.attentionLayout:
                 if(ClickUtil.onClick()) {
-                    if(StringUtil.isEmpty(token)) {
-                        intent = new Intent(activity,LoginActivity.class);
-                        startActivity(intent);
-                    }else {
-                        intent = new Intent(activity,AttentionActivity.class);
-                        startActivity(intent);
-                    }
+                    intent = new Intent(activity,AttentionActivity.class);
+                    startActivity(intent);
+//                    if(StringUtil.isEmpty(token)) {
+//                        intent = new Intent(activity,LoginActivity.class);
+//                        startActivity(intent);
+//                    }else {
+//                        intent = new Intent(activity,AttentionActivity.class);
+//                        startActivity(intent);
+//                    }
                 }
                 break;
             case R.id.informImg:

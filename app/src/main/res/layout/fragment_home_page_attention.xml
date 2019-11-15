@@ -35,6 +35,6 @@
 
 
     <include layout="@layout/layout_empty_attention"/>
-    <include layout="@layout/layout_login_content"/>
+    <!--<include layout="@layout/layout_login_content"/>-->
 
 </LinearLayout>
