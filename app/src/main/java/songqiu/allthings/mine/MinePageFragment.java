@@ -57,9 +57,7 @@ import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.TokenManager;
-import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.videodetail.VideoDetailActivity;
-import songqiu.allthings.view.ProGrossCircleView;
 import songqiu.allthings.view.banner.ColorPointHintView;
 import songqiu.allthings.view.banner.RollPagerView;
 
@@ -381,26 +379,12 @@ public class MinePageFragment extends BaseFragment {
                 if(ClickUtil.onClick()) {
                     intent = new Intent(activity,CollectActivity.class);
                     startActivity(intent);
-//                    if(StringUtil.isEmpty(token)) {
-//                        intent = new Intent(activity,LoginActivity.class);
-//                        startActivity(intent);
-//                    }else {
-//                        intent = new Intent(activity,CollectActivity.class);
-//                        startActivity(intent);
-//                    }
                 }
                 break;
             case R.id.attentionLayout:
                 if(ClickUtil.onClick()) {
                     intent = new Intent(activity,AttentionActivity.class);
                     startActivity(intent);
-//                    if(StringUtil.isEmpty(token)) {
-//                        intent = new Intent(activity,LoginActivity.class);
-//                        startActivity(intent);
-//                    }else {
-//                        intent = new Intent(activity,AttentionActivity.class);
-//                        startActivity(intent);
-//                    }
                 }
                 break;
             case R.id.informImg:

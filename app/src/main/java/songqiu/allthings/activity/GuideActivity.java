@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -46,6 +47,7 @@ import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.iterface.DialogPermissionListener;
 import songqiu.allthings.iterface.DialogUploadVersionListener;
 import songqiu.allthings.util.LocationUtils;
 import songqiu.allthings.util.LogUtil;
@@ -55,6 +57,8 @@ import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.upload.UpdateManager;
+import songqiu.allthings.view.DialogPermission;
+import songqiu.allthings.view.DialogPrivacyExplain;
 import songqiu.allthings.view.DialogSign;
 import songqiu.allthings.view.DialogUploadVersion;
 
@@ -82,7 +86,13 @@ public class GuideActivity extends BaseActivity {
             EventBus.getDefault().register(this);
         }
         StatusBarUtils.with(GuideActivity.this).init().setStatusTextColorWhite(true, GuideActivity.this);
-        applyPermission();
+        boolean first = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.FIRST_ENTER_GUIDE,true);
+        if(first) {
+            SharedPreferencedUtils.setBoolean(this,SharedPreferencedUtils.FIRST_ENTER_GUIDE,false);
+            decideFirst();
+        }else {
+            applyPermission();
+        }
     }
 
     @Override
@@ -216,6 +226,21 @@ public class GuideActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
     }
 
+    public void decideFirst() {
+        //判断是否第一次进入应用
+            DialogPermission dialogPermission = new DialogPermission(this);
+            dialogPermission.setCanceledOnTouchOutside(false);
+            dialogPermission.setCancelable(false);
+            dialogPermission.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogPermission.show();
+            dialogPermission.setDialogPermissionListener(new DialogPermissionListener() {
+                @Override
+                public void sure() {
+                    applyPermission();
+                    dialogPermission.dismiss();
+                }
+            });
+    }
 
     public void applyPermission() {
         RxPermissions rxPermissions = new RxPermissions(this);

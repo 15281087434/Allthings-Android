@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/parentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/x_ui_px_90.0"
+                android:background="@drawable/white_around_radius">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户隐私政策说明"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/x_ui_px_30.0"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/x_ui_px_36.0"
+                    android:textColor="@color/bottom_tab_tv"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x_ui_px_40.0"
+                    android:layout_marginRight="@dimen/x_ui_px_40.0"
+                    android:layout_marginTop="@dimen/x_ui_px_20.0"
+                    android:textColor="@color/FF666666"
+                    android:textSize="@dimen/x_ui_px_32.0"
+                    android:lineSpacingExtra="@dimen/x_ui_px_12.0"
+                    android:text="本《隐私政策》旨在向你说明："/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x_ui_px_40.0"
+                android:layout_marginRight="@dimen/x_ui_px_40.0"
+                android:layout_marginTop="@dimen/x_ui_px_20.0"
+                android:textColor="@color/FF666666"
+                android:textSize="@dimen/x_ui_px_32.0"
+                android:lineSpacingExtra="@dimen/x_ui_px_8.0"
+                android:text="1. 在浏览推荐、发布内容、注册登录时，我们会收集部分必要的信息以提供服务。"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x_ui_px_40.0"
+                android:layout_marginRight="@dimen/x_ui_px_40.0"
+                android:layout_marginTop="@dimen/x_ui_px_20.0"
+                android:textColor="@color/FF666666"
+                android:textSize="@dimen/x_ui_px_32.0"
+                android:lineSpacingExtra="@dimen/x_ui_px_8.0"
+                android:text="2. 在功能及服务需要使用定位、照片、相机权限时，会明确提示并请求你的授权，我们不会在功能及服务不需要时而通过授权权限去收集信息。"/>
+
+            <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="@dimen/x_ui_px_40.0"
+                android:layout_marginRight="@dimen/x_ui_px_40.0"
+                android:layout_marginTop="@dimen/x_ui_px_20.0"
+                android:textColor="@color/FF666666"
+                android:textSize="@dimen/x_ui_px_32.0"
+                android:lineSpacingExtra="@dimen/x_ui_px_8.0"
+                android:text="3. 我们将严格保障你的个人信息安全，我们不会在未经过你同意的情况下，向第三方获取、共享及对外提供你的信息。"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/x_ui_px_20.0"
+                    android:layout_marginLeft="@dimen/x_ui_px_40.0"
+                    android:layout_marginRight="@dimen/x_ui_px_40.0">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="查看完整版"
+                        android:textSize="@dimen/x_ui_px_32.0"
+                        android:textColor="@color/bottom_tab_tv"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="《隐私政策》"
+                        android:textSize="@dimen/x_ui_px_32.0"
+                        android:textColor="@color/FF6FA4EB"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/knowTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_88.0"
+                    android:layout_marginLeft="@dimen/x_ui_px_140.0"
+                    android:layout_marginRight="@dimen/x_ui_px_140.0"
+                    android:layout_marginTop="@dimen/x_ui_px_40.0"
+                    android:layout_marginBottom="@dimen/x_ui_px_40.0"
+                    android:background="@mipmap/common_botton"
+                    android:text="我知道了"
+                    android:textColor="@color/FFFFFCFC"
+                    android:textSize="@dimen/x_ui_px_36.0"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/headImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_dialog_head"
+                android:layout_gravity="center_horizontal"
+                />
+        </FrameLayout>
+
+
+</LinearLayout>

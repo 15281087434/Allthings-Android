@@ -59,6 +59,7 @@ import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.view.DialogNewRedEnvelope;
+import songqiu.allthings.view.DialogPrivacyExplain;
 import songqiu.allthings.view.DialogSign;
 
 /*******
@@ -98,6 +99,7 @@ public class HomePageFragment extends BaseFragment {
     DialogNewRedEnvelope dialog;
 
     MainActivity activity;
+    DialogPrivacyExplain dialogPrivacyExplain;
 
     @Override
     public void onAttach(Context context) {
@@ -122,6 +124,7 @@ public class HomePageFragment extends BaseFragment {
         }
         getTabData();
         getNewRedSate();
+        decideFirst();
     }
 
     @Override
@@ -149,6 +152,7 @@ public class HomePageFragment extends BaseFragment {
                             NewRedStateBean newRedStateBean = gson.fromJson(data, NewRedStateBean.class);
                             if(null != newRedStateBean && newRedStateBean.is_red == 0) {
                                 initDialog();
+                                decideFirst();
                             }
                         }
                     });
@@ -335,7 +339,20 @@ public class HomePageFragment extends BaseFragment {
         });
     }
 
-
+    public void decideFirst() {
+        //判断是否第一次进入应用
+        boolean first = SharedPreferencedUtils.getBoolean(activity,SharedPreferencedUtils.FIRST_ENTER,true);
+        if(first) {
+            SharedPreferencedUtils.setBoolean(activity,SharedPreferencedUtils.FIRST_ENTER,false);
+            if(null == dialogPrivacyExplain) {
+                dialogPrivacyExplain = new DialogPrivacyExplain(activity);
+                dialogPrivacyExplain.setCanceledOnTouchOutside(false);
+                dialogPrivacyExplain.setCancelable(false);
+                dialogPrivacyExplain.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialogPrivacyExplain.show();
+            }
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void transmitCity(EventTags.TransmitCity transmitCity) {
