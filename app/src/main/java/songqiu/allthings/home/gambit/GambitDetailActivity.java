@@ -182,6 +182,7 @@ public class GambitDetailActivity extends BaseActivity {
         titleTv.setText("详情");
         initRecly();
         getData();
+        getReadlog();
         getComment(talkid, pageNo);
     }
 
@@ -512,6 +513,18 @@ public class GambitDetailActivity extends BaseActivity {
                         initUi(gambitDetailBean);
                     }
                 });
+            }
+        });
+    }
+
+    public void getReadlog() {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", 3 + "");
+        map.put("mid", talkid + "");
+        OkHttp.post(this, HttpServicePath.URL_MY_READLOG, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+
             }
         });
     }

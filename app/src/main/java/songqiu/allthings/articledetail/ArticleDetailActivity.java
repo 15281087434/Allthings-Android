@@ -286,6 +286,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         getRankArticle();
         getComment(articleid, pageNo);
         getAdvertise();
+        getReadlog();
+        getAddres();
         initBroadcastReceiver();
 
         boolean dayModel = SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true);
@@ -580,6 +582,29 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
         String[] imgs = WebViewJsUtil.returnImageUrlsFromHtml(articleDetailBean.content);
         contentWeb.addJavascriptInterface(new ImageJavascriptInterface(this,imgs), method);
+    }
+
+    public void getReadlog() {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", 1 + "");
+        map.put("mid", articleid + "");
+        OkHttp.post(this, HttpServicePath.URL_MY_READLOG, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+
+            }
+        });
+    }
+
+    public void getAddres() {
+        Map<String, String> map = new HashMap<>();
+        map.put("article_id", articleid + "");
+        OkHttp.post(this, HttpServicePath.URL_ADD_RES, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+
+            }
+        });
     }
 
     public void getAdvertise() {

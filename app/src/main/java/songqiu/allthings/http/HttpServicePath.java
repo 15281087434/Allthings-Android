@@ -221,4 +221,9 @@ public class HttpServicePath {
     //举报  //label:0=内容低俗，1=广告软文，2=政治敏感，3=色情低俗，4=违法信息，5=错误观念引导，6=人身攻击，7=涉嫌侵权，如：[1,3,4,5]   mid:内容id    type:1=文章，2=视频，3=话题，4=评论
     public static String URL_REPORT = BaseUrl+"report";
 
+    //添加阅读记录
+    public static String URL_MY_READLOG = BaseUrl+"my_readlog"; //type	是	int	类型,1=文章，2=视频，3=话题  mid	是	int	内容id
+
+    //添加推荐统计
+    public static String URL_ADD_RES = BaseUrl+"add_res";  //article_id	是	int	文章id
 }

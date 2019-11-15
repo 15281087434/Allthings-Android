@@ -248,6 +248,7 @@ public class VideoDetailActivity extends BaseActivity {
         getVoide();
         initBroadcastReceiver();
         getAdvertise();
+        getReadlog();
     }
 
     public void initBroadcastReceiver() {
@@ -449,6 +450,18 @@ public class VideoDetailActivity extends BaseActivity {
                         }
                     }
                 });
+            }
+        });
+    }
+
+    public void getReadlog() {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", 2 + "");
+        map.put("mid", articleid + "");
+        OkHttp.post(this, HttpServicePath.URL_MY_READLOG, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+
             }
         });
     }
