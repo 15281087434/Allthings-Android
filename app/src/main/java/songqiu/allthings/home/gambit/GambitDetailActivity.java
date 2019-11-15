@@ -377,7 +377,7 @@ public class GambitDetailActivity extends BaseActivity {
             }
             oks.setImageUrl(gambitDetailBean.images[0]);
         }else {
-            oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png");
+            oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
         }
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl(ShareUrl.getUrl(gambitDetailBean.id,3,1));

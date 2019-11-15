@@ -231,7 +231,7 @@ public class UserAllFragment extends BaseFragment {
             }
             oks.setImageUrl(item.get(position).photo);
         }else {
-            oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png");
+            oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
         }
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl(ShareUrl.getUrl(item.get(position).articleid,mType));

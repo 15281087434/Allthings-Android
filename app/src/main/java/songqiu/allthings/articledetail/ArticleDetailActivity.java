@@ -1,9 +1,12 @@
 package songqiu.allthings.articledetail;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -607,6 +610,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         });
     }
 
+    @SuppressLint("NewApi")
     public void getAdvertise() {
         Map<String, String> map = new HashMap<>();
         map.put("category", 5 + "");
@@ -643,10 +647,12 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                             } else { //广告视频
                                 videoView.setVisibility(View.VISIBLE);
                                 String path = advertiseBean.video_url;//
-                                HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(path).setImagePath(url).setSaveProgress(false).builder();
-                                VideoControl control = new VideoControl(ArticleDetailActivity.this);
-                                control.setInfo(info);
-                                videoView.setHeartVideoContent(control);
+                                if(!ArticleDetailActivity.this.isDestroyed()) {
+                                    HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(path).setImagePath(url).setSaveProgress(false).builder();
+                                    VideoControl control = new VideoControl(ArticleDetailActivity.this);
+                                    control.setInfo(info);
+                                    videoView.setHeartVideoContent(control);
+                                }
                                 if (5 == advertiseBean.change_type) { //大图无下载
                                     downloadLayout.setVisibility(View.GONE);
                                 }
@@ -1031,7 +1037,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             }
             oks.setImageUrl(articleDetailBean.photo);
         } else {
-            oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png");
+            oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
         }
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl(ShareUrl.getUrl(articleDetailBean.articleid, 1));

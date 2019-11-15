@@ -147,7 +147,7 @@ public class CommentWebViewActivity extends BaseActivity {
         sb.append("看看这个应用，可以边看文章边赚钱，当天提现哦，记得输我的邀请码~");
         sb.append(SharedPreferencedUtils.getString(this,"SYSINVITATIONCODE"));
         oks.setText(sb.toString());
-        oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png");
+        oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
         // url仅在微信（包括好友和朋友圈）中使用
         if(!StringUtil.isEmpty(SnsConstants.URL_DOWNLOAD)) {
             oks.setUrl(SnsConstants.URL_DOWNLOAD);
