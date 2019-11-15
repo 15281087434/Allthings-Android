@@ -262,21 +262,21 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
                         holder.bigPicImg.post(new Runnable() {
                             @Override
                             public void run() {
-                                holder.bigPicImg.setLayoutParams(ViewProportion.getLinearParams(holder.bigPicImg, 1.2));
+                                holder.bigPicImg.setLayoutParams(ViewProportion.getRelativeParams(holder.bigPicImg, 1.33));
                             }
                         });
                     }else if(imgSize[0]<imgSize[1]) { //高大于宽
                         holder.bigPicImg.post(new Runnable() {
                             @Override
                             public void run() {
-                                holder.bigPicImg.setLayoutParams(ViewProportion.getLinearParams(holder.bigPicImg, 0.75));
+                                holder.bigPicImg.setLayoutParams(ViewProportion.getRelativeParams(holder.bigPicImg, 0.7));
                             }
                         });
                     }else {
                         holder.bigPicImg.post(new Runnable() {
                             @Override
                             public void run() {
-                                holder.bigPicImg.setLayoutParams(ViewProportion.getLinearParams(holder.bigPicImg, 1));
+                                holder.bigPicImg.setLayoutParams(ViewProportion.getRelativeParams(holder.bigPicImg, 1));
                             }
                         });
                     }

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -117,6 +118,8 @@ public class GambitDetailActivity extends BaseActivity {
     TextView attentionTv;
     @BindView(R.id.contentTv)
     TextView contentTv;
+    @BindView(R.id.parentLayout)
+    PercentRelativeLayout parentLayout;
     @BindView(R.id.bigPicImg)
     ImageView bigPicImg;
     @BindView(R.id.gridView)
@@ -293,7 +296,7 @@ public class GambitDetailActivity extends BaseActivity {
 
         //大图
         if(gambitDetailBean.num == 1) {
-            bigPicImg.setVisibility(View.VISIBLE);
+            parentLayout.setVisibility(View.VISIBLE);
             RequestOptions options1 = new RequestOptions()
                     .error(R.mipmap.pic_default_zhengfangxing)
                     .placeholder(R.mipmap.pic_default_zhengfangxing);
@@ -313,21 +316,21 @@ public class GambitDetailActivity extends BaseActivity {
                             bigPicImg.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    bigPicImg.setLayoutParams(ViewProportion.getLinearParams(bigPicImg, 1.2));
+                                    bigPicImg.setLayoutParams(ViewProportion.getRelativeParams(bigPicImg, 1.33));
                                 }
                             });
                         }else if(imgSize[0]<imgSize[1]) { //高大于宽
                            bigPicImg.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    bigPicImg.setLayoutParams(ViewProportion.getLinearParams(bigPicImg, 0.75));
+                                    bigPicImg.setLayoutParams(ViewProportion.getRelativeParams(bigPicImg, 0.7));
                                 }
                             });
                         }else {
                             bigPicImg.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    bigPicImg.setLayoutParams(ViewProportion.getLinearParams(bigPicImg, 1));
+                                    bigPicImg.setLayoutParams(ViewProportion.getRelativeParams(bigPicImg, 1));
                                 }
                             });
                         }
