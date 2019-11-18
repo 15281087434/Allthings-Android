@@ -218,6 +218,9 @@ public class MinePageFragment extends BaseFragment {
         todayGoldTv.setText(String.valueOf(userCenterBean.today_coin));
         userName.setText(userCenterBean.user_nickname);
         userCode.setText("点击复制邀请码:"+userCenterBean.code);
+        if(StringUtil.isEmpty(SharedPreferencedUtils.getString(activity,"SYSINVITATIONCODE"))) {
+            SharedPreferencedUtils.setString(activity, "SYSINVITATIONCODE", userCenterBean.code);
+        }
          RequestOptions options = new RequestOptions()
                 .circleCrop().transforms(new GlideCircleTransform(activity))
                 .error(R.mipmap.head_default)
