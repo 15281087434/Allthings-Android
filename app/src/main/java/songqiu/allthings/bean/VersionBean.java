@@ -17,4 +17,6 @@ public class VersionBean {
     public int type; //升级方式 1=提示升级 2=强制升级
     public String content;
     public String url;
+    public String current_version;
+
 }

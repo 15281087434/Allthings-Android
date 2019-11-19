@@ -138,7 +138,7 @@ public class GuideActivity extends BaseActivity {
 
     public void initUploadVersionDialog(VersionBean versionBean) {
         if(null == versionBean) return;
-        String version = "V "+MyApplication.getInstance().versionName;
+        String version = "V "+versionBean.current_version;
         DialogUploadVersion dialog = new DialogUploadVersion(this,versionBean.content,version,versionBean.type);
         dialog.setCanceledOnTouchOutside(false);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -146,7 +146,7 @@ public class GuideActivity extends BaseActivity {
         dialog.setDialogUploadVersionListener(new DialogUploadVersionListener() {
             @Override
             public void toUpload() {
-             UpdateManager um = new UpdateManager();
+             UpdateManager um = new UpdateManager(versionBean.current_version);
              um.UpdateInfo(versionBean.url, GuideActivity.this);
             }
 

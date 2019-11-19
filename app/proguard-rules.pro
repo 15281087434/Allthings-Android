@@ -169,6 +169,9 @@
 -keep class songqiu.allthings.view.** { *; }
 -keep class songqiu.allthings.wxapi.** { *; }
 -keep class songqiu.allthings.http.** { *; }
+-keep class songqiu.allthings.service.** { *; }
+-keep class songqiu.allthings.util.upload.** { *; }
+
 
 
 
@@ -272,7 +275,9 @@
 -dontwarn com.squareup.okhttp3.**
 -keep class com.squareup.okhttp3.** { *;}
 -dontwarn okio.**
-
+## okhttp
+-dontwarn com.squareup.okhttp.**
+-keep class com.squareup.okhttp.{*;}
 
 
 #定位

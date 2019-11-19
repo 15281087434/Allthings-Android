@@ -57,6 +57,11 @@ public class UpdateManager implements ServiceConnection {
 
     private Dialog DownloadDialog;
     DownloadService downloadService;
+    String version;
+
+    public UpdateManager(String version) {
+        this.version = version;
+    }
 
     public static final String UPDATE_PROGRESS_ACTION = "qianxing.taojinke.DownloadService.Update";
     public static final String RESTART_DOANLOAD_ACTION = "qianxing.taojinke.DownloadService.Restart";
@@ -108,7 +113,7 @@ public class UpdateManager implements ServiceConnection {
         View v = inflater.inflate(R.layout.progress, null);
         mProgress = v.findViewById(R.id.progress);
         versionTv = v.findViewById(R.id.versionTv);
-        versionTv.setText("V "+ MyApplication.getInstance().versionName);
+        versionTv.setText("V "+ version);
         btn_switch = v.findViewById(R.id.btn_switch);
         btn_switch.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -108,7 +108,6 @@ public class DownloadTask {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                     fileSize = -1;
-
                     //出现异常时引导去浏览器下载
                     Intent intent = new Intent();
                     intent.setAction(RESTART_DOANLOAD_ACTION);
@@ -117,7 +116,6 @@ public class DownloadTask {
                 } catch (IOException e) {
                     e.printStackTrace();
                     fileSize = -1;
-
                     //出现异常时引导去浏览器下载
                     Intent intent = new Intent();
                     intent.setAction(RESTART_DOANLOAD_ACTION);

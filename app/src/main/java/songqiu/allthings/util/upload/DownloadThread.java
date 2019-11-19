@@ -27,7 +27,6 @@ public class DownloadThread extends Thread {
     private boolean finish = false; // 是否已经下载完成
     private int off;
 
-
     public boolean isFinish() {
         return finish;
     }
@@ -87,8 +86,8 @@ public class DownloadThread extends Thread {
 
                 is = conn.getInputStream();
                 int len;
-                byte[] bytes = new byte[2048];
 
+                byte[] bytes = new byte[5120];
                 while ((len = is.read(bytes, 0, bytes.length)) != -1) {
                     if (PAUSE == downstate) {
                         Log.d("DownloadThread", "PAUSE downloadInfo getThreadId = " + downloadInfo.getThreadId() + " ;getDownBlock = " + downloadInfo.getDownBlock());
@@ -98,8 +97,6 @@ public class DownloadThread extends Thread {
                     aaf.write(bytes, off, len);
 
                     downloadInfo.setDownBlock(downloadInfo.getDownBlock() + len);
-
-
                     Intent intent = new Intent();
                     intent.setAction(UPDATE_PROGRESS_ACTION);
                     intent.putExtra("progressLen", len);
