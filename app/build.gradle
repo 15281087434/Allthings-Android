@@ -108,6 +108,7 @@ MobSDK {
 
 
 dependencies {
+    implementation project(':heartvideolib')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
     implementation 'com.android.support:support-v4:27.0.0'
@@ -149,7 +150,7 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     implementation files('libs/AMap_Location_V4.7.0_20190708.jar')
-    implementation project(':heartvideolib')
+
     //微信com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     implementation 'com.zhy:okhttputils:2.6.2'

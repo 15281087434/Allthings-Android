@@ -76,7 +76,6 @@ public class MyApplication extends Application {
         return myApplication;
     }
 
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
