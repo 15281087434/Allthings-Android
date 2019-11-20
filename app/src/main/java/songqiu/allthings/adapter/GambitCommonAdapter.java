@@ -153,15 +153,7 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             holder.attentionTv.setText("已关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
         }
-        //举报图标
-        int mUserId = SharedPreferencedUtils.getInteger(context, "SYSUSERID", 0);
-        if (item.get(position).userid == mUserId) {
-            holder.reportImg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_cancel));
-            holder.attentionTv.setVisibility(View.GONE);
-        } else {
-            holder.reportImg.setImageDrawable(context.getResources().getDrawable(R.mipmap.item_inform));
-            holder.attentionTv.setVisibility(View.VISIBLE);
-        }
+
         //点赞 评论数
         holder.likeTv.setText(ShowNumUtil.showUnm(item.get(position).up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(item.get(position).comment_num));
@@ -172,6 +164,16 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             holder.likeImg.setImageResource(R.mipmap.item_like_pre);
             holder.likeTv.setTextColor(context.getResources().getColor(R.color.FFDE5C51));
         }
+        //如果是自己显示删除按钮，别人则显示关注 举报
+        int mUserId = SharedPreferencedUtils.getInteger(context, "SYSUSERID", 0);
+        if(item.get(position).userid == mUserId) { //自己
+            holder.otherLayout.setVisibility(View.GONE);
+            holder.myDeleteTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.otherLayout.setVisibility(View.VISIBLE);
+            holder.myDeleteTv.setVisibility(View.GONE);
+        }
+        holder.shareTv.setText(String.valueOf(item.get(position).share_num));
         //点赞、取消点赞
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,19 +200,31 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
                 }
             }
         });
-        //举报、删除
-        holder.reportLayout.setOnClickListener(new View.OnClickListener() {
+        //分享
+        holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
-                    if (item.get(position).userid == mUserId) { //删除
-                        gambitItemListener.delete(1, item.get(position).id);
-                    } else { //举报
-                        gambitItemListener.delete(2, item.get(position).id);
-                    }
+                    gambitItemListener.addShare(position);
                 }
             }
         });
+
+        //举报
+        holder.img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gambitItemListener.delete(2, item.get(position).id);
+            }
+        });
+        //删除
+         holder.myDeleteTv.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 gambitItemListener.delete(1, item.get(position).id);
+             }
+         });
+
         //去主页
         holder.userlayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -309,15 +323,7 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             holder.attentionTv.setText("已关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
         }
-        //举报图标
-        int mUserId = SharedPreferencedUtils.getInteger(context, "SYSUSERID", 0);
-        if (item.get(position).userid == mUserId) {
-            holder.reportImg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_cancel));
-            holder.attentionTv.setVisibility(View.GONE);
-        } else {
-            holder.reportImg.setImageDrawable(context.getResources().getDrawable(R.mipmap.item_inform));
-            holder.attentionTv.setVisibility(View.VISIBLE);
-        }
+
         //点赞 评论数
         holder.likeTv.setText(ShowNumUtil.showUnm(item.get(position).up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(item.get(position).comment_num));
@@ -328,6 +334,17 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             holder.likeImg.setImageResource(R.mipmap.item_like_pre);
             holder.likeTv.setTextColor(context.getResources().getColor(R.color.FFDE5C51));
         }
+
+        //如果是自己显示删除按钮，别人则显示关注 举报
+        int mUserId = SharedPreferencedUtils.getInteger(context, "SYSUSERID", 0);
+        if(item.get(position).userid == mUserId) { //自己
+            holder.otherLayout.setVisibility(View.GONE);
+            holder.myDeleteTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.otherLayout.setVisibility(View.VISIBLE);
+            holder.myDeleteTv.setVisibility(View.GONE);
+        }
+        holder.shareTv.setText(String.valueOf(item.get(position).share_num));
         //点赞、取消点赞
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -341,6 +358,7 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
                 }
             }
         });
+
         //关注、取消关注
         holder.attentionTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -354,17 +372,29 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
                 }
             }
         });
-        //举报、删除
-        holder.reportLayout.setOnClickListener(new View.OnClickListener() {
+
+        //分享
+        holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
-                    if (item.get(position).userid == mUserId) { //删除
-                        gambitItemListener.delete(1, item.get(position).id);
-                    } else { //举报
-                        gambitItemListener.delete(2, item.get(position).id);
-                    }
+                    gambitItemListener.addShare(position);
                 }
+            }
+        });
+
+        //举报
+        holder.img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gambitItemListener.delete(2, item.get(position).id);
+            }
+        });
+        //删除
+        holder.myDeleteTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gambitItemListener.delete(1, item.get(position).id);
             }
         });
         //去主页
@@ -449,15 +479,7 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             holder.attentionTv.setText("已关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
         }
-        //举报图标
-        int mUserId = SharedPreferencedUtils.getInteger(context, "SYSUSERID", 0);
-        if (item.get(position).userid == mUserId) {
-            holder.reportImg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_cancel));
-            holder.attentionTv.setVisibility(View.GONE);
-        } else {
-            holder.reportImg.setImageDrawable(context.getResources().getDrawable(R.mipmap.item_inform));
-            holder.attentionTv.setVisibility(View.VISIBLE);
-        }
+
         //点赞 评论数
         holder.likeTv.setText(ShowNumUtil.showUnm(item.get(position).up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(item.get(position).comment_num));
@@ -468,6 +490,17 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             holder.likeImg.setImageResource(R.mipmap.item_like_pre);
             holder.likeTv.setTextColor(context.getResources().getColor(R.color.FFDE5C51));
         }
+
+        //如果是自己显示删除按钮，别人则显示关注 举报
+        int mUserId = SharedPreferencedUtils.getInteger(context, "SYSUSERID", 0);
+        if(item.get(position).userid == mUserId) { //自己
+            holder.otherLayout.setVisibility(View.GONE);
+            holder.myDeleteTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.otherLayout.setVisibility(View.VISIBLE);
+            holder.myDeleteTv.setVisibility(View.GONE);
+        }
+        holder.shareTv.setText(String.valueOf(item.get(position).share_num));
         //点赞、取消点赞
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -494,19 +527,32 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
                 }
             }
         });
-        //举报、删除
-        holder.reportLayout.setOnClickListener(new View.OnClickListener() {
+
+        //分享
+        holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
-                    if (item.get(position).userid == mUserId) { //删除
-                        gambitItemListener.delete(1, item.get(position).id);
-                    } else { //举报
-                        gambitItemListener.delete(2, item.get(position).id);
-                    }
+                    gambitItemListener.addShare(position);
                 }
             }
         });
+
+        //举报
+        holder.img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gambitItemListener.delete(2, item.get(position).id);
+            }
+        });
+        //删除
+        holder.myDeleteTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gambitItemListener.delete(1, item.get(position).id);
+            }
+        });
+
         //去主页
         holder.userlayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -558,10 +604,16 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
         TextView commentTv;
-        @BindView(R.id.reportImg)
-        ImageView reportImg;
-        @BindView(R.id.reportLayout)
-        LinearLayout reportLayout;
+        @BindView(R.id.otherLayout)
+        LinearLayout otherLayout;
+        @BindView(R.id.img)
+        ImageView img;
+        @BindView(R.id.myDeleteTv)
+        TextView myDeleteTv;
+        @BindView(R.id.shareLayout)
+        LinearLayout shareLayout;
+        @BindView(R.id.shareTv)
+        TextView shareTv;
 
         public NoPicViewholder(View itemView) {
             super(itemView);
@@ -592,12 +644,18 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
         TextView commentTv;
-        @BindView(R.id.reportImg)
-        ImageView reportImg;
-        @BindView(R.id.reportLayout)
-        LinearLayout reportLayout;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.otherLayout)
+        LinearLayout otherLayout;
+        @BindView(R.id.img)
+        ImageView img;
+        @BindView(R.id.myDeleteTv)
+        TextView myDeleteTv;
+        @BindView(R.id.shareLayout)
+        LinearLayout shareLayout;
+        @BindView(R.id.shareTv)
+        TextView shareTv;
 
         public BigPicViewholder(View itemView) {
             super(itemView);
@@ -628,12 +686,18 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
         TextView commentTv;
-        @BindView(R.id.reportImg)
-        ImageView reportImg;
-        @BindView(R.id.reportLayout)
-        LinearLayout reportLayout;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.otherLayout)
+        LinearLayout otherLayout;
+        @BindView(R.id.img)
+        ImageView img;
+        @BindView(R.id.myDeleteTv)
+        TextView myDeleteTv;
+        @BindView(R.id.shareLayout)
+        LinearLayout shareLayout;
+        @BindView(R.id.shareTv)
+        TextView shareTv;
 
         public MoreViewholder(View itemView) {
             super(itemView);

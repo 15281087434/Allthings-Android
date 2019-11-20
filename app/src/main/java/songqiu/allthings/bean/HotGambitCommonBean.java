@@ -33,4 +33,5 @@ public class HotGambitCommonBean {
     public int num; //0、无图  1、大图 2、多图
     public int is_follow;
     public int is_up;
+    public int share_num; //分享数
 }

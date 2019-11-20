@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 27
         versionCode 201901118
-        versionName "1.0.0"
+        versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
@@ -46,8 +46,8 @@ android {
             signingConfig signingConfigs.keyStore //设置签名文件
         }
         release {
-            minifyEnabled false //混淆打包
-            shrinkResources false  // 移除无用的resource文件
+            minifyEnabled true //混淆打包
+            shrinkResources true  // 移除无用的resource文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.keyStore //设置签名文件
         }

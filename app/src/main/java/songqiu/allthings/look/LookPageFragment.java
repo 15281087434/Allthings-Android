@@ -176,7 +176,7 @@ public class LookPageFragment extends BaseFragment {
         }
         LookTableViewAdapter viewAdapter = new LookTableViewAdapter(getChildFragmentManager(), mFragments, list);
         viewPager.setAdapter(viewAdapter);
-        viewPager.setOffscreenPageLimit(list.size());
+        viewPager.setOffscreenPageLimit(0);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

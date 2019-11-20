@@ -85,7 +85,22 @@
                         android:textSize="@dimen/x_ui_px_24.0"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+                        android:layout_marginRight="@dimen/x_ui_px_30.0"
+                        />
+
+                    <TextView
+                        android:id="@+id/deleteTv"
+                        android:layout_width="@dimen/x_ui_px_116.0"
+                        android:layout_height="@dimen/x_ui_px_56.0"
+                        android:background="@drawable/rectangle_common_delete"
+                        android:gravity="center"
+                        android:text="删除"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/x_ui_px_24.0"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/x_ui_px_30.0"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
@@ -132,78 +147,11 @@
                     android:visibility="gone">
                 </songqiu.allthings.view.GridViewInScroll>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/x_ui_px_120.0"
-                    android:layout_marginLeft="@dimen/x_ui_px_20.0"
-                    android:layout_marginRight="@dimen/x_ui_px_20.0">
-
-                    <LinearLayout
-                        android:id="@+id/likeLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/x_ui_px_10.0"
-                        android:layout_centerVertical="true">
-                        <ImageView
-                            android:id="@+id/likeImg"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/item_like"/>
-                        <TextView
-                            android:id="@+id/likeTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="@dimen/x_ui_px_28.0"
-                            android:textColor="@color/FF666666"
-                            android:layout_marginLeft="@dimen/x_ui_px_10.0"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_centerVertical="true">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/home_comment"/>
-                        <TextView
-                            android:id="@+id/commentTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="@dimen/x_ui_px_28.0"
-                            android:textColor="@color/FF666666"
-                            android:layout_marginLeft="@dimen/x_ui_px_10.0"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/reportLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:padding="@dimen/x_ui_px_10.0"
-                        android:layout_centerVertical="true"
-                        >
-                        <ImageView
-                            android:id="@+id/reportImg"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/item_inform"/>
-                    </LinearLayout>
-
-                </RelativeLayout>
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x_ui_px_12.0"
-                    android:background="@color/line_color"/>
+                    android:background="@color/line_color"
+                    android:layout_marginTop="@dimen/x_ui_px_60.0"/>
 
                 <!--评论-->
                 <LinearLayout
@@ -302,24 +250,32 @@
 
 
         <ImageView
+            android:id="@+id/likeImg"
+            android:layout_width="@dimen/x_ui_px_50.0"
+            android:layout_height="@dimen/x_ui_px_44.0"
+            android:src="@mipmap/item_like"
+            android:layout_marginLeft="@dimen/x_ui_px_38.0"/>
+
+
+        <ImageView
             android:id="@+id/lookCommentImg"
             android:layout_width="@dimen/x_ui_px_50.0"
             android:layout_height="@dimen/x_ui_px_44.0"
-            android:layout_marginLeft="@dimen/x_ui_px_56.0"
+            android:layout_marginLeft="@dimen/x_ui_px_35.0"
             android:src="@mipmap/item_comment" />
 
         <ImageView
             android:id="@+id/collectImg"
             android:layout_width="@dimen/x_ui_px_50.0"
             android:layout_height="@dimen/x_ui_px_46.0"
-            android:layout_marginLeft="@dimen/x_ui_px_55.0"
+            android:layout_marginLeft="@dimen/x_ui_px_35.0"
             android:src="@mipmap/item_collect" />
 
         <ImageView
             android:id="@+id/shareImg"
             android:layout_width="@dimen/x_ui_px_50.0"
             android:layout_height="@dimen/x_ui_px_44.0"
-            android:layout_marginLeft="@dimen/x_ui_px_55.0"
+            android:layout_marginLeft="@dimen/x_ui_px_35.0"
             android:src="@mipmap/item_share"
             android:layout_marginRight="@dimen/x_ui_px_30.0"/>
 

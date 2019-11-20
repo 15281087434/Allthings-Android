@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mob.MobSDK;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -25,6 +27,10 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.tencent.qq.QQ;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.MainActivity;
@@ -49,15 +55,21 @@ import songqiu.allthings.iterface.GambitItemListener;
 import songqiu.allthings.iterface.HomeHotGambitListener;
 import songqiu.allthings.iterface.PhotoViewListener;
 import songqiu.allthings.iterface.TaskSignListener;
+import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.login.LoginActivity;
 import songqiu.allthings.photoview.PhotoViewActivity;
 import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.ClickUtil;
+import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
+import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.TokenManager;
 import songqiu.allthings.util.WindowUtil;
+import songqiu.allthings.util.theme.ShareUrl;
 import songqiu.allthings.view.ReportPopupWindows;
+import songqiu.allthings.view.SharePopupWindows;
 import songqiu.allthings.view.banner.ColorPointHintView;
 import songqiu.allthings.view.banner.RollPagerView;
 
@@ -72,6 +84,9 @@ import songqiu.allthings.view.banner.RollPagerView;
  ********/
 public class HomePageGambitFragment extends BaseFragment {
 
+
+    @BindView(R.id.line)
+    TextView line;
     @BindView(R.id.reyclerView)
     RecyclerView reyclerView;
 
@@ -196,24 +211,30 @@ public class HomePageGambitFragment extends BaseFragment {
 
         newGambitAdapter.setGambitItemListener(new GambitItemListener() {
             @Override
-            public void addLike(String url, int type, int mid) {
+            public void addLike(String url, int type, int mid) { //点赞
                 like(url,type,mid);
             }
 
             @Override
-            public void addFollow(int parentid,int type) {
+            public void addFollow(int parentid,int type) { //关注
                 follow(parentid,type);
             }
 
             @Override
-            public void delete(int type,int talk_id) {
+            public void delete(int type,int talk_id) { //举报或者删除
                 if(1==type) {//删除
                     delMyselfGambit(talk_id);
                 }else {//举报
                     showReportWindow(talk_id,3);
                 }
             }
+
+            @Override
+            public void addShare(int position) { //分享
+                showShareWindow(0,position);
+            }
         });
+
         //浏览图片
         newGambitAdapter.setPhotoViewListener(new PhotoViewListener() {
             @Override
@@ -234,6 +255,107 @@ public class HomePageGambitFragment extends BaseFragment {
     public void toGambitRefresh(EventTags.GambitRefresh gambitRefresh) {
         getHotData();
         getFriendsData();
+    }
+
+    //分享弹窗
+    public void showShareWindow(int type,int position) {
+        SharePopupWindows rw = new SharePopupWindows(activity,type,position);
+        WindowUtil.windowDeploy(activity,rw,line);
+        rw.setWindowShareListener(new WindowShareListener() {
+            @Override
+            public void qqShare(int positon) {
+                if(null == newList || 0 == newList.size()) return;
+                showShare(QQ.NAME,position);
+                totalShare(3,newList.get(position).id);
+                rw.dismiss();
+            }
+
+            @Override
+            public void wechatShare(int positon) {
+                if(null == newList || 0 == newList.size()) return;
+                showShare(Wechat.NAME,position);
+                totalShare(3,newList.get(position).id);
+                rw.dismiss();
+            }
+
+            @Override
+            public void wechatFriendShare(int positon) {
+                if(null == newList || 0 == newList.size()) return;
+                showShare(WechatMoments.NAME,position);
+                totalShare(3,newList.get(position).id);
+                rw.dismiss();
+            }
+
+            @Override
+            public void link(int position) {
+                if(null == newList || 0 == newList.size()) return;
+                String link =  ShareUrl.getUrl(newList.get(position).id,3,1);
+                CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(activity,link);
+                copyButtonLibrary.init(link);
+                ToastUtil.showToast(activity,"复制成功!");
+            }
+
+            @Override
+            public void report() {
+                if(null == newList || 0 == newList.size()) return;
+                showReportWindow(newList.get(position).id,3);
+            }
+
+            @Override
+            public void daytime() {
+
+            }
+
+            @Override
+            public void night() {
+                boolean dayModel = SharedPreferencedUtils.getBoolean(activity,SharedPreferencedUtils.dayModel,true);
+                if(dayModel) {
+                    SharedPreferencedUtils.setBoolean(activity,SharedPreferencedUtils.dayModel,false);
+                    EventBus.getDefault().post(new EventTags.DayMoulde(false));
+                }else {
+                    SharedPreferencedUtils.setBoolean(activity,SharedPreferencedUtils.dayModel,true);
+                    EventBus.getDefault().post(new EventTags.DayMoulde(true));
+                }
+            }
+        });
+    }
+
+    private void showShare(String platform,int position) {
+        final OnekeyShare oks = new OnekeyShare();
+        //指定分享的平台，如果为空，还是会调用九宫格的平台列表界面
+        if (platform != null) {
+            oks.setPlatform(platform);
+        }
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        oks.setTitle(newList.get(position).user_nickname);
+        // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
+        oks.setTitleUrl(ShareUrl.getUrl(newList.get(position).id,3,1));
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText(newList.get(position).descriptions);
+        if(null != newList.get(position).images && 0!=newList.get(position).images.length) {
+            if(!StringUtil.isEmpty(newList.get(position).images[0])) {
+                if(!newList.get(position).images[0].contains("http")) {
+                    newList.get(position).images[0] = HttpServicePath.BasePicUrl + newList.get(position).images[0];
+                }
+                oks.setImageUrl(newList.get(position).images[0]);
+            }else {
+                oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
+            }
+        }else {
+            oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
+        }
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl(ShareUrl.getUrl(newList.get(position).id,3,1));
+        //启动分享
+        oks.show(MobSDK.getContext());
+        shareRefresh(position);
+    }
+
+    public void shareRefresh(int position) {
+        if(null != newList && 0!=newList.size()) {
+            newList.get(position).share_num = newList.get(position).share_num+1;
+        }
+        newGambitAdapter.notifyDataSetChanged();
     }
 
     //举报弹窗
@@ -511,6 +633,18 @@ public class HomePageGambitFragment extends BaseFragment {
                 }
                 break;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void loginSucceed(EventTags.LoginSucceed loginSucceed) {
+        getHotData();
+        getFriendsData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void toLogin(EventTags.ToLogin toLogin) {
+        getHotData();
+        getFriendsData();
     }
 
     @Override

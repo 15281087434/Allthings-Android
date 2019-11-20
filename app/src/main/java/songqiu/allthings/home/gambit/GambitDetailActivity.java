@@ -116,6 +116,8 @@ public class GambitDetailActivity extends BaseActivity {
     RelativeLayout layout;
     @BindView(R.id.attentionTv)
     TextView attentionTv;
+    @BindView(R.id.deleteTv)
+    TextView deleteTv;
     @BindView(R.id.contentTv)
     TextView contentTv;
     @BindView(R.id.parentLayout)
@@ -126,16 +128,6 @@ public class GambitDetailActivity extends BaseActivity {
     GridViewInScroll gridView;
     @BindView(R.id.likeImg)
     ImageView likeImg;
-    @BindView(R.id.likeTv)
-    TextView likeTv;
-    @BindView(R.id.likeLayout)
-    LinearLayout likeLayout;
-    @BindView(R.id.commentTv)
-    TextView commentTv;
-    @BindView(R.id.reportImg)
-    ImageView reportImg;
-    @BindView(R.id.reportLayout)
-    LinearLayout reportLayout;
     @BindView(R.id.commentNumTv)
     TextView commentNumTv;
     @BindView(R.id.commentRecycl)
@@ -272,14 +264,11 @@ public class GambitDetailActivity extends BaseActivity {
             attentionTv.setText("已关注");
             attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
         }
-        likeTv.setText(ShowNumUtil.showUnm(gambitDetailBean.up_num));
         commentNumTv.setText(ShowNumUtil.showUnm(gambitDetailBean.comment_num));
         if (0 == gambitDetailBean.is_up) {
             likeImg.setImageResource(R.mipmap.item_like);
-            likeTv.setTextColor(getResources().getColor(R.color.FF666666));
         } else {
             likeImg.setImageResource(R.mipmap.item_like_pre);
-            likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
         }
         if (0 == gambitDetailBean.is_collect) {
             collectImg.setImageResource(R.mipmap.item_collect);
@@ -288,10 +277,10 @@ public class GambitDetailActivity extends BaseActivity {
         }
         //举报图标
         if (gambitDetailBean.userid == mUserId) {
-            reportImg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_cancel));
+            deleteTv.setVisibility(View.VISIBLE);
             attentionTv.setVisibility(View.GONE);
         } else {
-            reportImg.setImageDrawable(getResources().getDrawable(R.mipmap.item_inform));
+            deleteTv.setVisibility(View.GONE);
             attentionTv.setVisibility(View.VISIBLE);
         }
 
@@ -610,14 +599,10 @@ public class GambitDetailActivity extends BaseActivity {
                         if(url.equals(HttpServicePath.URL_LIKE)) {
                             gambitDetailBean.is_up = 1;
                             gambitDetailBean.up_num = gambitDetailBean.up_num + 1;
-                            likeTv.setText(String.valueOf(gambitDetailBean.up_num));
-                            likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
                             likeImg.setImageResource(R.mipmap.item_like_pre);
                         }else {
                             gambitDetailBean.is_up = 0;
                             gambitDetailBean.up_num = gambitDetailBean.up_num - 1;
-                            likeTv.setText(String.valueOf(gambitDetailBean.up_num));
-                            likeTv.setTextColor(getResources().getColor(R.color.FF666666));
                             likeImg.setImageResource(R.mipmap.item_like);
                         }
                     }
@@ -747,7 +732,7 @@ public class GambitDetailActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.backImg,R.id.attentionTv,R.id.likeLayout,R.id.reportLayout,R.id.layout,R.id.showEdit,R.id.collectImg,R.id.shareImg,R.id.lookCommentImg,
+    @OnClick({R.id.backImg,R.id.attentionTv,R.id.likeImg,R.id.layout,R.id.deleteTv,R.id.showEdit,R.id.collectImg,R.id.shareImg,R.id.lookCommentImg,
                 R.id.bigPicImg})
     public void onViewClick(View view) {
         switch (view.getId()) {
@@ -762,7 +747,7 @@ public class GambitDetailActivity extends BaseActivity {
                     addFollow(gambitDetailBean.userid, 2);
                 }
                 break;
-            case R.id.likeLayout:
+            case R.id.likeImg:
                 if (null == gambitDetailBean) return;
                 if (0 == gambitDetailBean.is_up) {//去点赞
                     addLike(HttpServicePath.URL_LIKE, 3, gambitDetailBean.id);
@@ -770,12 +755,10 @@ public class GambitDetailActivity extends BaseActivity {
                     addLike(HttpServicePath.URL_NO_LIKE, 3, gambitDetailBean.id);
                 }
                 break;
-            case R.id.reportLayout:
+            case R.id.deleteTv:
                 if(null == gambitDetailBean) return;
                 if (gambitDetailBean.userid == mUserId) {
                     delMyselfGambit(talkid);
-                }else {
-                    showReportWindow(gambitDetailBean.id,3);
                 }
                 break;
             case R.id.layout:

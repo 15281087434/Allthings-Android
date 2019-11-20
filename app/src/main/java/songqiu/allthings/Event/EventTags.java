@@ -218,6 +218,21 @@ public class EventTags {
 
     }
 
+    public static class DeleteItemById {
+        public int articleid;
+        public DeleteItemById(int articleid) {
+            this.articleid = articleid;
+        }
+
+        public int getId() {
+            return articleid;
+        }
+
+        public void setId(int articleid) {
+            this.articleid = articleid;
+        }
+    }
+
     public static class ToBaindPhone {
         public int type;
         public ToBaindPhone(int type) {

@@ -115,7 +115,7 @@ public class MyApplication extends Application {
         //推送
         initCloudChannel(getApplicationContext());
         //bugly
-        CrashReport.initCrashReport(getApplicationContext(), "8283ddee60", false);
+//        CrashReport.initCrashReport(getApplicationContext(), "8283ddee60", false);
     }
 
 

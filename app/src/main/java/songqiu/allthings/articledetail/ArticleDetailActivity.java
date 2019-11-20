@@ -1215,9 +1215,10 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
     public void doDeletel(int bid) {
         if(null == articleDetailBean) return;
-        if(CheckLogin.isLogin(this)) {
-            unLike(bid,articleDetailBean.articleid,1);
-        }
+        unLike(bid,articleDetailBean.articleid,1);
+        //发送通知让列表删除对应item
+        EventBus.getDefault().post(new EventTags.DeleteItemById(articleDetailBean.articleid));
+        ToastUtil.showToast(this,"将减少推荐类似内容");
     }
 
     public void initDialog() {

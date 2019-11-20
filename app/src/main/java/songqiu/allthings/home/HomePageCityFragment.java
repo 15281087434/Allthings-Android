@@ -191,15 +191,14 @@ public class HomePageCityFragment extends BaseFragment {
 
 
     public void doDeletel(int position,int bid,int mid) {
-        if(CheckLogin.isLogin(activity)) {
-            if(1 == item.get(position).type) {
-                unLike(bid,mid,1);
-            }else {
-                unLike(bid,mid,2);
-            }
+        if(1 == item.get(position).type) {
+            unLike(bid,mid,1);
+        }else {
+            unLike(bid,mid,2);
         }
         item.remove(position);
         adapter.notifyDataSetChanged();
+        ToastUtil.showToast(activity,"将减少推荐类似内容");
     }
 
     public void initDialog(int position) {
@@ -301,6 +300,16 @@ public class HomePageCityFragment extends BaseFragment {
         prestrainImg.setVisibility(View.GONE);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void toDeleteItemById(EventTags.DeleteItemById deleteItemById) {
+        if(null == item || 0 == item.size()) return;
+        for(int i = 0;i<item.size();i++) {
+            if(item.get(i).articleid == deleteItemById.getId()) {
+                item.remove(i);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void attention(EventTags.Attention attention) {

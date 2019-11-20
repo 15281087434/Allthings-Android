@@ -108,7 +108,6 @@ public class DialogDelete extends Dialog{
             public void onClick(View view) {
                 dismiss();
                 dialogDeleteListener.delete1();
-                showSuccese("操作成功");
             }
         });
         LinearLayout layout2 = view.findViewById(R.id.layout2);
@@ -117,7 +116,6 @@ public class DialogDelete extends Dialog{
             public void onClick(View view) {
                 dismiss();
                 dialogDeleteListener.delete2();
-                showSuccese("操作成功");
             }
         });
         LinearLayout layout3 = view.findViewById(R.id.layout3);
@@ -126,7 +124,6 @@ public class DialogDelete extends Dialog{
             public void onClick(View view) {
                 dismiss();
                 dialogDeleteListener.delete3();
-                showSuccese("操作成功");
             }
         });
 

@@ -240,6 +240,11 @@ public class HotGambitDetailActivity extends BaseActivity{
                     showReportWindow(talk_id,4);
                 }
             }
+
+            @Override
+            public void addShare(int position) {
+                showShareWindow(0,position,3);
+            }
         });
 
         newGambitAdapter.setPhotoViewListener(new PhotoViewListener() {
@@ -272,6 +277,11 @@ public class HotGambitDetailActivity extends BaseActivity{
                 }else {//举报
                     showReportWindow(talk_id,4);
                 }
+            }
+
+            @Override
+            public void addShare(int position) {
+                showShareWindow(0,position,2);
             }
         });
 
@@ -314,69 +324,181 @@ public class HotGambitDetailActivity extends BaseActivity{
         GlideLoadUtils.getInstance().glideLoad(this,hotGambitDetailBean.photo,options,imgView);
     }
 
-    private void showShare(String platform,int position) {
+    private void showShare(String platform,int position,int shareType) {
         final OnekeyShare oks = new OnekeyShare();
         //指定分享的平台，如果为空，还是会调用九宫格的平台列表界面
         if (platform != null) {
             oks.setPlatform(platform);
         }
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(hotGambitDetailBean.title);
-        // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
-        oks.setTitleUrl(ShareUrl.getUrl(hotGambitDetailBean.id,3));
-        // text是分享文本，所有平台都需要这个字段
-        oks.setText(hotGambitDetailBean.descriptions);
-        if(!StringUtil.isEmpty(hotGambitDetailBean.photo)) {
-            if(!hotGambitDetailBean.photo.contains("http")) {
+        if(1==shareType) {
+            // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+            oks.setTitle(hotGambitDetailBean.title);
+            // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
+            oks.setTitleUrl(ShareUrl.getUrl(hotGambitDetailBean.id,3));
+            // text是分享文本，所有平台都需要这个字段
+            oks.setText(hotGambitDetailBean.descriptions);
+            if(!StringUtil.isEmpty(hotGambitDetailBean.photo)) {
                 if(!hotGambitDetailBean.photo.contains("http")) {
-                    hotGambitDetailBean.photo = HttpServicePath.BasePicUrl + hotGambitDetailBean.photo;
+                    if(!hotGambitDetailBean.photo.contains("http")) {
+                        hotGambitDetailBean.photo = HttpServicePath.BasePicUrl + hotGambitDetailBean.photo;
+                    }
                 }
+                oks.setImageUrl(hotGambitDetailBean.photo);
+            }else {
+                oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
             }
-            oks.setImageUrl(hotGambitDetailBean.photo);
-        }else {
-            oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
+            // url仅在微信（包括好友和朋友圈）中使用
+            oks.setUrl(ShareUrl.getUrl(hotGambitDetailBean.id,3));
+        }else if(2==shareType) {
+            // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+            oks.setTitle(hotList.get(position).user_nickname);
+            // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
+            oks.setTitleUrl(ShareUrl.getUrl(hotList.get(position).id,3,1));
+            // text是分享文本，所有平台都需要这个字段
+            oks.setText(hotList.get(position).descriptions);
+            if(null!=hotList.get(position).images && 0 !=hotList.get(position).images.length) {
+                if(!StringUtil.isEmpty(hotList.get(position).images[0])) {
+                    if(!hotList.get(position).images[0].contains("http")) {
+                        hotList.get(position).images[0] = HttpServicePath.BasePicUrl + hotList.get(position).images[0];
+                    }
+                    oks.setImageUrl(hotList.get(position).images[0]);
+                }else {
+                    oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
+                }
+            }else {
+                oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
+            }
+            // url仅在微信（包括好友和朋友圈）中使用
+            oks.setUrl(ShareUrl.getUrl(hotList.get(position).id,3));
+            shareRefresh(hotList.get(position).id);
+        }else if(3==shareType) {
+            // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+            oks.setTitle(newList.get(position).user_nickname);
+            // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
+            oks.setTitleUrl(ShareUrl.getUrl(newList.get(position).id,3,1));
+            // text是分享文本，所有平台都需要这个字段
+            oks.setText(newList.get(position).descriptions);
+            if(null!=newList.get(position).images && 0 !=newList.get(position).images.length) {
+                if(!StringUtil.isEmpty(newList.get(position).images[0])) {
+                    if(!newList.get(position).images[0].contains("http")) {
+                        newList.get(position).images[0] = HttpServicePath.BasePicUrl + newList.get(position).images[0];
+                    }
+                    oks.setImageUrl(newList.get(position).images[0]);
+                }else {
+                    oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
+                }
+            }else {
+                oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
+            }
+            // url仅在微信（包括好友和朋友圈）中使用
+            oks.setUrl(ShareUrl.getUrl(newList.get(position).id,3));
+            shareRefresh(newList.get(position).id);
         }
-        // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl(ShareUrl.getUrl(hotGambitDetailBean.id,3));
         //启动分享
         oks.show(MobSDK.getContext());
     }
 
-    //分享弹窗
-    public void showShareWindow(int type) {
+    public void shareRefresh(int talkid) {
+        LogUtil.i("talkid:"+talkid);
+        if(null != hotList && 0!= hotList.size()) {
+            for(int i = 0;i<hotList.size();i++) {
+                if(hotList.get(i).id ==  talkid) {
+                    LogUtil.i("i:"+i);
+                    hotList.get(i).share_num = hotList.get(i).share_num+1;
+                    hotGambitAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+
+        if(null != newList && 0!= newList.size()) {
+            for(int j = 0;j<newList.size();j++) {
+                if(newList.get(j).id ==  talkid) {
+                    LogUtil.i("j:"+j);
+                    newList.get(j).share_num = newList.get(j).share_num+1;
+                    newGambitAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+    //分享弹窗 //定义一个shareType  1:此话题  2：热评 3：最新
+    public void showShareWindow(int type,int position,int shareType) {
         SharePopupWindows rw = new SharePopupWindows(this, type,0);
         WindowUtil.windowDeploy(this, rw, line);
         rw.setWindowShareListener(new WindowShareListener() {
             @Override
-            public void qqShare(int position) {
-                if(null == hotGambitDetailBean) return;
-                showShare(QQ.NAME,position);
-                totalShare(3,hotGambitDetailBean.id);
+            public void qqShare(int positon) {
+                if(1 == shareType) {
+                    if(null == hotGambitDetailBean) return;
+                    showShare(QQ.NAME,position,shareType);
+                    totalShare(3,hotGambitDetailBean.id);
+                }else if(2 == shareType) {
+                    if(null == hotList || 0 == hotList.size()) return;
+                    showShare(QQ.NAME,position,shareType);
+                    totalShare(3,hotList.get(position).id);
+                }else if(3 == shareType) {
+                    if(null == newList || 0 == newList.size()) return;
+                    showShare(QQ.NAME,position,shareType);
+                    totalShare(3,newList.get(position).id);
+                }
                 rw.dismiss();
             }
 
             @Override
-            public void wechatShare(int position) {
-                if(null == hotGambitDetailBean) return;
-                showShare(Wechat.NAME,position);
-                totalShare(3,hotGambitDetailBean.id);
+            public void wechatShare(int positon) {
+                if(1 == shareType) {
+                    if(null == hotGambitDetailBean) return;
+                    showShare(Wechat.NAME,position,shareType);
+                    totalShare(3,hotGambitDetailBean.id);
+                }else if(2 == shareType) {
+                    if(null == hotList || 0 == hotList.size()) return;
+                    showShare(Wechat.NAME,position,shareType);
+                    totalShare(3,hotList.get(position).id);
+                }else if(3 == shareType) {
+                    if(null == newList || 0 == newList.size()) return;
+                    showShare(Wechat.NAME,position,shareType);
+                    totalShare(3,newList.get(position).id);
+                }
                 rw.dismiss();
             }
 
             @Override
-            public void wechatFriendShare(int position) {
-                if(null == hotGambitDetailBean) return;
-                showShare(WechatMoments.NAME,position);
-                totalShare(3,hotGambitDetailBean.id);
+            public void wechatFriendShare(int positon) {
+                if(1 == shareType) {
+                    if(null == hotGambitDetailBean) return;
+                    showShare(WechatMoments.NAME,position,shareType);
+                    totalShare(3,hotGambitDetailBean.id);
+                }else if(2 == shareType) {
+                    if(null == hotList || 0 == hotList.size()) return;
+                    showShare(WechatMoments.NAME,position,shareType);
+                    totalShare(3,hotList.get(position).id);
+                }else if(3 == shareType) {
+                    if(null == newList || 0 == newList.size()) return;
+                    showShare(WechatMoments.NAME,position,shareType);
+                    totalShare(3,newList.get(position).id);
+                }
                 rw.dismiss();
             }
 
             @Override
-            public void link(int position) {
-                if(null == hotGambitDetailBean) return;
-                String link =  ShareUrl.getUrl(hotGambitDetailBean.id,3);
-                CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(HotGambitDetailActivity.this,link);
-                copyButtonLibrary.init(link);
+            public void link(int positon) {
+                if(1 == shareType) {
+                    if(null == hotGambitDetailBean) return;
+                    String link =  ShareUrl.getUrl(hotGambitDetailBean.id,3);
+                    CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(HotGambitDetailActivity.this,link);
+                    copyButtonLibrary.init(link);
+                }else if(2 == shareType) {
+                    if(null == hotList || 0==hotList.size()) return;
+                    String link =  ShareUrl.getUrl(hotList.get(position).id,3,1);
+                    CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(HotGambitDetailActivity.this,link);
+                    copyButtonLibrary.init(link);
+                }else if(3 == shareType) {
+                    if(null == newList || 0==newList.size()) return;
+                    String link =  ShareUrl.getUrl(newList.get(position).id,3,1);
+                    CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(HotGambitDetailActivity.this,link);
+                    copyButtonLibrary.init(link);
+                }
+
                 ToastUtil.showToast(HotGambitDetailActivity.this,"复制成功!");
             }
 
@@ -386,15 +508,11 @@ public class HotGambitDetailActivity extends BaseActivity{
 
             @Override
             public void daytime() {
-//                SharedPreferencedUtils.setBoolean(ArticleDetailActivity.this,SharedPreferencedUtils.dayModel,true);
-//                EventBus.getDefault().post(new EventTags.DayMoulde(true));
                 rw.dismiss();
             }
 
             @Override
             public void night() {
-//                SharedPreferencedUtils.setBoolean(ArticleDetailActivity.this,SharedPreferencedUtils.dayModel,false);
-//                EventBus.getDefault().post(new EventTags.DayMoulde(false));
                 boolean dayModel = SharedPreferencedUtils.getBoolean(HotGambitDetailActivity.this,SharedPreferencedUtils.dayModel,true);
                 if(dayModel) {
                     SharedPreferencedUtils.setBoolean(HotGambitDetailActivity.this,SharedPreferencedUtils.dayModel,false);
@@ -700,7 +818,7 @@ public class HotGambitDetailActivity extends BaseActivity{
                 break;
             case R.id.shareImg:
             case R.id.shareImg1:
-                showShareWindow(0);
+                showShareWindow(0,0,1);
                 break;
             case R.id.attentionTv:
                 if (null == hotGambitDetailBean) return;

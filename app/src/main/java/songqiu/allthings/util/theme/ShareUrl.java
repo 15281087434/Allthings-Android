@@ -16,7 +16,8 @@ public class ShareUrl {
         return SnsConstants.URL_GUANWANG+"?id="+id+"&type="+type;
     }
 
-    public static String getUrl(int id,int type,int isMoment) { //isMoment = 1 ????????
+    public static String getUrl(int id,int type,int isMoment) {
+        //isMoment = 1 ??????
         return  SnsConstants.URL_GUANWANG+"?id="+id+"&type="+type+"&isMoment="+isMoment;
     }
 

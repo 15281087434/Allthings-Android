@@ -254,7 +254,7 @@ public class HomePageFragment extends BaseFragment {
         }
         viewAdapter = new HomeTableViewAdapter(getChildFragmentManager(), mFragments, list);
         viewPager.setAdapter(viewAdapter);
-        viewPager.setOffscreenPageLimit(list.size());
+        viewPager.setOffscreenPageLimit(0);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

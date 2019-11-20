@@ -4,9 +4,10 @@ public class SnsConstants {
 	public static final String APP_ID = "wx73baecbc28077101";
 	public static final String APP_SECRET = "60f9587ea5a0e64d7ba4b88ca990b8fd";
 
-	public static String URL_BASE_H5 = "http://h5.jianguaiapp.com/";
+	//h5变为gn 原因未知  老是在改
+	public static String URL_BASE_H5 = "http://gn.jianguaiapp.com/";
 
-	public static String URL_GUANWANG = "http://h5.jianguaiapp.com/download.html";
+	public static String URL_GUANWANG = "http://gn.jianguaiapp.com/download.html";
 
 
 	public static String URL_DOWNLOAD;
