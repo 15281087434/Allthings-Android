@@ -467,11 +467,14 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
             }
         }
-        HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(item.get(position).source_url)
-                .setImagePath(item.get(position).photo).setSaveProgress(false).setVideoId(item.get(position).articleid).builder();
-        VideoControl control = new VideoControl(context);
-        control.setInfo(info);
-        holder.videoView.setHeartVideoContent(control);
+        if(!StringUtil.isEmpty(item.get(position).source_url)) {
+            HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(item.get(position).source_url)
+                    .setImagePath(item.get(position).photo).setSaveProgress(false).setVideoId(item.get(position).articleid).builder();
+            VideoControl control = new VideoControl(context);
+            control.setInfo(info);
+            holder.videoView.setHeartVideoContent(control);
+        }
+
         holder.toDetailLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -520,11 +523,14 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
             }
         }
         holder.commentTv.setText(String.valueOf(item.get(position).comment_num));
-        HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(item.get(position).title).setPath(item.get(position).video_url)
-                .setImagePath(item.get(position).photo).setSaveProgress(false).setVideoId(item.get(position).articleid).builder();
-        VideoControl control = new VideoControl(context);
-        control.setInfo(info);
-        holder.videoView.setHeartVideoContent(control);
+        if(!StringUtil.isEmpty(item.get(position).video_url)) {
+            HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(item.get(position).title).setPath(item.get(position).video_url)
+                    .setImagePath(item.get(position).photo).setSaveProgress(false).setVideoId(item.get(position).articleid).builder();
+            VideoControl control = new VideoControl(context);
+            control.setInfo(info);
+            holder.videoView.setHeartVideoContent(control);
+        }
+
         holder.userName.setText(item.get(position).user_nickname);
         holder.likeTv.setText(item.get(position).up_num + "");
         if (1 < item.get(position).ranklist) {
@@ -755,11 +761,12 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         }
         String image = item.get(position).url;
         String title = item.get(position).title;
-        HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(title).setPath(path).setImagePath(image).setSaveProgress(false).builder();
-        VideoControl control = new VideoControl(context);
-        control.setInfo(info);
-        holder.videoView.setHeartVideoContent(control);
-
+        if(!StringUtil.isEmpty(path)) {
+            HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(title).setPath(path).setImagePath(image).setSaveProgress(false).builder();
+            VideoControl control = new VideoControl(context);
+            control.setInfo(info);
+            holder.videoView.setHeartVideoContent(control);
+        }
         if (4 == item.get(position).change_type) {
             holder.downloadLayout.setVisibility(View.VISIBLE);
         } else {

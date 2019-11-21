@@ -548,11 +548,12 @@ public class CollectAdapter extends RecyclerView.Adapter {
         String path = homeSubitemBean.video_url;
         String image = homeSubitemBean.photo;
         String descriptions = homeSubitemBean.descriptions;
-        HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(descriptions).setPath(path).setImagePath(image).setSaveProgress(false).builder();
-        VideoControl control = new VideoControl(context);
-        control.setInfo(info);
-        holder.videoView.setHeartVideoContent(control);
-
+        if(!StringUtil.isEmpty(path)) {
+            HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(descriptions).setPath(path).setImagePath(image).setSaveProgress(false).builder();
+            VideoControl control = new VideoControl(context);
+            control.setInfo(info);
+            holder.videoView.setHeartVideoContent(control);
+        }
         RequestOptions options = new RequestOptions()
                 .circleCrop().transforms(new GlideCircleTransform(context))
                 .error(R.mipmap.head_default)

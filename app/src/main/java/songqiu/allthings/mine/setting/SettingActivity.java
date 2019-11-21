@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import songqiu.allthings.Event.EventTags;
@@ -17,6 +20,10 @@ import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.application.MyApplication;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.constant.SnsConstants;
+import songqiu.allthings.http.BaseBean;
+import songqiu.allthings.http.HttpServicePath;
+import songqiu.allthings.http.OkHttp;
+import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.login.LoginActivity;
 import songqiu.allthings.mine.userpage.ModificationInfoActivity;
 import songqiu.allthings.util.CacheDataManager;
@@ -89,6 +96,15 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
+    public void getDelRd() {
+        Map<String, String> map = new HashMap<>();
+        OkHttp.post(this, HttpServicePath.URL_DEL_RD, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+            }
+        });
+    }
+
     @OnClick({R.id.backImg,R.id.loginoutTv,R.id.cleanCacheLayout,R.id.compileInfoLayout,R.id.protocolLayout,R.id.privaceLayout,
             R.id.aboutLayout,R.id.accountLayout})
     public void onViewClick(View view) {
@@ -113,6 +129,7 @@ public class SettingActivity extends BaseActivity {
                 ToastUtil.showToast(this,"清除缓存成功");
                 break;
             case R.id.loginoutTv:
+                getDelRd();
                 SharedPreferencedUtils.setString(SettingActivity.this, "SYSTOKEN","");
                 SharedPreferencedUtils.setString(SettingActivity.this, "SYSNICKNAME", "");
                 SharedPreferencedUtils.setString(SettingActivity.this, "SYSAVATAR", "");

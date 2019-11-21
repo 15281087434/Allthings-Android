@@ -86,6 +86,7 @@ public class GuideActivity extends BaseActivity {
             EventBus.getDefault().register(this);
         }
         StatusBarUtils.with(GuideActivity.this).init().setStatusTextColorWhite(true, GuideActivity.this);
+        getDelRd();
         boolean first = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.FIRST_ENTER_GUIDE,true);
         if(first) {
             SharedPreferencedUtils.setBoolean(this,SharedPreferencedUtils.FIRST_ENTER_GUIDE,false);
@@ -103,7 +104,15 @@ public class GuideActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
 
+    public void getDelRd() {
+        Map<String, String> map = new HashMap<>();
+        OkHttp.post(this, HttpServicePath.URL_DEL_RD, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+            }
+        });
     }
 
     public void getVersion() {

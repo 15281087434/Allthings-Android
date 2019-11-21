@@ -540,10 +540,12 @@ public class TaskPageFragment extends BaseFragment {
                                 }else { //广告视频
                                     videoView.setVisibility(View.VISIBLE);
                                     String path = advertiseBean.video_url;//
-                                    HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(path).setImagePath(url).setSaveProgress(false).builder();
-                                    VideoControl control = new VideoControl(activity);
-                                    control.setInfo(info);
-                                    videoView.setHeartVideoContent(control);
+                                    if(!StringUtil.isEmpty(path)) {
+                                        HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(path).setImagePath(url).setSaveProgress(false).builder();
+                                        VideoControl control = new VideoControl(activity);
+                                        control.setInfo(info);
+                                        videoView.setHeartVideoContent(control);
+                                    }
                                     if(5==advertiseBean.change_type) { //大图无下载
                                         downloadLayout.setVisibility(View.GONE);
                                     }

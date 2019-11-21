@@ -502,10 +502,12 @@ public class VideoDetailActivity extends BaseActivity {
                             }else { //广告视频
                                 advertisingVideoView.setVisibility(View.VISIBLE);
                                 String path = advertiseBean.video_url;//
-                                HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(path).setImagePath(url).setSaveProgress(false).builder();
-                                VideoControl control = new VideoControl(VideoDetailActivity.this);
-                                control.setInfo(info);
-                                advertisingVideoView.setHeartVideoContent(control);
+                                if(!StringUtil.isEmpty(path)) {
+                                    HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(path).setImagePath(url).setSaveProgress(false).builder();
+                                    VideoControl control = new VideoControl(VideoDetailActivity.this);
+                                    control.setInfo(info);
+                                    advertisingVideoView.setHeartVideoContent(control);
+                                }
                                 if (5 == advertiseBean.change_type) { //大图无下载
                                     downloadLayout.setVisibility(View.GONE);
                                 }
@@ -526,11 +528,13 @@ public class VideoDetailActivity extends BaseActivity {
                 if (!videoDetailBean.photo.contains("http")) {
                     videoDetailBean.photo = HttpServicePath.BasePicUrl + videoDetailBean.photo;
                 }
-                HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(videoDetailBean.video_url).setImagePath(videoDetailBean.photo)
-                        .setSaveProgress(false).setVideoId(videoDetailBean.articleid).builder();
-                VideoControl control = new VideoControl(VideoDetailActivity.this);
-                control.setInfo(info);
-                videoView.setHeartVideoContent(control);
+                if(!StringUtil.isEmpty(videoDetailBean.video_url)) {
+                    HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(videoDetailBean.video_url).setImagePath(videoDetailBean.photo)
+                            .setSaveProgress(false).setVideoId(videoDetailBean.articleid).builder();
+                    VideoControl control = new VideoControl(VideoDetailActivity.this);
+                    control.setInfo(info);
+                    videoView.setHeartVideoContent(control);
+                }
             }
         }
         lookNumTv.setText(ShowNumUtil.showUnm1(videoDetailBean.view_num)+"万次播放");

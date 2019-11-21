@@ -121,10 +121,12 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
         String image= item.get(position).photo;
         String title = item.get(position).title;
         int id = item.get(position).articleid;
-        HeartVideoInfo info= HeartVideoInfo.Builder().setTitle(title).setPath(path).setImagePath(image).setSaveProgress(false).setVideoId(id).builder();
-        VideoControl control=new VideoControl(context);
-        control.setInfo(info);
-        viewHolder.videoView.setHeartVideoContent(control);
+        if(!StringUtil.isEmpty(path)) {
+            HeartVideoInfo info= HeartVideoInfo.Builder().setTitle(title).setPath(path).setImagePath(image).setSaveProgress(false).setVideoId(id).builder();
+            VideoControl control=new VideoControl(context);
+            control.setInfo(info);
+            viewHolder.videoView.setHeartVideoContent(control);
+        }
         viewHolder.likeTv.setText(ShowNumUtil.showUnm(item.get(position).up_num));
         if(0 == item.get(position).is_up) {
             viewHolder.likeImg.setImageResource(R.mipmap.item_like);
@@ -236,10 +238,12 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
         }
         String image = item.get(position).url;
         String title = item.get(position).title;
-        HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(title).setPath(path).setImagePath(image).setSaveProgress(false).builder();
-        VideoControl control = new VideoControl(context);
-        control.setInfo(info);
-        holder.videoView.setHeartVideoContent(control);
+        if(!StringUtil.isEmpty(path)) {
+            HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(title).setPath(path).setImagePath(image).setSaveProgress(false).builder();
+            VideoControl control = new VideoControl(context);
+            control.setInfo(info);
+            holder.videoView.setHeartVideoContent(control);
+        }
 
         if (4 == item.get(position).change_type) {
             holder.downloadLayout.setVisibility(View.VISIBLE);

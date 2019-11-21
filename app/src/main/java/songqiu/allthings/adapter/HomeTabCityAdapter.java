@@ -373,11 +373,14 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
                 item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
             }
         }
-        HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(item.get(position).source_url).setImagePath(item.get(position).photo).setSaveProgress(false)
-                .setVideoId(item.get(position).articleid).builder();
-        VideoControl control = new VideoControl(context);
-        control.setInfo(info);
-        holder.videoView.setHeartVideoContent(control);
+        if(!StringUtil.isEmpty(item.get(position).source_url)) {
+            HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(item.get(position).source_url).setImagePath(item.get(position).photo).setSaveProgress(false)
+                    .setVideoId(item.get(position).articleid).builder();
+            VideoControl control = new VideoControl(context);
+            control.setInfo(info);
+            holder.videoView.setHeartVideoContent(control);
+        }
+
         holder.toDetailLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -421,11 +424,13 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
             }
         }
         holder.commentTv.setText(String.valueOf(item.get(position).comment_num));
-        HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(item.get(position).title).setPath(item.get(position).video_url).setImagePath(item.get(position).photo).setSaveProgress(false)
-                .setVideoId(item.get(position).articleid).builder();
-        VideoControl control = new VideoControl(context);
-        control.setInfo(info);
-        holder.videoView.setHeartVideoContent(control);
+        if(!StringUtil.isEmpty(item.get(position).video_url)) {
+            HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(item.get(position).title).setPath(item.get(position).video_url).setImagePath(item.get(position).photo).setSaveProgress(false)
+                    .setVideoId(item.get(position).articleid).builder();
+            VideoControl control = new VideoControl(context);
+            control.setInfo(info);
+            holder.videoView.setHeartVideoContent(control);
+        }
         holder.userName.setText(item.get(position).user_nickname);
         holder.likeTv.setText(item.get(position).up_num + "");
         if (0 == item.get(position).is_up) {

@@ -226,4 +226,11 @@ public class HttpServicePath {
 
     //添加推荐统计
     public static String URL_ADD_RES = BaseUrl+"add_res";  //article_id	是	int	文章id
+
+    //进入app调用
+    public static String URL_DEL_READLOG = BaseUrl+"del_readlog";
+
+    //进入app 调用  退出登录调用
+    public static String URL_DEL_RD = BaseUrl+"del_rd";
+
 }

@@ -648,10 +648,12 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                                 videoView.setVisibility(View.VISIBLE);
                                 String path = advertiseBean.video_url;//
                                 if(!ArticleDetailActivity.this.isDestroyed()) {
-                                    HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(path).setImagePath(url).setSaveProgress(false).builder();
-                                    VideoControl control = new VideoControl(ArticleDetailActivity.this);
-                                    control.setInfo(info);
-                                    videoView.setHeartVideoContent(control);
+                                    if(!StringUtil.isEmpty(path)) {
+                                        HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(path).setImagePath(url).setSaveProgress(false).builder();
+                                        VideoControl control = new VideoControl(ArticleDetailActivity.this);
+                                        control.setInfo(info);
+                                        videoView.setHeartVideoContent(control);
+                                    }
                                 }
                                 if (5 == advertiseBean.change_type) { //大图无下载
                                     downloadLayout.setVisibility(View.GONE);

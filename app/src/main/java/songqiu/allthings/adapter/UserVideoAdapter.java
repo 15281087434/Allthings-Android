@@ -26,6 +26,7 @@ import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.iterface.UserPagerListenner;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
+import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ViewProportion;
 import songqiu.allthings.videodetail.VideoDetailActivity;
 
@@ -79,11 +80,12 @@ public class UserVideoAdapter extends RecyclerView.Adapter {
         String path = item.get(position).video_url;
         String image= item.get(position).photo;
         String title = item.get(position).title;
-        HeartVideoInfo info= HeartVideoInfo.Builder().setTitle(title).setPath(path).setImagePath(image).setSaveProgress(false).builder();
-        VideoControl control=new VideoControl(context);
-        control.setInfo(info);
-        holder.videoView.setHeartVideoContent(control);
-
+        if(!StringUtil.isEmpty(path)) {
+            HeartVideoInfo info= HeartVideoInfo.Builder().setTitle(title).setPath(path).setImagePath(image).setSaveProgress(false).builder();
+            VideoControl control=new VideoControl(context);
+            control.setInfo(info);
+            holder.videoView.setHeartVideoContent(control);
+        }
         holder.likeTv.setText(String.valueOf(item.get(position).up_num));
         holder.commentTv.setText(String.valueOf(item.get(position).comment_num));
         if (0 == item.get(position).is_up) {

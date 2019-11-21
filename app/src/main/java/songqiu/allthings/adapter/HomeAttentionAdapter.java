@@ -537,11 +537,12 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
 
     public void setVideoData(Viewholder holder, int position) {
         HomeAttentionBean homeAttentionBean = item.get(position);
-        HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(homeAttentionBean.source_url).setImagePath(homeAttentionBean.photo).setSaveProgress(false).setVideoId(homeAttentionBean.articleid).builder();
-        VideoControl control = new VideoControl(context);
-        control.setInfo(info);
-        holder.videoView.setHeartVideoContent(control);
-
+        if(!StringUtil.isEmpty(homeAttentionBean.source_url)) {
+            HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(homeAttentionBean.source_url).setImagePath(homeAttentionBean.photo).setSaveProgress(false).setVideoId(homeAttentionBean.articleid).builder();
+            VideoControl control = new VideoControl(context);
+            control.setInfo(info);
+            holder.videoView.setHeartVideoContent(control);
+        }
         RequestOptions options = new RequestOptions()
                 .circleCrop().transforms(new GlideCircleTransform(context))
                 .error(R.mipmap.head_default)

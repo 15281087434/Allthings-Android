@@ -370,13 +370,17 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                 finish();
                 break;
             case R.id.loginTv:
-                String phone = phoneEt.getText().toString().replaceAll(" ", "");
-                String code = codeEt.getText().toString().replaceAll(" ", "");
-                login(phone, code);
+                if(ClickUtil.onClick()) {
+                    String phone = phoneEt.getText().toString().replaceAll(" ", "");
+                    String code = codeEt.getText().toString().replaceAll(" ", "");
+                    login(phone, code);
+                }
                 break;
             case R.id.codeTv:
-                String strPhone = phoneEt.getText().toString().replaceAll(" ", "");
-                getCode(strPhone);
+                if(ClickUtil.onClick()) {
+                    String strPhone = phoneEt.getText().toString().replaceAll(" ", "");
+                    getCode(strPhone);
+                }
                 break;
             case R.id.qqImg:
                 if(ClickUtil.onClick()) {
