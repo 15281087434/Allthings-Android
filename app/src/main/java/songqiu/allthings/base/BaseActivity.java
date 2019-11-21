@@ -143,7 +143,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeBac
 
     public void totalShare(int type,int mid) {
         Map<String, String> map = new HashMap<>();
-        map.put("type",type+""); //1=文章，2=视频，3=话题
+        map.put("type",type+""); //1=文章，2=视频，3=话题  4 = 我也不知道 后台让加
         map.put("mid",mid+"");
         OkHttp.post(this, HttpServicePath.URL_SHARE_TOTAL, map, new RequestCallBack() {
             @Override

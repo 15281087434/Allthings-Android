@@ -427,7 +427,7 @@ public class HotGambitDetailActivity extends BaseActivity{
                 if(1 == shareType) {
                     if(null == hotGambitDetailBean) return;
                     showShare(QQ.NAME,position,shareType);
-                    totalShare(3,hotGambitDetailBean.id);
+                    totalShare(4,hotGambitDetailBean.id);
                 }else if(2 == shareType) {
                     if(null == hotList || 0 == hotList.size()) return;
                     showShare(QQ.NAME,position,shareType);
@@ -583,10 +583,14 @@ public class HotGambitDetailActivity extends BaseActivity{
                             attentionTv.setText("+ 关注");
                             attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
                             hotGambitDetailBean.is_follow = 0;
+                            hotGambitDetailBean.follow_num = hotGambitDetailBean.follow_num -1;
+                            attentionNumTv.setText(ShowNumUtil.showUnm(hotGambitDetailBean.follow_num) + " 关注");
                         } else {
                             attentionTv.setText("已关注");
                             attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
                             hotGambitDetailBean.is_follow = 1;
+                            hotGambitDetailBean.follow_num = hotGambitDetailBean.follow_num +1;
+                            attentionNumTv.setText(ShowNumUtil.showUnm(hotGambitDetailBean.follow_num) + " 关注");
                         }
                     }
                 });

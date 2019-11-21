@@ -475,12 +475,14 @@ public class HomePageGambitFragment extends BaseFragment {
                                 for(int i = 0;i<item.size();i++) {
                                     if(talk_id == item.get(i).id) {
                                         item.get(i).is_follow = 0;
+                                        item.get(i).follow_num = item.get(i).follow_num -1;
                                     }
                                 }
                             }else {
                                 for(int i = 0;i<item.size();i++) {
                                     if(talk_id == item.get(i).id) {
                                         item.get(i).is_follow = 1;
+                                        item.get(i).follow_num = item.get(i).follow_num +1;
                                     }
                                 }
                             }
@@ -618,18 +620,6 @@ public class HomePageGambitFragment extends BaseFragment {
                         intent = new Intent(activity,LoginActivity.class);
                         startActivity(intent);
                     }
-//                    String[] urls = {
-//                            "http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg",
-//                            "http://b.hiphotos.baidu.com/image/pic/item/5243fbf2b2119313999ff97a6c380cd790238d1f.jpg",
-//                            "http://f.hiphotos.baidu.com/image/pic/item/43a7d933c895d1430055e4e97af082025baf07dc.jpg",
-//                            "http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg",
-//                            "http://b.hiphotos.baidu.com/image/pic/item/5243fbf2b2119313999ff97a6c380cd790238d1f.jpg",
-//                            "http://f.hiphotos.baidu.com/image/pic/item/43a7d933c895d1430055e4e97af082025baf07dc.jpg"
-//                    };
-//                    Intent intent = new Intent(activity, PhotoViewActivity.class);
-//                    intent.putExtra("photoArray",urls);
-//                    startActivity(intent);
-//                    activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 }
                 break;
         }

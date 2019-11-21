@@ -14,6 +14,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.adapter.AllHotGambitAdapter;
 import songqiu.allthings.adapter.HomeHotGambitAdapter;
@@ -174,18 +177,19 @@ public class AllHotGambitActivity extends BaseActivity {
                             for(int i = 0;i<item.size();i++) {
                                 if(talk_id == item.get(i).id) {
                                     item.get(i).is_follow = 0;
+                                    item.get(i).follow_num = item.get(i).follow_num -1;
                                 }
                             }
-//                            EventBus.getDefault().post(new EventTags.Attention(parentid,1));
                         }else {
                             for(int i = 0;i<item.size();i++) {
                                 if(talk_id == item.get(i).id) {
                                     item.get(i).is_follow = 1;
+                                    item.get(i).follow_num = item.get(i).follow_num +1;
                                 }
                             }
-//                            EventBus.getDefault().post(new EventTags.Attention(parentid,0));
                         }
                         hotAdapter.notifyDataSetChanged();
+                        EventBus.getDefault().post(new EventTags.GambitRefresh());
                     }
                 });
             }
