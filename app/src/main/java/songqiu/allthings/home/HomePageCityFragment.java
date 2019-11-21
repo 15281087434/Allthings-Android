@@ -89,6 +89,7 @@ public class HomePageCityFragment extends BaseFragment {
     String city;
 
     MainActivity activity;
+    boolean visible;
 
     @Override
     public void onAttach(Context context) {
@@ -116,10 +117,10 @@ public class HomePageCityFragment extends BaseFragment {
         getData(pageNo,city,false);
     }
 
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        visible = isVisibleToUser;
         if(!isVisibleToUser) {
             HeartVideoManager.getInstance().pause();
         }
@@ -294,6 +295,12 @@ public class HomePageCityFragment extends BaseFragment {
         getData(pageNo,city,false);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void homeRefresh(EventTags.HomeRefresh homeRefresh) {
+        if(visible) {
+            smartRefreshLayout.autoRefresh();
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void hidePrestrain(EventTags.HidePrestrain hidePrestrain) {

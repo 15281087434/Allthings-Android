@@ -100,6 +100,7 @@ public class HomePageFragment extends BaseFragment {
 
     MainActivity activity;
     DialogPrivacyExplain dialogPrivacyExplain;
+    public int indexPosition = 1;
 
     @Override
     public void onAttach(Context context) {
@@ -258,18 +259,19 @@ public class HomePageFragment extends BaseFragment {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+//                LogUtil.i("*********onPageScrolled:"+position);
                 magicIndicator.onPageScrolled(position, positionOffset, positionOffsetPixels);
             }
 
             @Override
             public void onPageSelected(int position) {
-
+//                LogUtil.i("*********onPageSelected:"+position);
                 magicIndicator.onPageSelected(position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
+//                LogUtil.i("*********onPageScrollStateChanged:"+state);
                 magicIndicator.onPageScrollStateChanged(state);
             }
         });
@@ -302,6 +304,11 @@ public class HomePageFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         viewPager.setCurrentItem(index);
+                        if(indexPosition == index) { //点同一列表项则发送更新通知
+                            EventBus.getDefault().post(new EventTags.HomeRefresh());
+                        }else { //
+                            indexPosition = index;
+                        }
                     }
                 });
                 return simplePagerTitleView;
@@ -402,7 +409,6 @@ public class HomePageFragment extends BaseFragment {
         if (ClickUtil.onClick()) {
             Intent intent = new Intent(activity, SearchActivity.class);
             startActivity(intent);
-//            initDialog();
         }
     }
 

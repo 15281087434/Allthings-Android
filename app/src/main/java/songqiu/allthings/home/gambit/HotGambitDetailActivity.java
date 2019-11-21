@@ -369,7 +369,7 @@ public class HotGambitDetailActivity extends BaseActivity{
                 oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
             }
             // url仅在微信（包括好友和朋友圈）中使用
-            oks.setUrl(ShareUrl.getUrl(hotList.get(position).id,3));
+            oks.setUrl(ShareUrl.getUrl(hotList.get(position).id,3,1));
             shareRefresh(hotList.get(position).id);
         }else if(3==shareType) {
             // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
@@ -391,7 +391,7 @@ public class HotGambitDetailActivity extends BaseActivity{
                 oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
             }
             // url仅在微信（包括好友和朋友圈）中使用
-            oks.setUrl(ShareUrl.getUrl(newList.get(position).id,3));
+            oks.setUrl(ShareUrl.getUrl(newList.get(position).id,3,1));
             shareRefresh(newList.get(position).id);
         }
         //启动分享

@@ -61,7 +61,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/tab_home_normal" />
+                    android:src="@mipmap/tab_home_normal"
+                    />
 
                 <TextView
                     android:id="@+id/homePageTv"

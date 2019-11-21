@@ -100,6 +100,7 @@ public class LookPageSubitemFragment extends BaseFragment {
     LookTabClassAdapter adapter;
 
     MainActivity activity;
+    boolean visible;
 
     @Override
     public void onAttach(Context context) {
@@ -129,6 +130,7 @@ public class LookPageSubitemFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        visible = isVisibleToUser;
        if(!isVisibleToUser) {
            HeartVideoManager.getInstance().pause();
        }
@@ -181,6 +183,13 @@ public class LookPageSubitemFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void hidePrestrain(EventTags.HidePrestrain hidePrestrain) {
         prestrainImg.setVisibility(View.GONE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void homeRefresh(EventTags.HomeRefresh homeRefresh) {
+        if(visible) {
+            smartRefreshLayout.autoRefresh();
+        }
     }
 
     public void getData(int page,boolean ringDown) {

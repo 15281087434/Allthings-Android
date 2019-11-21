@@ -20,6 +20,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -82,6 +83,7 @@ public class HomePageChoicenessFragment extends BaseFragment {
     String strTime;
 
     MainActivity activity;
+    boolean visible;
 
     @Override
     public void onAttach(Context context) {
@@ -101,10 +103,18 @@ public class HomePageChoicenessFragment extends BaseFragment {
 
     @Override
     public void init() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         initRecyclerView();
         getData(pageNo,false);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        visible = isVisibleToUser;
+    }
 
     public void initBanner(RollPagerView rollPageHome) {
         mBannerList = new ArrayList<>();
@@ -193,6 +203,13 @@ public class HomePageChoicenessFragment extends BaseFragment {
         prestrainImg.setVisibility(View.GONE);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void homeRefresh(EventTags.HomeRefresh homeRefresh) {
+        if(visible) {
+            smartRefreshLayout.autoRefresh();
+        }
+    }
+
     public void getData(int page,boolean ringDown) {
         String url = HttpServicePath.BaseUrl+ tag;
         Map<String,String> map = new HashMap<>();
@@ -255,6 +272,12 @@ public class HomePageChoicenessFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 }

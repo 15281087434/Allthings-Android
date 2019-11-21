@@ -98,6 +98,7 @@ public class LookPageFragment extends BaseFragment {
     List<Fragment> mFragments = new ArrayList<>();
 
     MainActivity activity;
+    public int indexPosition = 0;
 
     @Override
     public void onAttach(Context context) {
@@ -230,6 +231,11 @@ public class LookPageFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         viewPager.setCurrentItem(index);
+                        if(indexPosition == index) { //点同一列表项则发送更新通知
+                            EventBus.getDefault().post(new EventTags.HomeRefresh());
+                        }else { //
+                            indexPosition = index;
+                        }
                     }
                 });
                 return simplePagerTitleView;

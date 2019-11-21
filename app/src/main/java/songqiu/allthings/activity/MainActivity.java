@@ -1,6 +1,7 @@
 package songqiu.allthings.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -80,6 +83,7 @@ public class MainActivity extends BaseMainActivity {
     public static final int INDEX_LOOK_PAGE = 1;
     public static final int INDEX_TASK_PAGE = 2;
     public static final int INDEX_MINE_PAGE = 3;
+    public int clickPosition = 10;
 
     /**
      * 用于fragment管理
@@ -132,6 +136,8 @@ public class MainActivity extends BaseMainActivity {
     @BindView(R.id.shadowLayout)
     LinearLayout shadowLayout;
 
+    //旋转动画
+    Animation rotate;
 
     MyBroadcastReceiver myBroadcastReceiver;
     //倒计时
@@ -180,11 +186,13 @@ public class MainActivity extends BaseMainActivity {
         setContentView(R.layout.activity_main);
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void init() {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+        rotate = AnimationUtils.loadAnimation(this, R.drawable.rotate_anim);
         boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
         Intent intent = getIntent();
         notificationJump(intent);
@@ -192,7 +200,6 @@ public class MainActivity extends BaseMainActivity {
         modeUi(dayModel);
         fragmentManager = getSupportFragmentManager();
         setTabSelection(INDEX_HOME_PAGE,0);
-
         animationDrawable = (AnimationDrawable)videoGoldImg.getBackground();
         initBroadcastReceiver();
     }
@@ -319,6 +326,7 @@ public class MainActivity extends BaseMainActivity {
         modeUi(dayMoulde.getMoulde());
     }
 
+
     /**
      * 根据传入的index参数来设置选中的tab页。
      *
@@ -326,37 +334,61 @@ public class MainActivity extends BaseMainActivity {
      */
     public void setTabSelection(int index,int childPosition) {
         // 每次选中之前先清楚掉上次的选中状态
-        clearSelection();
+        endSwitchRefesh();
         switch (index) {
             case INDEX_HOME_PAGE:
-                homePageImg.setImageResource(R.mipmap.tab_home);
-                homePageTv.setTextColor(getResources().getColor(R.color.normal_color));
-                if(1==childPosition) {
-                    ChangePage changePage = new ChangePage();
-                    changePage.type = "home_recommend";
-                    EventBus.getDefault().post(changePage);
+                if(0==clickPosition) {
+                    if(ClickUtil.onClick()) {
+                        tabSwitchRefesh(homePageImg);
+                        EventBus.getDefault().post(new EventTags.HomeRefresh());
+                        homePageTv.setTextColor(getResources().getColor(R.color.normal_color));
+                    }
+                }else {
+                    clearSelection();
+                    clickPosition = 0;
+                    homePageImg.setImageResource(R.mipmap.tab_home);
+                    homePageTv.setTextColor(getResources().getColor(R.color.normal_color));
+                    if(1==childPosition) {
+                        ChangePage changePage = new ChangePage();
+                        changePage.type = "home_recommend";
+                        EventBus.getDefault().post(changePage);
+                    }
+                    swithFragment(mContent, homePageFragment);
                 }
-                swithFragment(mContent, homePageFragment);
                 break;
             case INDEX_LOOK_PAGE:
-                lookImg.setImageResource(R.mipmap.tab_look);
-                lookTv.setTextColor(getResources().getColor(R.color.normal_color));
-                if(10==childPosition) {
-                    ChangePage changePage = new ChangePage();
-                    changePage.type = "look_recommend";
-                    EventBus.getDefault().post(changePage);
+                if(1==clickPosition) {
+                    if(ClickUtil.onClick()) {
+                            tabSwitchRefesh(lookImg);
+                            lookTv.setTextColor(getResources().getColor(R.color.normal_color));
+                            EventBus.getDefault().post(new EventTags.HomeRefresh());
+                    }
+                }else {
+                    clearSelection();
+                    clickPosition = 1;
+                    lookImg.setImageResource(R.mipmap.tab_look);
+                    lookTv.setTextColor(getResources().getColor(R.color.normal_color));
+                    if(10==childPosition) {
+                        ChangePage changePage = new ChangePage();
+                        changePage.type = "look_recommend";
+                        EventBus.getDefault().post(changePage);
+                    }
+                    swithFragment(mContent, lookPageFragment);
                 }
-                swithFragment(mContent, lookPageFragment);
                 break;
             case INDEX_TASK_PAGE:
-                taskImg.setImageResource(R.mipmap.tab_task);
-                taskTv.setTextColor(getResources().getColor(R.color.normal_color));
-                swithFragment(mContent, taskPageFragment);
-                if(ClickUtil.onClick()) {
+                  clearSelection();
+                  clickPosition = 2;
+                  taskImg.setImageResource(R.mipmap.tab_task);
+                  taskTv.setTextColor(getResources().getColor(R.color.normal_color));
+                  swithFragment(mContent, taskPageFragment);
+                  if(ClickUtil.onClick()) {
                     EventBus.getDefault().post(new EventTags.TaskRefresh());
                 }
                 break;
             case INDEX_MINE_PAGE:
+                clearSelection();
+                clickPosition = 3;
                 mineImg.setImageResource(R.mipmap.tab_mine);
                 mineTv.setTextColor(getResources().getColor(R.color.normal_color));
                 swithFragment(mContent, minePageFragment);
@@ -368,6 +400,27 @@ public class MainActivity extends BaseMainActivity {
         //使用的commit方法是在Activity的onSaveInstanceState()之后调用的，这样会出错，因为onSaveInstanceState
         //方法是在该Activity即将被销毁前调用，来保存Activity数据的，如果在保存玩状态后再给它添加Fragment就会出错。解决办法就
         //是把commit（）方法替换成 commitAllowingStateLoss()就行了，其效果是一样的。
+    }
+
+    public void tabSwitchRefesh(ImageView imageView) {
+        imageView.setImageResource(R.mipmap.tab_refresh);
+        imageView.setAnimation(rotate);
+        imageView.startAnimation(rotate);
+        new Handler().postDelayed(new Runnable(){
+            public void run() {
+                endSwitchRefesh();
+            }
+        }, 1500);
+    }
+
+    public void endSwitchRefesh() {
+        if(clickPosition == 0) {
+            homePageImg.clearAnimation();
+            homePageImg.setImageResource(R.mipmap.tab_home);
+        }else if(clickPosition == 1) {
+            lookImg.clearAnimation();
+            lookImg.setImageResource(R.mipmap.tab_look);
+        }
     }
 
     private void clearSelection() {

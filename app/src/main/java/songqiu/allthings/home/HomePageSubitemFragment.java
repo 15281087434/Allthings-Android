@@ -117,6 +117,7 @@ public class HomePageSubitemFragment extends BaseFragment {
     int pageNo = 1;
 
     MainActivity activity;
+    boolean visible;
 
     @Override
     public void onAttach(Context context) {
@@ -154,6 +155,7 @@ public class HomePageSubitemFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        visible = isVisibleToUser;
         if(!isVisibleToUser) {
             HeartVideoManager.getInstance().pause();
         }
@@ -412,6 +414,13 @@ public class HomePageSubitemFragment extends BaseFragment {
     public void hidePrestrain(EventTags.HidePrestrain hidePrestrain) {
         prestrainImg.setVisibility(View.GONE);
         prestrainlookImg.setVisibility(View.GONE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void homeRefresh(EventTags.HomeRefresh homeRefresh) {
+        if(visible) {
+            smartRefreshLayout.autoRefresh();
+        }
     }
 
 

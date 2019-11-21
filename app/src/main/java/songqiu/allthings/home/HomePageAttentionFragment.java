@@ -103,6 +103,7 @@ public class HomePageAttentionFragment extends BaseFragment {
     public int pageNo = 1;
 
     MainActivity activity;
+    boolean visible;
 
     @Override
     public void onAttach(Context context) {
@@ -138,6 +139,7 @@ public class HomePageAttentionFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        visible = isVisibleToUser;
         if(!isVisibleToUser) {
             HeartVideoManager.getInstance().pause();
         }
@@ -189,6 +191,12 @@ public class HomePageAttentionFragment extends BaseFragment {
         prestrainImg.setVisibility(View.GONE);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void homeRefresh(EventTags.HomeRefresh homeRefresh) {
+        if(visible) {
+            smartRefreshLayout.autoRefresh();
+        }
+    }
 
     public void getData(int page,boolean ringDown) {
         String url = HttpServicePath.BaseUrl + tag;

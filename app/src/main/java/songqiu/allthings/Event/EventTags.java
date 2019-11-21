@@ -97,6 +97,10 @@ public class EventTags {
 
     }
 
+    public static class HomeRefresh {
+
+    }
+
     public static class TaskNoNetwork {
         public boolean type;
         public TaskNoNetwork(boolean type) {
