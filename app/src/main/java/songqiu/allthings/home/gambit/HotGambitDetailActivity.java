@@ -162,10 +162,6 @@ public class HotGambitDetailActivity extends BaseActivity{
         scrollViewListener();
         initRecyclerView();
         getData();
-        //
-        pageNo = 1;
-        getNewstList(pageNo,false); //获取最新列表
-        getHotList();
     }
 
     public void modeUi(boolean isDay) {
@@ -562,6 +558,11 @@ public class HotGambitDetailActivity extends BaseActivity{
                         HotGambitDetailBean hotGambitDetailBean = gson.fromJson(data, HotGambitDetailBean.class);
                         HotGambitDetailActivity.this.hotGambitDetailBean = hotGambitDetailBean;
                         initUi(hotGambitDetailBean);
+
+                        //获取详情成功后再调用热评和最新，确保hotGambitDetailBean不为空
+                        pageNo = 1;
+                        getNewstList(pageNo,false); //获取最新列表
+                        getHotList();
                     }
                 });
             }
@@ -613,6 +614,14 @@ public class HotGambitDetailActivity extends BaseActivity{
                             newLayout.setVisibility(View.GONE);
                             emptyLayout.setVisibility(View.VISIBLE);
                         }else {
+                            if(null != hotGambitDetailBean) {
+                                String title = "#"+hotGambitDetailBean.title+"#";
+                                StringBuffer sb = new StringBuffer();
+                                sb.append(title);
+                                for(HotGambitCommonBean hotGambitCommonBean:hotGambitCommonList) {
+                                    hotGambitCommonBean.descriptions = sb.append(hotGambitCommonBean.descriptions).toString();
+                                }
+                            }
                             hotCommentLayout.setVisibility(View.VISIBLE);
                             hotList.addAll(hotGambitCommonList);
                             hotGambitAdapter.notifyDataSetChanged();
@@ -646,6 +655,14 @@ public class HotGambitDetailActivity extends BaseActivity{
                             }
                         }
                         if(null != hotGambitCommonList && 0!=hotGambitCommonList.size()) {
+                            if(null != hotGambitDetailBean) {
+                                String title = "#"+hotGambitDetailBean.title+"#";
+                                StringBuffer sb = new StringBuffer();
+                                sb.append(title);
+                                for(HotGambitCommonBean hotGambitCommonBean:hotGambitCommonList) {
+                                    hotGambitCommonBean.descriptions = sb.append(hotGambitCommonBean.descriptions).toString();
+                                }
+                            }
                             newLayout.setVisibility(View.VISIBLE);
                             newList.addAll(hotGambitCommonList);
                             newGambitAdapter.notifyDataSetChanged();
