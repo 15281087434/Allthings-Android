@@ -11,8 +11,8 @@ package songqiu.allthings.http;
  ********/
 public class HttpServicePath {
 
-//    public static String BaseUrl = "https://jianguaiapp.com:100/"; //线上测试、审核
-    public static String BaseUrl = "http://192.168.0.88/"; //测试  内网
+    public static String BaseUrl = "https://jianguaiapp.com:100/"; //线上测试、审核
+//    public static String BaseUrl = "http://192.168.0.88/"; //测试  内网
 //    public static String BasePicUrl = "http://47.108.29.87:81"; //图片地址
     public static String BasePicUrl = "http://1097.oss-cn-chengdu.aliyuncs.com/"; //OSS图片前缀
 

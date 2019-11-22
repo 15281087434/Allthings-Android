@@ -216,6 +216,7 @@ public class HomePageChoicenessFragment extends BaseFragment {
         if(StringUtil.isEmpty(tag)) return;
         map.put("num",10+"");
         map.put("page",page+"");
+        map.put("type",2+"");
         OkHttp.post(activity, smartRefreshLayout,url, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
