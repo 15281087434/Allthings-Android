@@ -50,6 +50,7 @@ import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.DialogNewRedListener;
+import songqiu.allthings.iterface.DialogPrivacyListener;
 import songqiu.allthings.iterface.TaskDialogSignListener;
 import songqiu.allthings.search.SearchActivity;
 import songqiu.allthings.util.ClickUtil;
@@ -350,13 +351,23 @@ public class HomePageFragment extends BaseFragment {
         //判断是否第一次进入应用
         boolean first = SharedPreferencedUtils.getBoolean(activity,SharedPreferencedUtils.FIRST_ENTER,true);
         if(first) {
-            SharedPreferencedUtils.setBoolean(activity,SharedPreferencedUtils.FIRST_ENTER,false);
             if(null == dialogPrivacyExplain) {
                 dialogPrivacyExplain = new DialogPrivacyExplain(activity);
                 dialogPrivacyExplain.setCanceledOnTouchOutside(false);
                 dialogPrivacyExplain.setCancelable(false);
                 dialogPrivacyExplain.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialogPrivacyExplain.show();
+                dialogPrivacyExplain.setDialogPrivacyListener(new DialogPrivacyListener() {
+                    @Override
+                    public void cancel() {
+                        activity.finish();
+                    }
+
+                    @Override
+                    public void sure() {
+                        SharedPreferencedUtils.setBoolean(activity,SharedPreferencedUtils.FIRST_ENTER,false);
+                    }
+                });
             }
         }
     }

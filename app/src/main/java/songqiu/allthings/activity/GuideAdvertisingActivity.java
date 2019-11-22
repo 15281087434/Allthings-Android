@@ -3,6 +3,7 @@ package songqiu.allthings.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import songqiu.allthings.bean.AdvertiseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.GlideLoadUtils;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 
@@ -37,6 +39,7 @@ public class GuideAdvertisingActivity extends BaseActivity {
     GifImageView img;
 
     AdvertiseBean advertiseBean;
+    boolean enterable = true;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -53,13 +56,16 @@ public class GuideAdvertisingActivity extends BaseActivity {
         toMainActivity();
     }
 
+
     public void toMainActivity() {
         new Handler().postDelayed(new Runnable(){
             public void run() {
                 //execute the task
-                Intent intent = new Intent(GuideAdvertisingActivity.this,MainActivity.class);
-                startActivity(intent);
-                finish();
+                if(enterable) {
+                    Intent intent = new Intent(GuideAdvertisingActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         }, 5000);
     }
@@ -89,6 +95,7 @@ public class GuideAdvertisingActivity extends BaseActivity {
     @OnClick(R.id.jumpTv)
     public void onViewClick() {
         if(ClickUtil.onClick()) {
+            enterable = false;
             Intent intent = new Intent(GuideAdvertisingActivity.this,MainActivity.class);
             startActivity(intent);
             finish();
@@ -102,6 +109,7 @@ public class GuideAdvertisingActivity extends BaseActivity {
             Intent intent = new Intent(this,CommentWebViewActivity.class);
             intent.putExtra("url", advertiseBean.jump_url);
             startActivity(intent);
+            finish();
         }
     }
 }

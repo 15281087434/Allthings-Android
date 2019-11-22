@@ -15,7 +15,7 @@
     <TextView
         android:id="@+id/jumpTv"
         android:layout_width="@dimen/x_ui_px_124.0"
-        android:layout_height="@dimen/x_ui_px_44.0"
+        android:layout_height="@dimen/x_ui_px_50.0"
         android:background="@drawable/jump_advertising_bg"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/x_ui_px_30.0"

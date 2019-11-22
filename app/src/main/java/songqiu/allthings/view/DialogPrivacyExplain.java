@@ -18,6 +18,7 @@ import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.iterface.DialogDeleteListener;
+import songqiu.allthings.iterface.DialogPrivacyListener;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ToastUtil;
 
@@ -33,7 +34,7 @@ import songqiu.allthings.util.ToastUtil;
 public class DialogPrivacyExplain extends Dialog{
 
     private Context context;
-//    DialogDeleteListener dialogDeleteListener;
+    DialogPrivacyListener dialogPrivacyListener;
 
     public DialogPrivacyExplain(Context context) {
         super(context);
@@ -55,6 +56,16 @@ public class DialogPrivacyExplain extends Dialog{
         knowTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialogPrivacyListener.sure();
+                dismiss();
+            }
+        });
+
+        TextView cancelTv = view.findViewById(R.id.cancelTv);
+        cancelTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogPrivacyListener.cancel();
                 dismiss();
             }
         });
@@ -119,6 +130,10 @@ public class DialogPrivacyExplain extends Dialog{
         DisplayMetrics d = context.getResources().getDisplayMetrics(); // 获取屏幕宽、高用
         lp.width = (int) (d.widthPixels * 0.8); // 宽度设置为屏幕的0.7
         dialogWindow.setAttributes(lp);
+    }
+
+    public void setDialogPrivacyListener(DialogPrivacyListener dialogPrivacyListener) {
+        this.dialogPrivacyListener = dialogPrivacyListener;
     }
 
 }

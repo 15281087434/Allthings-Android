@@ -12,10 +12,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import songqiu.allthings.R;
-import songqiu.allthings.activity.CommentWebViewActivity;
-import songqiu.allthings.constant.SnsConstants;
-import songqiu.allthings.iterface.DialogDeleteListener;
-import songqiu.allthings.iterface.DialogPermissionListener;
+import songqiu.allthings.iterface.DialogPrivacyListener;
 import songqiu.allthings.util.ClickUtil;
 
 /*******
@@ -30,7 +27,7 @@ import songqiu.allthings.util.ClickUtil;
 public class DialogPermission extends Dialog{
 
     private Context context;
-    DialogPermissionListener dialogPermissionListener;
+    DialogPrivacyListener dialogPrivacyListener;
 
     public DialogPermission(Context context) {
         super(context);
@@ -53,7 +50,19 @@ public class DialogPermission extends Dialog{
             @Override
             public void onClick(View v) {
                 if(ClickUtil.onClick()) {
-                    dialogPermissionListener.sure();
+                    dialogPrivacyListener.sure();
+                    dismiss();
+                }
+            }
+        });
+
+        TextView cancelTv = view.findViewById(R.id.cancelTv);
+        cancelTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ClickUtil.onClick()) {
+                    dialogPrivacyListener.cancel();
+                    dismiss();
                 }
             }
         });
@@ -110,8 +119,8 @@ public class DialogPermission extends Dialog{
         dialogWindow.setAttributes(lp);
     }
 
-    public void setDialogPermissionListener(DialogPermissionListener dialogPermissionListener) {
-        this.dialogPermissionListener = dialogPermissionListener;
+    public void setDialogPrivacyListener(DialogPrivacyListener dialogPrivacyListener) {
+        this.dialogPrivacyListener = dialogPrivacyListener;
     }
 
 }

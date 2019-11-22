@@ -47,7 +47,7 @@ import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
-import songqiu.allthings.iterface.DialogPermissionListener;
+import songqiu.allthings.iterface.DialogPrivacyListener;
 import songqiu.allthings.iterface.DialogUploadVersionListener;
 import songqiu.allthings.util.LocationUtils;
 import songqiu.allthings.util.LogUtil;
@@ -58,8 +58,6 @@ import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.upload.UpdateManager;
 import songqiu.allthings.view.DialogPermission;
-import songqiu.allthings.view.DialogPrivacyExplain;
-import songqiu.allthings.view.DialogSign;
 import songqiu.allthings.view.DialogUploadVersion;
 
 /*******
@@ -89,7 +87,6 @@ public class GuideActivity extends BaseActivity {
         getDelRd();
         boolean first = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.FIRST_ENTER_GUIDE,true);
         if(first) {
-            SharedPreferencedUtils.setBoolean(this,SharedPreferencedUtils.FIRST_ENTER_GUIDE,false);
             decideFirst();
         }else {
             applyPermission();
@@ -242,11 +239,16 @@ public class GuideActivity extends BaseActivity {
             dialogPermission.setCancelable(false);
             dialogPermission.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogPermission.show();
-            dialogPermission.setDialogPermissionListener(new DialogPermissionListener() {
+            dialogPermission.setDialogPrivacyListener(new DialogPrivacyListener() {
+                @Override
+                public void cancel() {
+                    finish();
+                }
+
                 @Override
                 public void sure() {
+                    SharedPreferencedUtils.setBoolean(GuideActivity.this,SharedPreferencedUtils.FIRST_ENTER_GUIDE,false);
                     applyPermission();
-                    dialogPermission.dismiss();
                 }
             });
     }
