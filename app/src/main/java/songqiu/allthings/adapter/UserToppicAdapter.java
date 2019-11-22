@@ -203,14 +203,14 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gambitItemListener.delete(2, item.get(position).id);
+                gambitItemListener.delete(2, item.get(position).id,item.get(position).userid);
             }
         });
         //删除
         holder.myDeleteTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gambitItemListener.delete(1, item.get(position).id);
+                gambitItemListener.delete(1, item.get(position).id,item.get(position).userid);
             }
         });
         //去主页
@@ -340,14 +340,14 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gambitItemListener.delete(2, item.get(position).id);
+                gambitItemListener.delete(2, item.get(position).id,item.get(position).userid);
             }
         });
         //删除
         holder.myDeleteTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gambitItemListener.delete(1, item.get(position).id);
+                gambitItemListener.delete(1, item.get(position).id,item.get(position).userid);
             }
         });
         //去主页
@@ -469,14 +469,14 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gambitItemListener.delete(2, item.get(position).id);
+                gambitItemListener.delete(2, item.get(position).id,item.get(position).userid);
             }
         });
         //删除
         holder.myDeleteTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gambitItemListener.delete(1, item.get(position).id);
+                gambitItemListener.delete(1, item.get(position).id,item.get(position).userid);
             }
         });
         //去主页

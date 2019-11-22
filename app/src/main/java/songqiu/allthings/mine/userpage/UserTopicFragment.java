@@ -149,7 +149,7 @@ public class UserTopicFragment extends BaseFragment {
             }
 
             @Override
-            public void delete(int type,int talk_id) {
+            public void delete(int type,int talk_id,int userId) {
                 if(1==type) {//删除
                     delMyselfGambit(talk_id);
                 }else {//举报

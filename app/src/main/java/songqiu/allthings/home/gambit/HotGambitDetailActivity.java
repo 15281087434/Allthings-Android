@@ -231,11 +231,11 @@ public class HotGambitDetailActivity extends BaseActivity{
             }
 
             @Override
-            public void delete(int type,int talk_id) {
+            public void delete(int type,int talk_id,int userId) {
                 if(1==type) {//删除
                     delMyselfGambit(talk_id);
                 }else {//举报
-                    initDialog(talk_id);
+                    initDialog(talk_id,userId);
                 }
             }
 
@@ -269,11 +269,11 @@ public class HotGambitDetailActivity extends BaseActivity{
             }
 
             @Override
-            public void delete(int type,int talk_id) {
+            public void delete(int type,int talk_id,int userId) {
                 if(1==type) {//删除
                     delMyselfGambit(talk_id);
                 }else {//举报
-                    initDialog(talk_id);
+                    initDialog(talk_id,userId);
                 }
             }
 
@@ -411,7 +411,6 @@ public class HotGambitDetailActivity extends BaseActivity{
         if(null != newList && 0!= newList.size()) {
             for(int j = 0;j<newList.size();j++) {
                 if(newList.get(j).id ==  talkid) {
-                    LogUtil.i("j:"+j);
                     newList.get(j).share_num = newList.get(j).share_num+1;
                     newGambitAdapter.notifyDataSetChanged();
                 }
@@ -419,7 +418,7 @@ public class HotGambitDetailActivity extends BaseActivity{
         }
     }
 
-    public void initDialog(int talk_id) {
+    public void initDialog(int talk_id,int userId) {
         DialogDelete dialogDelete = new DialogDelete(this,4);
         dialogDelete.setCanceledOnTouchOutside(true);
         dialogDelete.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -427,17 +426,17 @@ public class HotGambitDetailActivity extends BaseActivity{
         dialogDelete.setDialogDeleteListener(new DialogDeleteListener() {
             @Override
             public void delete1() {
-                doDeletel(talk_id,1);
+                doDeletel(talk_id,userId,1);
             }
 
             @Override
             public void delete2() {
-                doDeletel(talk_id,2);
+                doDeletel(talk_id,userId,2);
             }
 
             @Override
             public void delete3() {
-                doDeletel(talk_id,3);
+                doDeletel(talk_id,userId,3);
             }
 
             @Override
@@ -447,25 +446,27 @@ public class HotGambitDetailActivity extends BaseActivity{
         });
     }
 
-    public void doDeletel(int talk_id,int bid) {
+    public void doDeletel(int talk_id,int userId,int bid) {
         unLike(talk_id,bid,3);
         ToastUtil.showToast(this,"将减少此类内容推荐");
         if(null != newList && 0!=newList.size()) {
-            for(int i = 0;i<newList.size();i++) {
-                if(talk_id == newList.get(i).id) {
-                    newList.remove(i);
-                    newGambitAdapter.notifyDataSetChanged();
+                for(int i = 0;i<newList.size();i++) {
+                    if(talk_id == newList.get(i).id) {
+                        newList.remove(i);
+                        i--;
+                    }
                 }
-            }
+            newGambitAdapter.notifyDataSetChanged();
         }
 
         if(null != hotList && 0!=hotList.size()) {
             for(int i = 0;i<hotList.size();i++) {
-                if(talk_id == hotList.get(i).id) {
-                    hotList.remove(i);
-                    hotGambitAdapter.notifyDataSetChanged();
+                    if(talk_id == hotList.get(i).id) {
+                        hotList.remove(i);
+                        i--;
+                    }
                 }
-            }
+            hotGambitAdapter.notifyDataSetChanged();
         }
     }
 

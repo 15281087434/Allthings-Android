@@ -223,11 +223,11 @@ public class HomePageGambitFragment extends BaseFragment {
             }
 
             @Override
-            public void delete(int type,int talk_id) { //举报或者删除
+            public void delete(int type,int talk_id,int userId) { //举报或者删除
                 if(1==type) {//删除
                     delMyselfGambit(talk_id);
                 }else {//举报
-                    initDialog(talk_id);
+                    initDialog(talk_id,userId);
                 }
             }
 
@@ -254,7 +254,7 @@ public class HomePageGambitFragment extends BaseFragment {
     }
 
 
-    public void initDialog(int talk_id) {
+    public void initDialog(int talk_id,int userId) {
         DialogDelete dialogDelete = new DialogDelete(activity,4);
         dialogDelete.setCanceledOnTouchOutside(true);
         dialogDelete.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -262,17 +262,17 @@ public class HomePageGambitFragment extends BaseFragment {
         dialogDelete.setDialogDeleteListener(new DialogDeleteListener() {
             @Override
             public void delete1() {
-                doDeletel(talk_id,1);
+                doDeletel(talk_id,userId,1);
             }
 
             @Override
             public void delete2() {
-                doDeletel(talk_id,2);
+                doDeletel(talk_id,userId,2);
             }
 
             @Override
             public void delete3() {
-                doDeletel(talk_id,3);
+                doDeletel(talk_id,userId,3);
             }
 
             @Override
@@ -282,16 +282,16 @@ public class HomePageGambitFragment extends BaseFragment {
         });
     }
 
-    public void doDeletel(int talk_id,int bid) {
+    public void doDeletel(int talk_id,int userId,int bid) {
         unLike(talk_id,bid,3);
         ToastUtil.showToast(activity,"将减少此类内容推荐");
         if(null != newList && 0!=newList.size()) {
-            for(int i = 0;i<newList.size();i++) {
-                if(talk_id == newList.get(i).id) {
-                    newList.remove(i);
-                    newGambitAdapter.notifyDataSetChanged();
+                for(int i = 0;i<newList.size();i++) {
+                    if(talk_id == newList.get(i).id) {
+                        newList.remove(i);
+                        newGambitAdapter.notifyDataSetChanged();
+                    }
                 }
-            }
         }
     }
 
