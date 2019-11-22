@@ -51,6 +51,7 @@ import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.iterface.DialogDeleteListener;
 import songqiu.allthings.iterface.GambitItemListener;
 import songqiu.allthings.iterface.HomeHotGambitListener;
 import songqiu.allthings.iterface.PhotoViewListener;
@@ -68,6 +69,7 @@ import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.TokenManager;
 import songqiu.allthings.util.WindowUtil;
 import songqiu.allthings.util.theme.ShareUrl;
+import songqiu.allthings.view.DialogDelete;
 import songqiu.allthings.view.ReportPopupWindows;
 import songqiu.allthings.view.SharePopupWindows;
 import songqiu.allthings.view.banner.ColorPointHintView;
@@ -225,7 +227,7 @@ public class HomePageGambitFragment extends BaseFragment {
                 if(1==type) {//删除
                     delMyselfGambit(talk_id);
                 }else {//举报
-                    showReportWindow(talk_id,3);
+                    initDialog(talk_id);
                 }
             }
 
@@ -250,6 +252,66 @@ public class HomePageGambitFragment extends BaseFragment {
             }
         });
     }
+
+
+    public void initDialog(int talk_id) {
+        DialogDelete dialogDelete = new DialogDelete(activity,4);
+        dialogDelete.setCanceledOnTouchOutside(true);
+        dialogDelete.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialogDelete.show();
+        dialogDelete.setDialogDeleteListener(new DialogDeleteListener() {
+            @Override
+            public void delete1() {
+                doDeletel(talk_id,1);
+            }
+
+            @Override
+            public void delete2() {
+                doDeletel(talk_id,2);
+            }
+
+            @Override
+            public void delete3() {
+                doDeletel(talk_id,3);
+            }
+
+            @Override
+            public void delete4() {
+                showReportWindow(talk_id,3);
+            }
+        });
+    }
+
+    public void doDeletel(int talk_id,int bid) {
+        unLike(talk_id,bid,3);
+        ToastUtil.showToast(activity,"将减少此类内容推荐");
+        if(null != newList && 0!=newList.size()) {
+            for(int i = 0;i<newList.size();i++) {
+                if(talk_id == newList.get(i).id) {
+                    newList.remove(i);
+                    newGambitAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+    //调用不喜欢接口
+    public void unLike(int mid,int bid,int type) {
+        //bid 1=不敢兴趣，2=反馈垃圾内容，3=拉黑作者
+        //mid 文章视频id
+        //type 1=文章，2=视频
+        Map<String, String> map = new HashMap<>();
+        map.put("bid",bid+"");
+        map.put("mid",mid+"");
+        map.put("type",type+"");
+        OkHttp.post(activity, HttpServicePath.URL_UNLIKE, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+
+            }
+        });
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void toGambitRefresh(EventTags.GambitRefresh gambitRefresh) {

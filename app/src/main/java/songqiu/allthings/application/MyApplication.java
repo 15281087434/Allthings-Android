@@ -68,8 +68,8 @@ public class MyApplication extends Application {
     public String andoridId="";
     //版本号
     public String versionName;
-    //渠道号 官方安卓 1、OPPO 2、vivo 3、华为 4、应用宝 5 、UC 6、360 7、百度 8、小米 9
-    public String channel="1";
+    //渠道号 官方安卓 1、OPPO 2、vivo 3、华为 4、应用宝 5 、UC 6、360 7、百度 8、小米 9 、魅族 10 、 联想 11
+    public String channel="10";
 
 
     public static MyApplication getInstance() {
