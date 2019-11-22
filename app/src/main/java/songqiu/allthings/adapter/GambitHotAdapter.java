@@ -138,7 +138,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
         long time = item.get(position).created * 1000;
         holder.timeTv.setText(DateUtil.getTimeBig3(time));
         if (0 == item.get(position).is_follow) { //未关注
-            holder.attentionTv.setText("+ 关注");
+            holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
         } else {
             holder.attentionTv.setText("已关注");
@@ -283,7 +283,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
         long time = item.get(position).created * 1000;
         holder.timeTv.setText(DateUtil.getTimeBig3(time));
         if (0 == item.get(position).is_follow) { //未关注
-            holder.attentionTv.setText("+ 关注");
+            holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
         } else {
             holder.attentionTv.setText("已关注");
@@ -440,7 +440,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
         long time = item.get(position).created * 1000;
         holder.timeTv.setText(DateUtil.getTimeBig3(time));
         if (0 == item.get(position).is_follow) { //未关注
-            holder.attentionTv.setText("+ 关注");
+            holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
         } else {
             holder.attentionTv.setText("已关注");

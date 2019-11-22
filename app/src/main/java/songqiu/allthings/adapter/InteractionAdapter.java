@@ -74,7 +74,7 @@ public class InteractionAdapter extends RecyclerView.Adapter<InteractionAdapter.
             viewHolder.stateTv.setBackgroundResource(R.drawable.rectangle_common_attention);
         }else {
             if(0==list.get(position).is_follow) {
-                viewHolder.stateTv.setText("+ 关注");
+                viewHolder.stateTv.setText("关注");
                 viewHolder.stateTv.setBackgroundResource(R.drawable.rectangle_common_attention);
             }else {
                 viewHolder.stateTv.setText("已关注");

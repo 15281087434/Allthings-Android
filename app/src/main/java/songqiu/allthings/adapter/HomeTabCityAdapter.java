@@ -441,7 +441,7 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
             holder.likeTv.setTextColor(context.getResources().getColor(R.color.FFDE5C51));
         }
         if (0 == item.get(position).is_follow) {
-            holder.attentionTv.setText("+ 关注");
+            holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
         } else {
             holder.attentionTv.setText("已关注");

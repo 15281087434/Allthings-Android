@@ -51,7 +51,7 @@
                 android:layout_height="@dimen/x_ui_px_35.0"
                 android:layout_marginLeft="@dimen/x_ui_px_30.0"
                 android:gravity="center"
-                android:text="+ 关注"
+                android:text="关注"
                 android:textColor="@color/white"
                 android:textSize="@dimen/x_ui_px_19.0"
                 android:background="@drawable/rectangle_common_attention"

@@ -89,7 +89,7 @@ public class HomeHotGambitAdapter extends RecyclerView.Adapter {
         ((GambitViewholder)viewHolder).attentionNumTv.setText(ShowNumUtil.showUnm(list.get(position).follow_num)+" 关注");
         int is_follow = list.get(position).is_follow;
         if (0 == is_follow) {
-            ((GambitViewholder)viewHolder).attentionTv.setText("+ 关注");
+            ((GambitViewholder)viewHolder).attentionTv.setText("关注");
             ((GambitViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
         }else {
             ((GambitViewholder)viewHolder).attentionTv.setText("已关注");

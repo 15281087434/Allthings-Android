@@ -258,7 +258,7 @@ public class GambitDetailActivity extends BaseActivity {
         }
 
         if (0 == gambitDetailBean.is_follow) {
-            attentionTv.setText("+ 关注");
+            attentionTv.setText("关注");
             attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
         } else {
             attentionTv.setText("已关注");
@@ -574,7 +574,7 @@ public class GambitDetailActivity extends BaseActivity {
                             attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
                         } else {
                             gambitDetailBean.is_follow = 0;
-                            attentionTv.setText("+ 关注");
+                            attentionTv.setText("关注");
                             attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
                         }
                     }

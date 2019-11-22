@@ -553,7 +553,7 @@ public class VideoDetailActivity extends BaseActivity {
         likeNumTv.setText(ShowNumUtil.showUnm(videoDetailBean.up_num));
         commentNumTv.setText(String.valueOf(videoDetailBean.comment_num));
         if (0 == videoDetailBean.is_follow) {
-            attentionTv.setText("+ 关注");
+            attentionTv.setText("关注");
             attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
         } else {
             attentionTv.setText("已关注");
@@ -881,7 +881,7 @@ public class VideoDetailActivity extends BaseActivity {
                             EventBus.getDefault().post(new EventTags.Attention(parentid, 1));
                         } else {
                             videoDetailBean.is_follow = 0;
-                            attentionTv.setText("+ 关注");
+                            attentionTv.setText("关注");
                             attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
                             //取消点赞通知
                             EventBus.getDefault().post(new EventTags.Attention(parentid, 0));

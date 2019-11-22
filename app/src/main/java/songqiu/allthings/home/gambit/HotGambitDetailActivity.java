@@ -303,7 +303,7 @@ public class HotGambitDetailActivity extends BaseActivity{
         hotNumTv.setText(ShowNumUtil.showUnm(hotGambitDetailBean.hot_num) + " 热度");
         attentionNumTv.setText(ShowNumUtil.showUnm(hotGambitDetailBean.follow_num) + " 关注");
         if (0 == hotGambitDetailBean.is_follow) { //未关注
-            attentionTv.setText("+ 关注");
+            attentionTv.setText("关注");
             attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
         } else { //已关注
             attentionTv.setText("已关注");
@@ -650,7 +650,7 @@ public class HotGambitDetailActivity extends BaseActivity{
                     public void run() {
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
                         if (url.contains("follow_talk_no")) { //取消关注
-                            attentionTv.setText("+ 关注");
+                            attentionTv.setText("关注");
                             attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
                             hotGambitDetailBean.is_follow = 0;
                             hotGambitDetailBean.follow_num = hotGambitDetailBean.follow_num -1;

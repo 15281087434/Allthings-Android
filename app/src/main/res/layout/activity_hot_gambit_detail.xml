@@ -132,7 +132,7 @@
                     android:layout_height="@dimen/x_ui_px_56.0"
                     android:background="@drawable/rectangle_common_attention"
                     android:gravity="center"
-                    android:text="+ 关注"
+                    android:text="关注"
                     android:textColor="@color/white"
                     android:textSize="@dimen/x_ui_px_24.0"
                     android:layout_alignParentRight="true"

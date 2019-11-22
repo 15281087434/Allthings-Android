@@ -118,7 +118,7 @@ public class UserPagerActivity extends BaseActivity {
         if (userId == myUserId) {
             compileTv.setText("编辑资料");
         } else {
-            compileTv.setText("+ 关注");
+            compileTv.setText("关注");
         }
         list = getTableTitle();
         initMagicindicator();
@@ -154,7 +154,7 @@ public class UserPagerActivity extends BaseActivity {
             compileTv.setText("编辑资料");
         }else {
             if(0 == userMemberDetailBean.is_follow) { //未关注
-                compileTv.setText("+ 关注");
+                compileTv.setText("关注");
                 compileTv.setTextColor(getResources().getColor(R.color.normal_color));
             }else { //已关注
                 compileTv.setText("已关注");
@@ -306,7 +306,7 @@ public class UserPagerActivity extends BaseActivity {
                             EventBus.getDefault().post(new EventTags.Attention(parentid, 1));
                         } else {
                             userMemberDetailBean.is_follow = 0;
-                            compileTv.setText("+ 关注");
+                            compileTv.setText("关注");
                             compileTv.setTextColor(getResources().getColor(R.color.normal_color));
                             EventBus.getDefault().post(new EventTags.Attention(parentid, 0));
                         }

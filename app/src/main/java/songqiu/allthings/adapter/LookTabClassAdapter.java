@@ -136,7 +136,7 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
             viewHolder.likeTv.setTextColor(context.getResources().getColor(R.color.FFDE5C51));
         }
         if(0 == item.get(position).is_follow) {
-            viewHolder.attentionTv.setText("+ 关注");
+            viewHolder.attentionTv.setText("关注");
             viewHolder.attentionTv.setTextColor(context.getResources().getColor(R.color.white));
             viewHolder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
         }else {

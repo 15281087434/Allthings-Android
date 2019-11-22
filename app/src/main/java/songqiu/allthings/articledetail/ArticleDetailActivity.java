@@ -528,9 +528,9 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         //评论数
         commentNumTv.setText(String.valueOf(articleDetailBean.comment_num));
         if (0 == articleDetailBean.is_follow) {
-            attentionTv.setText("+ 关注");
+            attentionTv.setText("关注");
             attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
-            attentionTitleTv.setText("+ 关注");
+            attentionTitleTv.setText("关注");
             attentionTitleTv.setBackgroundResource(R.drawable.rectangle_common_attention);
 
         } else {
@@ -817,9 +817,9 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                             EventBus.getDefault().post(new EventTags.Attention(parentid, 1));
                         } else {
                             articleDetailBean.is_follow = 0;
-                            attentionTv.setText("+ 关注");
+                            attentionTv.setText("关注");
                             attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
-                            attentionTitleTv.setText("+ 关注");
+                            attentionTitleTv.setText("关注");
                             attentionTitleTv.setBackgroundResource(R.drawable.rectangle_common_attention);
                             EventBus.getDefault().post(new EventTags.Attention(parentid, 0));
                         }
