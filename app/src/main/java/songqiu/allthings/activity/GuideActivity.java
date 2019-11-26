@@ -130,8 +130,8 @@ public class GuideActivity extends BaseActivity {
                         String data = gson.toJson(baseBean.data);
                         //{"code":"200","msg":"返回成功","data":null}
                         if (StringUtil.isEmpty(data)) {
-                            getAdvertise();
-//                            toMainActivity();
+//                            getAdvertise();
+                            toMainActivity();
                         }else {
                             versionBean = gson.fromJson(data, VersionBean.class);
                             initUploadVersionDialog(versionBean);

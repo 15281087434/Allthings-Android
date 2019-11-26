@@ -403,7 +403,7 @@ public class HeartVideo extends FrameLayout implements TextureView.SurfaceTextur
 
     @Override
     public void onVideoSizeChanged(MediaPlayer mediaPlayer, int i, int i1) {
-
+        mTextureView.adaptVideoSize(mediaPlayer.getVideoWidth(),mediaPlayer.getVideoHeight());
     }
 
     @Override

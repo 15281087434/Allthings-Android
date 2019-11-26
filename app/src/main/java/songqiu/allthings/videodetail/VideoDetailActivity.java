@@ -528,7 +528,7 @@ public class VideoDetailActivity extends BaseActivity {
                 if (!videoDetailBean.photo.contains("http")) {
                     videoDetailBean.photo = HttpServicePath.BasePicUrl + videoDetailBean.photo;
                 }
-                if(!StringUtil.isEmpty(videoDetailBean.video_url)) {
+                if(!StringUtil.isEmpty(videoDetailBean.video_url)) { //
                     HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(videoDetailBean.video_url).setImagePath(videoDetailBean.photo)
                             .setSaveProgress(false).setVideoId(videoDetailBean.articleid).builder();
                     VideoControl control = new VideoControl(VideoDetailActivity.this);
