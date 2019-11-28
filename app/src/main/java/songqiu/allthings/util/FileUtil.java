@@ -37,6 +37,7 @@ public class FileUtil {
 		try {
 			File f = new File(file);
 			if (f.exists() && f.isFile()) {
+				LogUtil.i("********length:"+f.length());
 				if (f.length() > 1024 * 500) {
 					return FileUtil.convert2Save(file,
 							FileUtil.getRootFilePath("songqiu.allthings"));
@@ -64,6 +65,8 @@ public class FileUtil {
 		File file = new File(path, fileName);
 		file.createNewFile();
 
+		//LogUtil.i("************originalFile:"+originalFile);
+		// /storage/emulated/0/songqiu.allthings//.jpg
 		Bitmap bm = getSmallBitmap(originalFile);
 
 		FileOutputStream fos = new FileOutputStream(file);
@@ -87,8 +90,8 @@ public class FileUtil {
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(filePath, options);
 
-		// Calculate inSampleSize
-		options.inSampleSize = calculateInSampleSize(options, 480, 800);
+		// Calculate inSampleSize  //calculateInSampleSize(options, 480, 800);
+		options.inSampleSize = 1;
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;

@@ -15,10 +15,11 @@
             >
 
             <ImageView
+                android:id="@+id/img"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@mipmap/ewmredenvelope"
-                android:scaleType="centerCrop"/>
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -40,7 +41,17 @@
                 android:layout_width="@dimen/x_ui_px_300.0"
                 android:layout_height="@dimen/x_ui_px_300.0"
                 android:scaleType="fitXY"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/x_ui_px_424.0"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ea5433"
+                android:layout_below="@+id/img"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="-7dp"
                 />
 
             <ImageView
@@ -52,6 +63,7 @@
                 android:layout_centerHorizontal="true"/>
 
         </RelativeLayout>
+
 
     </LinearLayout>
 

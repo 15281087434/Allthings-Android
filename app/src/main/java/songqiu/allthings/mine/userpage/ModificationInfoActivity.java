@@ -56,6 +56,7 @@ import songqiu.allthings.util.FileUtil;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.GlideLoadUtils;
 import songqiu.allthings.util.JsUtils;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
@@ -342,13 +343,10 @@ public class ModificationInfoActivity extends BaseActivity {
         }else {
             contentUri =  Uri.parse("file://"+file.getAbsolutePath());
         }
-        PackageManager packageManager = getPackageManager();
-//        if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
-            startActivityForResult(intent, TAKE_PHOTOS_RESULT);
-//        }
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+        startActivityForResult(intent, TAKE_PHOTOS_RESULT);
     }
 
 
@@ -444,7 +442,7 @@ public class ModificationInfoActivity extends BaseActivity {
                             String path = files.get(0).getPath();
                             if(StringUtil.isEmpty(path)) return;
                             GlideLoadUtils.getInstance().glideLoadHead(ModificationInfoActivity.this,path,userIcon);
-                             uploadPic(path);
+                            uploadPic(path);
                         }
                     }
                 }
@@ -473,11 +471,13 @@ public class ModificationInfoActivity extends BaseActivity {
                                     uploadPicBean.imgurl.replace("\"","");
                                 }
                                 String headUrl= HttpServicePath.BasePicUrl+uploadPicBean.imgurl;
+                                LogUtil.i("headUrl:"+headUrl);
                                 GlideLoadUtils.getInstance().glideLoadHead(ModificationInfoActivity.this,headUrl,userIcon);
                             }else {
                                 if(uploadPicBean.imgurl.contains("\"")) {
                                     uploadPicBean.imgurl.replace("\"","");
                                 }
+                                LogUtil.i("headUrl:"+uploadPicBean.imgurl);
                                 GlideLoadUtils.getInstance().glideLoadHead(ModificationInfoActivity.this,uploadPicBean.imgurl,userIcon);
                             }
                         }
@@ -556,22 +556,6 @@ public class ModificationInfoActivity extends BaseActivity {
             case R.id.sixLayout:
                 showSixDialog();
                 break;
-//            case R.id.manLayout:
-//                mSix = "1";
-//                manImg.setImageResource(R.mipmap.choose_six_pre);
-//                womenImg.setImageResource(R.mipmap.choose_six);
-//                manTv.setTextColor(getResources().getColor(R.color.normal_color));
-//                womenTv.setTextColor(getResources().getColor(R.color.bottom_tab_tv));
-//                setsureTvUi(true);
-//                break;
-//            case R.id.womenLayout:
-//                mSix = "2";
-//                manImg.setImageResource(R.mipmap.choose_six);
-//                womenImg.setImageResource(R.mipmap.choose_six_pre);
-//                womenTv.setTextColor(getResources().getColor(R.color.normal_color));
-//                manTv.setTextColor(getResources().getColor(R.color.bottom_tab_tv));
-//                setsureTvUi(true);
-//                break;
             case R.id.addressLayout:
                 if (ClickUtil.onClick()) {
                     showPickerView();
