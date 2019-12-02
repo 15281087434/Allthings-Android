@@ -1,11 +1,16 @@
 package songqiu.allthings.home.gambit;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -19,6 +24,8 @@ import android.widget.TextView;
 
 import com.bilibili.boxing.Boxing;
 import com.google.gson.Gson;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -32,6 +39,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
+import songqiu.allthings.BuildConfig;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.BuddingBoxingActivity;
@@ -44,9 +53,12 @@ import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.mine.help.FeedbackAndHelpActivity;
 import songqiu.allthings.mine.help.MyQuestionActivity;
+import songqiu.allthings.mine.userpage.ModificationInfoActivity;
 import songqiu.allthings.util.BoxingDefaultConfig;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DensityUtil;
+import songqiu.allthings.util.FileUtil;
+import songqiu.allthings.util.GlideLoadUtils;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
@@ -54,6 +66,7 @@ import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.theme.ThemeManager;
 import songqiu.allthings.view.MyEditText;
+import songqiu.allthings.view.NoTitleDialog;
 
 /*******
  *
@@ -97,7 +110,16 @@ public class JoinGambitActivity extends BaseActivity {
     String add_url_tag = R.mipmap.icon_setting_add_img + "";
     GvAlbumAdapter gvAlbumAdapter;
     List<String> arryPic = new ArrayList<String>();
+    int maxPicNum = 9;
+    boolean canCamera;
+    final int TAKE_PHOTOS_RESULT = 52;
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        applyPermission();
+    }
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -163,16 +185,43 @@ public class JoinGambitActivity extends BaseActivity {
         });
     }
 
+    public void applyPermission() {
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions
+                .requestEach(
+                        Manifest.permission.CAMERA
+                )
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if (permission.name.equals(Manifest.permission.CAMERA)) {
+                            if (permission.granted) {
+                                canCamera = true;
+                            } else if (permission.shouldShowRequestPermissionRationale) {
+                                // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+                                canCamera = false;
+                            } else {
+                                // 用户拒绝了该权限，并且选中『不再询问』
+                                canCamera = false;
+                            }
+                        }
+                    }
+                });
+
+    }
+
     public void initGridView() {
         linkedList.add(add_url_tag);
-        gvAlbumAdapter = new GvAlbumAdapter(this, linkedList,9);
+        gvAlbumAdapter = new GvAlbumAdapter(this, linkedList,maxPicNum);
         gvAlbum.setAdapter(gvAlbumAdapter);
         gvAlbumAdapter.setOnShowDialogListener(new GvAlbumAdapter.ShowDialogListener() {
             @Override
             public void addImage() {
-                Boxing.of(BoxingDefaultConfig.getInstance().getMultiConfig(10 - linkedList.size()))
-                        .withIntent(JoinGambitActivity.this, BuddingBoxingActivity.class)
-                        .start(JoinGambitActivity.this, BoxingDefaultConfig.IMAGE_REQUEST_CODE);
+                if(canCamera) {
+                    showDialog();
+                }else {
+                    ToastUtil.showToast(JoinGambitActivity.this,"请在设置-应用-见怪-权限中开启相机权限");
+                }
             }
 
             @Override
@@ -196,22 +245,70 @@ public class JoinGambitActivity extends BaseActivity {
         });
     }
 
+    private void showDialog() {
+        NoTitleDialog dialog = new NoTitleDialog(this);
+        dialog.showDialog();
+        dialog.setOnItemClickListener(new NoTitleDialog.OnItemClick() {
+            @Override
+            public void onWhichItemClick(int pos) {
+                switch (pos) {
+                    case 0:
+                        takePhotos();
+                        break;
+                    case 1:
+                        Boxing.of(BoxingDefaultConfig.getInstance().getMultiConfig(10 - linkedList.size()))
+                            .withIntent(JoinGambitActivity.this, BuddingBoxingActivity.class)
+                            .start(JoinGambitActivity.this, BoxingDefaultConfig.IMAGE_REQUEST_CODE);
+                        break;
+                    case 2:
+                        break;
+                }
+                if (dialog != null && dialog.isShowing())
+                    dialog.dismiss();
+            }
+        });
+    }
+
+    // 拍照
+    public void takePhotos() {
+        Uri contentUri;
+        File file = new File(FileUtil.getTakePhotoPath("songqiu.allthings"));
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            contentUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileProvider", file);
+        }else {
+            contentUri =  Uri.parse("file://"+file.getAbsolutePath());
+        }
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+        startActivityForResult(intent, TAKE_PHOTOS_RESULT);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        BoxingDefaultConfig.getCompressedBitmap(this, requestCode, data, new BoxingDefaultConfig.OnLuBanCompressed() {
-            @Override
-            public void onCompressed(List<File> files) {
-                if (null != files && 0 != files.size()) {
-                    for (int i = 0; i < files.size(); i++) {
-                        linkedList.add(linkedList.size() - 1, files.get(i).getPath());
-                        uploadPic(files.get(i).getPath());
+        if (requestCode == TAKE_PHOTOS_RESULT && resultCode == RESULT_OK) {
+            String path = FileUtil.checkLsength(FileUtil
+                    .getTakePhotoPath("songqiu.allthings"));
+            linkedList.add(linkedList.size() - 1, path);
+            uploadPic(path);
+            picnumTv.setText(linkedList.size()-1+"/9");
+            gvAlbumAdapter.notifyDataSetChanged();
+        }else {
+            BoxingDefaultConfig.getCompressedBitmap(this, requestCode, data, new BoxingDefaultConfig.OnLuBanCompressed() {
+                @Override
+                public void onCompressed(List<File> files) {
+                    if (null != files && 0 != files.size()) {
+                        for (int i = 0; i < files.size(); i++) {
+                            linkedList.add(linkedList.size() - 1, files.get(i).getPath());
+                            uploadPic(files.get(i).getPath());
+                        }
+                        picnumTv.setText(linkedList.size()-1+"/9");
+                        gvAlbumAdapter.notifyDataSetChanged();
                     }
-                    picnumTv.setText(linkedList.size()-1+"/9");
-                    gvAlbumAdapter.notifyDataSetChanged();
                 }
-            }
-        });
+            });
+        }
     }
 
     public void uploadPic(String path) {

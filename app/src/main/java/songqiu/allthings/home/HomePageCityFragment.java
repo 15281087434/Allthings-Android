@@ -37,23 +37,19 @@ import songqiu.allthings.adapter.HomeTabCityAdapter;
 import songqiu.allthings.adapter.HomeTabClassAdapter;
 import songqiu.allthings.base.BaseFragment;
 import songqiu.allthings.bean.HomeSubitemBean;
+import songqiu.allthings.bean.UnLikeBean;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.DialogDeleteListener;
 import songqiu.allthings.iterface.HomeItemListener;
-import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.location.LocationActivity;
-import songqiu.allthings.util.CheckLogin;
-import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.VibratorUtil;
-import songqiu.allthings.util.WindowUtil;
-import songqiu.allthings.view.DialogDelete;
-import songqiu.allthings.view.SharePopupWindows;
+import songqiu.allthings.view.DialogDeleteCommon;
 
 /*******
  *
@@ -153,7 +149,10 @@ public class HomePageCityFragment extends BaseFragment {
 
             @Override
             public void delete(int position,int type) {
-                initDialog(position);
+                if(null != item && 0!= item.size()) {
+                    getUnLikeParameter(item.get(position).articleid,item.get(position).type,position);
+                }
+//                initDialog(position);
             }
         });
 
@@ -169,6 +168,29 @@ public class HomePageCityFragment extends BaseFragment {
             public void onRefresh(RefreshLayout refreshlayout) {
                 pageNo = 1;
                 getData(pageNo,city,true);
+            }
+        });
+    }
+
+    //不喜欢列表
+    public void getUnLikeParameter(int articleid,int type,int position) {
+        Map<String, String> map = new HashMap<>();
+        map.put("articleid",String.valueOf(articleid));
+        map.put("type",type+"");
+        OkHttp.post(activity, HttpServicePath.URL_REPORT_LIST, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson = new Gson();
+                        String data = gson.toJson(baseBean.data);
+                        if (StringUtil.isEmpty(data)) return;
+                        UnLikeBean unLikeBean = gson.fromJson(data, UnLikeBean.class);
+                        if(null == unLikeBean) return;
+                        initDialog(unLikeBean,position);
+                    }
+                });
             }
         });
     }
@@ -202,37 +224,37 @@ public class HomePageCityFragment extends BaseFragment {
         ToastUtil.showToast(activity,"将减少推荐类似内容");
     }
 
-    public void initDialog(int position) {
-        DialogDelete dialogDelete = new DialogDelete(activity,3);
-        dialogDelete.setCanceledOnTouchOutside(true);
-        dialogDelete.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialogDelete.show();
-        dialogDelete.setDialogDeleteListener(new DialogDeleteListener() {
-            @Override
-            public void delete1() {
-                if(null == item || 0 == item.size()) return;
-                doDeletel(position,1,item.get(position).articleid);
-            }
 
+    public void initDialog(UnLikeBean unLikeBean,int position) {
+        DialogDeleteCommon dialog = new DialogDeleteCommon(activity,unLikeBean,true);
+        dialog.showDialog();
+        dialog.setOnItemClickListener(new DialogDeleteCommon.OnItemClick() {
             @Override
-            public void delete2() {
-                if(null == item || 0 == item.size()) return;
-                doDeletel(position,2,item.get(position).articleid);
-            }
+            public void onWhichItemClick(int pos) {
+                switch (pos) {
+                    case 1:
+                        if(null == item || 0 == item.size()) return;
+                        doDeletel(position,1,item.get(position).articleid);
+                        break;
+                    case 2:
+                        if(null == item || 0 == item.size()) return;
+                        doDeletel(position,2,item.get(position).articleid);
+                        break;
+                    case 3:
+                        if(null == item || 0 == item.size()) return;
+                        doDeletel(position,3,item.get(position).articleid);
+                        break;
+                    case 4:
+                        if(null == item || 0 == item.size()) return;
+                        doDeletel(position,4,item.get(position).articleid);
+                        break;
+                    case 5:
 
-            @Override
-            public void delete3() {
-                if(null == item || 0 == item.size()) return;
-                doDeletel(position,3,item.get(position).articleid);
-            }
-
-            @Override
-            public void delete4() {
-
+                        break;
+                }
             }
         });
     }
-
 
     public void getData(int page,String city,boolean ringDown) {
         String url = HttpServicePath.BaseUrl+ tag;

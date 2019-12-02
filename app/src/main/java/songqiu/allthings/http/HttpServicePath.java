@@ -218,6 +218,7 @@ public class HttpServicePath {
 
     //不喜欢
     public static String URL_UNLIKE = BaseUrl+"interest";
+
     //举报  //label:0=内容低俗，1=广告软文，2=政治敏感，3=色情低俗，4=违法信息，5=错误观念引导，6=人身攻击，7=涉嫌侵权，如：[1,3,4,5]   mid:内容id    type:1=文章，2=视频，3=话题，4=评论
     public static String URL_REPORT = BaseUrl+"report";
 
@@ -232,5 +233,8 @@ public class HttpServicePath {
 
     //进入app 调用  退出登录调用
     public static String URL_DEL_RD = BaseUrl+"del_rd";
+
+    //根据文章获取不喜欢
+    public static String URL_REPORT_LIST = BaseUrl+"report_list"; //type=1,说明后台上传，全部显示，type=0,抓取的数据，显示最上面两条
 
 }

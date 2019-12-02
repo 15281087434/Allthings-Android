@@ -37,7 +37,6 @@ public class FileUtil {
 		try {
 			File f = new File(file);
 			if (f.exists() && f.isFile()) {
-				LogUtil.i("********length:"+f.length());
 				if (f.length() > 1024 * 500) {
 					return FileUtil.convert2Save(file,
 							FileUtil.getRootFilePath("songqiu.allthings"));

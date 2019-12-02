@@ -70,6 +70,8 @@ import songqiu.allthings.bean.ArticleDetailRandBean;
 import songqiu.allthings.bean.AwardRuleBean;
 import songqiu.allthings.bean.ReadAwardBean;
 import songqiu.allthings.bean.ReportBean;
+import songqiu.allthings.bean.UnLikeBean;
+import songqiu.allthings.bean.UserInfoBean;
 import songqiu.allthings.bean.VideoDetailCommentBean;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
@@ -96,10 +98,11 @@ import songqiu.allthings.util.WindowUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.theme.ShareUrl;
 import songqiu.allthings.util.theme.ThemeManager;
+import songqiu.allthings.view.ChooseSixDialog;
 import songqiu.allthings.view.CommentWindow;
 import songqiu.allthings.view.CustomCircleProgress;
 import songqiu.allthings.view.DialogAwardRule;
-import songqiu.allthings.view.DialogDelete;
+import songqiu.allthings.view.DialogDeleteCommon;
 import songqiu.allthings.view.MyScrollView;
 import songqiu.allthings.view.ReportPopupWindows;
 import songqiu.allthings.view.SharePopupWindows;
@@ -1215,6 +1218,29 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         });
     }
 
+    //不喜欢列表
+    public void getUnLikeParameter(int articleid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("articleid",String.valueOf(articleid));
+        map.put("type",1+"");
+        OkHttp.post(this, HttpServicePath.URL_REPORT_LIST, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson = new Gson();
+                        String data = gson.toJson(baseBean.data);
+                        if (StringUtil.isEmpty(data)) return;
+                        UnLikeBean unLikeBean = gson.fromJson(data, UnLikeBean.class);
+                        if(null == unLikeBean) return;
+                        initDialog(unLikeBean);
+                    }
+                });
+            }
+        });
+    }
+
     public void doDeletel(int bid) {
         if(null == articleDetailBean) return;
         unLike(bid,articleDetailBean.articleid,1);
@@ -1223,33 +1249,32 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         ToastUtil.showToast(this,"将减少推荐类似内容");
     }
 
-    public void initDialog() {
-        DialogDelete dialogDelete = new DialogDelete(this,4);
-        dialogDelete.setCanceledOnTouchOutside(true);
-        dialogDelete.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialogDelete.show();
-        dialogDelete.setDialogDeleteListener(new DialogDeleteListener() {
-            @Override
-            public void delete1() {
-                doDeletel(1);
-            }
-
-            @Override
-            public void delete2() {
-                doDeletel(2);
-            }
-
-            @Override
-            public void delete3() {
-                doDeletel(3);
-            }
-
-            @Override
-            public void delete4() {
-                if(null == articleDetailBean) return;
-                showReportWindow(articleDetailBean.articleid,1);
-            }
-        });
+    public void initDialog(UnLikeBean unLikeBean) {
+            DialogDeleteCommon dialog = new DialogDeleteCommon(this,unLikeBean,false);
+            dialog.showDialog();
+            dialog.setOnItemClickListener(new DialogDeleteCommon.OnItemClick() {
+                @Override
+                public void onWhichItemClick(int pos) {
+                    switch (pos) {
+                        case 1:
+                            doDeletel(1);
+                            break;
+                        case 2:
+                            doDeletel(2);
+                            break;
+                        case 3:
+                            doDeletel(3);
+                            break;
+                        case 4:
+                            doDeletel(4);
+                            break;
+                        case 5:
+                            if(null == articleDetailBean) return;
+                            showReportWindow(articleDetailBean.articleid,1);
+                            break;
+                    }
+                }
+            });
     }
 
     private class MyBroadcastReceiver extends BroadcastReceiver {
@@ -1359,7 +1384,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 break;
             case R.id.nuLikeLayout:
                 if(ClickUtil.onClick()) {
-                    initDialog();
+                  getUnLikeParameter(articleid);
                 }
                 break;
             case R.id.shareFriendLayout:

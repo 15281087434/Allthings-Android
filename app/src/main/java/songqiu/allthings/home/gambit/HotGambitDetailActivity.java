@@ -52,6 +52,7 @@ import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.HotGambitCommonBean;
 import songqiu.allthings.bean.HotGambitDetailBean;
 import songqiu.allthings.bean.ReportBean;
+import songqiu.allthings.bean.UnLikeBean;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
@@ -75,13 +76,10 @@ import songqiu.allthings.util.VibratorUtil;
 import songqiu.allthings.util.WindowUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.theme.ShareUrl;
-import songqiu.allthings.util.theme.ThemeManager;
-import songqiu.allthings.view.DialogDelete;
+import songqiu.allthings.view.DialogDeleteCommon;
 import songqiu.allthings.view.MyScrollView;
 import songqiu.allthings.view.ReportPopupWindows;
 import songqiu.allthings.view.SharePopupWindows;
-import songqiu.allthings.view.banner.ColorPointHintView;
-import songqiu.allthings.view.banner.RollPagerView;
 
 /*******
  *
@@ -235,7 +233,7 @@ public class HotGambitDetailActivity extends BaseActivity{
                 if(1==type) {//删除
                     delMyselfGambit(talk_id);
                 }else {//举报
-                    initDialog(talk_id,userId);
+                    getUnLikeParameter(talk_id,3);
                 }
             }
 
@@ -273,7 +271,7 @@ public class HotGambitDetailActivity extends BaseActivity{
                 if(1==type) {//删除
                     delMyselfGambit(talk_id);
                 }else {//举报
-                    initDialog(talk_id,userId);
+                    getUnLikeParameter(talk_id,3);
                 }
             }
 
@@ -418,35 +416,58 @@ public class HotGambitDetailActivity extends BaseActivity{
         }
     }
 
-    public void initDialog(int talk_id,int userId) {
-        DialogDelete dialogDelete = new DialogDelete(this,4);
-        dialogDelete.setCanceledOnTouchOutside(true);
-        dialogDelete.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialogDelete.show();
-        dialogDelete.setDialogDeleteListener(new DialogDeleteListener() {
-            @Override
-            public void delete1() {
-                doDeletel(talk_id,userId,1);
-            }
 
+    //不喜欢列表
+    public void getUnLikeParameter(int articleid,int type) {
+        Map<String, String> map = new HashMap<>();
+        map.put("articleid",String.valueOf(articleid));
+        map.put("type",type+"");
+        OkHttp.post(this, HttpServicePath.URL_REPORT_LIST, map, new RequestCallBack() {
             @Override
-            public void delete2() {
-                doDeletel(talk_id,userId,2);
-            }
-
-            @Override
-            public void delete3() {
-                doDeletel(talk_id,userId,3);
-            }
-
-            @Override
-            public void delete4() {
-                showReportWindow(talk_id,4);
+            public void httpResult(BaseBean baseBean) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson = new Gson();
+                        String data = gson.toJson(baseBean.data);
+                        if (StringUtil.isEmpty(data)) return;
+                        UnLikeBean unLikeBean = gson.fromJson(data, UnLikeBean.class);
+                        if(null == unLikeBean) return;
+                        initDialog(unLikeBean,articleid);
+                    }
+                });
             }
         });
     }
 
-    public void doDeletel(int talk_id,int userId,int bid) {
+    public void initDialog(UnLikeBean unLikeBean,int talk_id) {
+        DialogDeleteCommon dialog = new DialogDeleteCommon(this,unLikeBean,false);
+        dialog.showDialog();
+        dialog.setOnItemClickListener(new DialogDeleteCommon.OnItemClick() {
+            @Override
+            public void onWhichItemClick(int pos) {
+                switch (pos) {
+                    case 1:
+                        doDeletel(talk_id,1);
+                        break;
+                    case 2:
+                        doDeletel(talk_id,2);
+                        break;
+                    case 3:
+                        doDeletel(talk_id,3);
+                        break;
+                    case 4:
+                        doDeletel(talk_id,4);
+                        break;
+                    case 5:
+                        showReportWindow(talk_id,3);
+                        break;
+                }
+            }
+        });
+    }
+
+    public void doDeletel(int talk_id,int bid) {
         unLike(talk_id,bid,3);
         ToastUtil.showToast(this,"将减少此类内容推荐");
         if(null != newList && 0!=newList.size()) {

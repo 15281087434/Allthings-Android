@@ -478,35 +478,23 @@ public class LookPageSubitemFragment extends BaseFragment {
     }
 
     public void initDialog(int position) {
-        DialogDeleteAdvertising dialogDeleteAdvertising = new DialogDeleteAdvertising(activity);
-        dialogDeleteAdvertising.setCanceledOnTouchOutside(true);
-        dialogDeleteAdvertising.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialogDeleteAdvertising.show();
-        dialogDeleteAdvertising.setDialogDeleteListener(new DialogDeleteListener() {
+        DialogDeleteAdvertising dialog = new DialogDeleteAdvertising(activity);
+        dialog.showDialog();
+        dialog.setOnItemClickListener(new DialogDeleteAdvertising.OnItemClick() {
             @Override
-            public void delete1() {
-                if(null == item || 0 == item.size()) return;
-                item.remove(position);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void delete2() {
-                if(null == item || 0 == item.size()) return;
-                item.remove(position);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void delete3() {
-//                    if(null == item || 0 == item.size()) return;
-//                    item.remove(position);
-//                    adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void delete4() {
-
+            public void onWhichItemClick(int pos) {
+                switch (pos) {
+                    case 1:
+                        if(null == item || 0 == item.size()) return;
+                        item.remove(position);
+                        adapter.notifyDataSetChanged();
+                        break;
+                    case 2:
+                        if(null == item || 0 == item.size()) return;
+                        item.remove(position);
+                        adapter.notifyDataSetChanged();
+                        break;
+                }
             }
         });
     }

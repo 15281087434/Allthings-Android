@@ -55,6 +55,7 @@ import songqiu.allthings.bean.HomeSubitemBean;
 import songqiu.allthings.bean.LookVideoBean;
 import songqiu.allthings.bean.ReportBean;
 import songqiu.allthings.bean.TabClassBean;
+import songqiu.allthings.bean.UnLikeBean;
 import songqiu.allthings.bean.UserInfoBean;
 import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.http.BaseBean;
@@ -75,8 +76,8 @@ import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.VibratorUtil;
 import songqiu.allthings.util.WindowUtil;
 import songqiu.allthings.util.theme.ShareUrl;
-import songqiu.allthings.view.DialogDelete;
 import songqiu.allthings.view.DialogDeleteAdvertising;
+import songqiu.allthings.view.DialogDeleteCommon;
 import songqiu.allthings.view.DialogSign;
 import songqiu.allthings.view.ReportPopupWindows;
 import songqiu.allthings.view.SharePopupWindows;
@@ -187,7 +188,9 @@ public class HomePageSubitemFragment extends BaseFragment {
 
             @Override
             public void delete(int position,int type) { //1= 普通内容  2 = 广告
-                initDialog(position,type);
+                if(null != item && 0!= item.size()) {
+                    getUnLikeParameter(item.get(position).articleid,item.get(position).type,type,position);
+                }
             }
         });
 
@@ -317,6 +320,30 @@ public class HomePageSubitemFragment extends BaseFragment {
         oks.show(MobSDK.getContext());
     }
 
+
+    //不喜欢列表
+    public void getUnLikeParameter(int articleid,int classType,int type,int position) {
+        Map<String, String> map = new HashMap<>();
+        map.put("articleid",String.valueOf(articleid));
+        map.put("type",classType+"");
+        OkHttp.post(activity, HttpServicePath.URL_REPORT_LIST, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson = new Gson();
+                        String data = gson.toJson(baseBean.data);
+                        if (StringUtil.isEmpty(data)) return;
+                        UnLikeBean unLikeBean = gson.fromJson(data, UnLikeBean.class);
+                        if(null == unLikeBean) return;
+                        initDialog(unLikeBean,type,position);
+                    }
+                });
+            }
+        });
+    }
+
     //调用不喜欢接口
     public void unLike(int bid,int mid,int type) {
         //bid 1=不敢兴趣，2=反馈垃圾内容，3=拉黑作者
@@ -345,66 +372,55 @@ public class HomePageSubitemFragment extends BaseFragment {
         ToastUtil.showToast(activity,"将减少推荐类似内容");
     }
 
-    public void initDialog(int position,int type) {
+
+    public void initDialog(UnLikeBean unLikeBean,int type,int position) {
         if(1== type) {
-            DialogDelete dialogDelete = new DialogDelete(activity,3);
-            dialogDelete.setCanceledOnTouchOutside(true);
-            dialogDelete.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            dialogDelete.show();
-            dialogDelete.setDialogDeleteListener(new DialogDeleteListener() {
+            DialogDeleteCommon dialog = new DialogDeleteCommon(activity,unLikeBean,true);
+            dialog.showDialog();
+            dialog.setOnItemClickListener(new DialogDeleteCommon.OnItemClick() {
                 @Override
-                public void delete1() {
-                    if(null == item || 0 == item.size()) return;
-                    doDeletel(position,1,item.get(position).articleid);
-                }
+                public void onWhichItemClick(int pos) {
+                    switch (pos) {
+                        case 1:
+                            if(null == item || 0 == item.size()) return;
+                            doDeletel(position,1,item.get(position).articleid);
+                            break;
+                        case 2:
+                            if(null == item || 0 == item.size()) return;
+                            doDeletel(position,2,item.get(position).articleid);
+                            break;
+                        case 3:
+                            if(null == item || 0 == item.size()) return;
+                            doDeletel(position,3,item.get(position).articleid);
+                            break;
+                        case 4:
+                            if(null == item || 0 == item.size()) return;
+                            doDeletel(position,4,item.get(position).articleid);
+                            break;
+                        case 5:
 
-                @Override
-                public void delete2() {
-                    if(null == item || 0 == item.size()) return;
-                    doDeletel(position,2,item.get(position).articleid);
-                }
-
-                @Override
-                public void delete3() {
-                    if(null == item || 0 == item.size()) return;
-                    doDeletel(position,3,item.get(position).articleid);
-                }
-
-                @Override
-                public void delete4() {
-
+                            break;
+                    }
                 }
             });
         }else {
-            DialogDeleteAdvertising dialogDeleteAdvertising = new DialogDeleteAdvertising(activity);
-            dialogDeleteAdvertising.setCanceledOnTouchOutside(true);
-            dialogDeleteAdvertising.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            dialogDeleteAdvertising.show();
-            dialogDeleteAdvertising.setDialogDeleteListener(new DialogDeleteListener() {
+            DialogDeleteAdvertising dialog = new DialogDeleteAdvertising(activity);
+            dialog.showDialog();
+            dialog.setOnItemClickListener(new DialogDeleteAdvertising.OnItemClick() {
                 @Override
-                public void delete1() {
-                    if(null == item || 0 == item.size()) return;
-                    item.remove(position);
-                    adapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void delete2() {
-                    if(null == item || 0 == item.size()) return;
-                    item.remove(position);
-                    adapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void delete3() {
-//                    if(null == item || 0 == item.size()) return;
-//                    item.remove(position);
-//                    adapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void delete4() {
-
+                public void onWhichItemClick(int pos) {
+                    switch (pos) {
+                        case 1:
+                            if(null == item || 0 == item.size()) return;
+                            item.remove(position);
+                            adapter.notifyDataSetChanged();
+                            break;
+                        case 2:
+                            if(null == item || 0 == item.size()) return;
+                            item.remove(position);
+                            adapter.notifyDataSetChanged();
+                            break;
+                    }
                 }
             });
         }

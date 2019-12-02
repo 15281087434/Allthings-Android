@@ -471,13 +471,11 @@ public class ModificationInfoActivity extends BaseActivity {
                                     uploadPicBean.imgurl.replace("\"","");
                                 }
                                 String headUrl= HttpServicePath.BasePicUrl+uploadPicBean.imgurl;
-                                LogUtil.i("headUrl:"+headUrl);
                                 GlideLoadUtils.getInstance().glideLoadHead(ModificationInfoActivity.this,headUrl,userIcon);
                             }else {
                                 if(uploadPicBean.imgurl.contains("\"")) {
                                     uploadPicBean.imgurl.replace("\"","");
                                 }
-                                LogUtil.i("headUrl:"+uploadPicBean.imgurl);
                                 GlideLoadUtils.getInstance().glideLoadHead(ModificationInfoActivity.this,uploadPicBean.imgurl,userIcon);
                             }
                         }
