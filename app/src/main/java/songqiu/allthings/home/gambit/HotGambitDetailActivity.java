@@ -428,11 +428,12 @@ public class HotGambitDetailActivity extends BaseActivity{
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Gson gson = new Gson();
-                        String data = gson.toJson(baseBean.data);
-                        if (StringUtil.isEmpty(data)) return;
-                        UnLikeBean unLikeBean = gson.fromJson(data, UnLikeBean.class);
-                        if(null == unLikeBean) return;
+//                        Gson gson = new Gson();
+//                        String data = gson.toJson(baseBean.data);
+//                        if (StringUtil.isEmpty(data)) return;
+//                        UnLikeBean unLikeBean = gson.fromJson(data, UnLikeBean.class);
+//                        if(null == unLikeBean) return;
+                        UnLikeBean unLikeBean = new UnLikeBean();
                         initDialog(unLikeBean,articleid);
                     }
                 });

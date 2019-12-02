@@ -17,6 +17,7 @@ import songqiu.allthings.R;
 import songqiu.allthings.adapter.LabelAdapter;
 import songqiu.allthings.bean.UnLikeBean;
 import songqiu.allthings.util.SharedPreferencedUtils;
+import songqiu.allthings.util.StringUtil;
 
 /*******
  *
@@ -165,26 +166,37 @@ public class DialogDeleteCommon extends Dialog {
         if(hideReport) {
             layout5.setVisibility(View.GONE);
         }
-        //设置文本
-        if(0 == unLikeBean.type) { //抓取的数据，显示最上面两条
-            layout3.setVisibility(View.GONE);
-            layout4.setVisibility(View.GONE);
+        if(null != unLikeBean) {
+            //设置文本
+            if(0 == unLikeBean.type) { //抓取的数据，显示最上面两条
+                layout3.setVisibility(View.GONE);
+                layout4.setVisibility(View.GONE);
+            }
+
+            if(StringUtil.isEmpty(unLikeBean.title) && StringUtil.isEmpty(unLikeBean.user_nickname)) { //话题写死
+                titleTv1.setText("不感兴趣");
+                titleTv2.setText("屏蔽用户");
+                contentTv1.setText("不喜欢这条动态内容");
+                contentTv2.setText("减少该用户动态内容推送");
+            }else { //话题以外
+                titleTv1.setText("不喜欢："+unLikeBean.title);
+                titleTv2.setText("不喜欢："+unLikeBean.user_nickname);
+                titleTv3.setText("不喜欢："+unLikeBean.keywords+"的内容");
+            }
+            //
+            if(null != unLikeBean.labels) {
+                LabelAdapter adapter = new LabelAdapter(context,unLikeBean.labels);
+                gridView.setAdapter(adapter);
+                adapter.setLabelListener(new LabelAdapter.LabelListener() {
+                    @Override
+                    public void label() {
+                        onItemClick.onWhichItemClick(4);
+                        dismiss();
+                    }
+                });
+            }
         }
-        titleTv1.setText("不喜欢："+unLikeBean.title);
-        titleTv2.setText("不喜欢："+unLikeBean.user_nickname);
-        titleTv3.setText("不喜欢："+unLikeBean.keywords+"的内容");
-        //
-        if(null != unLikeBean.labels) {
-            LabelAdapter adapter = new LabelAdapter(context,unLikeBean.labels);
-            gridView.setAdapter(adapter);
-            adapter.setLabelListener(new LabelAdapter.LabelListener() {
-                @Override
-                public void label() {
-                    onItemClick.onWhichItemClick(4);
-                    dismiss();
-                }
-            });
-        }
+
         layout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
