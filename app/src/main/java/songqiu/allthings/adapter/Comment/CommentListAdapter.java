@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,12 +32,13 @@ import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
+import songqiu.allthings.util.theme.ThemeManager;
 
 
 /**
  */
 
-public class CommentListAdapter extends SectionedRecyclerViewAdapter<HeaderHolder, RecyclerView.ViewHolder, RecyclerView.ViewHolder> {
+public class CommentListAdapter extends SectionedRecyclerViewAdapter<HeaderHolder, RecyclerView.ViewHolder, RecyclerView.ViewHolder> implements ThemeManager.OnThemeChangeListener{
 
 
     public List<DetailCommentListBean> item;
@@ -49,6 +51,9 @@ public class CommentListAdapter extends SectionedRecyclerViewAdapter<HeaderHolde
     private int TYPE_NORMAL_ITEM = 1;
     private int TYPE_SHOWMORE_ITEM = 2;
 
+    List<HeaderHolder> viewHolderList = new ArrayList<>();
+    List<CommentSubitemHolder> commentSubitemHolderList = new ArrayList<>();
+
     public CommentListAdapter(Context context,List<DetailCommentListBean> item) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
@@ -57,6 +62,7 @@ public class CommentListAdapter extends SectionedRecyclerViewAdapter<HeaderHolde
         for(int i = 0;i<item.size();i++) {
             mBooleanMap.put(i, true);
         }
+        ThemeManager.registerThemeChangeListener(this);
     }
 
     /**
@@ -138,6 +144,7 @@ public class CommentListAdapter extends SectionedRecyclerViewAdapter<HeaderHolde
 
     @Override
     protected void onBindSectionHeaderViewHolder(final HeaderHolder holder, final int position) {
+        viewHolderList.add(holder);
         DetailCommentListBean videoDetailCommentBean = item.get(position);
         RequestOptions options = new RequestOptions()
                 .circleCrop().transforms(new GlideCircleTransform(mContext))
@@ -219,6 +226,7 @@ public class CommentListAdapter extends SectionedRecyclerViewAdapter<HeaderHolde
     @Override
     protected void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int section, final int position) {
         if(holder instanceof CommentSubitemHolder) {
+            commentSubitemHolderList.add((CommentSubitemHolder)holder);
             CommentSubitemBean commentSubitemBean = item.get(section).cdata1.get(position);
             RequestOptions options = new RequestOptions()
                     .circleCrop().transforms(new GlideCircleTransform(mContext))
@@ -307,5 +315,25 @@ public class CommentListAdapter extends SectionedRecyclerViewAdapter<HeaderHolde
 
     public void setVideoDetailCommentItemListener(VideoDetailCommentItemListener videoDetailCommentItemListener) {
         this.videoDetailCommentItemListener = videoDetailCommentItemListener;
+    }
+
+    public void setAdapterDayModel(ThemeManager.ThemeMode themeMode) {
+        ThemeManager.setThemeMode(themeMode);
+    }
+    @Override
+    public void onThemeChanged() {
+        if(null != viewHolderList && 0 != viewHolderList.size()) {
+            for (HeaderHolder viewHolder:viewHolderList) {
+                viewHolder.timeTv.setTextColor(mContext.getResources().getColor(ThemeManager.getCurrentThemeRes(mContext, R.color.FF999999)));
+                viewHolder.contentTv.setTextColor(mContext.getResources().getColor(ThemeManager.getCurrentThemeRes(mContext, R.color.bottom_tab_tv)));
+            }
+        }
+
+        if(null != commentSubitemHolderList && 0 != commentSubitemHolderList.size()) {
+            for (CommentSubitemHolder viewHolder:commentSubitemHolderList) {
+                viewHolder.timeTv.setTextColor(mContext.getResources().getColor(ThemeManager.getCurrentThemeRes(mContext, R.color.FF999999)));
+                viewHolder.contentTv.setTextColor(mContext.getResources().getColor(ThemeManager.getCurrentThemeRes(mContext, R.color.bottom_tab_tv)));
+            }
+        }
     }
 }

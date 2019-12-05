@@ -827,9 +827,9 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                             public void run() {
                                 boolean dayModel = SharedPreferencedUtils.getBoolean(ArticleDetailActivity.this, SharedPreferencedUtils.dayModel, true);
                                 if(dayModel) {
-//                                    videoDetailCommentAdapter.setAdapterDayModel(ThemeManager.ThemeMode.DAY);
+                                    videoDetailCommentAdapter.setAdapterDayModel(ThemeManager.ThemeMode.DAY);
                                 }else {
-//                                    videoDetailCommentAdapter.setAdapterDayModel(ThemeManager.ThemeMode.NIGHT);
+                                    videoDetailCommentAdapter.setAdapterDayModel(ThemeManager.ThemeMode.NIGHT);
                                 }
                             }
                         }, 500);

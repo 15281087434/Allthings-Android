@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#80000000"
     >
 
     <LinearLayout
@@ -10,6 +11,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/report_buttom_radius"
         android:orientation="vertical"
+        android:layout_marginTop="@dimen/x_ui_px_60.0"
         >
 
         <RelativeLayout
@@ -88,6 +90,15 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
 

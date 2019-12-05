@@ -3,6 +3,7 @@ package songqiu.allthings.comment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -38,8 +39,6 @@ import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.adapter.CommentDetailAdapter;
 import songqiu.allthings.adapter.HeaderViewAdapter;
-import songqiu.allthings.articledetail.ArticleDetailActivity;
-import songqiu.allthings.base.BaseMainActivity;
 import songqiu.allthings.bean.CommentDetailBean;
 import songqiu.allthings.bean.CommentDetailCon1Bean;
 import songqiu.allthings.bean.CommentDetailCon2Bean;
@@ -74,7 +73,7 @@ import songqiu.allthings.view.ReportPopupWindows;
  *类描述：
  *
  ********/
-public class CommentDetailActivity extends BaseMainActivity {
+public class CommentDetailActivity extends Activity {
 
     @BindView(R.id.closeImg)
     ImageView closeImg;
@@ -86,6 +85,8 @@ public class CommentDetailActivity extends BaseMainActivity {
     TextView showEdit;
     @BindView(R.id.bottomLayout)
     LinearLayout bottomLayout;
+    @BindView(R.id.shadowLayout)
+    LinearLayout shadowLayout;
 
     TextView commentNumTv;
     TextView likeNumTv;
@@ -108,16 +109,18 @@ public class CommentDetailActivity extends BaseMainActivity {
     CommentDetailBean commentDetailBean;
 
     @Override
-    public void initView(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_detail);
+        ButterKnife.bind(this);
+        init();
     }
 
-    @Override
+
     public void init() {
-        StatusBarUtils.with(this)
-                .setColor(getResources().getColor(R.color.main_bg_white))
-                .init()
-                .setStatusTextColorAndPaddingTop(true, this);
+        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        StatusBarUtils.with(CommentDetailActivity.this).init().setStatusTextColorWhite(true, CommentDetailActivity.this);
+        modeUi(dayModel);
         mid = getIntent().getIntExtra("mid",0);
         type = getIntent().getIntExtra("type",1);
         canToReply = getIntent().getBooleanExtra("canToReply",false);
@@ -163,6 +166,14 @@ public class CommentDetailActivity extends BaseMainActivity {
         });
 
         getCommentDetails(page);
+    }
+
+    public void modeUi(boolean isDay) {
+        if(isDay) {
+            shadowLayout.setVisibility(View.GONE);
+        }else {
+            shadowLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     public void initHeadView() {
