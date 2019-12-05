@@ -118,6 +118,11 @@ public class HttpServicePath {
     public static String URL_COMMENT = BaseUrl+"comment"; //评论类型,1=文章，2=视频，3=话题
 
     //添加评论
+    //type	是	string	评论类型,1=文章，2=视频，3=话题
+    //articleid	是	string	文章id
+    //content	是	string	评论内容
+    //grade	是	int	评论等级，0=一级评论，1=二级评论，2=三级评论
+    //pid	是	int	上级id,0=没有上级
     public static String URL_ADD_COMMENT = BaseUrl+"add_comment";
 
     //删除评论
@@ -236,5 +241,8 @@ public class HttpServicePath {
 
     //根据文章获取不喜欢
     public static String URL_REPORT_LIST = BaseUrl+"report_list"; //type=1,说明后台上传，全部显示，type=0,抓取的数据，显示最上面两条
+
+    //评论详情 mid:一级评论id  type:1=文章，2=视频，3=话题  page页码（1）  num数量（10）
+    public static String URL_COMENT_DETAIL = BaseUrl+"comment_detail";
 
 }

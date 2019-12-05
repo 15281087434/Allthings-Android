@@ -1,22 +1,17 @@
 package songqiu.allthings.home.gambit;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -24,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,6 +26,8 @@ import com.mob.MobSDK;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.tencent.qq.QQ;
@@ -49,14 +44,16 @@ import cn.sharesdk.wechat.moments.WechatMoments;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.adapter.ArticleDetailCommentAdapter;
+import songqiu.allthings.adapter.Comment.CommentListAdapter;
 import songqiu.allthings.adapter.GambitMorePicAdapter;
 import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.base.BaseActivity;
+import songqiu.allthings.bean.CommentSubitemBean;
+import songqiu.allthings.bean.DeleteCommentBean;
 import songqiu.allthings.bean.GambitDetailBean;
-import songqiu.allthings.bean.HomeSubitemBean;
-import songqiu.allthings.bean.HotGambitDetailBean;
 import songqiu.allthings.bean.ReportBean;
-import songqiu.allthings.bean.VideoDetailCommentBean;
+import songqiu.allthings.bean.DetailCommentListBean;
+import songqiu.allthings.comment.CommentDetailActivity;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
@@ -66,13 +63,12 @@ import songqiu.allthings.iterface.VideoDetailCommentItemListener;
 import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.photoview.PhotoViewActivity;
-import songqiu.allthings.util.ClickUtil;
+import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.GlideLoadUtils;
-import songqiu.allthings.util.KeyBoardUtils;
-import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.PicParameterUtil;
+import songqiu.allthings.util.ScrollLinearLayoutManager;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
@@ -81,9 +77,10 @@ import songqiu.allthings.util.ViewProportion;
 import songqiu.allthings.util.WindowUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.theme.ShareUrl;
-import songqiu.allthings.util.theme.ThemeManager;
 import songqiu.allthings.view.CommentWindow;
 import songqiu.allthings.view.GridViewInScroll;
+import songqiu.allthings.view.LongClickDialog;
+import songqiu.allthings.view.MyScrollView;
 import songqiu.allthings.view.ReportPopupWindows;
 import songqiu.allthings.view.SharePopupWindows;
 
@@ -135,7 +132,7 @@ public class GambitDetailActivity extends BaseActivity {
     @BindView(R.id.smartRefreshLayout)
     SmartRefreshLayout smartRefreshLayout;
     @BindView(R.id.scrollView)
-    ScrollView scrollView;
+    MyScrollView scrollView;
     @BindView(R.id.showEdit)
     TextView showEdit;
     @BindView(R.id.lookCommentImg)
@@ -157,8 +154,8 @@ public class GambitDetailActivity extends BaseActivity {
     int pageNo = 1;
     GambitDetailBean gambitDetailBean;
     //评论
-    List<VideoDetailCommentBean> item1;
-    ArticleDetailCommentAdapter videoDetailCommentAdapter;
+    List<DetailCommentListBean> item1;
+    CommentListAdapter videoDetailCommentAdapter;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -167,6 +164,9 @@ public class GambitDetailActivity extends BaseActivity {
 
     @Override
     public void init() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
         modeUi(dayModel);
         talkid = getIntent().getIntExtra("talkid",0);
@@ -196,25 +196,55 @@ public class GambitDetailActivity extends BaseActivity {
 
     public void initRecly() {
         item1 = new ArrayList<>();
-        videoDetailCommentAdapter = new ArticleDetailCommentAdapter(this, item1);
+        videoDetailCommentAdapter = new CommentListAdapter(this, item1);
+//        ScrollLinearLayoutManager linearLayoutManager1 = new ScrollLinearLayoutManager(this);
+//        linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
+//        linearLayoutManager1.setmCanVerticalScroll(false);
+//        commentRecycl.setLayoutManager(linearLayoutManager1);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         commentRecycl.setLayoutManager(linearLayoutManager);
         commentRecycl.setAdapter(videoDetailCommentAdapter);
 
         videoDetailCommentAdapter.setVideoDetailCommentItemListener(new VideoDetailCommentItemListener() {
+            //一级评论点赞、取消点赞
             @Override
-            public void addLike(String url, int type, int mid, VideoDetailCommentBean videoDetailCommentBean) {
+            public void addLike(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean) {
                 like(url, type, mid, videoDetailCommentBean);
             }
-
+            //二级评论点赞、取消点赞
             @Override
-            public void toReport(int id, int commentId, int article_id, int type, int position) {
-                if (id == mUserId) {
-                    delComment(commentId, article_id, type, position);
-                } else {
-                    showReportWindow(commentId,4);
+            public void addSubitemLike(String url, int type, int mid, CommentSubitemBean commentSubitemBean) {
+                like(url, type, mid, commentSubitemBean);
+            }
+
+            //回复评论
+            @Override
+            public void toReply(int type,int grade,int pid,String name) {
+                showPopupwindow(type,grade,pid,"回复@"+name);
+            }
+
+            //长按
+            @Override
+            public void longClick(int id, int commentId, int article_id, int type, int position,int subPosition,String content) {
+                int userId = SharedPreferencedUtils.getInteger(GambitDetailActivity.this,"SYSUSERID",0);
+                if(userId == id) {
+                    //长按删除
+                    longClickDialog(GambitDetailActivity.this,true,commentId,article_id,type,position,subPosition,content);
+                }else {
+                    //长按举报
+                    longClickDialog(GambitDetailActivity.this,false,commentId,article_id,type,position,subPosition,content);
                 }
+            }
+
+            //展开更多回复
+            @Override
+            public void showMoreComment(int mid) {
+                Intent intent = new Intent(GambitDetailActivity.this,CommentDetailActivity.class);
+                intent.putExtra("mid",mid);
+                intent.putExtra("type",1);
+                intent.putExtra("canToReply",true);
+                startActivity(intent);
             }
         });
     }
@@ -295,7 +325,6 @@ public class GambitDetailActivity extends BaseActivity {
                     gambitDetailBean.images[0] = HttpServicePath.BasePicUrl + gambitDetailBean.images[0];
                 }
             }
-//            Glide.with(this).load(gambitDetailBean.images[0]).apply(options1).into(bigPicImg);
             GlideLoadUtils.getInstance().glideLoad(this,gambitDetailBean.images[0],options1,bigPicImg);
             new Thread(new Runnable() {
                 @Override
@@ -457,8 +486,8 @@ public class GambitDetailActivity extends BaseActivity {
         return list;
     }
 
-    public void showPopupwindow() {
-        CommentWindow fw = new CommentWindow(this);
+    public void showPopupwindow(int type,int grade,int pid,String hint) {
+        CommentWindow fw = new CommentWindow(this,hint);
         fw.showAtLocation(titleTv, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         fw.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -476,8 +505,8 @@ public class GambitDetailActivity extends BaseActivity {
         fw.setCommentListener(new CommentListener() {
             @Override
             public void publishComment(String comment) {
-                if(null != gambitDetailBean) {
-                    addComment(3, gambitDetailBean.id, comment);
+                if (null != gambitDetailBean) {
+                    addComment(type, gambitDetailBean.id, comment,grade,pid);
                 }
                 fw.dismiss();
             }
@@ -533,7 +562,7 @@ public class GambitDetailActivity extends BaseActivity {
                         Gson gson = new Gson();
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
-                        List<VideoDetailCommentBean> videoDetailCommentBeanList = gson.fromJson(data, new TypeToken<List<VideoDetailCommentBean>>() {
+                        List<DetailCommentListBean> videoDetailCommentBeanList = gson.fromJson(data, new TypeToken<List<DetailCommentListBean>>() {
                         }.getType());
                         if (pageNo == 1) {
                             item1.clear();
@@ -611,8 +640,34 @@ public class GambitDetailActivity extends BaseActivity {
         });
     }
 
-    //评论点赞/取消点赞
-    public void like(String url, int type, int mid, VideoDetailCommentBean videoDetailCommentBean) {
+    public void longClickDialog(Context context, boolean isMyself, int commentId, int article_id, int type, int position, int subPosition, String content) {
+        LongClickDialog dialog = new LongClickDialog(context,isMyself);
+        dialog.showDialog();
+        dialog.setOnItemClickListener(new LongClickDialog.OnItemClick() {
+            @Override
+            public void onWhichItemClick(int pos) {
+                switch (pos) {
+                    //复制
+                    case 0:
+                        CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(GambitDetailActivity.this,content);
+                        copyButtonLibrary.init(content);
+                        ToastUtil.showToast(GambitDetailActivity.this,"复制成功");
+                        break;
+                    case 1:
+                        if(isMyself) { //删除自己的评论
+                            delComment(commentId, article_id, type, position,subPosition);
+                        }else { //举报他人的评论
+                            showReportWindow(commentId,4);
+                        }
+                        break;
+                }
+
+            }
+        });
+    }
+
+    //一级评论点赞/取消点赞
+    public void like(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type + "");
         map.put("mid", mid + "");
@@ -628,6 +683,31 @@ public class GambitDetailActivity extends BaseActivity {
                         } else {
                             videoDetailCommentBean.up_num = videoDetailCommentBean.up_num - 1;
                             videoDetailCommentBean.is_up = 0;
+                        }
+                        videoDetailCommentAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+    }
+
+    //二级评论点赞/取消点赞
+    public void like(String url, int type, int mid, CommentSubitemBean commentSubitemBean) {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", type + "");
+        map.put("mid", mid + "");
+        OkHttp.post(this, url, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (url.equals(HttpServicePath.URL_LIKE)) {
+                            commentSubitemBean.up_num = commentSubitemBean.up_num + 1;
+                            commentSubitemBean.is_up = 1;
+                        } else {
+                            commentSubitemBean.up_num = commentSubitemBean.up_num - 1;
+                            commentSubitemBean.is_up = 0;
                         }
                         videoDetailCommentAdapter.notifyDataSetChanged();
                     }
@@ -656,11 +736,16 @@ public class GambitDetailActivity extends BaseActivity {
     }
 
     //添加评论
-    public void addComment(int type, int articleid, String content) { //评论类型,1=文章，2=视频，3=话题
+    //type评论类型,1=文章，2=视频，3=话题
+    //grade 评论等级，0=一级评论，1=二级评论，2=三级评论
+    //pid 上级id,0=没有上级
+    public void addComment(int type, int articleid, String content,int grade,int pid) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type + "");
         map.put("articleid", articleid + "");
         map.put("content", content);
+        map.put("grade", grade + "");
+        map.put("pid", pid + "");
         OkHttp.post(this, HttpServicePath.URL_ADD_COMMENT, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
@@ -670,7 +755,7 @@ public class GambitDetailActivity extends BaseActivity {
                         pageNo = 1;
                         getComment(articleid, pageNo);
                         //评论数
-                        gambitDetailBean.comment_num = gambitDetailBean.comment_num+1;
+                        gambitDetailBean.comment_num = gambitDetailBean.comment_num + 1;
                         commentNumTv.setText(String.valueOf(gambitDetailBean.comment_num));
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
                         EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
@@ -681,7 +766,7 @@ public class GambitDetailActivity extends BaseActivity {
     }
 
     //删除评论
-    public void delComment(int commentId, int article_id, int type, int position) {
+    public void delComment(int commentId, int article_id, int type, int position,int subPosition) {
         Map<String, String> map = new HashMap<>();
         map.put("commentid", commentId + "");
         map.put("articleid", article_id + "");
@@ -694,12 +779,32 @@ public class GambitDetailActivity extends BaseActivity {
                     public void run() {
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
                         EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
-                        item1.remove(position);
+                        //
+                        Gson gson = new Gson();
+                        String data = gson.toJson(baseBean.data);
+                        if (StringUtil.isEmpty(data)) return;
+                        DeleteCommentBean deleteCommentBean = gson.fromJson(data, DeleteCommentBean.class);
+                        if(null != deleteCommentBean) {
+                            commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString())-deleteCommentBean.num));
+                        }
+
+                        if(null == item1) return;
+                        if(subPosition<0) { //长按一级评论的删除
+                            item1.remove(position);
+                        }else { //删除二级或者三级评论的回复
+                            item1.get(position).num = item1.get(position).num - deleteCommentBean.num;
+                            if(null == item1.get(position).cdata1) return;
+                            for(int i = 0;i<item1.get(position).cdata1.size();i++) {
+                                if(commentId == item1.get(position).cdata1.get(i).commentid
+                                        || commentId == item1.get(position).cdata1.get(i).pid
+                                        ) {
+                                    item1.get(position).cdata1.remove(i);
+                                    i--;
+                                }
+                            }
+                        }
                         videoDetailCommentAdapter.notifyDataSetChanged();
-                        //评论数
-                        gambitDetailBean.comment_num = gambitDetailBean.comment_num-1;
-                        commentNumTv.setText(String.valueOf(gambitDetailBean.comment_num));
-                        if(null == item1 || 0 == item1.size()) {
+                        if (null == item1 || 0 == item1.size()) {
                             emptyLayout.setVisibility(View.VISIBLE);
                             commentRecycl.setVisibility(View.GONE);
                         }
@@ -730,6 +835,90 @@ public class GambitDetailActivity extends BaseActivity {
                 });
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    //评论详情一级评论点赞通知
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void LikeComment(EventTags.LikeComment likeComment) {
+        if(null == item1) return;
+        for(int i = 0;i<item1.size();i++) {
+            if(likeComment.getMid() == item1.get(i).commentid) {
+                if(likeComment.getLike()) { //评论详情点赞
+                    item1.get(i).up_num = item1.get(i).up_num + 1;
+                    item1.get(i).is_up = 1;
+                }else {//评论详情取消点赞
+                    item1.get(i).up_num = item1.get(i).up_num - 1;
+                    item1.get(i).is_up = 0;
+                }
+                videoDetailCommentAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    //评论详情二级评论点赞通知
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void LikeSubComment(EventTags.LikeSubComment likeSubComment) {
+        if(null == item1) return;
+        for(int i = 0;i<item1.size();i++) {
+            if(likeSubComment.getMid() == item1.get(i).commentid) {
+                if(null == item1.get(i).cdata1) return;
+                for(int j = 0;j<item1.get(i).cdata1.size();j++) {
+                    if(likeSubComment.getSubMid() == item1.get(i).cdata1.get(j).commentid) {
+                        if(likeSubComment.getLike()) {
+                            item1.get(i).cdata1.get(j).up_num = item1.get(i).cdata1.get(j).up_num + 1;
+                            item1.get(i).cdata1.get(j).is_up = 1;
+                        }else {
+                            item1.get(i).cdata1.get(j).up_num = item1.get(i).cdata1.get(j).up_num - 1;
+                            item1.get(i).cdata1.get(j).is_up = 0;
+                        }
+                        videoDetailCommentAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        }
+    }
+
+    //评论详情增加评论通知
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void AddComment(EventTags.AddComment addComment) {
+        if(null == item1) return;
+        for(int i = 0;i<item1.size();i++) {
+            if(addComment.getMid() == item1.get(i).commentid) {
+                item1.get(i).cdata1.add(0,addComment.getCommentSubitemBean());
+                item1.get(i).num = item1.get(i).num + 1;
+                videoDetailCommentAdapter.notifyDataSetChanged();
+                int commentNum = Integer.valueOf(commentNumTv.getText().toString())+1;
+                commentNumTv.setText(String.valueOf(commentNum));
+            }
+        }
+    }
+
+    //评论详情删除评论通知
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void DeleteComment(EventTags.DeleteComment deleteComment) {
+        if(null == item1) return;
+        for(int i = 0;i<item1.size();i++) {
+            if(deleteComment.getMid() == item1.get(i).commentid) {
+                if(null == item1.get(i).cdata1) return;
+                for(int k = 0;k<item1.get(i).cdata1.size();k++) {
+                    if((deleteComment.getSubMid()== item1.get(i).cdata1.get(k).commentid) ||
+                            (deleteComment.getSubMid()== item1.get(i).cdata1.get(k).pid)) {
+                        item1.get(i).cdata1.remove(k);
+                        k--;
+                    }
+                }
+                item1.get(i).num = item1.get(i).num - deleteComment.getDeleteCommentNum();
+                int commentNum = Integer.valueOf(commentNumTv.getText().toString())-deleteComment.getDeleteCommentNum();
+                commentNumTv.setText(String.valueOf(commentNum));
+                videoDetailCommentAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     @OnClick({R.id.backImg,R.id.attentionTv,R.id.likeImg,R.id.layout,R.id.deleteTv,R.id.showEdit,R.id.collectImg,R.id.shareImg,R.id.lookCommentImg,
@@ -769,7 +958,7 @@ public class GambitDetailActivity extends BaseActivity {
                 break;
             case R.id.showEdit: //写评论
                 if(null != gambitDetailBean) {
-                    showPopupwindow();
+                    showPopupwindow(3,0,0,"优质评论会被优先展示哦!");
                 }
                 break;
             case R.id.collectImg:

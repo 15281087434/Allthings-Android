@@ -221,18 +221,6 @@
 
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/contentTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/x_ui_px_20.0"
-                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
-                    android:layout_marginRight="@dimen/x_ui_px_30.0"
-                    android:lineSpacingExtra="@dimen/x_ui_px_20.0"
-                    tools:text="清代末年，安徽徽州府南郊有个李秀才，为人忠诚老实苦读诗书，其妻林氏也知书达理。虽然家境贫寒"
-                    android:textColor="@color/bottom_tab_tv"
-                    android:textSize="@dimen/x_ui_px_28.0"
-                    android:visibility="gone"/>
                 <WebView
                     android:id="@+id/contentWeb"
                     android:layout_width="match_parent"

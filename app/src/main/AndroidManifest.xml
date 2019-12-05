@@ -206,6 +206,12 @@
             >
         </activity>
 
+        <activity android:name=".comment.CommentDetailActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            >
+        </activity>
+
 
 
 

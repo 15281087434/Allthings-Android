@@ -3,6 +3,7 @@ package songqiu.allthings.Event;
 
 import android.support.v7.widget.RecyclerView;
 
+import songqiu.allthings.bean.CommentSubitemBean;
 import songqiu.allthings.bean.EarningsBean;
 
 /*******
@@ -99,6 +100,129 @@ public class EventTags {
 
     public static class HomeRefresh {
 
+    }
+
+    public static class DeleteComment {
+        public int mid;
+        public int subMid;
+        public int deleteCommentNum;
+
+        public DeleteComment(int mid,int subMid,int deleteCommentNum) {
+            this.mid = mid;
+            this.subMid = subMid;
+            this.deleteCommentNum = deleteCommentNum;
+        }
+
+        public int getSubMid() {
+            return subMid;
+        }
+
+        public void setSubMid(int subMid) {
+            this.subMid = subMid;
+        }
+
+        public int getMid() {
+            return mid;
+        }
+
+        public void setMid(int mid) {
+            this.mid = mid;
+        }
+
+        public int getDeleteCommentNum() {
+            return deleteCommentNum;
+        }
+
+        public void setDeleteCommentNum(int deleteCommentNum) {
+            this.deleteCommentNum = deleteCommentNum;
+        }
+
+    }
+
+    public static class AddComment {
+        public CommentSubitemBean commentSubitemBean;
+        public int mid;
+
+        public AddComment(int mid,CommentSubitemBean commentSubitemBean) {
+            this.mid = mid;
+            this.commentSubitemBean = commentSubitemBean;
+        }
+
+        public CommentSubitemBean getCommentSubitemBean () {
+            return commentSubitemBean;
+        }
+
+        public void setCommentSubitemBean(CommentSubitemBean commentSubitemBean) {
+            this.commentSubitemBean = commentSubitemBean;
+        }
+
+        public int getMid() {
+            return mid;
+        }
+
+        public void setMid(int mid) {
+            this.mid = mid;
+        }
+    }
+
+    public static class LikeComment {
+        public boolean isLike;
+        public int mid;
+        public LikeComment(int mid,boolean isLike) {
+            this.mid = mid;
+            this.isLike = isLike;
+        }
+
+        public boolean getLike() {
+            return isLike;
+        }
+
+        public void setLike(boolean isLike) {
+            this.isLike = isLike;
+        }
+
+        public int getMid() {
+            return mid;
+        }
+
+        public void setMid(int mid) {
+            this.mid = mid;
+        }
+    }
+
+    public static class LikeSubComment {
+        public boolean isLike;
+        public int mid;
+        public int subMid;
+        public LikeSubComment(int mid,int subMid,boolean isLike) {
+            this.mid = mid;
+            this.isLike = isLike;
+            this.subMid = subMid;
+        }
+
+        public boolean getLike() {
+            return isLike;
+        }
+
+        public void setLike(boolean isLike) {
+            this.isLike = isLike;
+        }
+
+        public int getMid() {
+            return mid;
+        }
+
+        public void setMid(int mid) {
+            this.mid = mid;
+        }
+
+        public int getSubMid() {
+            return subMid;
+        }
+
+        public void setSubMid(int subMid) {
+            this.subMid = subMid;
+        }
     }
 
     public static class TaskNoNetwork {

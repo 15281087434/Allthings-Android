@@ -1,5 +1,9 @@
 package songqiu.allthings.bean;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /*******
  *
  *Created by 杨延辉
@@ -9,7 +13,7 @@ package songqiu.allthings.bean;
  *类描述：
  *
  ********/
-public class VideoDetailCommentBean {
+public class DetailCommentListBean implements Serializable{
 //    "commentid": 9,
 //            "type": 2,
 //            "article_id": 743,
@@ -34,4 +38,8 @@ public class VideoDetailCommentBean {
     public int is_up;
     public int up_num;
     public int is_original;
+
+    public int num;
+    public int grade;
+    public List<CommentSubitemBean> cdata1;
 }

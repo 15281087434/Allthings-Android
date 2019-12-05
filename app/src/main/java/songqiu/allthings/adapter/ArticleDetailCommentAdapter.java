@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import songqiu.allthings.R;
-import songqiu.allthings.bean.VideoDetailCommentBean;
+import songqiu.allthings.bean.DetailCommentListBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.iterface.VideoDetailCommentItemListener;
 import songqiu.allthings.util.ClickUtil;
@@ -45,11 +45,11 @@ import songqiu.allthings.util.theme.ThemeManager;
 public class ArticleDetailCommentAdapter extends RecyclerView.Adapter<ArticleDetailCommentAdapter.ViewHolder> implements ThemeManager.OnThemeChangeListener{
 
     Context context;
-    List<VideoDetailCommentBean> item;
+    List<DetailCommentListBean> item;
     VideoDetailCommentItemListener videoDetailCommentItemListener;
     List<ViewHolder> viewHolderList = new ArrayList<>();
 
-    public ArticleDetailCommentAdapter(Context context, List<VideoDetailCommentBean> item) {
+    public ArticleDetailCommentAdapter(Context context, List<DetailCommentListBean> item) {
         this.context = context;
         this.item = item;
         ThemeManager.registerThemeChangeListener(this);
@@ -62,7 +62,7 @@ public class ArticleDetailCommentAdapter extends RecyclerView.Adapter<ArticleDet
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_detail_comment, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment_list, null);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
         return new ViewHolder(view);
@@ -71,7 +71,7 @@ public class ArticleDetailCommentAdapter extends RecyclerView.Adapter<ArticleDet
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         viewHolderList.add(holder);
-        VideoDetailCommentBean videoDetailCommentBean = item.get(position);
+        DetailCommentListBean videoDetailCommentBean = item.get(position);
         RequestOptions options = new RequestOptions()
                 .circleCrop().transforms(new GlideCircleTransform(context))
                 .error(R.mipmap.head_default)
@@ -91,11 +91,11 @@ public class ArticleDetailCommentAdapter extends RecyclerView.Adapter<ArticleDet
         holder.contentTv.setText(videoDetailCommentBean.content);
         holder.likeNumTv.setText(ShowNumUtil.showUnm(videoDetailCommentBean.up_num));
         int userId = SharedPreferencedUtils.getInteger(context,"SYSUSERID",0);
-        if(userId == videoDetailCommentBean.user_id) {
-            holder.reportImg.setImageResource(R.mipmap.item_cancel);
-        }else {
-            holder.reportImg.setImageResource(R.mipmap.item_inform);
-        }
+//        if(userId == videoDetailCommentBean.user_id) {
+//            holder.reportImg.setImageResource(R.mipmap.item_cancel);
+//        }else {
+//            holder.reportImg.setImageResource(R.mipmap.item_inform);
+//        }
         if(0 == item.get(position).is_up) {
             holder.likeImg.setImageResource(R.mipmap.item_like);
             holder.likeNumTv.setTextColor(context.getResources().getColor(R.color.FF666666));
@@ -119,13 +119,29 @@ public class ArticleDetailCommentAdapter extends RecyclerView.Adapter<ArticleDet
                 }
             }
         });
-        holder.reportImg.setOnClickListener(new View.OnClickListener() {
+//        holder.reportImg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(ClickUtil.onClick()) {
+//                    videoDetailCommentItemListener.toReport(videoDetailCommentBean.user_id,videoDetailCommentBean.commentid,
+//                            videoDetailCommentBean.article_id,1,position);
+//                }
+//            }
+//        });
+        //
+        holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ClickUtil.onClick()) {
-                    videoDetailCommentItemListener.toReport(videoDetailCommentBean.user_id,videoDetailCommentBean.commentid,
-                            videoDetailCommentBean.article_id,1,position);
-                }
+//                videoDetailCommentItemListener.toReply(videoDetailCommentBean.commentid,videoDetailCommentBean.user_nickname);
+            }
+        });
+
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+//                videoDetailCommentItemListener.longClick(videoDetailCommentBean.user_id,videoDetailCommentBean.commentid,
+//                            videoDetailCommentBean.article_id,1,position,-1);
+                return true;
             }
         });
     }
@@ -146,6 +162,8 @@ public class ArticleDetailCommentAdapter extends RecyclerView.Adapter<ArticleDet
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.layout)
+        RelativeLayout layout;
         @BindView(R.id.userIcon)
         ImageView userIcon;
         @BindView(R.id.userName)
@@ -160,8 +178,6 @@ public class ArticleDetailCommentAdapter extends RecyclerView.Adapter<ArticleDet
         ImageView likeImg;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
-        @BindView(R.id.reportImg)
-        ImageView reportImg;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -139,6 +139,13 @@ public class SharePopupWindows extends PopupWindow{
             }
         });
 
+        cancelTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
         //设置PopupWindow的View
         this.setContentView(mView);
         //设置PopupWindow弹出窗体的宽
@@ -153,12 +160,6 @@ public class SharePopupWindows extends PopupWindow{
         ColorDrawable dw = new ColorDrawable(0xb0000000);
         //设置SelectPicPopupWindow弹出窗体的背景
         this.setBackgroundDrawable(dw);
-        cancelTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
     }
 
     public void setWindowShareListener(WindowShareListener windowShareListener) {

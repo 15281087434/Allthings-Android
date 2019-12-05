@@ -270,6 +270,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         if (1 < item.get(position).ranklist) {
             holder.setTopTv.setVisibility(View.VISIBLE);
             holder.deleteImg.setVisibility(View.GONE);
+        }else {
+            holder.setTopTv.setVisibility(View.GONE);
         }
     }
 
@@ -336,6 +338,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         if (1 < item.get(position).ranklist) {
             holder.setTopTv.setVisibility(View.VISIBLE);
             holder.deleteImg.setVisibility(View.GONE);
+        }else {
+            holder.setTopTv.setVisibility(View.GONE);
         }
     }
 
@@ -391,6 +395,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         if (1 < item.get(position).ranklist) {
             holder.setTopTv.setVisibility(View.VISIBLE);
             holder.deleteImg.setVisibility(View.GONE);
+        }else {
+            holder.setTopTv.setVisibility(View.GONE);
         }
     }
 
@@ -496,6 +502,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         if (1 < item.get(position).ranklist) {
             holder.setTopTv.setVisibility(View.VISIBLE);
             holder.deleteImg.setVisibility(View.GONE);
+        }else {
+            holder.setTopTv.setVisibility(View.GONE);
         }
 
     }
@@ -535,7 +543,10 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         holder.likeTv.setText(item.get(position).up_num + "");
         if (1 < item.get(position).ranklist) {
             holder.setTopTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.setTopTv.setVisibility(View.GONE);
         }
+
         if (0 == item.get(position).is_up) {
             holder.likeImg.setImageResource(R.mipmap.item_like);
             holder.likeTv.setTextColor(context.getResources().getColor(R.color.FF666666));

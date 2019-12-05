@@ -39,7 +39,7 @@ public class CommentWindow extends PopupWindow{
     private View mView;
     CommentListener commentListener;
 
-    public CommentWindow(Context context) {
+    public CommentWindow(Context context,String hintTv) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mView = inflater.inflate(R.layout.custom_edittext, null);
@@ -60,6 +60,7 @@ public class CommentWindow extends PopupWindow{
         //设置SelectPicPopupWindow弹出窗体的背景
         this.setBackgroundDrawable(dw);
         initNichengEt(context,editText,publishTv);
+        editText.setHint(hintTv);
         publishTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
