@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -24,6 +25,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mob.MobSDK;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,6 +49,7 @@ import songqiu.allthings.R;
 import songqiu.allthings.adapter.ArticleDetailCommentAdapter;
 import songqiu.allthings.adapter.Comment.CommentListAdapter;
 import songqiu.allthings.adapter.GambitMorePicAdapter;
+import songqiu.allthings.adapter.HeaderViewAdapter;
 import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.CommentSubitemBean;
@@ -63,10 +67,12 @@ import songqiu.allthings.iterface.VideoDetailCommentItemListener;
 import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.photoview.PhotoViewActivity;
+import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.GlideLoadUtils;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.PicParameterUtil;
 import songqiu.allthings.util.ScrollLinearLayoutManager;
 import songqiu.allthings.util.SharedPreferencedUtils;
@@ -103,32 +109,29 @@ public class GambitDetailActivity extends BaseActivity {
     TextView rightTv;
     @BindView(R.id.line)
     LinearLayout line;
-    @BindView(R.id.userIcon)
+
+
     ImageView userIcon;
-    @BindView(R.id.userName)
     TextView userName;
-    @BindView(R.id.timeTv)
     TextView timeTv;
-    @BindView(R.id.layout)
     RelativeLayout layout;
-    @BindView(R.id.attentionTv)
     TextView attentionTv;
-    @BindView(R.id.deleteTv)
     TextView deleteTv;
-    @BindView(R.id.contentTv)
     TextView contentTv;
-    @BindView(R.id.parentLayout)
     PercentRelativeLayout parentLayout;
-    @BindView(R.id.bigPicImg)
     ImageView bigPicImg;
-    @BindView(R.id.gridView)
     GridViewInScroll gridView;
-    @BindView(R.id.likeImg)
-    ImageView likeImg;
-    @BindView(R.id.commentNumTv)
     TextView commentNumTv;
+    TextView lineTv;
+    LinearLayout emptyLayout;
+
+
+
     @BindView(R.id.commentRecycl)
     RecyclerView commentRecycl;
+    View mHeadView;
+    HeaderViewAdapter mHeaderAdapter;
+
     @BindView(R.id.smartRefreshLayout)
     SmartRefreshLayout smartRefreshLayout;
     @BindView(R.id.scrollView)
@@ -137,18 +140,18 @@ public class GambitDetailActivity extends BaseActivity {
     TextView showEdit;
     @BindView(R.id.lookCommentImg)
     ImageView lookCommentImg;
-    @BindView(R.id.lineTv)
-    TextView lineTv;
     @BindView(R.id.collectImg)
     ImageView collectImg;
     @BindView(R.id.shareImg)
     ImageView shareImg;
+    @BindView(R.id.likeImg)
+    ImageView likeImg;
     @BindView(R.id.bottomLayout)
     LinearLayout bottomLayout;
     @BindView(R.id.shadowLayout)
     LinearLayout shadowLayout;
-    @BindView(R.id.emptyLayout)
-    LinearLayout emptyLayout;
+
+
     int mUserId;
     int talkid;
     int pageNo = 1;
@@ -194,17 +197,92 @@ public class GambitDetailActivity extends BaseActivity {
         }
     }
 
+    public void initHeadView() {
+        userIcon = mHeadView.findViewById(R.id.userIcon);
+        userName = mHeadView.findViewById(R.id.userName);
+        timeTv = mHeadView.findViewById(R.id.timeTv);
+        layout = mHeadView.findViewById(R.id.layout);
+        attentionTv = mHeadView.findViewById(R.id.attentionTv);
+        deleteTv = mHeadView.findViewById(R.id.deleteTv);
+        contentTv = mHeadView.findViewById(R.id.contentTv);
+        parentLayout = mHeadView.findViewById(R.id.parentLayout);
+        bigPicImg = mHeadView.findViewById(R.id.bigPicImg);
+        gridView = mHeadView.findViewById(R.id.gridView);
+        commentNumTv = mHeadView.findViewById(R.id.commentNumTv);
+        lineTv = mHeadView.findViewById(R.id.lineTv);
+        emptyLayout = mHeadView.findViewById(R.id.emptyLayout);
+
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ClickUtil.onClick()) {
+                    if(null == gambitDetailBean) return;
+                    Intent intent = new Intent(GambitDetailActivity.this, UserPagerActivity.class);
+                    intent.putExtra("userId", gambitDetailBean.userid);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        attentionTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null == gambitDetailBean) return;
+                if (0 == gambitDetailBean.is_follow) {//去关注
+                    addFollow(gambitDetailBean.userid, 1);
+                } else { //取消关注
+                    addFollow(gambitDetailBean.userid, 2);
+                }
+            }
+        });
+
+        deleteTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null == gambitDetailBean) return;
+                if (gambitDetailBean.userid == mUserId) {
+                    delMyselfGambit(talkid);
+                }
+            }
+        });
+
+        bigPicImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null == gambitDetailBean) return;
+                Intent intent1 = new Intent(GambitDetailActivity.this, PhotoViewActivity.class);
+                intent1.putExtra("photoArray",gambitDetailBean.images);
+                intent1.putExtra("clickPhotoPotision",0);
+                startActivity(intent1);
+            }
+        });
+    }
+
     public void initRecly() {
         item1 = new ArrayList<>();
         videoDetailCommentAdapter = new CommentListAdapter(this, item1);
-//        ScrollLinearLayoutManager linearLayoutManager1 = new ScrollLinearLayoutManager(this);
-//        linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
-//        linearLayoutManager1.setmCanVerticalScroll(false);
-//        commentRecycl.setLayoutManager(linearLayoutManager1);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         commentRecycl.setLayoutManager(linearLayoutManager);
-        commentRecycl.setAdapter(videoDetailCommentAdapter);
+        mHeadView = LayoutInflater.from(this).inflate(R.layout.head_gambit_detail, null, false);
+        initHeadView();
+        mHeaderAdapter = new HeaderViewAdapter(videoDetailCommentAdapter);
+        mHeaderAdapter.addHeaderView(mHeadView);
+        commentRecycl.setAdapter(mHeaderAdapter);
+
+        smartRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                pageNo = pageNo + 1;
+                getComment(talkid, pageNo);
+            }
+
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                pageNo = 1;
+                getComment(talkid,pageNo);
+            }
+        });
 
         videoDetailCommentAdapter.setVideoDetailCommentItemListener(new VideoDetailCommentItemListener() {
             //一级评论点赞、取消点赞
@@ -552,7 +630,7 @@ public class GambitDetailActivity extends BaseActivity {
         map.put("articleid", articleid + "");
         map.put("type", 3 + "");
         map.put("page", page + "");
-        map.put("num", 10 + "");
+        map.put("num", 10+ "");
         OkHttp.post(this, smartRefreshLayout, HttpServicePath.URL_COMMENT, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
@@ -566,12 +644,10 @@ public class GambitDetailActivity extends BaseActivity {
                         }.getType());
                         if (pageNo == 1) {
                             item1.clear();
-                            if(null != videoDetailCommentBeanList && 0!=videoDetailCommentBeanList.size()) {
-                                emptyLayout.setVisibility(View.GONE);
-                                commentRecycl.setVisibility(View.VISIBLE);
-                            }else {
+                            if(null == videoDetailCommentBeanList || 0==videoDetailCommentBeanList.size()) {
                                 emptyLayout.setVisibility(View.VISIBLE);
-                                commentRecycl.setVisibility(View.GONE);
+                            }else {
+                                emptyLayout.setVisibility(View.GONE);
                             }
                         }
                         if (null != videoDetailCommentBeanList && 0 != videoDetailCommentBeanList.size()) {
@@ -806,7 +882,6 @@ public class GambitDetailActivity extends BaseActivity {
                         videoDetailCommentAdapter.notifyDataSetChanged();
                         if (null == item1 || 0 == item1.size()) {
                             emptyLayout.setVisibility(View.VISIBLE);
-                            commentRecycl.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -921,20 +996,12 @@ public class GambitDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.backImg,R.id.attentionTv,R.id.likeImg,R.id.layout,R.id.deleteTv,R.id.showEdit,R.id.collectImg,R.id.shareImg,R.id.lookCommentImg,
-                R.id.bigPicImg})
+    @OnClick({R.id.backImg,R.id.likeImg,R.id.showEdit,R.id.collectImg,R.id.shareImg,R.id.lookCommentImg,
+                })
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.backImg:
                 finish();
-                break;
-            case R.id.attentionTv:
-                if (null == gambitDetailBean) return;
-                if (0 == gambitDetailBean.is_follow) {//去关注
-                    addFollow(gambitDetailBean.userid, 1);
-                } else { //取消关注
-                    addFollow(gambitDetailBean.userid, 2);
-                }
                 break;
             case R.id.likeImg:
                 if (null == gambitDetailBean) return;
@@ -943,18 +1010,6 @@ public class GambitDetailActivity extends BaseActivity {
                 } else { //取消点赞
                     addLike(HttpServicePath.URL_NO_LIKE, 3, gambitDetailBean.id);
                 }
-                break;
-            case R.id.deleteTv:
-                if(null == gambitDetailBean) return;
-                if (gambitDetailBean.userid == mUserId) {
-                    delMyselfGambit(talkid);
-                }
-                break;
-            case R.id.layout:
-                if(null == gambitDetailBean) return;
-                Intent intent = new Intent(this, UserPagerActivity.class);
-                intent.putExtra("userId", gambitDetailBean.userid);
-                startActivity(intent);
                 break;
             case R.id.showEdit: //写评论
                 if(null != gambitDetailBean) {
@@ -980,13 +1035,6 @@ public class GambitDetailActivity extends BaseActivity {
                         scrollView.smoothScrollTo(0, hight);
                     }
                 }, 200);
-                break;
-            case R.id.bigPicImg:
-                if(null == gambitDetailBean) return;
-                Intent intent1 = new Intent(this, PhotoViewActivity.class);
-                intent1.putExtra("photoArray",gambitDetailBean.images);
-                intent1.putExtra("clickPhotoPotision",0);
-                startActivity(intent1);
                 break;
 
         }

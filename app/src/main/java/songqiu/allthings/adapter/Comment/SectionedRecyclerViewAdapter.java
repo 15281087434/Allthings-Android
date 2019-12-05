@@ -116,7 +116,6 @@ public abstract class SectionedRecyclerViewAdapter<H extends RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
-
         if(isSectionHeaderViewType(viewType)){
             viewHolder = onCreateSectionHeaderViewHolder(parent, viewType);
         }else if(isSectionFooterViewType(viewType)){
@@ -132,7 +131,6 @@ public abstract class SectionedRecyclerViewAdapter<H extends RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int section = sectionForPosition[position];
         int index = positionWithinSection[position];
-        LogUtil.i("index:"+index);
         if(isSectionHeaderPosition(position)){
             onBindSectionHeaderViewHolder((H) holder, section);
         }else if(isSectionFooterPosition(position)){
@@ -145,7 +143,6 @@ public abstract class SectionedRecyclerViewAdapter<H extends RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-
         if(sectionForPosition == null){
             setupIndices();
         }

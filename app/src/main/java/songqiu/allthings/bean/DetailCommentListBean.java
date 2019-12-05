@@ -42,4 +42,5 @@ public class DetailCommentListBean implements Serializable{
     public int num;
     public int grade;
     public List<CommentSubitemBean> cdata1;
+
 }
