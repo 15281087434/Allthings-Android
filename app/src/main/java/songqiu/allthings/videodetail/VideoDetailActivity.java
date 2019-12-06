@@ -449,7 +449,7 @@ public class VideoDetailActivity extends BaseActivity {
                 item1.get(i).num = item1.get(i).num + 1;
                 videoDetailCommentAdapter.notifyDataSetChanged();
                 int commentNum = Integer.valueOf(commentNumTv.getText().toString())+1;
-                commentNumTv.setText(String.valueOf(commentNum));
+                commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
             }
         }
     }
@@ -470,7 +470,7 @@ public class VideoDetailActivity extends BaseActivity {
                 }
                 item1.get(i).num = item1.get(i).num - deleteComment.getDeleteCommentNum();
                 int commentNum = Integer.valueOf(commentNumTv.getText().toString())-deleteComment.getDeleteCommentNum();
-                commentNumTv.setText(String.valueOf(commentNum));
+                commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
                 videoDetailCommentAdapter.notifyDataSetChanged();
             }
         }
@@ -820,8 +820,7 @@ public class VideoDetailActivity extends BaseActivity {
                         pageNo = 1;
                         getComment(articleid, pageNo,false);
                         //评论数
-                        videoDetailBean.comment_num = videoDetailBean.comment_num + 1;
-                        commentNumTv.setText(String.valueOf(videoDetailBean.comment_num));
+                        commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString())+1));
                     }
                 });
             }

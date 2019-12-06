@@ -998,8 +998,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         pageNo = 1;
                         getComment(articleid, pageNo);
                         //评论数
-                        articleDetailBean.comment_num = articleDetailBean.comment_num + 1;
-                        commentNumTv.setText(String.valueOf(articleDetailBean.comment_num));
+                        commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString())+1));
                     }
                 });
             }
@@ -1348,7 +1347,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 item1.get(i).num = item1.get(i).num + 1;
                 videoDetailCommentAdapter.notifyDataSetChanged();
                 int commentNum = Integer.valueOf(commentNumTv.getText().toString())+1;
-                commentNumTv.setText(String.valueOf(commentNum));
+                commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
             }
         }
     }
@@ -1369,7 +1368,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 }
                 item1.get(i).num = item1.get(i).num - deleteComment.getDeleteCommentNum();
                 int commentNum = Integer.valueOf(commentNumTv.getText().toString())-deleteComment.getDeleteCommentNum();
-                commentNumTv.setText(String.valueOf(commentNum));
+                commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
                 videoDetailCommentAdapter.notifyDataSetChanged();
             }
         }

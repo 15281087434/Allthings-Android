@@ -89,7 +89,7 @@ public class GuideActivity extends BaseActivity {
         if(first) {
             decideFirst();
         }else {
-            applyPermission();
+//            applyPermission();
         }
     }
 

@@ -7,10 +7,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import songqiu.allthings.R;
+import songqiu.allthings.util.SharedPreferencedUtils;
 
 /**
  * Created by Administrator on 2017/3/10.
@@ -22,9 +24,12 @@ public class LongClickDialog extends AlertDialog {
     TextView reportTv;
     TextView cancelTv;
     RelativeLayout layout;
+    LinearLayout linearLayout;
+    View line;
 
     boolean isMyself;
     OnItemClick onItemClick;
+    Context context;
 
     public interface  OnItemClick{
         void onWhichItemClick(int pos);
@@ -36,6 +41,7 @@ public class LongClickDialog extends AlertDialog {
     public LongClickDialog(Context context,boolean isMyself) {
         super(context, R.style.noTitleStyle);
         this.isMyself = isMyself;
+        this.context = context;
     }
     public void setView(View view){
         setContentView(view);
@@ -49,11 +55,27 @@ public class LongClickDialog extends AlertDialog {
         reportTv = findViewById(R.id.reportTv);
         cancelTv = findViewById(R.id.cancelTv);
         layout = findViewById(R.id.layout);
+        linearLayout = findViewById(R.id.linearLayout);
+        line = findViewById(R.id.line);
+
         if(isMyself) {
             reportTv.setText("删除");
         }else {
             reportTv.setText("举报");
         }
+
+        boolean dayModel = SharedPreferencedUtils.getBoolean(context,SharedPreferencedUtils.dayModel,true);
+        if(dayModel) {
+            cancelTv.setBackgroundResource(R.drawable.white_around_radius_24);
+            linearLayout.setBackgroundResource(R.drawable.white_around_radius_24);
+            line.setBackgroundColor(context.getResources().getColor(R.color.line_color));
+        }else {
+            cancelTv.setBackgroundResource(R.drawable.white_around_radius_24_night);
+            linearLayout.setBackgroundResource(R.drawable.white_around_radius_24_night);
+            line.setBackgroundColor(context.getResources().getColor(R.color.line_color_night));
+
+        }
+
         fuzhiTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
