@@ -45,7 +45,9 @@ import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.login.LoginActivity;
 import songqiu.allthings.mine.attention.AttentionActivity;
+import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.StringUtil;
@@ -74,7 +76,11 @@ public class HomePageChoicenessFragment extends BaseFragment {
     HomePageChooseAdapter adapter;
     HeaderViewAdapter mHeaderAdapter;
     View mHeadView;
+    View mFooterView;
     RollPagerView rollPageHome;
+    TextView loginTv;
+    TextView hintTv;
+
 
     List<BannerBean> mBannerList;
     BannerLooperAdapter mBannerAdapter;
@@ -129,12 +135,16 @@ public class HomePageChoicenessFragment extends BaseFragment {
     public void initRecyclerView() {
         item = new ArrayList<>();
         mHeadView = LayoutInflater.from(activity).inflate(R.layout.fragment_home_pager_choose_head, null, false);
+        mFooterView = LayoutInflater.from(activity).inflate(R.layout.fragment_home_pager_choose_footer, null, false);
         rollPageHome = mHeadView.findViewById(R.id.roll_page_home);
+        loginTv = mFooterView.findViewById(R.id.loginTv);
+        hintTv = mFooterView.findViewById(R.id.hintTv);
         initBanner(rollPageHome);
         initBannerEvent();
         adapter = new HomePageChooseAdapter(activity,item);
         mHeaderAdapter = new HeaderViewAdapter(adapter);
         mHeaderAdapter.addHeaderView(mHeadView);
+        mHeaderAdapter.addFooterView(mFooterView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycle.setLayoutManager(linearLayoutManager);
@@ -151,6 +161,13 @@ public class HomePageChoicenessFragment extends BaseFragment {
             public void onRefresh(RefreshLayout refreshlayout) {
                 pageNo = 1;
                 getData(pageNo,true);
+            }
+        });
+
+        loginTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.startActivity(new Intent(activity, LoginActivity.class));
             }
         });
     }
@@ -198,6 +215,19 @@ public class HomePageChoicenessFragment extends BaseFragment {
         });
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void toLogin(EventTags.ToLogin toLogin) {
+        pageNo = 1;
+        getData(pageNo,false);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void loginSucceed(EventTags.LoginSucceed loginSucceed) {
+        pageNo = 1;
+        getData(pageNo,false);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void hidePrestrain(EventTags.HidePrestrain hidePrestrain) {
         prestrainImg.setVisibility(View.GONE);
@@ -236,6 +266,14 @@ public class HomePageChoicenessFragment extends BaseFragment {
                                     item.add(homeSubitemBean);
                                     adapter.notifyDataSetChanged();
                                 }
+
+                                if(!CheckLogin.isLogin(activity) && null != classifyBeanList && 10>classifyBeanList.size()) {
+                                    loginTv.setVisibility(View.VISIBLE);
+                                    hintTv.setVisibility(View.VISIBLE);
+                                }else {
+                                    loginTv.setVisibility(View.GONE);
+                                    hintTv.setVisibility(View.GONE);
+                                }
                             }
                             if(null != classifyBeanList && 0!=classifyBeanList.size()) {
                                 if(pageNo ==1) {
@@ -244,7 +282,7 @@ public class HomePageChoicenessFragment extends BaseFragment {
                                     strTime = DateUtil.getTimeBig1(classifyBeanList.get(0).created*1000);
                                     item.add(homeSubitemBean);
                                 }
-                                //
+
                                 for(int i = 0;i<classifyBeanList.size();i++) {
                                     String time = DateUtil.getTimeBig1(classifyBeanList.get(i).created*1000);
                                     if(!StringUtil.isEmpty(strTime) && strTime.equals(time)) { //时间相同
@@ -258,6 +296,11 @@ public class HomePageChoicenessFragment extends BaseFragment {
                                     }
                                 }
                                 adapter.notifyDataSetChanged();
+                            }
+
+                            if(!CheckLogin.isLogin(activity) && null != classifyBeanList && 0==classifyBeanList.size() && pageNo !=1) {
+                                loginTv.setVisibility(View.VISIBLE);
+                                hintTv.setVisibility(View.VISIBLE);
                             }
 
                             if(ringDown) {
