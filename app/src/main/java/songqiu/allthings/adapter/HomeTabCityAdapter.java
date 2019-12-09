@@ -184,7 +184,9 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         holder.deleteImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeItemListener.delete(position,1);
+                if (ClickUtil.onClick()) {
+                    homeItemListener.delete(position,1);
+                }
             }
         });
     }
@@ -244,7 +246,9 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         holder.deleteImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeItemListener.delete(position,1);
+                if (ClickUtil.onClick()) {
+                    homeItemListener.delete(position,1);
+                }
             }
         });
     }
@@ -295,7 +299,9 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         holder.deleteImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeItemListener.delete(position,1);
+                if (ClickUtil.onClick()) {
+                    homeItemListener.delete(position,1);
+                }
             }
         });
     }
@@ -330,7 +336,9 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         holder.deleteImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeItemListener.delete(position,1);
+                if (ClickUtil.onClick()) {
+                    homeItemListener.delete(position,1);
+                }
             }
         });
         if (1 < item.get(position).ranklist) {
@@ -395,7 +403,9 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         holder.deleteImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeItemListener.delete(position,1);
+                if (ClickUtil.onClick()) {
+                    homeItemListener.delete(position,1);
+                }
             }
         });
 
@@ -462,14 +472,16 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = item.get(position).is_up;
-                if (0 == is_up) {
-                    if (null != homeItemListener) {
-                        homeItemListener.addLike(HttpServicePath.URL_LIKE, 2, item.get(position).articleid, item.get(position),holder);
-                    }
-                } else {
-                    if (null != homeItemListener) {
-                        homeItemListener.addLike(HttpServicePath.URL_NO_LIKE, 2, item.get(position).articleid, item.get(position),holder);
+                if (ClickUtil.onClick()) {
+                    int is_up = item.get(position).is_up;
+                    if (0 == is_up) {
+                        if (null != homeItemListener) {
+                            homeItemListener.addLike(HttpServicePath.URL_LIKE, 2, item.get(position).articleid, item.get(position),holder);
+                        }
+                    } else {
+                        if (null != homeItemListener) {
+                            homeItemListener.addLike(HttpServicePath.URL_NO_LIKE, 2, item.get(position).articleid, item.get(position),holder);
+                        }
                     }
                 }
             }
@@ -478,7 +490,9 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         holder.settingImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeItemListener.addSetting(position);
+                if (ClickUtil.onClick()) {
+                    homeItemListener.addSetting(position);
+                }
             }
         });
         //关注

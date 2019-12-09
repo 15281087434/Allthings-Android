@@ -159,14 +159,16 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
         viewHolder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = item.get(position).is_up;
-                if(0 == is_up) {
-                    if (null != lookItemListener) {
-                        lookItemListener.addLike(HttpServicePath.URL_LIKE,2,item.get(position).articleid,item.get(position),viewHolder);
-                    }
-                }else {
-                    if (null != lookItemListener) {
-                        lookItemListener.addLike(HttpServicePath.URL_NO_LIKE,2,item.get(position).articleid,item.get(position),viewHolder);
+                if(ClickUtil.onClick()) {
+                    int is_up = item.get(position).is_up;
+                    if(0 == is_up) {
+                        if (null != lookItemListener) {
+                            lookItemListener.addLike(HttpServicePath.URL_LIKE,2,item.get(position).articleid,item.get(position),viewHolder);
+                        }
+                    }else {
+                        if (null != lookItemListener) {
+                            lookItemListener.addLike(HttpServicePath.URL_NO_LIKE,2,item.get(position).articleid,item.get(position),viewHolder);
+                        }
                     }
                 }
             }
@@ -175,7 +177,9 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
         viewHolder.settingImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lookItemListener.addSetting(position);
+                if(ClickUtil.onClick()) {
+                    lookItemListener.addSetting(position);
+                }
             }
         });
         //关注
@@ -201,9 +205,11 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
         viewHolder.userLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, UserPagerActivity.class);
-                intent.putExtra("userId",item.get(position).userid);
-                context.startActivity(intent);
+                if(ClickUtil.onClick()) {
+                    Intent intent = new Intent(context, UserPagerActivity.class);
+                    intent.putExtra("userId",item.get(position).userid);
+                    context.startActivity(intent);
+                }
             }
         });
     }
@@ -263,7 +269,9 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
         holder.settingImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lookItemListener.delete(position);
+                if(ClickUtil.onClick()) {
+                    lookItemListener.delete(position);
+                }
             }
         });
     }
@@ -317,7 +325,9 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
         holder.settingImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lookItemListener.delete(position);
+                if(ClickUtil.onClick()) {
+                    lookItemListener.delete(position);
+                }
             }
         });
     }

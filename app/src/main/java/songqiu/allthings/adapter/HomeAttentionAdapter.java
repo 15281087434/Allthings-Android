@@ -181,21 +181,25 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.attentionImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeAttentionListener.cancelFollow(homeAttentionBean.userid, item);
+                if (ClickUtil.onClick()) {
+                    homeAttentionListener.cancelFollow(homeAttentionBean.userid, item);
+                }
             }
         });
 
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = homeAttentionBean.is_up;
-                if (0 == is_up) {
-                    if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
-                    }
-                } else {
-                    if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
+                if (ClickUtil.onClick()) {
+                    int is_up = homeAttentionBean.is_up;
+                    if (0 == is_up) {
+                        if (null != homeAttentionListener) {
+                            homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
+                        }
+                    } else {
+                        if (null != homeAttentionListener) {
+                            homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
+                        }
                     }
                 }
             }
@@ -204,8 +208,10 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != homeAttentionListener) {
-                    homeAttentionListener.addShare(position);
+                if (ClickUtil.onClick()) {
+                    if (null != homeAttentionListener) {
+                        homeAttentionListener.addShare(position);
+                    }
                 }
             }
         });
@@ -282,21 +288,25 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.attentionImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeAttentionListener.cancelFollow(homeAttentionBean.userid, item);
+                if (ClickUtil.onClick()) {
+                    homeAttentionListener.cancelFollow(homeAttentionBean.userid, item);
+                }
             }
         });
 
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = homeAttentionBean.is_up;
-                if (0 == is_up) {
-                    if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
-                    }
-                } else {
-                    if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
+                if (ClickUtil.onClick()) {
+                    int is_up = homeAttentionBean.is_up;
+                    if (0 == is_up) {
+                        if (null != homeAttentionListener) {
+                            homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
+                        }
+                    } else {
+                        if (null != homeAttentionListener) {
+                            homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
+                        }
                     }
                 }
             }
@@ -305,8 +315,10 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != homeAttentionListener) {
-                    homeAttentionListener.addShare(position);
+                if (ClickUtil.onClick()) {
+                    if (null != homeAttentionListener) {
+                        homeAttentionListener.addShare(position);
+                    }
                 }
             }
         });
@@ -390,21 +402,25 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.attentionImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeAttentionListener.cancelFollow(homeAttentionBean.userid, item);
+                if (ClickUtil.onClick()) {
+                    homeAttentionListener.cancelFollow(homeAttentionBean.userid, item);
+                }
             }
         });
 
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = homeAttentionBean.is_up;
-                if (0 == is_up) {
-                    if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
-                    }
-                } else {
-                    if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
+                if (ClickUtil.onClick()) {
+                    int is_up = homeAttentionBean.is_up;
+                    if (0 == is_up) {
+                        if (null != homeAttentionListener) {
+                            homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
+                        }
+                    } else {
+                        if (null != homeAttentionListener) {
+                            homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
+                        }
                     }
                 }
             }
@@ -413,8 +429,10 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != homeAttentionListener) {
-                    homeAttentionListener.addShare(position);
+                if (ClickUtil.onClick()) {
+                    if (null != homeAttentionListener) {
+                        homeAttentionListener.addShare(position);
+                    }
                 }
             }
         });
@@ -493,21 +511,25 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.attentionImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeAttentionListener.cancelFollow(homeAttentionBean.userid, item);
+                if (ClickUtil.onClick()) {
+                    homeAttentionListener.cancelFollow(homeAttentionBean.userid, item);
+                }
             }
         });
 
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = homeAttentionBean.is_up;
-                if (0 == is_up) {
-                    if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
-                    }
-                } else {
-                    if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
+                if (ClickUtil.onClick()) {
+                    int is_up = homeAttentionBean.is_up;
+                    if (0 == is_up) {
+                        if (null != homeAttentionListener) {
+                            homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
+                        }
+                    } else {
+                        if (null != homeAttentionListener) {
+                            homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeAttentionBean.articleid, homeAttentionBean,holder);
+                        }
                     }
                 }
             }
@@ -516,8 +538,10 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != homeAttentionListener) {
-                    homeAttentionListener.addShare(position);
+                if (ClickUtil.onClick()) {
+                    if (null != homeAttentionListener) {
+                        homeAttentionListener.addShare(position);
+                    }
                 }
             }
         });
@@ -573,30 +597,36 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, VideoDetailActivity.class);
-                intent.putExtra("articleid", homeAttentionBean.articleid);
-                context.startActivity(intent);
+                if (ClickUtil.onClick()) {
+                    Intent intent = new Intent(context, VideoDetailActivity.class);
+                    intent.putExtra("articleid", homeAttentionBean.articleid);
+                    context.startActivity(intent);
+                }
             }
         });
 
         holder.attentionImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeAttentionListener.cancelFollow(homeAttentionBean.userid, item);
+                if (ClickUtil.onClick()) {
+                    homeAttentionListener.cancelFollow(homeAttentionBean.userid, item);
+                }
             }
         });
 
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = homeAttentionBean.is_up;
-                if (0 == is_up) {
-                    if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 2, homeAttentionBean.articleid, homeAttentionBean,holder);
-                    }
-                } else {
-                    if (null != homeAttentionListener) {
-                        homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 2, homeAttentionBean.articleid, homeAttentionBean,holder);
+                if (ClickUtil.onClick()) {
+                    int is_up = homeAttentionBean.is_up;
+                    if (0 == is_up) {
+                        if (null != homeAttentionListener) {
+                            homeAttentionListener.addLike(HttpServicePath.URL_LIKE, 2, homeAttentionBean.articleid, homeAttentionBean,holder);
+                        }
+                    } else {
+                        if (null != homeAttentionListener) {
+                            homeAttentionListener.addLike(HttpServicePath.URL_NO_LIKE, 2, homeAttentionBean.articleid, homeAttentionBean,holder);
+                        }
                     }
                 }
             }
@@ -605,8 +635,10 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != homeAttentionListener) {
-                    homeAttentionListener.addShare(position);
+                if (ClickUtil.onClick()) {
+                    if (null != homeAttentionListener) {
+                        homeAttentionListener.addShare(position);
+                    }
                 }
             }
         });
