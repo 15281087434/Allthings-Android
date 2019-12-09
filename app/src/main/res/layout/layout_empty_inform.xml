@@ -3,8 +3,8 @@
     android:id="@+id/emptyLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="gone"
     android:orientation="horizontal"
+    android:visibility="gone"
     >
 
     <LinearLayout
@@ -30,8 +30,8 @@
             android:gravity="center"
             android:text="暂时没有通知哦!"
             android:layout_marginTop="@dimen/x_ui_px_40.0"
-            android:textSize="@dimen/x_ui_px_28.0"
-            android:textColor="@color/FFBFBFBF"/>
+            android:textSize="@dimen/x_ui_px_32.0"
+            android:textColor="@color/FF999999"/>
 
     </LinearLayout>
 </LinearLayout>

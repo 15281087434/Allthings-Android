@@ -31,8 +31,8 @@
             android:gravity="center"
             android:text="暂时没有关注哦\n快去关注一下吧!"
             android:layout_marginTop="@dimen/x_ui_px_40.0"
-            android:textSize="@dimen/x_ui_px_28.0"
-            android:textColor="@color/FFBFBFBF"/>
+            android:textSize="@dimen/x_ui_px_32.0"
+            android:textColor="@color/FF999999"/>
 
     </LinearLayout>
 </LinearLayout>
