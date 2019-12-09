@@ -51,6 +51,7 @@ import songqiu.allthings.util.NetWorkUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.TokenManager;
+import songqiu.allthings.view.DialogFileUploading;
 import songqiu.allthings.view.LoadingDialog;
 
 /*******
@@ -522,7 +523,7 @@ public class OkHttp {
 
 
 
-    public static void postFile(final Context context, String requestPath,Map<String, String> params,File file,final RequestCallBack listener) {
+    public static void postFile(final Context context, DialogFileUploading dialog, String requestPath, Map<String, String> params, File file, final RequestCallBack listener) {
         String time = String.valueOf(System.currentTimeMillis()/1000);
         Gson mGson = new Gson();
         String my = mGson.toJson(params);
@@ -576,6 +577,9 @@ public class OkHttp {
                 } else {
 //                    error = "系统异常！";
                 }
+                if(null != dialog) {
+                    dialog.disMiss();
+                }
 //                Looper.prepare();
 //                Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
 //                Looper.loop();
@@ -585,6 +589,9 @@ public class OkHttp {
             public void onResponse(Call call, Response response) throws IOException {
                 String str = response.body().string();
                 LogUtil.i(str);
+                if(null != dialog) {
+                    dialog.disMiss();
+                }
                 Gson gson = new Gson();
                 BaseBean baseBean = gson.fromJson(str, BaseBean.class);
                 if(null != baseBean) {

@@ -218,10 +218,11 @@ public class MyQuestionActivity extends BaseActivity {
     }
 
     public void uploadPic(String path) {
+        showLoading();
         File file = new File(path);
         Map<String, String> map = new HashMap<>();
         map.put("file",file.getName());
-        OkHttp.postFile(this, HttpServicePath.URL_UPLOADS,map,file,new RequestCallBack() {
+        OkHttp.postFile(this, mDialog,HttpServicePath.URL_UPLOADS,map,file,new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
                 runOnUiThread(new Runnable() {

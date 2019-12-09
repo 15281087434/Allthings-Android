@@ -58,6 +58,8 @@ import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.TokenManager;
 import songqiu.allthings.videodetail.VideoDetailActivity;
+import songqiu.allthings.view.DialogFileUploading;
+import songqiu.allthings.view.DialogUploadVersion;
 import songqiu.allthings.view.banner.ColorPointHintView;
 import songqiu.allthings.view.banner.RollPagerView;
 

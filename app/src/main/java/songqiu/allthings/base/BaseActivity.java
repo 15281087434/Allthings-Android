@@ -27,6 +27,7 @@ import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.SwipeUtils;
+import songqiu.allthings.view.DialogFileUploading;
 import songqiu.allthings.view.LoadingDialog;
 
 /*******
@@ -42,7 +43,8 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeBac
 
     //对应上下文
     protected Context mContext;
-    public LoadingDialog mProgressDialog;
+//    public LoadingDialog mProgressDialog;
+    public DialogFileUploading mDialog;
 
     private SwipeBackActivityHelper mHelper;
 
@@ -116,28 +118,37 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeBac
     /**
      * 显示进度框-自定义内容
      */
-    public void showLoading(Context context) {
-        showLoading(context, "");
-    }
+//    public void showLoading(Context context) {
+//        showLoading(context, "");
+//    }
+//
+//    public void showLoading(Context con, String content) {
+//        if (null == content || "".equals(content))
+//            content = "请稍候";
+//        if (mProgressDialog == null) {
+//            mProgressDialog = new LoadingDialog(con);
+//        }
+//        if (!mProgressDialog.isShowing()) {
+//            mProgressDialog.setMessage(content);
+//            mProgressDialog.setCanceledOnTouchOutside(true);
+//            mProgressDialog.setCancelable(true);
+//            mProgressDialog.show();
+//        }
+//    }
+//
+//    public void cancelLoading() {
+//        if (mProgressDialog != null) {
+//            mProgressDialog.cancel();
+//            mProgressDialog = null;
+//        }
+//    }
 
-    public void showLoading(Context con, String content) {
-        if (null == content || "".equals(content))
-            content = "请稍候";
-        if (mProgressDialog == null) {
-            mProgressDialog = new LoadingDialog(con);
+    public void showLoading() {
+        if(null == mDialog) {
+            mDialog = new DialogFileUploading(this);
         }
-        if (!mProgressDialog.isShowing()) {
-            mProgressDialog.setMessage(content);
-            mProgressDialog.setCanceledOnTouchOutside(true);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-        }
-    }
-
-    public void cancelLoading() {
-        if (mProgressDialog != null) {
-            mProgressDialog.cancel();
-            mProgressDialog = null;
+        if(!mDialog.isShowing()) {
+            mDialog.showDialog();
         }
     }
 
