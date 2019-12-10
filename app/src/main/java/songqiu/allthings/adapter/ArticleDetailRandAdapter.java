@@ -1,5 +1,6 @@
 package songqiu.allthings.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -118,6 +119,7 @@ public class ArticleDetailRandAdapter extends RecyclerView.Adapter<ArticleDetail
                         Intent intent = new Intent(context, ArticleDetailActivity.class);
                         intent.putExtra("articleid", item.get(position).articleid);
                         context.startActivity(intent);
+                        ((Activity)context).finish();
                     }
                 }
             }

@@ -80,6 +80,7 @@ import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.GlideLoadUtils;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
@@ -1112,6 +1113,7 @@ public class VideoDetailActivity extends BaseActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         unregisterReceiver(myBroadcastReceiver);
+        videoDetailBean = null;
     }
 
 
@@ -1183,7 +1185,7 @@ public class VideoDetailActivity extends BaseActivity {
                 scrollView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        scrollView.smoothScrollTo(0, 700);
+                        scrollView.smoothScrollTo(0, 3000);
                     }
                 }, 200);
                 break;

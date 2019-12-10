@@ -1277,6 +1277,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         ThemeManager.unregisterThemeChangeListener(this);
         EventBus.getDefault().unregister(this);
         unregisterReceiver(myBroadcastReceiver);
+        articleDetailBean = null;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
