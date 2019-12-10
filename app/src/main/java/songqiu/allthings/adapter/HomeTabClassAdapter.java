@@ -146,7 +146,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (classType.equals("recommend")) { //推荐
+        if (classType.equals("recommend") || classType.equals("ghost")) { //推荐  鬼话
             if (1 == item.get(position).ad) { //广告
                 if (1 == item.get(position).type) { //图片广告
                     if (3 == item.get(position).change_type) { //小图片广告

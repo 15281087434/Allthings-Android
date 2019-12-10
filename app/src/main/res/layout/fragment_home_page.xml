@@ -13,37 +13,79 @@
         android:background="@color/white"
         >
 
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:background="@color/FFF9FAFD"
-           android:paddingTop="@dimen/x_ui_px_50.0">
-           <net.lucode.hackware.magicindicator.MagicIndicator
-               android:id="@+id/magicIndicator"
-               android:layout_width="match_parent"
-               android:layout_height="@dimen/x_ui_px_80.0"
-               android:layout_marginRight="@dimen/x_ui_px_10.0"
-               android:background="@color/FFF9FAFD"
-               />
+        <LinearLayout
+            android:id="@+id/headLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/FFF9FAFD">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/x_ui_px_70.0"
+                android:paddingBottom="@dimen/x_ui_px_10.0">
 
-           <RelativeLayout
-               android:layout_width="@dimen/x_ui_px_90.0"
-               android:layout_height="@dimen/x_ui_px_70.0"
-               android:layout_alignParentRight="true"
-               android:background="@mipmap/home_search_bg"
-               android:layout_marginTop="@dimen/x_ui_px_4.0">
-               <ImageView
-                   android:id="@+id/searchImg"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:src="@mipmap/home_search"
-                   android:layout_centerInParent="true"
-                   android:padding="@dimen/x_ui_px_10.0"
-                   />
-           </RelativeLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_navigation_bar"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    />
 
-       </RelativeLayout>
+                <LinearLayout
+                    android:id="@+id/searchImg"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/x_ui_px_58.0"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    android:layout_marginRight="@dimen/x_ui_px_25.0"
+                    android:background="@drawable/bg_search_gary"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/x_ui_px_10.0"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/home_search"
+                        android:text="搜索故事、用户、标签"
+                        android:textColor="@color/FF999999"
+                        android:textSize="@dimen/x_ui_px_27.0"
+                        android:drawablePadding="@dimen/x_ui_px_15.0"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/classification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@mipmap/icon_classification"
+                    android:text="分类"
+                    android:textColor="@color/bottom_tab_tv_night"
+                    android:textSize="@dimen/x_ui_px_19.0"
+                    android:paddingLeft="@dimen/x_ui_px_10.0"
+                    android:paddingRight="@dimen/x_ui_px_10.0"
+                    android:layout_marginRight="@dimen/x_ui_px_20.0"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <net.lucode.hackware.magicindicator.MagicIndicator
+                    android:id="@+id/magicIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_80.0"
+                    android:background="#00000000"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+
         <View
+            android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x_ui_px_1.0"
             android:background="@color/line_color"/>

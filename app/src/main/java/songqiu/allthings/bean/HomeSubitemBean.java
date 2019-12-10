@@ -73,4 +73,12 @@ public class HomeSubitemBean {
     public int share_num;
     //自定义一个变量
     public boolean empty;
+
+    //标签
+    public String keywords; //第一个标签
+    public String[] labels; //标签组
+
+    public int push_icon; //1：荐标签
+    public int popular_icon; //1：热标签
+    public int new_icon; //1：新标签
 }

@@ -52,7 +52,7 @@
                                 android:paddingBottom="@dimen/x_ui_px_30.0"
                                 android:gravity="top"
                                 android:textSize="@dimen/x_ui_px_28.0"
-                                android:textColor="@color/FFBFBFBF"
+                                android:textColor="@color/FF666666"
                                 android:textColorHint="@color/FFBFBFBF"
                                 android:maxLength="10000"/>
 

@@ -84,6 +84,7 @@ public class MainActivity extends BaseMainActivity {
     public static final int INDEX_TASK_PAGE = 2;
     public static final int INDEX_MINE_PAGE = 3;
     public int clickPosition = 10;
+    boolean isGhost;
 
     /**
      * 用于fragment管理
@@ -135,6 +136,8 @@ public class MainActivity extends BaseMainActivity {
     LinearLayout mineLayout;
     @BindView(R.id.shadowLayout)
     LinearLayout shadowLayout;
+    @BindView(R.id.bottomLayout)
+    LinearLayout bottomLayout;
 
     //旋转动画
     Animation rotate;
@@ -200,6 +203,7 @@ public class MainActivity extends BaseMainActivity {
         modeUi(dayModel);
         fragmentManager = getSupportFragmentManager();
         setTabSelection(INDEX_HOME_PAGE,0);
+        setBottomLayoutBackground(false,0);
         animationDrawable = (AnimationDrawable)videoGoldImg.getBackground();
         initBroadcastReceiver();
     }
@@ -319,11 +323,49 @@ public class MainActivity extends BaseMainActivity {
         int position = toJump.getJump();
         int childPosition = toJump.getChildPosition();
         setTabSelection(position,childPosition);
+        setBottomLayoutBackground(false,position);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void dayMoulde(EventTags.DayMoulde dayMoulde) {
         modeUi(dayMoulde.getMoulde());
+    }
+
+    //鬼话栏目变色
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void dayMoulde(EventTags.Ghost ghost) {
+        if(ghost.getGhost()) {
+            isGhost = true;
+            setBottomLayoutBackground(true,0);
+        }else {
+            isGhost = false;
+            setBottomLayoutBackground(false,0);
+        }
+    }
+
+    public void setBottomLayoutBackground(boolean isGhost,int position) {
+        if(isGhost) {
+            bottomLayout.setBackgroundResource(R.color.FFF9FAFD_night);
+            homePageImg.setImageResource(R.mipmap.tab_home_ghost);
+            lookImg.setImageResource(R.mipmap.tab_look_ghost_normal);
+            taskImg.setImageResource(R.mipmap.tab_task_ghost_normal);
+            mineImg.setImageResource(R.mipmap.tab_mine_ghost_normal);
+        }else {
+            bottomLayout.setBackgroundResource(R.color.FFF9FAFD);
+            homePageImg.setImageResource(R.mipmap.tab_home_normal);
+            lookImg.setImageResource(R.mipmap.tab_look_normal);
+            taskImg.setImageResource(R.mipmap.tab_task_normal);
+            mineImg.setImageResource(R.mipmap.tab_mine_normal);
+            if(position == INDEX_HOME_PAGE) {
+                homePageImg.setImageResource(R.mipmap.tab_home);
+            }else if(position == INDEX_LOOK_PAGE) {
+                lookImg.setImageResource(R.mipmap.tab_look);
+            }else if(position == INDEX_TASK_PAGE) {
+                taskImg.setImageResource(R.mipmap.tab_task);
+            }else if(position == INDEX_MINE_PAGE) {
+                mineImg.setImageResource(R.mipmap.tab_mine);
+            }
+        }
     }
 
 
@@ -424,10 +466,10 @@ public class MainActivity extends BaseMainActivity {
     }
 
     private void clearSelection() {
-        homePageImg.setImageResource(R.mipmap.tab_home_normal);
-        lookImg.setImageResource(R.mipmap.tab_look_normal);
-        taskImg.setImageResource(R.mipmap.tab_task_normal);
-        mineImg.setImageResource(R.mipmap.tab_mine_normal);
+//        homePageImg.setImageResource(R.mipmap.tab_home_normal);
+//        lookImg.setImageResource(R.mipmap.tab_look_normal);
+//        taskImg.setImageResource(R.mipmap.tab_task_normal);
+//        mineImg.setImageResource(R.mipmap.tab_mine_normal);
         homePageTv.setTextColor(getResources().getColor(R.color.FF666666));
         lookTv.setTextColor(getResources().getColor(R.color.FF666666));
         taskTv.setTextColor(getResources().getColor(R.color.FF666666));
@@ -531,6 +573,11 @@ public class MainActivity extends BaseMainActivity {
         switch (view.getId()) {
             case R.id.homePageLayout:
                 setTabSelection(INDEX_HOME_PAGE,0);
+                if(isGhost) {
+                    setBottomLayoutBackground(true,0);
+                }else {
+                    setBottomLayoutBackground(false,0);
+                }
 //                if(effectiveHomeClick) {
 //                    setTabSelection(INDEX_HOME_PAGE,0);
 //                }
@@ -540,18 +587,21 @@ public class MainActivity extends BaseMainActivity {
                 break;
             case R.id.lookLayout:
                 setTabSelection(INDEX_LOOK_PAGE,0);
+                setBottomLayoutBackground(false,1);
 //                if(ClickUtil.onClick()) {
 //                    setTabSelection(INDEX_LOOK_PAGE,0);
 //                }
                 break;
             case R.id.taskLayout:
                 setTabSelection(INDEX_TASK_PAGE,0);
+                setBottomLayoutBackground(false,2);
 //                if(ClickUtil.onClick()) {
 //                    setTabSelection(INDEX_TASK_PAGE,0);
 //                }
                 break;
             case R.id.mineLayout:
                 setTabSelection(INDEX_MINE_PAGE,0);
+                setBottomLayoutBackground(false,3);
 //                if(ClickUtil.onClick()) {
 //                    setTabSelection(INDEX_MINE_PAGE,0);
 //                }

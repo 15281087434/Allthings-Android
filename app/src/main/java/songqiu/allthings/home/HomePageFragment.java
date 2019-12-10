@@ -76,6 +76,10 @@ public class HomePageFragment extends BaseFragment {
 
     @BindView(R.id.layout)
     LinearLayout layout;
+    @BindView(R.id.line)
+    View line;
+    @BindView(R.id.headLayout)
+    LinearLayout headLayout;
     @BindView(R.id.magicIndicator)
     MagicIndicator magicIndicator;
     @BindView(R.id.vp_home)
@@ -102,6 +106,8 @@ public class HomePageFragment extends BaseFragment {
     MainActivity activity;
     DialogPrivacyExplain dialogPrivacyExplain;
     public int indexPosition = 1;
+    SimplePagerTitleView simplePagerTitleView;
+    boolean isGhost;
 
     @Override
     public void onAttach(Context context) {
@@ -242,7 +248,11 @@ public class HomePageFragment extends BaseFragment {
                 HomePageChoicenessFragment homePageChoicenessFragment = new HomePageChoicenessFragment();
                 mFragments.add(i, homePageChoicenessFragment);
                 homePageChoicenessFragment.tag = list.get(i).tag;
-            }else if (list.get(i).tag.equals("topic")) { //话题 标签
+            } else if (list.get(i).tag.equals("ghost")) { //鬼话
+                 HomePageGhostFragment homePageGhostFragment = new HomePageGhostFragment();
+                 mFragments.add(i, homePageGhostFragment);
+                 homePageGhostFragment.tag = list.get(i).tag;
+             }else if (list.get(i).tag.equals("topic")) { //话题 标签
                  HomePageGambitFragment homePageGambitFragment = new HomePageGambitFragment();
                  mFragments.add(i, homePageGambitFragment);
              } else {
@@ -266,8 +276,20 @@ public class HomePageFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-//                LogUtil.i("*********onPageSelected:"+position);
                 magicIndicator.onPageSelected(position);
+                if (null == list || 0 == list.size()) return;
+                if(list.get(position).tag.equals("ghost")) {
+                    isGhost = true;
+                    headLayout.setBackgroundResource(R.mipmap.home_tab_ghost_bg);
+                    line.setBackgroundResource(R.color.FF0F1012);
+                    EventBus.getDefault().post(new EventTags.Ghost(true));
+                }else {
+                    isGhost = false;
+                    headLayout.setBackgroundResource(R.color.FFF9FAFD);
+                    line.setBackgroundResource(R.color.line_color);
+                    EventBus.getDefault().post(new EventTags.Ghost(false));
+                }
+                commonNavigator.notifyDataSetChanged();
             }
 
             @Override
@@ -276,12 +298,10 @@ public class HomePageFragment extends BaseFragment {
                 magicIndicator.onPageScrollStateChanged(state);
             }
         });
-
-        magicIndicator.setBackgroundColor(getResources().getColor(R.color.FFF9FAFD));
         //新建导航栏
         commonNavigator = new CommonNavigator(activity);
         commonNavigator.setEnablePivotScroll(true);
-        commonNavigator.setRightPadding(100);
+//        commonNavigator.setRightPadding(100);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -290,10 +310,14 @@ public class HomePageFragment extends BaseFragment {
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
                 //设置Magicindicator的一种标题模式， 标题模式有很多种，这是最基本的一种
-                SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
+                simplePagerTitleView = new SimplePagerTitleView(context);
                 simplePagerTitleView.setText(list.get(index).name);
                 //设置被选中的item颜色
-                simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.black));
+                if(isGhost) {
+                    simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.normal_color));
+                }else {
+                    simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.black));
+                }
                 //设置为被选中item颜色
                 simplePagerTitleView.setNormalColor(getResources().getColor(R.color.FFA2A2A2));
                 simplePagerTitleView.setSelectedSize(19);
@@ -321,7 +345,7 @@ public class HomePageFragment extends BaseFragment {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
                 indicator.setColors(getResources().getColor(R.color.normal_color));
                 indicator.setYOffset(13);
-                indicator.setXOffset(35);
+                indicator.setXOffset(47);
                 return indicator;
             }
 
@@ -415,11 +439,20 @@ public class HomePageFragment extends BaseFragment {
     }
 
 
-    @OnClick(R.id.searchImg)
-    public void onViewClick() {
-        if (ClickUtil.onClick()) {
-            Intent intent = new Intent(activity, SearchActivity.class);
-            startActivity(intent);
+    @OnClick({R.id.searchImg,R.id.classification})
+    public void onViewClick(View view) {
+        switch (view.getId()) {
+            case R.id.searchImg:
+                if (ClickUtil.onClick()) {
+                    Intent intent = new Intent(activity, SearchActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.classification:
+                if (ClickUtil.onClick()) {
+
+                }
+                break;
         }
     }
 

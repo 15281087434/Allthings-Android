@@ -135,7 +135,7 @@ public class JoinGambitActivity extends BaseActivity {
         talktype = getIntent().getIntExtra("talktype",1);
         if(1==talktype) {
             titleTv.setText("参与话题");
-            titleGambitTv.setText(hintGambit);
+            titleGambitTv.setText("#"+hintGambit+"#");
         }else {
             titleTv.setText("发布动态");
             titleGambitTv.setVisibility(View.GONE);

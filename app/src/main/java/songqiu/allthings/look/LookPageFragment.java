@@ -207,7 +207,7 @@ public class LookPageFragment extends BaseFragment {
         //新建导航栏
         CommonNavigator commonNavigator = new CommonNavigator(activity);
         commonNavigator.setEnablePivotScroll(true);
-        commonNavigator.setRightPadding(100);
+//        commonNavigator.setRightPadding(100);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -247,7 +247,7 @@ public class LookPageFragment extends BaseFragment {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
                 indicator.setColors(getResources().getColor(R.color.normal_color));
                 indicator.setYOffset(13);
-                indicator.setXOffset(35);
+                indicator.setXOffset(47);
                 return indicator;
             }
 

@@ -255,6 +255,21 @@ public class EventTags {
         }
     }
 
+    public static class Ghost {
+        public boolean isGhost;
+        public Ghost(boolean isGhost) {
+            this.isGhost = isGhost;
+        }
+
+        public boolean getGhost() {
+            return isGhost;
+        }
+
+        public void setGhost(boolean isGhost) {
+            this.isGhost = isGhost;
+        }
+    }
+
     public static class ShowDot { //是否显示红点
         public boolean show;
         public int position;
