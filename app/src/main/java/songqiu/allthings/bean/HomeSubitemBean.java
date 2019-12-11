@@ -74,6 +74,8 @@ public class HomeSubitemBean {
     //自定义一个变量
     public boolean empty;
 
+    //收藏数
+    public int collect_num;
     //标签
     public String keywords; //第一个标签
     public String[] labels; //标签组

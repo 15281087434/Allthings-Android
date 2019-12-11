@@ -138,6 +138,8 @@ public class MainActivity extends BaseMainActivity {
     LinearLayout shadowLayout;
     @BindView(R.id.bottomLayout)
     LinearLayout bottomLayout;
+    @BindView(R.id.line)
+    View line;
 
     //旋转动画
     Animation rotate;
@@ -346,12 +348,14 @@ public class MainActivity extends BaseMainActivity {
     public void setBottomLayoutBackground(boolean isGhost,int position) {
         if(isGhost) {
             bottomLayout.setBackgroundResource(R.color.FFF9FAFD_night);
+            line.setBackgroundResource(R.color.line_color_night);
             homePageImg.setImageResource(R.mipmap.tab_home_ghost);
             lookImg.setImageResource(R.mipmap.tab_look_ghost_normal);
             taskImg.setImageResource(R.mipmap.tab_task_ghost_normal);
             mineImg.setImageResource(R.mipmap.tab_mine_ghost_normal);
         }else {
             bottomLayout.setBackgroundResource(R.color.FFF9FAFD);
+            line.setBackgroundResource(R.color.line_color);
             homePageImg.setImageResource(R.mipmap.tab_home_normal);
             lookImg.setImageResource(R.mipmap.tab_look_normal);
             taskImg.setImageResource(R.mipmap.tab_task_normal);

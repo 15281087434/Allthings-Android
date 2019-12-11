@@ -80,6 +80,8 @@ public class HomePageFragment extends BaseFragment {
     View line;
     @BindView(R.id.headLayout)
     LinearLayout headLayout;
+    @BindView(R.id.searchImg)
+    LinearLayout searchImg;
     @BindView(R.id.magicIndicator)
     MagicIndicator magicIndicator;
     @BindView(R.id.vp_home)
@@ -282,11 +284,13 @@ public class HomePageFragment extends BaseFragment {
                     isGhost = true;
                     headLayout.setBackgroundResource(R.mipmap.home_tab_ghost_bg);
                     line.setBackgroundResource(R.color.FF0F1012);
+                    searchImg.setBackgroundResource(R.drawable.bg_search_ghost_gary);
                     EventBus.getDefault().post(new EventTags.Ghost(true));
                 }else {
                     isGhost = false;
                     headLayout.setBackgroundResource(R.color.FFF9FAFD);
                     line.setBackgroundResource(R.color.line_color);
+                    searchImg.setBackgroundResource(R.drawable.bg_search_gary);
                     EventBus.getDefault().post(new EventTags.Ghost(false));
                 }
                 commonNavigator.notifyDataSetChanged();

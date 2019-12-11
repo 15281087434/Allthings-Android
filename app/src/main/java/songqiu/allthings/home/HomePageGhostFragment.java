@@ -37,6 +37,7 @@ import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.adapter.HomeTabClassAdapter;
+import songqiu.allthings.adapter.HomeTabGhostAdapter;
 import songqiu.allthings.base.BaseFragment;
 import songqiu.allthings.bean.HomeSubitemBean;
 import songqiu.allthings.bean.ReportBean;
@@ -87,7 +88,7 @@ public class HomePageGhostFragment extends BaseFragment {
     public int type;
 
     List<HomeSubitemBean> item ;
-    HomeTabClassAdapter adapter;
+    HomeTabGhostAdapter adapter;
     int pageNo = 1;
 
     MainActivity activity;
@@ -137,7 +138,7 @@ public class HomePageGhostFragment extends BaseFragment {
 
     public void initRecycle() {
         item = new ArrayList<>();
-        adapter = new HomeTabClassAdapter(activity,item,tag);
+        adapter = new HomeTabGhostAdapter(activity,item,tag);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycle.setLayoutManager(linearLayoutManager);

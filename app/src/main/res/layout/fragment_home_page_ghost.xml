@@ -29,7 +29,7 @@
                android:id="@+id/hintLayout"
                android:layout_width="match_parent"
                android:layout_height="@dimen/x_ui_px_64.0"
-               android:background="@color/FFE0F9F0"
+               android:background="@color/FF005E5D"
                android:visibility="gone">
 
                <TextView

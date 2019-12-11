@@ -33,6 +33,7 @@ import songqiu.allthings.iterface.HomeItemListener;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ViewProportion;
 import songqiu.allthings.videodetail.VideoDetailActivity;
@@ -162,6 +163,7 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
         holder.contentTv.setText(item.get(position).descriptions);
         holder.userName.setText(item.get(position).user_nickname);
+        holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
         if (DateUtil.IsToday(time)) {
@@ -224,6 +226,7 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
         holder.contentTv.setText(item.get(position).descriptions);
         holder.userName.setText(item.get(position).user_nickname);
+        holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
         if (DateUtil.IsToday(time)) {
@@ -277,6 +280,7 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
         holder.contentTv.setText(item.get(position).descriptions);
         holder.userName.setText(item.get(position).user_nickname);
+        holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
         if (DateUtil.IsToday(time)) {
@@ -309,7 +313,7 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
     public void setMorePicData(MorePicViewholder holder, int position) {
         holder.titleTv.setText(item.get(position).title);
         holder.userName.setText(item.get(position).user_nickname);
-
+        holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
         if(null != item.get(position).photos) {
             ImageTextMorePicAdapter gambitMorePicAdapter = new ImageTextMorePicAdapter(context,item.get(position).photos);
             holder.gridView.setAdapter(gambitMorePicAdapter);
@@ -367,6 +371,7 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         holder.titleTv.setText(item.get(position).title);
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
         holder.userName.setText(item.get(position).user_nickname);
+        holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
         if (DateUtil.IsToday(time)) {
@@ -557,6 +562,8 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.deleteImg)
         ImageView deleteImg;
+        @BindView(R.id.collectTv)
+        TextView collectTv;
 
         public RightPicViewholder(View itemView) {
             super(itemView);
@@ -579,6 +586,9 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         ImageView deleteImg;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.collectTv)
+        TextView collectTv;
+
         public MorePicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -604,6 +614,8 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.deleteImg)
         ImageView deleteImg;
+        @BindView(R.id.collectTv)
+        TextView collectTv;
 
         public BigPicViewholder(View itemView) {
             super(itemView);
@@ -628,7 +640,8 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.deleteImg)
         ImageView deleteImg;
-
+        @BindView(R.id.collectTv)
+        TextView collectTv;
 
         public NoPicViewholder(View itemView) {
             super(itemView);
@@ -654,6 +667,8 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         LinearLayout toDetailLayout;
         @BindView(R.id.deleteImg)
         ImageView deleteImg;
+        @BindView(R.id.collectTv)
+        TextView collectTv;
 
         public CityAndChoiseVideoHolder(View itemView) {
             super(itemView);

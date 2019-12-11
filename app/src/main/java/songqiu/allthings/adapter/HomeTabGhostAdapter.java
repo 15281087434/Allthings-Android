@@ -50,25 +50,25 @@ import songqiu.allthings.view.GridViewInScroll;
  *类描述：
  *
  ********/
-public class HomeTabClassAdapter extends RecyclerView.Adapter {
+public class HomeTabGhostAdapter extends RecyclerView.Adapter {
 
     Context context;
     List<HomeSubitemBean> item;
     String classType;
     //type 1 图文 判断moudle  type 2 视频
     //设置常量  moudle 1、纯文字  2、大图 3、小图
-    private final int TYPE_ONLY_TEXT = 1;
-    private final int TYPE_BIG_PIC = 2;
-    private final int TYPE_SMALL_PIC = 3;
-    private final int TYPE_MORE_PIC = 6;//多图
+    private final int TYPE_ONLY_TEXT = 1; //
+    private final int TYPE_BIG_PIC = 2; //
+    private final int TYPE_SMALL_PIC = 3; //
+    private final int TYPE_MORE_PIC = 6;//多图 //
 
-    private final int TYPE_CITY_AND_CHOICE_VIDEO = 4; //成都、精选里的视频布局标记
+    private final int TYPE_CITY_AND_CHOICE_VIDEO = 4; //成都、精选里的视频布局标记 //
     private final int TYPE_VIDEO_VIDEO = 5; //calss为视频时的视频布局标记
 
     //广告 推荐
-    private final int TYPE_ADVERTISE_BIG_PIC = 7; //广告大图
-    private final int TYPE_ADVERTISE_VIDEO = 8; //广告视频
-    private final int TYPE_ADVERTISE_SAMLL_PIC = 9; //广告小图
+    private final int TYPE_ADVERTISE_BIG_PIC = 7; //广告大图 //
+    private final int TYPE_ADVERTISE_VIDEO = 8; //广告视频 //
+    private final int TYPE_ADVERTISE_SAMLL_PIC = 9; //广告小图  //
 
     //广告 视频
     private final int TYPE_BIG_PIC_ADVERTISE = 10; //广告大图
@@ -76,7 +76,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
 
     HomeItemListener homeItemListener;
 
-    public HomeTabClassAdapter(Context context, List<HomeSubitemBean> item, String classType) {
+    public HomeTabGhostAdapter(Context context, List<HomeSubitemBean> item, String classType) {
         this.context = context;
         this.item = item;
         this.classType = classType;
@@ -87,22 +87,22 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         if (viewType == TYPE_ONLY_TEXT) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_home_tab_recommend_no_pic, null);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_home_tab_ghost_no_pic, null);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(lp);
             return new NoPicViewholder(view);
         } else if (viewType == TYPE_BIG_PIC) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_home_tab_recommend_big_pic, null);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_home_tab_ghost_big_pic, null);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(lp);
             return new BigPicViewholder(view);
         } else if (viewType == TYPE_SMALL_PIC) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_home_tab_recommend_right_pic, null);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_home_tab_ghost_right_pic, null);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(lp);
             return new RightPicViewholder(view);
         } else if (viewType == TYPE_MORE_PIC) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_home_more_pic, null);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_home_ghost_more_pic, null);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(lp);
             return new MorePicViewholder(view);
@@ -112,22 +112,22 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
             view.setLayoutParams(lp);
             return new LookVideoHolder(view);
         } else if (viewType == TYPE_CITY_AND_CHOICE_VIDEO) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_home_tab_recommend_video_view, null);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_home_tab_ghost_video_view, null);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(lp);
             return new CityAndChoiseVideoHolder(view);
         } else if (viewType == TYPE_ADVERTISE_BIG_PIC) { //广告大图
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_advertising_big_pic, null);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_advertising_ghost_big_pic, null);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(lp);
             return new AdvertiseBigPicViewholder(view);
         } else if (viewType == TYPE_ADVERTISE_VIDEO) { //广告视频
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_advertising_video, null);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_advertising_ghost_video, null);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(lp);
             return new AdvertiseVideoViewholder(view);
         } else if (viewType == TYPE_ADVERTISE_SAMLL_PIC) { //广告小图
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_advertising_small_pic, null);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_advertising_ghost_small_pic, null);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(lp);
             return new AdvertiseRightPicViewholder(view);
@@ -375,6 +375,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         holder.contentTv.setText(item.get(position).descriptions);
         holder.userName.setText(item.get(position).user_nickname);
         holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
+
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
         if (DateUtil.IsToday(time)) {
@@ -473,6 +474,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
         holder.userName.setText(item.get(position).user_nickname);
         holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
+
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
         if (DateUtil.IsToday(time)) {
@@ -1027,7 +1029,6 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         TextView setTopTv;
         @BindView(R.id.collectTv)
         TextView collectTv;
-
 
         public NoPicViewholder(View itemView) {
             super(itemView);

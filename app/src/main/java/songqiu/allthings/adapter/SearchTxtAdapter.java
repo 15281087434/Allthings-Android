@@ -25,6 +25,7 @@ import songqiu.allthings.bean.SearchTxtBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
+import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ViewProportion;
 import songqiu.allthings.view.GridViewInScroll;
@@ -123,6 +124,8 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
         holder.contentTv.setText(item.get(position).descriptions);
         holder.userName.setText(item.get(position).user_nickname);
+        holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
+
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
         if (DateUtil.IsToday(time)) {
@@ -148,6 +151,8 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         holder.titleTv.setText(item.get(position).title);
         holder.contentTv.setText(item.get(position).descriptions);
         holder.userName.setText(item.get(position).user_nickname);
+        holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
+
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,6 +184,8 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         holder.titleTv.setText(item.get(position).title);
         holder.contentTv.setText(item.get(position).descriptions);
         holder.userName.setText(item.get(position).user_nickname);
+        holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
+
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,6 +201,7 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
     public void setMorePic(MorePicViewHolder holder,int position) {
         holder.titleTv.setText(item.get(position).title);
         holder.userName.setText(item.get(position).user_nickname);
+        holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
 
         if (null != item.get(position).photos) {
             ImageTextMorePicAdapter gambitMorePicAdapter = new ImageTextMorePicAdapter(context, item.get(position).photos);
@@ -234,6 +242,8 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         TextView userName;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.collectTv)
+        TextView collectTv;
 
         public TextViewHolder(View itemView) {
             super(itemView);
@@ -258,6 +268,8 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         TextView userName;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.collectTv)
+        TextView collectTv;
 
         public RightPicViewHolder(View itemView) {
             super(itemView);
@@ -276,6 +288,8 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         TextView userName;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.collectTv)
+        TextView collectTv;
 
         public BigPicViewHolder(View itemView) {
             super(itemView);
@@ -292,6 +306,8 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         TextView userName;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.collectTv)
+        TextView collectTv;
 
         public MorePicViewHolder(View itemView) {
             super(itemView);

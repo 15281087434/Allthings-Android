@@ -18,6 +18,8 @@ public class HttpRuslt {
 
 	public static final String REND_LIMIT= "1022"; //阅读已达上限
 
+	public static final String PIC_VIOLATION= "1055"; //图片违规
+
 	
 
 }

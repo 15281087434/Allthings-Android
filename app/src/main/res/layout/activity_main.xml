@@ -33,6 +33,7 @@
         <!--底部tab-->
 
         <View
+            android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x_ui_px_1.0"
             android:background="@color/line_color"

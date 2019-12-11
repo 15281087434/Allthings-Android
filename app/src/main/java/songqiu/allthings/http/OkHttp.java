@@ -595,7 +595,13 @@ public class OkHttp {
                 Gson gson = new Gson();
                 BaseBean baseBean = gson.fromJson(str, BaseBean.class);
                 if(null != baseBean) {
-                    listener.httpResult(baseBean);
+                    if(HttpRuslt.OK.equals(baseBean.code)) {
+                        listener.httpResult(baseBean);
+                    }else {
+                        Looper.prepare();
+                        Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
+                        Looper.loop();
+                    }
                 }
             }
         });

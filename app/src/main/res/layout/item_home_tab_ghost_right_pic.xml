@@ -2,16 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="@color/FF233239"
     android:id="@+id/layout">
-
     <TextView
         android:id="@+id/titleTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:textColor="@color/bottom_tab_tv"
+        android:textColor="@color/normal_color"
         android:textSize="@dimen/x_ui_px_40.0"
         android:layout_marginTop="@dimen/x_ui_px_28.0"
         android:layout_marginLeft="@dimen/x_ui_px_30.0"
@@ -23,19 +22,79 @@
         android:textStyle="bold"
         />
 
-    <songqiu.allthings.view.GridViewInScroll
-        android:id="@+id/gridView"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/x_ui_px_6.0"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发布时间:  "
+            android:textColor="@color/FFBFBFBF"
+            android:textSize="@dimen/x_ui_px_24.0"/>
+        <TextView
+            android:id="@+id/tiemTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="刚刚"
+            android:textColor="@color/FFBFBFBF"
+            android:textSize="@dimen/x_ui_px_24.0"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="浏览:  "
+            android:textColor="@color/FFBFBFBF"
+            android:textSize="@dimen/x_ui_px_24.0"
+            android:layout_marginLeft="@dimen/x_ui_px_90.0"/>
+        <TextView
+            android:id="@+id/lookTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0次"
+            android:textColor="@color/FFBFBFBF"
+            android:textSize="@dimen/x_ui_px_24.0"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/x_ui_px_20.0"
-        android:numColumns="3"
-        android:horizontalSpacing="@dimen/x_ui_px_10.0"
-        android:verticalSpacing="@dimen/x_ui_px_10.0"
-        android:listSelector="@android:color/transparent"
+        android:orientation="horizontal"
         android:layout_marginLeft="@dimen/x_ui_px_30.0"
-        android:layout_marginRight="@dimen/x_ui_px_30.0">
+        android:layout_marginRight="@dimen/x_ui_px_30.0"
+        android:layout_marginTop="@dimen/x_ui_px_20.0"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/contentTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/FFA2A2A2"
+            android:textSize="@dimen/x_ui_px_31.0"
+            android:ellipsize="end"
+            android:lines="3"
+            android:lineSpacingExtra="@dimen/x_ui_px_12.0"
+            android:text="草船借箭是我国古典名著《三国演义》中赤壁之战的一个故事。借箭由周瑜故意提出限十天造十万支箭，机智的诸葛亮一眼识破是一条害人之计，却淡定表示“只需要三天”。"
+            />
+        <ImageView
+            android:id="@+id/rightPic"
+            android:layout_width="@dimen/x_ui_px_252.0"
+            android:layout_height="@dimen/x_ui_px_152.0"
+            android:layout_alignParentRight="true"
+            android:scaleType="centerCrop"
+            android:layout_marginLeft="@dimen/x_ui_px_12.0"
+            android:src="@mipmap/item_home_tab_right_pic"/>
 
-    </songqiu.allthings.view.GridViewInScroll>
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,7 +131,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/x_ui_px_28.0"
-                    android:textColor="@color/FF999999"
+                    android:textColor="@color/FF666666"
                     android:text="大力·悬疑"
                     android:maxEms="10"
                     android:singleLine="true"
@@ -97,19 +156,18 @@
                 android:id="@+id/collectTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/item_subitem_collect"
+                android:drawableLeft="@mipmap/item_ghost_collect"
                 android:text="0"
                 android:textColor="@color/FF999999"
                 android:textSize="@dimen/x_ui_px_23.0"
                 android:drawablePadding="@dimen/x_ui_px_5.0"
                 android:layout_marginRight="@dimen/x_ui_px_10.0"/>
 
-
             <ImageView
                 android:id="@+id/deleteImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/icon_cancel"
+                android:src="@mipmap/icon_ghost_cancel"
                 android:padding="@dimen/x_ui_px_10.0"/>
         </LinearLayout>
 
@@ -118,6 +176,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/x_ui_px_12.0"
-        android:background="@color/line_color"/>
+        android:background="@color/line_color_night"/>
 
 </LinearLayout>

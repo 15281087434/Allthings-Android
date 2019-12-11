@@ -4,14 +4,15 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:id="@+id/layout">
+    android:id="@+id/layout"
+    android:background="@color/FF233239">
 
     <TextView
         android:id="@+id/titleTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:textColor="@color/bottom_tab_tv"
+        android:textColor="@color/normal_color"
         android:textSize="@dimen/x_ui_px_40.0"
         android:layout_marginTop="@dimen/x_ui_px_28.0"
         android:layout_marginLeft="@dimen/x_ui_px_30.0"
@@ -72,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/x_ui_px_28.0"
-                    android:textColor="@color/FF999999"
+                    android:textColor="@color/FF666666"
                     android:text="大力·悬疑"
                     android:maxEms="10"
                     android:singleLine="true"
@@ -85,7 +86,7 @@
                     android:layout_height="@dimen/x_ui_px_32.0"
                     android:textSize="@dimen/x_ui_px_16.0"
                     android:textColor="@color/FFDE5C51"
-                    android:background="@drawable/rectangle_common_red"
+                    android:background="@drawable/rectangle_common_red_ghost"
                     android:text="置顶"
                     android:gravity="center"
                     android:layout_marginLeft="@dimen/x_ui_px_16.0"
@@ -97,7 +98,7 @@
                 android:id="@+id/collectTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/item_subitem_collect"
+                android:drawableLeft="@mipmap/item_ghost_collect"
                 android:text="0"
                 android:textColor="@color/FF999999"
                 android:textSize="@dimen/x_ui_px_23.0"
@@ -109,7 +110,7 @@
                 android:id="@+id/deleteImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/icon_cancel"
+                android:src="@mipmap/icon_ghost_cancel"
                 android:padding="@dimen/x_ui_px_10.0"/>
         </LinearLayout>
 
@@ -118,6 +119,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/x_ui_px_12.0"
-        android:background="@color/line_color"/>
+        android:background="@color/line_color_night"/>
 
 </LinearLayout>
