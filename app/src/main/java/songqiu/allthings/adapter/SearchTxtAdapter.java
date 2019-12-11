@@ -20,6 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import songqiu.allthings.R;
+import songqiu.allthings.application.MyApplication;
 import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.bean.SearchTxtBean;
 import songqiu.allthings.http.HttpServicePath;
@@ -100,16 +101,6 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
     }
 
     public void setRightPic(RightPicViewHolder holder, int position) {
-//        RequestOptions options = new RequestOptions()
-//                .circleCrop().transforms(new GlideCircleTransform(context))
-//                .error(R.mipmap.head_default)
-//                .placeholder(R.mipmap.head_default);
-//        if (!StringUtil.isEmpty(item.get(position).avatar)) {
-//            if (!item.get(position).avatar.contains("http")) {
-//                item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
-//            }
-//        }
-//        Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         RequestOptions options1 = new RequestOptions()
                 .error(R.mipmap.pic_default_small)
                 .placeholder(R.mipmap.pic_default_small);
@@ -124,8 +115,47 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
         holder.contentTv.setText(item.get(position).descriptions);
         holder.userName.setText(item.get(position).user_nickname);
+        //标签
+        if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setText(item.get(position).keywords);
+            int colorIndex = item.get(position).color;
+            holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
+            holder.keywordsTv.setBackgroundResource(MyApplication.getInstance().colorBackGroundMap.get(colorIndex));
+        }else {
+            holder.keywordsTv.setVisibility(View.GONE);
+        }
+        //多标签
+        if(null != item.get(position).labels && 0!=item.get(position).labels.length) {
+            if(1==item.get(position).labels.length) {
+                holder.labels1.setVisibility(View.VISIBLE);
+                holder.labels1.setText(item.get(position).labels[0]);
+                holder.labels2.setVisibility(View.GONE);
+            }else {
+                holder.labels1.setVisibility(View.VISIBLE);
+                holder.labels1.setText(item.get(position).labels[0]);
+                holder.labels2.setVisibility(View.VISIBLE);
+                holder.labels2.setText(item.get(position).labels[1]);
+            }
+        }else {
+            holder.labels1.setVisibility(View.GONE);
+            holder.labels2.setVisibility(View.GONE);
+        }
         holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
-
+        if(0!=item.get(position).popular_icon) {
+            holder.hotTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.hotTv.setVisibility(View.GONE);
+        }
+        if(0!=item.get(position).push_icon) {
+            holder.recommendTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.recommendTv.setVisibility(View.GONE);
+        }
+        if(0!=item.get(position).new_icon) {
+            holder.newTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.newTv.setVisibility(View.GONE);
+        }
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
         if (DateUtil.IsToday(time)) {
@@ -151,7 +181,47 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         holder.titleTv.setText(item.get(position).title);
         holder.contentTv.setText(item.get(position).descriptions);
         holder.userName.setText(item.get(position).user_nickname);
+        //标签
+        if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setText(item.get(position).keywords);
+            int colorIndex = item.get(position).color;
+            holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
+            holder.keywordsTv.setBackgroundResource(MyApplication.getInstance().colorBackGroundMap.get(colorIndex));
+        }else {
+            holder.keywordsTv.setVisibility(View.GONE);
+        }
+        //多标签
+        if(null != item.get(position).labels && 0!=item.get(position).labels.length) {
+            if(1==item.get(position).labels.length) {
+                holder.labels1.setVisibility(View.VISIBLE);
+                holder.labels1.setText(item.get(position).labels[0]);
+                holder.labels2.setVisibility(View.GONE);
+            }else {
+                holder.labels1.setVisibility(View.VISIBLE);
+                holder.labels1.setText(item.get(position).labels[0]);
+                holder.labels2.setVisibility(View.VISIBLE);
+                holder.labels2.setText(item.get(position).labels[1]);
+            }
+        }else {
+            holder.labels1.setVisibility(View.GONE);
+            holder.labels2.setVisibility(View.GONE);
+        }
         holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
+        if(0!=item.get(position).popular_icon) {
+            holder.hotTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.hotTv.setVisibility(View.GONE);
+        }
+        if(0!=item.get(position).push_icon) {
+            holder.recommendTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.recommendTv.setVisibility(View.GONE);
+        }
+        if(0!=item.get(position).new_icon) {
+            holder.newTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.newTv.setVisibility(View.GONE);
+        }
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,7 +254,47 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         holder.titleTv.setText(item.get(position).title);
         holder.contentTv.setText(item.get(position).descriptions);
         holder.userName.setText(item.get(position).user_nickname);
+        //标签
+        if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setText(item.get(position).keywords);
+            int colorIndex = item.get(position).color;
+            holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
+            holder.keywordsTv.setBackgroundResource(MyApplication.getInstance().colorBackGroundMap.get(colorIndex));
+        }else {
+            holder.keywordsTv.setVisibility(View.GONE);
+        }
+        //多标签
+        if(null != item.get(position).labels && 0!=item.get(position).labels.length) {
+            if(1==item.get(position).labels.length) {
+                holder.labels1.setVisibility(View.VISIBLE);
+                holder.labels1.setText(item.get(position).labels[0]);
+                holder.labels2.setVisibility(View.GONE);
+            }else {
+                holder.labels1.setVisibility(View.VISIBLE);
+                holder.labels1.setText(item.get(position).labels[0]);
+                holder.labels2.setVisibility(View.VISIBLE);
+                holder.labels2.setText(item.get(position).labels[1]);
+            }
+        }else {
+            holder.labels1.setVisibility(View.GONE);
+            holder.labels2.setVisibility(View.GONE);
+        }
         holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
+        if(0!=item.get(position).popular_icon) {
+            holder.hotTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.hotTv.setVisibility(View.GONE);
+        }
+        if(0!=item.get(position).push_icon) {
+            holder.recommendTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.recommendTv.setVisibility(View.GONE);
+        }
+        if(0!=item.get(position).new_icon) {
+            holder.newTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.newTv.setVisibility(View.GONE);
+        }
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,8 +311,47 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
     public void setMorePic(MorePicViewHolder holder,int position) {
         holder.titleTv.setText(item.get(position).title);
         holder.userName.setText(item.get(position).user_nickname);
+        //标签
+        if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setText(item.get(position).keywords);
+            int colorIndex = item.get(position).color;
+            holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
+            holder.keywordsTv.setBackgroundResource(MyApplication.getInstance().colorBackGroundMap.get(colorIndex));
+        }else {
+            holder.keywordsTv.setVisibility(View.GONE);
+        }
+        //多标签
+        if(null != item.get(position).labels && 0!=item.get(position).labels.length) {
+            if(1==item.get(position).labels.length) {
+                holder.labels1.setVisibility(View.VISIBLE);
+                holder.labels1.setText(item.get(position).labels[0]);
+                holder.labels2.setVisibility(View.GONE);
+            }else {
+                holder.labels1.setVisibility(View.VISIBLE);
+                holder.labels1.setText(item.get(position).labels[0]);
+                holder.labels2.setVisibility(View.VISIBLE);
+                holder.labels2.setText(item.get(position).labels[1]);
+            }
+        }else {
+            holder.labels1.setVisibility(View.GONE);
+            holder.labels2.setVisibility(View.GONE);
+        }
         holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
-
+        if(0!=item.get(position).popular_icon) {
+            holder.hotTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.hotTv.setVisibility(View.GONE);
+        }
+        if(0!=item.get(position).push_icon) {
+            holder.recommendTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.recommendTv.setVisibility(View.GONE);
+        }
+        if(0!=item.get(position).new_icon) {
+            holder.newTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.newTv.setVisibility(View.GONE);
+        }
         if (null != item.get(position).photos) {
             ImageTextMorePicAdapter gambitMorePicAdapter = new ImageTextMorePicAdapter(context, item.get(position).photos);
             holder.gridView.setAdapter(gambitMorePicAdapter);
@@ -244,6 +393,19 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.collectTv)
         TextView collectTv;
+        @BindView(R.id.hotTv)
+        TextView hotTv;
+        @BindView(R.id.recommendTv)
+        TextView recommendTv;
+        @BindView(R.id.newTv)
+        TextView newTv;
+        //标签
+        @BindView(R.id.keywordsTv)
+        TextView keywordsTv;
+        @BindView(R.id.labels1)
+        TextView labels1;
+        @BindView(R.id.labels2)
+        TextView labels2;
 
         public TextViewHolder(View itemView) {
             super(itemView);
@@ -270,6 +432,19 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.collectTv)
         TextView collectTv;
+        @BindView(R.id.hotTv)
+        TextView hotTv;
+        @BindView(R.id.recommendTv)
+        TextView recommendTv;
+        @BindView(R.id.newTv)
+        TextView newTv;
+        //标签
+        @BindView(R.id.keywordsTv)
+        TextView keywordsTv;
+        @BindView(R.id.labels1)
+        TextView labels1;
+        @BindView(R.id.labels2)
+        TextView labels2;
 
         public RightPicViewHolder(View itemView) {
             super(itemView);
@@ -290,6 +465,19 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.collectTv)
         TextView collectTv;
+        @BindView(R.id.hotTv)
+        TextView hotTv;
+        @BindView(R.id.recommendTv)
+        TextView recommendTv;
+        @BindView(R.id.newTv)
+        TextView newTv;
+        //标签
+        @BindView(R.id.keywordsTv)
+        TextView keywordsTv;
+        @BindView(R.id.labels1)
+        TextView labels1;
+        @BindView(R.id.labels2)
+        TextView labels2;
 
         public BigPicViewHolder(View itemView) {
             super(itemView);
@@ -308,6 +496,19 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.collectTv)
         TextView collectTv;
+        @BindView(R.id.hotTv)
+        TextView hotTv;
+        @BindView(R.id.recommendTv)
+        TextView recommendTv;
+        @BindView(R.id.newTv)
+        TextView newTv;
+        //标签
+        @BindView(R.id.keywordsTv)
+        TextView keywordsTv;
+        @BindView(R.id.labels1)
+        TextView labels1;
+        @BindView(R.id.labels2)
+        TextView labels2;
 
         public MorePicViewHolder(View itemView) {
             super(itemView);

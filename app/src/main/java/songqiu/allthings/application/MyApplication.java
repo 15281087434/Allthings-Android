@@ -21,6 +21,7 @@ import android.provider.Settings;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -191,6 +192,32 @@ public class MyApplication extends Application {
             versionName = "1.0.0";
         }
     }
+
+    public ArrayMap<Integer, Integer> colorBackGroundMap = new ArrayMap<Integer, Integer>() {
+        {
+            put(0, R.color.FF33755FCF);
+            put(1, R.color.FF33755FCF);
+            put(2, R.color.FF339B820D);
+            put(3, R.color.FF330E909E);
+            put(4, R.color.FF33648854);
+            put(5, R.color.FF33B45D6B);
+            put(6, R.color.FF33206EDB);
+            put(7, R.color.FF33A47858);
+        }
+    };
+
+    public ArrayMap<Integer, Integer> colorTextViewMap = new ArrayMap<Integer, Integer>() {
+        {
+            put(0, R.color.FF755FCF);
+            put(1, R.color.FF755FCF);
+            put(2, R.color.FF9B820D);
+            put(3, R.color.FF0E909E);
+            put(4, R.color.FF648854);
+            put(5, R.color.FFB45D6B);
+            put(6, R.color.FF206EDB);
+            put(7, R.color.FFA47858);
+        }
+    };
 
 
 

@@ -51,6 +51,7 @@
 
     <!--使用-->
     <color name="black">#000000</color>
+    <color name="transparency">#00000000</color>
 
     <!--<color name="trans_4">#99000000</color>&lt;!&ndash;40%透明度&ndash;&gt;-->
     <color name="trans_6">#A6000000</color><!--60%透明度-->
@@ -122,6 +123,40 @@
     <color name="FF017170">#017170</color>
     <color name="FF173C45_66">#66173C45</color> <!--60%透明-->
     <color name="FF005E5D">#005E5D</color>
+
+    <color name="FFE65C65">#E65C65</color> <!--热-->
+    <color name="FFDEB72D">#DEB72D</color> <!--新-->
+
+    <!--0、1颜色-->
+    <color name="FF755FCF">#755FCF</color>
+    <color name="FF33755FCF">#33755FCF</color> <!--20%透明-->
+    <!--2颜色-->
+    <color name="FF9B820D">#9B820D</color>
+    <color name="FF339B820D">#339B820D</color> <!--20%透明-->
+    <!--3颜色-->
+    <color name="FF0E909E">#0E909E</color>
+    <color name="FF330E909E">#330E909E</color> <!--20%透明-->
+    <!--4颜色-->
+    <color name="FF648854">#648854</color>
+    <color name="FF33648854">#33648854</color> <!--20%透明-->
+    <!--5颜色-->
+    <color name="FFB45D6B">#B45D6B</color>
+    <color name="FF33B45D6B">#33B45D6B</color> <!--20%透明-->
+    <!--6颜色-->
+    <color name="FF206EDB">#206EDB</color>
+    <color name="FF33206EDB">#33206EDB</color> <!--20%透明-->
+    <!--7颜色-->
+    <color name="FFA47858">#A47858</color>
+    <color name="FF33A47858">#33A47858</color> <!--20%透明-->
+
+    <!--1 标签组-->
+    <color name="FF9C44A2">#9C44A2</color>
+    <color name="FF339C44A2">#339C44A2</color> <!--20%透明-->
+    <!--2 标签组-->
+    <color name="FF1C8725">#1C8725</color>
+    <color name="FF331C8725">#331C8725</color> <!--20%透明-->
+
+
 
 
 

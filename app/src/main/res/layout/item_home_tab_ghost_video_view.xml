@@ -86,6 +86,7 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/x_ui_px_30.0"
             android:paddingRight="@dimen/x_ui_px_20.0">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

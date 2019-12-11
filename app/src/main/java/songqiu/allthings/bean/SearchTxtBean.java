@@ -43,7 +43,9 @@ public class SearchTxtBean {
 
     //标签
     public String keywords; //第一个标签
-    public int[] labels; //标签组
+    public String [] labels; //标签组
+    //标签颜色
+    public int color;
 
     public int push_icon; //1：荐标签
     public int popular_icon; //1：热标签
