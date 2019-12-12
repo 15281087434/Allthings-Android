@@ -137,9 +137,9 @@ public class AllHotGambitActivity extends BaseActivity {
     }
 
     public void getHotData(int page,boolean ringDown) {
-        Map<String, String> map = new HashMap<>();
-        map.put("num",10+"");
-        map.put("page",page+"");
+        Map<String, Object> map = new HashMap<>();
+        map.put("num",10);
+        map.put("page",page);
         OkHttp.post(this,smartRefreshLayout, HttpServicePath.URL_TALKLIST, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

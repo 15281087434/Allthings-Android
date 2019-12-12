@@ -25,15 +25,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import songqiu.allthings.R;
-import songqiu.allthings.adapter.Comment.CommentSubitemHolder;
 import songqiu.allthings.bean.CommentDetailCon2Bean;
-import songqiu.allthings.bean.CommentSubitemBean;
-import songqiu.allthings.bean.DetailCommentListBean;
 import songqiu.allthings.http.HttpServicePath;
-import songqiu.allthings.iterface.VideoDetailCommentItemListener;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
-import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 

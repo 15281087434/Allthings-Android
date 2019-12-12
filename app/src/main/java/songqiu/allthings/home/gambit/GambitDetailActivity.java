@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
@@ -46,11 +45,9 @@ import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
-import songqiu.allthings.adapter.ArticleDetailCommentAdapter;
-import songqiu.allthings.adapter.Comment.CommentListAdapter;
+import songqiu.allthings.adapter.comment.CommentListAdapter;
 import songqiu.allthings.adapter.GambitMorePicAdapter;
 import songqiu.allthings.adapter.HeaderViewAdapter;
-import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.CommentSubitemBean;
 import songqiu.allthings.bean.DeleteCommentBean;
@@ -72,9 +69,7 @@ import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.GlideLoadUtils;
-import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.PicParameterUtil;
-import songqiu.allthings.util.ScrollLinearLayoutManager;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
@@ -626,11 +621,11 @@ public class GambitDetailActivity extends BaseActivity {
     }
 
     public void getComment(int articleid, int page) {
-        Map<String, String> map = new HashMap<>();
-        map.put("articleid", articleid + "");
-        map.put("type", 3 + "");
-        map.put("page", page + "");
-        map.put("num", 10+ "");
+        Map<String, Object> map = new HashMap<>();
+        map.put("articleid", articleid);
+        map.put("type", 3);
+        map.put("page", page);
+        map.put("num", 10);
         OkHttp.post(this, smartRefreshLayout, HttpServicePath.URL_COMMENT, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

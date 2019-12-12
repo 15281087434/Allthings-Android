@@ -59,7 +59,7 @@ import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.adapter.ArticleDetailRandAdapter;
-import songqiu.allthings.adapter.Comment.CommentListAdapter;
+import songqiu.allthings.adapter.comment.CommentListAdapter;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.AdvertiseBean;
 import songqiu.allthings.bean.ArticleDetailBean;
@@ -792,11 +792,11 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     }
 
     public void getComment(int articleid, int page) {
-        Map<String, String> map = new HashMap<>();
-        map.put("articleid", articleid + "");
-        map.put("type", 1 + "");
-        map.put("page", page + "");
-        map.put("num", 10 + "");
+        Map<String, Object> map = new HashMap<>();
+        map.put("articleid", articleid);
+        map.put("type", 1);
+        map.put("page", page);
+        map.put("num", 10);
         OkHttp.post(this, smartRefreshLayout, HttpServicePath.URL_COMMENT, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

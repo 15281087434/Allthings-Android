@@ -407,7 +407,7 @@ public class OkHttp {
     }
 
 
-    public static void post(final Context context, SmartRefreshLayout smartRefreshLayout,String requestPath, Map<String, String> params, final RequestCallBack listener) {
+    public static void post(final Context context, SmartRefreshLayout smartRefreshLayout,String requestPath, Map<String, Object> params, final RequestCallBack listener) {
         if (!NetWorkUtil.isNetworkConnected(context)) {
             EventBus.getDefault().post(new EventTags.HidePrestrain());
             ToastUtil.showToast(context,"网络无连接，请检查网络！");

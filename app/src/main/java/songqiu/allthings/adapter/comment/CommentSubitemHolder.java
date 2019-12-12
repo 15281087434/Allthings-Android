@@ -1,4 +1,4 @@
-package songqiu.allthings.adapter.Comment;
+package songqiu.allthings.adapter.comment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,11 +12,9 @@ import butterknife.ButterKnife;
 import songqiu.allthings.R;
 
 /**
- *
  */
 
-public class HeaderHolder extends RecyclerView.ViewHolder {
-
+public class CommentSubitemHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.layout)
     RelativeLayout layout;
     @BindView(R.id.userIcon)
@@ -34,7 +32,7 @@ public class HeaderHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.likeLayout)
     LinearLayout likeLayout;
 
-    public HeaderHolder(View itemView) {
+    public CommentSubitemHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

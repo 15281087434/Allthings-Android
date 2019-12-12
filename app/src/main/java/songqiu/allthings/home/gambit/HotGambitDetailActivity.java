@@ -730,10 +730,10 @@ public class HotGambitDetailActivity extends BaseActivity{
     }
 
     public void getNewstList(int pageNo,boolean ringDown) {
-        Map<String, String> map = new HashMap<>();
-        map.put("talk_id", talkid + "");
-        map.put("num", 10 + "");
-        map.put("page", pageNo + "");
+        Map<String, Object> map = new HashMap<>();
+        map.put("talk_id", talkid);
+        map.put("num", 10);
+        map.put("page", pageNo);
         OkHttp.post(this,smartRefreshLayout, HttpServicePath.URL_TALK_LIST_LIST, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

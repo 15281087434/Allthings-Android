@@ -110,11 +110,11 @@ public class SearchTopicFragment extends BaseFragment {
     }
 
     public void getTxtSearch(int pageNo,String keyword,boolean ringDown) {
-        Map<String,String> map = new HashMap<>();
-        map.put("type","3"); //分类：1=文章，2=视频，3=话题
+        Map<String,Object> map = new HashMap<>();
+        map.put("type",3); //分类：1=文章，2=视频，3=话题
         map.put("keyword",keyword);
-        map.put("num",10+"");
-        map.put("page",pageNo+"");
+        map.put("num",10);
+        map.put("page",pageNo);
         OkHttp.post(activity, smartRefreshLayout, HttpServicePath.URL_SEARCH, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

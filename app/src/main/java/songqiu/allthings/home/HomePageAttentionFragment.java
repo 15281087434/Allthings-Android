@@ -200,10 +200,10 @@ public class HomePageAttentionFragment extends BaseFragment {
 
     public void getData(int page,boolean ringDown) {
         String url = HttpServicePath.BaseUrl + tag;
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         if (StringUtil.isEmpty(tag)) return;
-        map.put("num", 10 + "");
-        map.put("page", page + "");
+        map.put("num", 10);
+        map.put("page", page);
         OkHttp.post(activity, smartRefreshLayout, url, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

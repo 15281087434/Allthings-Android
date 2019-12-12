@@ -137,9 +137,9 @@ public class MyFriendActivity extends BaseActivity {
     }
 
     public void getData(int pageNo,boolean ringDown) {
-        Map<String, String> map = new HashMap<>();
-        map.put("num", 10 + "");
-        map.put("page", pageNo + "");
+        Map<String, Object> map = new HashMap<>();
+        map.put("num", 10);
+        map.put("page", pageNo);
         OkHttp.post(this, smartRefreshLayout, HttpServicePath.URL_FRIEND_MONEY, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

@@ -134,9 +134,9 @@ public class MineFeedbackFragment extends BaseFragment {
     }
 
     public void getFeedBack(int pageNo,boolean ringDown) {
-        Map<String, String> map = new HashMap<>();
-        map.put("page", pageNo + "");
-        map.put("num", 10 + "");
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", pageNo);
+        map.put("num", 10);
         OkHttp.post(activity, smartRefreshLayout, HttpServicePath.URL_FEEDBACK_LIST, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

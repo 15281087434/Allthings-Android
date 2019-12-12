@@ -55,9 +55,8 @@ import pl.droidsonroids.gif.GifImageView;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
-import songqiu.allthings.adapter.Comment.CommentListAdapter;
+import songqiu.allthings.adapter.comment.CommentListAdapter;
 import songqiu.allthings.adapter.VideoDetailIntroAdapter;
-import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.AdvertiseBean;
 import songqiu.allthings.bean.CommentSubitemBean;
@@ -80,7 +79,6 @@ import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.GlideLoadUtils;
-import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
@@ -499,11 +497,11 @@ public class VideoDetailActivity extends BaseActivity {
     }
 
     public void getComment(int articleid, int page, boolean ringDown) {
-        Map<String, String> map = new HashMap<>();
-        map.put("articleid", articleid + "");
-        map.put("type", 2 + "");
-        map.put("page", page + "");
-        map.put("num", 10 + "");
+        Map<String, Object> map = new HashMap<>();
+        map.put("articleid", articleid);
+        map.put("type", 2);
+        map.put("page", page);
+        map.put("num", 10);
         OkHttp.post(this, smartRefreshLayout, HttpServicePath.URL_COMMENT, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
@@ -540,8 +538,8 @@ public class VideoDetailActivity extends BaseActivity {
     }
 
     public void getVoide() {
-        Map<String, String> map = new HashMap<>();
-        map.put("type", 2 + "");
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", 2);
         OkHttp.post(this, smartRefreshLayout, HttpServicePath.URL_RAND, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

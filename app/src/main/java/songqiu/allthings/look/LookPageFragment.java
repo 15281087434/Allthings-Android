@@ -52,6 +52,7 @@ import songqiu.allthings.base.BaseFragment;
 import songqiu.allthings.bean.ChangePage;
 import songqiu.allthings.bean.ReadAwardBean;
 import songqiu.allthings.bean.TabClassBean;
+import songqiu.allthings.classification.AllClassificationActivity;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
@@ -280,12 +281,22 @@ public class LookPageFragment extends BaseFragment {
     }
 
 
-    @OnClick(R.id.searchImg)
-    public void onViewClick() {
-        if (ClickUtil.onClick()) {
-            Intent intent = new Intent(activity, SearchActivity.class);
-            startActivity(intent);
-        }
+    @OnClick({R.id.searchImg,R.id.classification})
+    public void onViewClick(View view) {
+       switch (view.getId()) {
+           case R.id.searchImg:
+               if (ClickUtil.onClick()) {
+                   Intent intent = new Intent(activity, SearchActivity.class);
+                   startActivity(intent);
+               }
+               break;
+           case R.id.classification:
+               if (ClickUtil.onClick()) {
+                   Intent intent = new Intent(activity, AllClassificationActivity.class);
+                   startActivity(intent);
+               }
+               break;
+       }
     }
 
     @OnClick(R.id.emptyLayout)

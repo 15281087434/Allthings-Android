@@ -288,11 +288,11 @@ public class UserTopicFragment extends BaseFragment {
     }
 
     public void getData(int page,boolean ringDown) {
-        Map<String, String> map = new HashMap<>();
-        map.put("type", 3 + "");
-        map.put("userid", userId + "");
-        map.put("num", 10 + "");
-        map.put("page", page + "");
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", 3);
+        map.put("userid", userId);
+        map.put("num", 10);
+        map.put("page", page);
         OkHttp.post(activity, smartRefreshLayout, HttpServicePath.URL_CENTER, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

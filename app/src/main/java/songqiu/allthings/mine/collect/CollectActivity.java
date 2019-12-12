@@ -312,9 +312,9 @@ public class CollectActivity extends BaseActivity {
     }
 
     public void getCollect(int pageNo,boolean ringDown) {
-        Map<String, String> map = new HashMap<>();
-        map.put("num", 10 + "");
-        map.put("page", pageNo + "");
+        Map<String, Object> map = new HashMap<>();
+        map.put("num", 10);
+        map.put("page", pageNo);
         OkHttp.post(this, smartRefreshLayout, HttpServicePath.URL_COLLECT_LIST, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

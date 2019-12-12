@@ -54,14 +54,16 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/classification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@mipmap/icon_classification"
                 android:text="分类"
                 android:textColor="@color/bottom_tab_tv_night"
                 android:textSize="@dimen/x_ui_px_19.0"
-                android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+                android:paddingLeft="@dimen/x_ui_px_10.0"
+                android:paddingRight="@dimen/x_ui_px_10.0"
+                android:layout_marginRight="@dimen/x_ui_px_20.0"/>
         </LinearLayout>
 
         <RelativeLayout

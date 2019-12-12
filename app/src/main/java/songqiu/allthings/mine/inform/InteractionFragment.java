@@ -163,10 +163,10 @@ public class InteractionFragment extends BaseFragment {
     }
 
     public void getData(int pageNo,boolean ringDown) {
-        Map<String, String> map = new HashMap<>();
-        map.put("type",1+""); //1=互动，2=评论，3=系统
-        map.put("num",10+"");
-        map.put("page",pageNo+"");
+        Map<String, Object> map = new HashMap<>();
+        map.put("type",1); //1=互动，2=评论，3=系统
+        map.put("num",10);
+        map.put("page",pageNo);
         OkHttp.post(activity,smartRefreshLayout, HttpServicePath.URL_NEWS, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

@@ -8,7 +8,7 @@ android {
         applicationId "songqiu.allthings"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 201901118
+        versionCode 20191211
         versionName "1.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true

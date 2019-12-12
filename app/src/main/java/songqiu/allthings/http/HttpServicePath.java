@@ -245,4 +245,11 @@ public class HttpServicePath {
     //评论详情 mid:一级评论id  type:1=文章，2=视频，3=话题  page页码（1）  num数量（10）
     public static String URL_COMENT_DETAIL = BaseUrl+"comment_detail";
 
+    //全部分类
+    public static String URL_ALL_LABELS = BaseUrl+"labels";
+
+    //标签搜索
+    public static String URL_LABELS_SEARCH = BaseUrl+"labels_search";
+
+
 }

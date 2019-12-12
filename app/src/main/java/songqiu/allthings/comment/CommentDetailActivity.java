@@ -243,11 +243,11 @@ public class CommentDetailActivity extends Activity {
     }
 
     public void getCommentDetails(int page) {
-        Map<String, String> map = new HashMap<>();
-        map.put("mid",mid+"");
-        map.put("type",type+"");
-        map.put("page",page+"");
-        map.put("num",10+"");
+        Map<String, Object> map = new HashMap<>();
+        map.put("mid",mid);
+        map.put("type",type);
+        map.put("page",page);
+        map.put("num",10);
         OkHttp.post(this, smartRefreshLayout, HttpServicePath.URL_COMENT_DETAIL, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

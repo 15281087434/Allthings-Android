@@ -212,6 +212,14 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             >
         </activity>
+        <activity android:name=".classification.AllClassificationActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name=".classification.CurrentClassificationActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
 
 
 

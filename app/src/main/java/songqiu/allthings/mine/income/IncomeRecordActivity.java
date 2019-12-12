@@ -234,10 +234,10 @@ public class IncomeRecordActivity extends BaseActivity {
 
 
     public void getData(int type, int pageNo,boolean ringDown) {
-        Map<String, String> map = new HashMap<>();
-        map.put("type", type + "");
-        map.put("num", 10 + "");
-        map.put("page", pageNo + "");
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", type);
+        map.put("num", 10);
+        map.put("page", pageNo);
         OkHttp.post(this,smartRefreshLayout, HttpServicePath.URL_GET_LIST, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {

@@ -43,6 +43,7 @@ import songqiu.allthings.bean.ChangePage;
 import songqiu.allthings.bean.NewRedStateBean;
 import songqiu.allthings.bean.TabClassBean;
 import songqiu.allthings.bean.UserCenterBean;
+import songqiu.allthings.classification.AllClassificationActivity;
 import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.home.gambit.HomePageGambitFragment;
 import songqiu.allthings.http.BaseBean;
@@ -454,7 +455,8 @@ public class HomePageFragment extends BaseFragment {
                 break;
             case R.id.classification:
                 if (ClickUtil.onClick()) {
-
+                    Intent intent = new Intent(activity, AllClassificationActivity.class);
+                    startActivity(intent);
                 }
                 break;
         }

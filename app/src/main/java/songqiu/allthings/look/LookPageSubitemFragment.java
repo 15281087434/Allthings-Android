@@ -193,16 +193,16 @@ public class LookPageSubitemFragment extends BaseFragment {
     }
 
     public void getData(int page,boolean ringDown) {
-        Map<String,String> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
         String url;
         if(2==type) {
             url = HttpServicePath.URL_VIDEO;
-            map.put("category",category+"");
-            map.put("type",type+"");
-            map.put("page",page+"");
+            map.put("category",category);
+            map.put("type",type);
+            map.put("page",page);
         }else {
             url = HttpServicePath.URL_STRING+tag;
-            map.put("page",page+"");
+            map.put("page",page);
         }
         OkHttp.post(activity,smartRefreshLayout,url , map, new RequestCallBack() {
             @Override

@@ -416,11 +416,11 @@ public class HomePageGhostFragment extends BaseFragment {
 
     public void getData(int page,boolean ringDown) {
         String url = HttpServicePath.BaseUrl+ tag;
-        Map<String,String> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
         if(StringUtil.isEmpty(tag)) return;
-            map.put("category",category+"");
-            map.put("num",10+"");
-            map.put("page",page+"");
+            map.put("category",category);
+            map.put("num",10);
+            map.put("page",page);
             OkHttp.post(activity, smartRefreshLayout,url, map, new RequestCallBack() {
                 @Override
                 public void httpResult(BaseBean baseBean) {
