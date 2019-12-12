@@ -1,5 +1,7 @@
 package songqiu.allthings.classification;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,13 +25,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import songqiu.allthings.R;
-import songqiu.allthings.adapter.classification.all.AllClassificationAdapter;
 import songqiu.allthings.adapter.classification.current.ClassificationAdapter;
 import songqiu.allthings.adapter.classification.current.LabelsAdapter;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.ClassificationSubitemBean;
 import songqiu.allthings.bean.HomeSubitemBean;
+import songqiu.allthings.bean.SearchHistoryBean;
 import songqiu.allthings.bean.UnLikeBean;
+import songqiu.allthings.db.LabelsSQLiteHelper;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
@@ -39,7 +42,6 @@ import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.VibratorUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
-import songqiu.allthings.view.DialogDeleteAdvertising;
 import songqiu.allthings.view.DialogDeleteCommon;
 
 /*******

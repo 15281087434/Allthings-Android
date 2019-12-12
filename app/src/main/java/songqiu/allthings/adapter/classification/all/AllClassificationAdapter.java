@@ -142,35 +142,73 @@ public class AllClassificationAdapter extends SectionedRecyclerViewAdapter<AllCl
             holder.classificationTv.setBackgroundResource(R.drawable.classification_item_click);
             holder.classificationTv.setTextColor(mContext.getResources().getColor(R.color.normal_color));
         }else {
-            switch (section) {
-                case 0:
-                    holder.classificationTv.setBackgroundResource(R.drawable.classification_item1_normal);
-                    holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(1)));
-                    break;
-                case 1:
-                    holder.classificationTv.setBackgroundResource(R.drawable.classification_item2_normal);
-                    holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(2)));
-                    break;
-                case 2:
-                    holder.classificationTv.setBackgroundResource(R.drawable.classification_item3_normal);
-                    holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(3)));
-                    break;
-                case 3:
-                    holder.classificationTv.setBackgroundResource(R.drawable.classification_item4_normal);
-                    holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(4)));
-                    break;
-                case 4:
-                    holder.classificationTv.setBackgroundResource(R.drawable.classification_item5_normal);
-                    holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(5)));
-                    break;
-                case 5:
-                    holder.classificationTv.setBackgroundResource(R.drawable.classification_item6_normal);
-                    holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(6)));
-                    break;
-                case 6:
-                    holder.classificationTv.setBackgroundResource(R.drawable.classification_item7_normal);
-                    holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(7)));
-                    break;
+            if(item.get(0).name.equals("我最近访问的分类")) {
+                switch (section) {
+                    case 0:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item0_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(R.color.bottom_tab_tv));
+                        break;
+                    case 1:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item1_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(1)));
+                        break;
+                    case 2:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item2_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(2)));
+                        break;
+                    case 3:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item3_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(3)));
+                        break;
+                    case 4:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item4_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(4)));
+                        break;
+                    case 5:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item5_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(5)));
+                        break;
+                    case 6:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item6_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(6)));
+                        break;
+                    case 7:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item7_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(7)));
+                        break;
+                }
+
+            }else {
+                switch (section) {
+                    case 0:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item1_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(1)));
+                        break;
+                    case 1:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item2_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(2)));
+                        break;
+                    case 2:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item3_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(3)));
+                        break;
+                    case 3:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item4_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(4)));
+                        break;
+                    case 4:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item5_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(5)));
+                        break;
+                    case 5:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item6_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(6)));
+                        break;
+                    case 6:
+                        holder.classificationTv.setBackgroundResource(R.drawable.classification_item7_normal);
+                        holder.classificationTv.setTextColor(mContext.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(7)));
+                        break;
+                }
             }
         }
         holder.classificationTv.setOnClickListener(new View.OnClickListener() {

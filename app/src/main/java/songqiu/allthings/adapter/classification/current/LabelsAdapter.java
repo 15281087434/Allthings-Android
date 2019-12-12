@@ -54,7 +54,7 @@ public class LabelsAdapter extends RecyclerView.Adapter<LabelsAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return item.size();
+        return item.size()>5?5:item.size();
     }
 
 
