@@ -255,6 +255,32 @@ public class EventTags {
         }
     }
 
+    public static class CollectEvent {
+        public boolean isCollect;
+        public int articleid;
+
+        public CollectEvent(int articleid,boolean isCollect) {
+            this.articleid = articleid;
+            this.isCollect = isCollect;
+        }
+
+        public int getArticleid() {
+            return articleid;
+        }
+
+        public void setArticleid(int articleid) {
+            this.articleid = articleid;
+        }
+
+        public boolean getCollect() {
+            return isCollect;
+        }
+
+        public void setCollect(boolean isCollect) {
+            this.isCollect = isCollect;
+        }
+    }
+
     public static class Ghost {
         public boolean isGhost;
         public Ghost(boolean isGhost) {

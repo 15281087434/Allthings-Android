@@ -16,6 +16,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +28,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.adapter.classification.current.ClassificationAdapter;
 import songqiu.allthings.adapter.classification.current.LabelsAdapter;
@@ -86,6 +91,9 @@ public class CurrentClassificationActivity extends BaseActivity {
 
     @Override
     public void init() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         boolean dayModel = SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true);
         modeUi(dayModel);
         titleTv.setText("当前分类");
@@ -253,6 +261,28 @@ public class CurrentClassificationActivity extends BaseActivity {
                     }
                 }
             });
+    }
+
+    //接受到收藏/取消收藏的通知
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void collectEvent(EventTags.CollectEvent collectEvent) {
+        if(null == item || 0 == item.size()) return;
+        for(int i = 0;i<item.size();i++) {
+            if(item.get(i).articleid == collectEvent.getArticleid()) {
+                if(collectEvent.getCollect()) {
+                    item.get(i).collect_num =  item.get(i).collect_num + 1;
+                }else {
+                    item.get(i).collect_num =  item.get(i).collect_num - 1>0?item.get(i).collect_num:0;
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @OnClick(R.id.backImg)

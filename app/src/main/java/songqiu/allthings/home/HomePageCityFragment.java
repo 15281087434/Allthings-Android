@@ -309,6 +309,23 @@ public class HomePageCityFragment extends BaseFragment {
         });
     }
 
+
+    //接受到收藏/取消收藏的通知
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void collectEvent(EventTags.CollectEvent collectEvent) {
+        if(null == item || 0 == item.size()) return;
+        for(int i = 0;i<item.size();i++) {
+            if(item.get(i).articleid == collectEvent.getArticleid()) {
+                if(collectEvent.getCollect()) {
+                    item.get(i).collect_num =  item.get(i).collect_num + 1;
+                }else {
+                    item.get(i).collect_num =  item.get(i).collect_num - 1>0?item.get(i).collect_num:0;
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void chooseCity(EventTags.ChooseCity chooseCity) {
         pageNo = 1;

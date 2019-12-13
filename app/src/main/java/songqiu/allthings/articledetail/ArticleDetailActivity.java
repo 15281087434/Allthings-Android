@@ -963,6 +963,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         if (url.equals(HttpServicePath.URL_COLLECT)) {
                             articleDetailBean.is_collect = 1;
                             collectImg.setImageResource(R.mipmap.item_collect_pre);
+                            //发送收藏成功通知上一个页面数量增加1
+                            EventBus.getDefault().post(new EventTags.CollectEvent(mid,true));
                         } else {
                             articleDetailBean.is_collect = 0;
                             boolean dayModel = SharedPreferencedUtils.getBoolean(ArticleDetailActivity.this, SharedPreferencedUtils.dayModel, true);
@@ -971,6 +973,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                             }else {
                                 collectImg.setImageResource(R.mipmap.item_collect_night);
                             }
+                            //发送取消收藏成功通知上一个页面数量减少1
+                            EventBus.getDefault().post(new EventTags.CollectEvent(mid,false));
                         }
                     }
                 });

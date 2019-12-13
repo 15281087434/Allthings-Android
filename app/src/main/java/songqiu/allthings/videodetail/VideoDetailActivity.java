@@ -1089,9 +1089,11 @@ public class VideoDetailActivity extends BaseActivity {
                         if (url.equals(HttpServicePath.URL_COLLECT)) {
                             videoDetailBean.is_collect = 1;
                             collectImg.setImageResource(R.mipmap.item_collect_pre);
+                            EventBus.getDefault().post(new EventTags.CollectEvent(mid,true));
                         } else {
                             videoDetailBean.is_collect = 0;
                             collectImg.setImageResource(R.mipmap.item_collect);
+                            EventBus.getDefault().post(new EventTags.CollectEvent(mid,false));
                         }
                     }
                 });

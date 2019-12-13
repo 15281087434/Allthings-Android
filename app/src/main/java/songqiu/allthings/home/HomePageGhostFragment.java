@@ -115,13 +115,6 @@ public class HomePageGhostFragment extends BaseFragment {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
-//        if("home_vintro".equals(tag)) {//视频
-//            prestrainlookImg.setVisibility(View.VISIBLE);
-//            prestrainImg.setVisibility(View.GONE);
-//        }else {
-//            prestrainlookImg.setVisibility(View.GONE);
-//            prestrainImg.setVisibility(View.VISIBLE);
-//        }
         initRecycle();
         getData(pageNo,false);
     }
@@ -470,6 +463,21 @@ public class HomePageGhostFragment extends BaseFragment {
             });
     }
 
+    //接受到收藏/取消收藏的通知
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void collectEvent(EventTags.CollectEvent collectEvent) {
+        if(null == item || 0 == item.size()) return;
+        for(int i = 0;i<item.size();i++) {
+            if(item.get(i).articleid == collectEvent.getArticleid()) {
+                if(collectEvent.getCollect()) {
+                    item.get(i).collect_num =  item.get(i).collect_num + 1;
+                }else {
+                    item.get(i).collect_num =  item.get(i).collect_num - 1>0?item.get(i).collect_num:0;
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void toDeleteItemById(EventTags.DeleteItemById deleteItemById) {

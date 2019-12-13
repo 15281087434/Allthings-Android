@@ -171,6 +171,10 @@ public class DialogDeleteCommon extends Dialog {
             if(0 == unLikeBean.type) { //抓取的数据，显示最上面两条
                 layout3.setVisibility(View.GONE);
                 layout4.setVisibility(View.GONE);
+            }else {
+                if(null == unLikeBean.labels || 0 ==unLikeBean.labels.length) {
+                    layout4.setVisibility(View.GONE);
+                }
             }
 
             if(StringUtil.isEmpty(unLikeBean.title) && StringUtil.isEmpty(unLikeBean.user_nickname)) { //话题写死
