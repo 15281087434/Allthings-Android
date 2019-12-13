@@ -1138,46 +1138,58 @@ public class VideoDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.showEdit:
-                if (null != videoDetailBean) {
-                    if (1 == videoDetailBean.is_comment) {
-                        showPopupwindow(2,0,0,"优质评论会被优先展示哦!");
-                    } else {
-                        ToastUtil.showToast(this, "暂时不能评论!");
+                if(ClickUtil.onClick()) {
+                    if (null != videoDetailBean) {
+                        if (1 == videoDetailBean.is_comment) {
+                            showPopupwindow(2,0,0,"优质评论会被优先展示哦!");
+                        } else {
+                            ToastUtil.showToast(this, "暂时不能评论!");
+                        }
                     }
                 }
                 break;
             case R.id.likeLayout: //点赞
-                if (null == videoDetailBean) return;
-                if (0 == videoDetailBean.is_up) {//去点赞
-                    addLike(HttpServicePath.URL_LIKE, 2, videoDetailBean.articleid);
-                } else { //取消点赞
-                    addLike(HttpServicePath.URL_NO_LIKE, 2, videoDetailBean.articleid);
+                if(ClickUtil.onClick()) {
+                    if (null == videoDetailBean) return;
+                    if (0 == videoDetailBean.is_up) {//去点赞
+                        addLike(HttpServicePath.URL_LIKE, 2, videoDetailBean.articleid);
+                    } else { //取消点赞
+                        addLike(HttpServicePath.URL_NO_LIKE, 2, videoDetailBean.articleid);
+                    }
                 }
                 break;
 //            case R.id.reportLayout: //举报
 //                showReportWindow();
 //                break;
             case R.id.attentionTv: //关注
-                if (null == videoDetailBean) return;
-                if (0 == videoDetailBean.is_follow) {//去关注
-                    addFollow(videoDetailBean.userid, 1);
-                } else { //取消关注
-                    addFollow(videoDetailBean.userid, 2);
+                if(ClickUtil.onClick()) {
+                    if (null == videoDetailBean) return;
+                    if (0 == videoDetailBean.is_follow) {//去关注
+                        addFollow(videoDetailBean.userid, 1);
+                    } else { //取消关注
+                        addFollow(videoDetailBean.userid, 2);
+                    }
                 }
                 break;
             case R.id.collectImg:
-                if (null == videoDetailBean) return;
-                if (0 == videoDetailBean.is_collect) {//去收藏
-                    addCollect(HttpServicePath.URL_COLLECT, 2, videoDetailBean.articleid);
-                } else { //取消收藏
-                    addCollect(HttpServicePath.URL_NO_COLLECT, 2, videoDetailBean.articleid);
+                if(ClickUtil.onClick()) {
+                    if (null == videoDetailBean) return;
+                    if (0 == videoDetailBean.is_collect) {//去收藏
+                        addCollect(HttpServicePath.URL_COLLECT, 2, videoDetailBean.articleid);
+                    } else { //取消收藏
+                        addCollect(HttpServicePath.URL_NO_COLLECT, 2, videoDetailBean.articleid);
+                    }
                 }
                 break;
             case R.id.settingImg:
-                showShareWindow(1);
+                if(ClickUtil.onClick()) {
+                    showShareWindow(1);
+                }
                 break;
             case R.id.shareImg:
-                showShareWindow(0);
+                if(ClickUtil.onClick()) {
+                    showShareWindow(0);
+                }
                 break;
             case R.id.lookCommentImg:
                 scrollView.postDelayed(new Runnable() {

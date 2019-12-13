@@ -361,6 +361,21 @@ public class EventTags {
 
     }
 
+    public static class SearchKeyword {
+        public String keyWord;
+        public SearchKeyword(String keyWord) {
+            this.keyWord = keyWord;
+        }
+        public String getKeyWord() {
+            return keyWord;
+        }
+
+        public void setKeyWord(String keyWord) {
+            this.keyWord = keyWord;
+        }
+
+    }
+
     public static class DeleteItemById {
         public int articleid;
         public DeleteItemById(int articleid) {

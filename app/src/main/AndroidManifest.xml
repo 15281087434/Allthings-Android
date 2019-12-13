@@ -86,11 +86,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
 
-        <activity android:name=".search.SearchResultListActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
-
         <activity android:name=".login.LoginActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"

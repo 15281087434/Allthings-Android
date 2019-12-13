@@ -13,12 +13,17 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.adapter.SearchTopicAdapter;
 import songqiu.allthings.adapter.SearchTxtAdapter;
@@ -32,6 +37,7 @@ import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.HomeHotGambitListener;
 import songqiu.allthings.mine.attention.AttentionActivity;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.VibratorUtil;
 
@@ -51,16 +57,15 @@ public class SearchTopicFragment extends BaseFragment {
     SmartRefreshLayout smartRefreshLayout;
     @BindView(R.id.emptyLayout)
     LinearLayout emptyLayout;
-    public String keyword;
     SearchTopicAdapter adapter;
     List<HomeGambitHotBean> list;
     int pageNo = 1;
-    SearchResultListActivity activity;
+    SearchActivity activity;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity = (SearchResultListActivity) context;//保存Context引用
+        activity = (SearchActivity) context;//保存Context引用
     }
     @Override
     public void onDetach() {
@@ -75,8 +80,16 @@ public class SearchTopicFragment extends BaseFragment {
 
     @Override
     public void init() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         initRecyc();
-        getTxtSearch(pageNo,keyword,false);
+        getTxtSearch(pageNo,activity.keyword,false);
+    }
+    //
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void SearchKeyword(EventTags.SearchKeyword searchKeyword) {
+        getTxtSearch(pageNo,searchKeyword.getKeyWord(),false);
     }
 
     public void initRecyc() {
@@ -91,13 +104,13 @@ public class SearchTopicFragment extends BaseFragment {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 pageNo = pageNo+1;
-                getTxtSearch(pageNo,keyword,false);
+                getTxtSearch(pageNo,activity.keyword,false);
             }
 
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 pageNo = 1;
-                getTxtSearch(pageNo,keyword,true);
+                getTxtSearch(pageNo,activity.keyword,true);
             }
         });
 
@@ -182,4 +195,9 @@ public class SearchTopicFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

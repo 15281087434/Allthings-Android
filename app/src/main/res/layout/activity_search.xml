@@ -6,64 +6,67 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/searchLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/x_ui_px_100.0"
+        android:layout_marginTop="@dimen/x_ui_px_20.0"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:layout_marginLeft="@dimen/x_ui_px_20.0"
+        >
+
+        <ImageView
+            android:id="@+id/backImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/arrow_back"
+            android:padding="@dimen/x_ui_px_10.0"/>
+
+        <EditText
+            android:id="@+id/searchEt"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/x_ui_px_80.0"
+            android:layout_weight="1"
+            android:background="@drawable/bg_search_gary"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLines="1"
+            android:paddingLeft="@dimen/x_ui_px_20.0"
+            android:paddingRight="@dimen/x_ui_px_20.0"
+            android:textColor="@color/FFA7A6A7"
+            android:textSize="@dimen/x_ui_px_28.0"
+            android:layout_marginLeft="@dimen/x_ui_px_40.0"
+            android:hint="大家正在搜索：盗墓笔记"/>
+
+        <TextView
+            android:id="@+id/searchTv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="@dimen/x_ui_px_10.0"
+            android:paddingRight="@dimen/x_ui_px_10.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:layout_marginLeft="@dimen/x_ui_px_40.0"
+            android:text="搜索"
+            android:textColor="@color/bottom_tab_tv"
+            android:textSize="@dimen/x_ui_px_36.0" />
+    </LinearLayout>
+
+
+    <!--搜索页面-->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-
-            <LinearLayout
-                android:id="@+id/searchLayout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/x_ui_px_100.0"
-                android:layout_marginTop="@dimen/x_ui_px_20.0"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="visible"
-                android:layout_marginLeft="@dimen/x_ui_px_20.0"
-                >
-
-                <ImageView
-                    android:id="@+id/backImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/arrow_back"
-                    android:padding="@dimen/x_ui_px_10.0"/>
-
-                <EditText
-                    android:id="@+id/searchEt"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/x_ui_px_80.0"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_search_gary"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:paddingLeft="@dimen/x_ui_px_20.0"
-                    android:paddingRight="@dimen/x_ui_px_20.0"
-                    android:textColor="@color/FFA7A6A7"
-                    android:textSize="@dimen/x_ui_px_28.0"
-                    android:layout_marginLeft="@dimen/x_ui_px_40.0"
-                    android:hint="大家正在搜索：盗墓笔记"/>
-
-                <TextView
-                    android:id="@+id/searchTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/x_ui_px_10.0"
-                    android:paddingRight="@dimen/x_ui_px_10.0"
-                    android:layout_marginRight="@dimen/x_ui_px_30.0"
-                    android:layout_marginLeft="@dimen/x_ui_px_40.0"
-                    android:text="搜索"
-                    android:textColor="@color/bottom_tab_tv"
-                    android:textSize="@dimen/x_ui_px_36.0" />
-            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -248,6 +251,35 @@
 
         </LinearLayout>
     </ScrollView>
+
+
+    <!--搜索结果页-->
+    <LinearLayout
+        android:id="@+id/searchResultLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchLayout"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/magicIndicator"
+            android:layout_width="200dp"
+            android:layout_height="@dimen/x_ui_px_80.0"
+            app:tabBackground="@color/white"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/shadowLayout"

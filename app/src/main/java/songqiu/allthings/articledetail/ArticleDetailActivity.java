@@ -1501,44 +1501,56 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 finish();
                 break;
             case R.id.rightImg:
-                showShareWindow(1);
+                if(ClickUtil.onClick()) {
+                    showShareWindow(1);
+                }
                 break;
             case R.id.attentionTv:
             case R.id.attentionTitleTv:
-                if (null == articleDetailBean) return;
-                if (0 == articleDetailBean.is_follow) {//去关注
-                    addFollow(articleDetailBean.userid, 1);
-                } else { //取消关注
-                    addFollow(articleDetailBean.userid, 2);
+                if(ClickUtil.onClick()) {
+                    if (null == articleDetailBean) return;
+                    if (0 == articleDetailBean.is_follow) {//去关注
+                        addFollow(articleDetailBean.userid, 1);
+                    } else { //取消关注
+                        addFollow(articleDetailBean.userid, 2);
+                    }
                 }
                 break;
             case R.id.likeLayout:
-                if (null == articleDetailBean) return;
-                if (0 == articleDetailBean.is_up) {//去点赞
-                    addLike(HttpServicePath.URL_LIKE, 1, articleDetailBean.articleid);
-                } else { //取消点赞
-                    addLike(HttpServicePath.URL_NO_LIKE, 1, articleDetailBean.articleid);
+                if(ClickUtil.onClick()) {
+                    if (null == articleDetailBean) return;
+                    if (0 == articleDetailBean.is_up) {//去点赞
+                        addLike(HttpServicePath.URL_LIKE, 1, articleDetailBean.articleid);
+                    } else { //取消点赞
+                        addLike(HttpServicePath.URL_NO_LIKE, 1, articleDetailBean.articleid);
+                    }
                 }
                 break;
             case R.id.showEdit:
-                if (null != articleDetailBean) {
-                    if (1 == articleDetailBean.is_comment) {
-                        showPopupwindow(1,0,0,"优质评论会被优先展示哦!");
-                    } else {
-                        ToastUtil.showToast(this, "暂时不能评论!");
+                if(ClickUtil.onClick()) {
+                    if (null != articleDetailBean) {
+                        if (1 == articleDetailBean.is_comment) {
+                            showPopupwindow(1,0,0,"优质评论会被优先展示哦!");
+                        } else {
+                            ToastUtil.showToast(this, "暂时不能评论!");
+                        }
                     }
                 }
                 break;
             case R.id.collectImg:
-                if (null == articleDetailBean) return;
-                if (0 == articleDetailBean.is_collect) {//去收藏
-                    addCollect(HttpServicePath.URL_COLLECT, 1, articleDetailBean.articleid);
-                } else { //取消收藏
-                    addCollect(HttpServicePath.URL_NO_COLLECT, 1, articleDetailBean.articleid);
+                if(ClickUtil.onClick()) {
+                    if (null == articleDetailBean) return;
+                    if (0 == articleDetailBean.is_collect) {//去收藏
+                        addCollect(HttpServicePath.URL_COLLECT, 1, articleDetailBean.articleid);
+                    } else { //取消收藏
+                        addCollect(HttpServicePath.URL_NO_COLLECT, 1, articleDetailBean.articleid);
+                    }
                 }
                 break;
             case R.id.shareImg:
-                showShareWindow(0);
+                if(ClickUtil.onClick()) {
+                    showShareWindow(0);
+                }
                 break;
             case R.id.lookCommentImg:
                 int hight = Math.round(linearLayout.getY());

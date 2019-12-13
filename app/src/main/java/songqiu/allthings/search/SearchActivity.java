@@ -1,12 +1,16 @@
 package songqiu.allthings.search;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -17,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -29,7 +34,19 @@ import com.heartfor.heartvideo.video.HeartVideoManager;
 import com.heartfor.heartvideo.video.PlayerStatus;
 import com.heartfor.heartvideo.video.VideoControl;
 
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,10 +55,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.droidsonroids.gif.GifImageView;
+import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.adapter.SearchHistoryAdapter;
 import songqiu.allthings.adapter.SearchHotGambitAdapter;
+import songqiu.allthings.adapter.TablayoutViewAdapter;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.AdvertiseBean;
 import songqiu.allthings.bean.SearchHistoryBean;
@@ -55,6 +74,7 @@ import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.GlideLoadUtils;
 import songqiu.allthings.util.KeyBoardUtils;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
@@ -105,6 +125,17 @@ public class SearchActivity extends BaseActivity {
     LinearLayout advertisingLayout;
     AdvertiseBean advertiseBean;
 
+    //
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
+    @BindView(R.id.searchResultLayout)
+    LinearLayout searchResultLayout;
+    @BindView(R.id.magicIndicator)
+    MagicIndicator magicIndicator;
+    @BindView(R.id.vp_home)
+    ViewPager viewPager;
+    List<Fragment> mFragments = new ArrayList<>();
+    public String keyword;
 
     //热门话题
     List<SearchHotGambitBean> item;
@@ -114,7 +145,6 @@ public class SearchActivity extends BaseActivity {
     SQLiteDatabase db;
     int count;
 
-    String keyword;
 
     List<SearchHistoryBean> historyBeanList;
     SearchHistoryAdapter searchHistoryAdapter;
@@ -129,12 +159,8 @@ public class SearchActivity extends BaseActivity {
     public void init() {
         boolean dayModel = SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true);
         modeUi(dayModel);
-        keyword = getIntent().getStringExtra("keyword");
-        searchEt.setText(keyword);
-        if (!StringUtil.isEmpty(keyword)) {
-            searchEt.setSelection(keyword.length());
-        }
         initSearchEt();
+        initTableLayout();
         initRecyclerView();
         queryData("");
         getHotGambit();
@@ -171,8 +197,11 @@ public class SearchActivity extends BaseActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
+            public void afterTextChanged(Editable content) {
+                if(StringUtil.isEmpty(content.toString())) {
+                    scrollView.setVisibility(View.VISIBLE);
+                    searchResultLayout.setVisibility(View.GONE);
+                }
             }
         });
         searchEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -183,15 +212,118 @@ public class SearchActivity extends BaseActivity {
                     String content = searchEt.getText().toString().trim();
                     if (!StringUtil.isEmpty(content)) {
                         intoData(content);
-                        Intent intent = new Intent(SearchActivity.this, SearchResultListActivity.class);
-                        intent.putExtra("keyword", content);
-                        startActivity(intent);
+                        keyword = content;
+                        scrollView.setVisibility(View.GONE);
+                        searchResultLayout.setVisibility(View.VISIBLE);
+                        if(null != viewPager) {
+                            viewPager.setCurrentItem(0);
+                        }
+                        EventBus.getDefault().post(new EventTags.SearchKeyword(content));
                     }
                 }
                 return false;
             }
         });
     }
+
+
+    private List<String> getTableTitle() {
+        return Arrays.asList("图文", "视频", "话题");
+    }
+
+    private void initTableLayout() {
+        mFragments.clear();
+        List<String> list = getTableTitle();
+        if (null == list || 0 == list.size()) return;
+        for (int i = 0; i < 3; i++) {
+            switch (i) {
+                case 0:
+                    SearchTxtFragment searchListFragment = new SearchTxtFragment();
+                    mFragments.add(searchListFragment);
+                    break;
+                case 1:
+                    SearchVideoFragment searchVideoFragment = new SearchVideoFragment();
+                    mFragments.add(searchVideoFragment);
+                    break;
+                case 2:
+                    SearchTopicFragment searchTopicFragment = new SearchTopicFragment();
+                    mFragments.add(searchTopicFragment);
+                    break;
+                default:
+            }
+        }
+        TablayoutViewAdapter viewAdapter = new TablayoutViewAdapter(getSupportFragmentManager(), mFragments, list);
+        viewPager.setAdapter(viewAdapter);
+        viewPager.setOffscreenPageLimit(0);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                magicIndicator.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                magicIndicator.onPageSelected(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                magicIndicator.onPageScrollStateChanged(state);
+            }
+        });
+        viewPager.setCurrentItem(0);
+
+        magicIndicator.setBackgroundColor(getResources().getColor(R.color.white));
+        //新建导航栏
+        CommonNavigator commonNavigator = new CommonNavigator(this);
+        commonNavigator.setEnablePivotScroll(true);
+        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
+            @Override
+            public int getCount() {
+                return list == null ? 0 : list.size();
+            }
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                //设置Magicindicator的一种标题模式， 标题模式有很多种，这是最基本的一种
+                SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
+                simplePagerTitleView.setText(list.get(index));
+                //设置被选中的item颜色
+                simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.normal_color));
+                //设置为被选中item颜色
+                simplePagerTitleView.setNormalColor(getResources().getColor(R.color.FFA2A2A2));
+                simplePagerTitleView.setSelectedSize(19);
+                simplePagerTitleView.setDeselectedSize(18);
+                TextPaint tp = simplePagerTitleView.getPaint();
+                tp.setFakeBoldText(true);
+
+                simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        viewPager.setCurrentItem(index);
+                    }
+                });
+                return simplePagerTitleView;
+            }
+
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                //设置标题指示器，也有多种,可不选，即没有标题指示器。
+                LinePagerIndicator indicator = new LinePagerIndicator(context);
+                indicator.setColors(getResources().getColor(R.color.normal_color));
+                indicator.setYOffset(13);
+                indicator.setXOffset(35);
+                return indicator;
+            }
+
+        });
+
+        //绑定导航栏
+        magicIndicator.setNavigator(commonNavigator);
+        ViewPagerHelper.bind(magicIndicator, viewPager);
+    }
+
 
     public void initRecyclerView() {
         item = new ArrayList<>();
@@ -216,9 +348,14 @@ public class SearchActivity extends BaseActivity {
         searchHistoryAdapter.setOnItemSelectedListener(new SearchHistoryAdapter.OnItemSelectedListener() {
             @Override
             public void onItemSelected(SearchHistoryBean searchHistoryBean) {
-                Intent intent = new Intent(SearchActivity.this, SearchResultListActivity.class);
-                intent.putExtra("keyword", searchHistoryBean.content);
-                startActivity(intent);
+                keyword = searchHistoryBean.content;
+                EventBus.getDefault().post(new EventTags.SearchKeyword(searchHistoryBean.content));
+                scrollView.setVisibility(View.GONE);
+                searchResultLayout.setVisibility(View.VISIBLE);
+                if(null != viewPager) {
+                    viewPager.setCurrentItem(0);
+                }
+
             }
 
             @Override
@@ -244,9 +381,13 @@ public class SearchActivity extends BaseActivity {
                     searchEt.setText(searchLabel);
                     searchEt.setSelection(searchLabel.length());
                     intoData(searchLabel);
-                    Intent intent = new Intent(SearchActivity.this, SearchResultListActivity.class);
-                    intent.putExtra("keyword", searchLabel);
-                    startActivity(intent);
+                    keyword = searchLabel;
+                    EventBus.getDefault().post(new EventTags.SearchKeyword(searchLabel));
+                    scrollView.setVisibility(View.GONE);
+                    searchResultLayout.setVisibility(View.VISIBLE);
+                    if(null != viewPager) {
+                        viewPager.setCurrentItem(0);
+                    }
                 }
             });
         }
@@ -440,6 +581,7 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -468,9 +610,13 @@ public class SearchActivity extends BaseActivity {
                     //android.database.sqlite.SQLiteException: near "hy。": syntax error (code 1 SQLITE_ERROR): , while compiling: insert into records(name) values('醋8$,qkto。的0v'hy。 喔iezg @":关于。下班。 热￥@—、？门*')
                     intoData(content);
 //                    toSearch(content);
-                    Intent intent = new Intent(SearchActivity.this, SearchResultListActivity.class);
-                    intent.putExtra("keyword", content);
-                    startActivity(intent);
+                    keyword = content;
+                    EventBus.getDefault().post(new EventTags.SearchKeyword(content));
+                    scrollView.setVisibility(View.GONE);
+                    searchResultLayout.setVisibility(View.VISIBLE);
+                    if(null != viewPager) {
+                        viewPager.setCurrentItem(0);
+                    }
                 }
                 break;
             case R.id.jumpLayout:
