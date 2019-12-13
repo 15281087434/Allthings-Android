@@ -80,6 +80,7 @@
             android:paddingRight="@dimen/x_ui_px_6.0"
             android:paddingTop="@dimen/x_ui_px_2.0"
             android:paddingBottom="@dimen/x_ui_px_2.0"
+            android:layout_marginRight="@dimen/x_ui_px_20.0"
             />
         <TextView
             android:id="@+id/labels1"
@@ -87,14 +88,14 @@
             android:layout_height="wrap_content"
             android:text="悬疑"
             android:textSize="@dimen/x_ui_px_19.0"
-            android:textColor="@color/FF755FCF"
-            android:background="@color/FF33755FCF"
+            android:textColor="@color/FF9C44A2"
+            android:background="@color/FF339C44A2"
             android:layout_marginTop="@dimen/x_ui_px_12.0"
             android:paddingLeft="@dimen/x_ui_px_6.0"
             android:paddingRight="@dimen/x_ui_px_6.0"
             android:paddingTop="@dimen/x_ui_px_2.0"
             android:paddingBottom="@dimen/x_ui_px_2.0"
-            android:layout_marginLeft="@dimen/x_ui_px_20.0"
+            android:layout_marginRight="@dimen/x_ui_px_20.0"
             />
         <TextView
             android:id="@+id/labels2"
@@ -109,7 +110,6 @@
             android:paddingRight="@dimen/x_ui_px_6.0"
             android:paddingTop="@dimen/x_ui_px_2.0"
             android:paddingBottom="@dimen/x_ui_px_2.0"
-            android:layout_marginLeft="@dimen/x_ui_px_20.0"
             />
     </LinearLayout>
 
