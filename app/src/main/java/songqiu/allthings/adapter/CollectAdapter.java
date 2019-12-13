@@ -187,21 +187,25 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.attentionImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.cancelCollect(1, homeSubitemBean.articleid, position);
+                if(ClickUtil.onClick()) {
+                    listener.cancelCollect(1, homeSubitemBean.articleid, position);
+                }
             }
         });
 
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = homeSubitemBean.is_up;
-                if (0 == is_up) {
-                    if (null != listener) {
-                        listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean);
-                    }
-                } else {
-                    if (null != listener) {
-                        listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean);
+                if(ClickUtil.onClick()) {
+                    int is_up = homeSubitemBean.is_up;
+                    if (0 == is_up) {
+                        if (null != listener) {
+                            listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                        }
+                    } else {
+                        if (null != listener) {
+                            listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                        }
                     }
                 }
             }
@@ -210,8 +214,10 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != listener) {
-                    listener.addShare(position, 1);
+                if(ClickUtil.onClick()) {
+                    if (null != listener) {
+                        listener.addShare(position, 1);
+                    }
                 }
             }
         });
@@ -291,21 +297,25 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.attentionImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.cancelCollect(1, homeSubitemBean.articleid, position);
+                if (ClickUtil.onClick()) {
+                    listener.cancelCollect(1, homeSubitemBean.articleid, position);
+                }
             }
         });
 
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = homeSubitemBean.is_up;
-                if (0 == is_up) {
-                    if (null != listener) {
-                        listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean);
-                    }
-                } else {
-                    if (null != listener) {
-                        listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean);
+                if (ClickUtil.onClick()) {
+                    int is_up = homeSubitemBean.is_up;
+                    if (0 == is_up) {
+                        if (null != listener) {
+                            listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                        }
+                    } else {
+                        if (null != listener) {
+                            listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                        }
                     }
                 }
             }
@@ -314,8 +324,10 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != listener) {
-                    listener.addShare(position, 1);
+                if (ClickUtil.onClick()) {
+                    if (null != listener) {
+                        listener.addShare(position, 1);
+                    }
                 }
             }
         });
@@ -395,21 +407,25 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.attentionImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.cancelCollect(1, homeSubitemBean.articleid, position);
+                if (ClickUtil.onClick()) {
+                    listener.cancelCollect(1, homeSubitemBean.articleid, position);
+                }
             }
         });
 
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = homeSubitemBean.is_up;
-                if (0 == is_up) {
-                    if (null != listener) {
-                        listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean);
-                    }
-                } else {
-                    if (null != listener) {
-                        listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean);
+                if (ClickUtil.onClick()) {
+                    int is_up = homeSubitemBean.is_up;
+                    if (0 == is_up) {
+                        if (null != listener) {
+                            listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                        }
+                    } else {
+                        if (null != listener) {
+                            listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                        }
                     }
                 }
             }
@@ -418,8 +434,10 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != listener) {
-                    listener.addShare(position, 1);
+                if (ClickUtil.onClick()) {
+                    if (null != listener) {
+                        listener.addShare(position, 1);
+                    }
                 }
             }
         });
@@ -501,21 +519,25 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.attentionImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.cancelCollect(1, homeSubitemBean.articleid, position);
+                if (ClickUtil.onClick()) {
+                    listener.cancelCollect(1, homeSubitemBean.articleid, position);
+                }
             }
         });
 
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = homeSubitemBean.is_up;
-                if (0 == is_up) {
-                    if (null != listener) {
-                        listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean);
-                    }
-                } else {
-                    if (null != listener) {
-                        listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean);
+                if (ClickUtil.onClick()) {
+                    int is_up = homeSubitemBean.is_up;
+                    if (0 == is_up) {
+                        if (null != listener) {
+                            listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                        }
+                    } else {
+                        if (null != listener) {
+                            listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                        }
                     }
                 }
             }
@@ -524,8 +546,10 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != listener) {
-                    listener.addShare(position, 1);
+                if (ClickUtil.onClick()) {
+                    if (null != listener) {
+                        listener.addShare(position, 1);
+                    }
                 }
             }
         });
@@ -585,30 +609,36 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, VideoDetailActivity.class);
-                intent.putExtra("articleid", homeSubitemBean.articleid);
-                context.startActivity(intent);
+                if (ClickUtil.onClick()) {
+                    Intent intent = new Intent(context, VideoDetailActivity.class);
+                    intent.putExtra("articleid", homeSubitemBean.articleid);
+                    context.startActivity(intent);
+                }
             }
         });
 
         holder.attentionImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.cancelCollect(2, homeSubitemBean.articleid, position);
+                if (ClickUtil.onClick()) {
+                    listener.cancelCollect(2, homeSubitemBean.articleid, position);
+                }
             }
         });
 
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = homeSubitemBean.is_up;
-                if (0 == is_up) {
-                    if (null != listener) {
-                        listener.addLike(HttpServicePath.URL_LIKE, 2, homeSubitemBean.articleid, homeSubitemBean);
-                    }
-                } else {
-                    if (null != listener) {
-                        listener.addLike(HttpServicePath.URL_NO_LIKE, 2, homeSubitemBean.articleid, homeSubitemBean);
+                if (ClickUtil.onClick()) {
+                    int is_up = homeSubitemBean.is_up;
+                    if (0 == is_up) {
+                        if (null != listener) {
+                            listener.addLike(HttpServicePath.URL_LIKE, 2, homeSubitemBean.articleid, homeSubitemBean,holder);
+                        }
+                    } else {
+                        if (null != listener) {
+                            listener.addLike(HttpServicePath.URL_NO_LIKE, 2, homeSubitemBean.articleid, homeSubitemBean,holder);
+                        }
                     }
                 }
             }
@@ -617,8 +647,10 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != listener) {
-                    listener.addShare(position, 2);
+                if (ClickUtil.onClick()) {
+                    if (null != listener) {
+                        listener.addShare(position, 2);
+                    }
                 }
             }
         });
@@ -663,9 +695,9 @@ public class CollectAdapter extends RecyclerView.Adapter {
         @BindView(R.id.describeTv)
         TextView describeTv;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
@@ -701,9 +733,9 @@ public class CollectAdapter extends RecyclerView.Adapter {
         @BindView(R.id.describeTv)
         TextView describeTv;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
@@ -738,9 +770,9 @@ public class CollectAdapter extends RecyclerView.Adapter {
         @BindView(R.id.rightPic)
         ImageView rightPic;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
@@ -776,9 +808,9 @@ public class CollectAdapter extends RecyclerView.Adapter {
         @BindView(R.id.gridView)
         GridViewInScroll gridView;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
@@ -810,9 +842,9 @@ public class CollectAdapter extends RecyclerView.Adapter {
         @BindView(R.id.videoView)
         HeartVideo videoView;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)

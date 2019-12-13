@@ -135,6 +135,7 @@ public class SettingActivity extends BaseActivity {
                 SharedPreferencedUtils.setString(SettingActivity.this, "SYSAVATAR", "");
                 SharedPreferencedUtils.setString(SettingActivity.this, "SYSINVITATIONCODE", "");
                 SharedPreferencedUtils.setInteger(SettingActivity.this, "SYSUSERID", 0);
+                SharedPreferencedUtils.setString(this,SharedPreferencedUtils.USER_ICON,"");
                 SharedPreferencedUtils.setBoolean(SettingActivity.this,SharedPreferencedUtils.LOGIN,false);
                 intent = new Intent(SettingActivity.this,LoginActivity.class);
                 startActivity(intent);

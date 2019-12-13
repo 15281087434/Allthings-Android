@@ -16,6 +16,8 @@ public class SharedPreferencedUtils {
     public static String VEDIO_READ_TIME = "VEDIO_READ_TIME";
     public static String FIRST_ENTER = "FIRST_ENTER";
     public static String FIRST_ENTER_GUIDE = "FIRST_ENTER_GUIDE";
+    public static String USER_ICON = "USER_ICON";
+
 
     public static SharedPreferences getPreference(Context context) {
         if (mPreference == null)

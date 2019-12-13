@@ -28,9 +28,9 @@ public class HeaderHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.contentTv)
     TextView contentTv;
     @BindView(R.id.likeNumTv)
-    TextView likeNumTv;
+    public TextView likeNumTv;
     @BindView(R.id.likeImg)
-    ImageView likeImg;
+    public ImageView likeImg;
     @BindView(R.id.likeLayout)
     LinearLayout likeLayout;
 

@@ -26,6 +26,7 @@
                 android:textSize="@dimen/x_ui_px_36.0"
                 android:textColor="@color/bottom_tab_tv"
                 android:maxLength="20"
+                android:singleLine="true"
                 android:ellipsize="end"
                 />
 

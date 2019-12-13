@@ -57,6 +57,8 @@ import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.adapter.comment.CommentListAdapter;
 import songqiu.allthings.adapter.VideoDetailIntroAdapter;
+import songqiu.allthings.adapter.comment.CommentSubitemHolder;
+import songqiu.allthings.adapter.comment.HeaderHolder;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.AdvertiseBean;
 import songqiu.allthings.bean.CommentSubitemBean;
@@ -330,13 +332,13 @@ public class VideoDetailActivity extends BaseActivity {
         videoDetailCommentAdapter.setVideoDetailCommentItemListener(new VideoDetailCommentItemListener() {
             //一级评论点赞、取消点赞
             @Override
-            public void addLike(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean) {
-                like(url, type, mid, videoDetailCommentBean);
+            public void addLike(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean,RecyclerView.ViewHolder viewHolder) {
+                like(url, type, mid, videoDetailCommentBean,viewHolder);
             }
             //二级评论点赞、取消点赞
             @Override
-            public void addSubitemLike(String url, int type, int mid, CommentSubitemBean commentSubitemBean) {
-                like(url, type, mid, commentSubitemBean);
+            public void addSubitemLike(String url, int type, int mid, CommentSubitemBean commentSubitemBean,RecyclerView.ViewHolder viewHolder) {
+                like(url, type, mid, commentSubitemBean,viewHolder);
             }
 
             //回复评论
@@ -692,7 +694,7 @@ public class VideoDetailActivity extends BaseActivity {
     }
 
     //一级评论点赞/取消点赞
-    public void like(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean) {
+    public void like(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean,RecyclerView.ViewHolder viewHolder) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type + "");
         map.put("mid", mid + "");
@@ -705,11 +707,20 @@ public class VideoDetailActivity extends BaseActivity {
                         if (url.equals(HttpServicePath.URL_LIKE)) {
                             videoDetailCommentBean.up_num = videoDetailCommentBean.up_num + 1;
                             videoDetailCommentBean.is_up = 1;
+                            if(viewHolder instanceof HeaderHolder) {
+                                ((HeaderHolder) viewHolder).likeNumTv.setText(String.valueOf(videoDetailCommentBean.up_num));
+                                ((HeaderHolder) viewHolder).likeNumTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                ((HeaderHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                            }
                         } else {
                             videoDetailCommentBean.up_num = videoDetailCommentBean.up_num - 1;
                             videoDetailCommentBean.is_up = 0;
+                            if(viewHolder instanceof HeaderHolder) {
+                                ((HeaderHolder) viewHolder).likeNumTv.setText(String.valueOf(videoDetailCommentBean.up_num));
+                                ((HeaderHolder) viewHolder).likeNumTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                ((HeaderHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                            }
                         }
-                        videoDetailCommentAdapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -717,7 +728,7 @@ public class VideoDetailActivity extends BaseActivity {
     }
 
     //二级评论点赞/取消点赞
-    public void like(String url, int type, int mid, CommentSubitemBean commentSubitemBean) {
+    public void like(String url, int type, int mid, CommentSubitemBean commentSubitemBean,RecyclerView.ViewHolder viewHolder) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type + "");
         map.put("mid", mid + "");
@@ -730,11 +741,20 @@ public class VideoDetailActivity extends BaseActivity {
                         if (url.equals(HttpServicePath.URL_LIKE)) {
                             commentSubitemBean.up_num = commentSubitemBean.up_num + 1;
                             commentSubitemBean.is_up = 1;
+                            if(viewHolder instanceof CommentSubitemHolder) {
+                                ((CommentSubitemHolder) viewHolder).likeNumTv.setText(String.valueOf(commentSubitemBean.up_num));
+                                ((CommentSubitemHolder) viewHolder).likeNumTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                ((CommentSubitemHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                            }
                         } else {
                             commentSubitemBean.up_num = commentSubitemBean.up_num - 1;
                             commentSubitemBean.is_up = 0;
+                            if(viewHolder instanceof CommentSubitemHolder) {
+                                ((CommentSubitemHolder) viewHolder).likeNumTv.setText(String.valueOf(commentSubitemBean.up_num));
+                                ((CommentSubitemHolder) viewHolder).likeNumTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                ((CommentSubitemHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                            }
                         }
-                        videoDetailCommentAdapter.notifyDataSetChanged();
                     }
                 });
             }

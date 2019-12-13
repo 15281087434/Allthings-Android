@@ -174,14 +174,16 @@ public class CommentListAdapter extends SectionedRecyclerViewAdapter<HeaderHolde
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int is_up = item.get(position).is_up;
-                if(0 == is_up) {
-                    if (null != videoDetailCommentItemListener) {
-                        videoDetailCommentItemListener.addLike(HttpServicePath.URL_LIKE,4,videoDetailCommentBean.commentid,videoDetailCommentBean);
-                    }
-                }else {
-                    if (null != videoDetailCommentItemListener) {
-                        videoDetailCommentItemListener.addLike(HttpServicePath.URL_NO_LIKE,4,videoDetailCommentBean.commentid,videoDetailCommentBean);
+                if(ClickUtil.onClick()) {
+                    int is_up = item.get(position).is_up;
+                    if(0 == is_up) {
+                        if (null != videoDetailCommentItemListener) {
+                            videoDetailCommentItemListener.addLike(HttpServicePath.URL_LIKE,4,videoDetailCommentBean.commentid,videoDetailCommentBean,holder);
+                        }
+                    }else {
+                        if (null != videoDetailCommentItemListener) {
+                            videoDetailCommentItemListener.addLike(HttpServicePath.URL_NO_LIKE,4,videoDetailCommentBean.commentid,videoDetailCommentBean,holder);
+                        }
                     }
                 }
             }
@@ -267,14 +269,16 @@ public class CommentListAdapter extends SectionedRecyclerViewAdapter<HeaderHolde
             ((CommentSubitemHolder)holder).likeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int is_up = commentSubitemBean.is_up;
-                    if(0 == is_up) {
-                        if (null != videoDetailCommentItemListener) {
-                            videoDetailCommentItemListener.addSubitemLike(HttpServicePath.URL_LIKE,4,commentSubitemBean.commentid,commentSubitemBean);
-                        }
-                    }else {
-                        if (null != videoDetailCommentItemListener) {
-                            videoDetailCommentItemListener.addSubitemLike(HttpServicePath.URL_NO_LIKE,4,commentSubitemBean.commentid,commentSubitemBean);
+                    if(ClickUtil.onClick()) {
+                        int is_up = commentSubitemBean.is_up;
+                        if(0 == is_up) {
+                            if (null != videoDetailCommentItemListener) {
+                                videoDetailCommentItemListener.addSubitemLike(HttpServicePath.URL_LIKE,4,commentSubitemBean.commentid,commentSubitemBean,holder);
+                            }
+                        }else {
+                            if (null != videoDetailCommentItemListener) {
+                                videoDetailCommentItemListener.addSubitemLike(HttpServicePath.URL_NO_LIKE,4,commentSubitemBean.commentid,commentSubitemBean,holder);
+                            }
                         }
                     }
                 }

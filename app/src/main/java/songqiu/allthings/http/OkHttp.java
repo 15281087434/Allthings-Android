@@ -137,6 +137,7 @@ public class OkHttp {
                 if(null != baseBean) {
                     if(HttpRuslt.NO_LOGIN.equals(baseBean.code)) { //未登录
                         SharedPreferencedUtils.setString(context, "SYSTOKEN","");
+                        SharedPreferencedUtils.setString(context,SharedPreferencedUtils.USER_ICON,"");
                         SharedPreferencedUtils.setBoolean(context,SharedPreferencedUtils.LOGIN,false);
                         String result = requestPath.substring(requestPath.length()-7,requestPath.length());
                         if(result.equals("/follow")) {//首页关注路径
@@ -244,6 +245,7 @@ public class OkHttp {
                     }
                     if(HttpRuslt.NO_LOGIN.equals(baseBean.code)) { //未登录
                         SharedPreferencedUtils.setString(context, "SYSTOKEN","");
+                        SharedPreferencedUtils.setString(context,SharedPreferencedUtils.USER_ICON,"");
                         SharedPreferencedUtils.setBoolean(context,SharedPreferencedUtils.LOGIN,false);
                         String result = requestPath.substring(requestPath.length()-7,requestPath.length());
                         if(result.equals("/follow")) {//首页关注路径
@@ -368,6 +370,7 @@ public class OkHttp {
                     }
                     if(HttpRuslt.NO_LOGIN.equals(baseBean.code)) { //未登录
                         SharedPreferencedUtils.setString(context, "SYSTOKEN","");
+                        SharedPreferencedUtils.setString(context,SharedPreferencedUtils.USER_ICON,"");
                         SharedPreferencedUtils.setBoolean(context,SharedPreferencedUtils.LOGIN,false);
                         String result = requestPath.substring(requestPath.length()-7,requestPath.length());
                         if(result.equals("/follow")) {//首页关注路径
@@ -495,6 +498,7 @@ public class OkHttp {
                 if(null != baseBean) {
                     if(HttpRuslt.NO_LOGIN.equals(baseBean.code)) { //未登录
                         SharedPreferencedUtils.setString(context, "SYSTOKEN","");
+                        SharedPreferencedUtils.setString(context,SharedPreferencedUtils.USER_ICON,"");
                         SharedPreferencedUtils.setBoolean(context,SharedPreferencedUtils.LOGIN,false);
                         String result = requestPath.substring(requestPath.length()-6,requestPath.length());
                         if(result.equals("follow")) {//首页关注路径

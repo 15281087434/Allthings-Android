@@ -571,6 +571,11 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 .circleCrop().transforms(new GlideCircleTransform(context))
                 .error(R.mipmap.head_default)
                 .placeholder(R.mipmap.head_default);
+        if (!StringUtil.isEmpty(homeAttentionBean.avatar)) {
+            if (!homeAttentionBean.avatar.contains("http")) {
+                homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
+            }
+        }
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
         holder.titleTv.setText(homeAttentionBean.title);
         holder.userName.setText(homeAttentionBean.user_nickname);

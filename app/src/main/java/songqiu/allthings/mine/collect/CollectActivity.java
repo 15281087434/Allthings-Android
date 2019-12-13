@@ -38,6 +38,7 @@ import cn.sharesdk.wechat.moments.WechatMoments;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.adapter.CollectAdapter;
+import songqiu.allthings.adapter.LookTabClassAdapter;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.HomeSubitemBean;
 import songqiu.allthings.http.BaseBean;
@@ -136,8 +137,8 @@ public class CollectActivity extends BaseActivity {
 
         adapter.setCollectItemListener(new CollectItemListener() {
             @Override
-            public void addLike(String url, int type, int mid, HomeSubitemBean homeSubitemBean) {
-                like(url, type, mid, homeSubitemBean);
+            public void addLike(String url, int type, int mid, HomeSubitemBean homeSubitemBean,RecyclerView.ViewHolder viewHolder) {
+                like(url, type, mid, homeSubitemBean,viewHolder);
             }
 
             @Override
@@ -287,7 +288,7 @@ public class CollectActivity extends BaseActivity {
     }
 
     //点赞/取消点赞
-    public void like(String url, int type, int mid, HomeSubitemBean homeSubitemBean) {
+    public void like(String url, int type, int mid, HomeSubitemBean homeSubitemBean,RecyclerView.ViewHolder viewHolder) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type + "");
         map.put("mid", mid + "");
@@ -300,11 +301,52 @@ public class CollectActivity extends BaseActivity {
                         if (url.equals(HttpServicePath.URL_LIKE)) {
                             homeSubitemBean.is_up = 1;
                             homeSubitemBean.up_num = homeSubitemBean.up_num + 1;
+                            if(viewHolder instanceof CollectAdapter.NoPicViewholder) {
+                                ((CollectAdapter.NoPicViewholder) viewHolder).likeTv.setText(String.valueOf(homeSubitemBean.up_num));
+                                ((CollectAdapter.NoPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                ((CollectAdapter.NoPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                            }else if(viewHolder instanceof CollectAdapter.BigPicViewholder) {
+                                ((CollectAdapter.BigPicViewholder) viewHolder).likeTv.setText(String.valueOf(homeSubitemBean.up_num));
+                                ((CollectAdapter.BigPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                ((CollectAdapter.BigPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                            }else if(viewHolder instanceof CollectAdapter.RightPicViewholder) {
+                                ((CollectAdapter.RightPicViewholder) viewHolder).likeTv.setText(String.valueOf(homeSubitemBean.up_num));
+                                ((CollectAdapter.RightPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                ((CollectAdapter.RightPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                            }else if(viewHolder instanceof CollectAdapter.MorePicViewholder) {
+                                ((CollectAdapter.MorePicViewholder) viewHolder).likeTv.setText(String.valueOf(homeSubitemBean.up_num));
+                                ((CollectAdapter.MorePicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                ((CollectAdapter.MorePicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                            }else if(viewHolder instanceof CollectAdapter.Viewholder) {
+                                ((CollectAdapter.Viewholder) viewHolder).likeTv.setText(String.valueOf(homeSubitemBean.up_num));
+                                ((CollectAdapter.Viewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                ((CollectAdapter.Viewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                            }
                         } else {
                             homeSubitemBean.is_up = 0;
                             homeSubitemBean.up_num = homeSubitemBean.up_num - 1;
+                            if(viewHolder instanceof CollectAdapter.NoPicViewholder) {
+                                ((CollectAdapter.NoPicViewholder) viewHolder).likeTv.setText(String.valueOf(homeSubitemBean.up_num));
+                                ((CollectAdapter.NoPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                ((CollectAdapter.NoPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                            }else if(viewHolder instanceof CollectAdapter.BigPicViewholder) {
+                                ((CollectAdapter.BigPicViewholder) viewHolder).likeTv.setText(String.valueOf(homeSubitemBean.up_num));
+                                ((CollectAdapter.BigPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                ((CollectAdapter.BigPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                            }else if(viewHolder instanceof CollectAdapter.RightPicViewholder) {
+                                ((CollectAdapter.RightPicViewholder) viewHolder).likeTv.setText(String.valueOf(homeSubitemBean.up_num));
+                                ((CollectAdapter.RightPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                ((CollectAdapter.RightPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                            }else if(viewHolder instanceof CollectAdapter.MorePicViewholder) {
+                                ((CollectAdapter.MorePicViewholder) viewHolder).likeTv.setText(String.valueOf(homeSubitemBean.up_num));
+                                ((CollectAdapter.MorePicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                ((CollectAdapter.MorePicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                            }else if(viewHolder instanceof CollectAdapter.Viewholder) {
+                                ((CollectAdapter.Viewholder) viewHolder).likeTv.setText(String.valueOf(homeSubitemBean.up_num));
+                                ((CollectAdapter.Viewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                ((CollectAdapter.Viewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                            }
                         }
-                        adapter.notifyDataSetChanged();
                     }
                 });
             }

@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -57,11 +60,14 @@ import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.TokenManager;
+import songqiu.allthings.util.helper.GlideApp;
+import songqiu.allthings.util.helper.GlideRoundTransform;
 import songqiu.allthings.videodetail.VideoDetailActivity;
 import songqiu.allthings.view.DialogFileUploading;
 import songqiu.allthings.view.DialogUploadVersion;
 import songqiu.allthings.view.banner.ColorPointHintView;
 import songqiu.allthings.view.banner.RollPagerView;
+
 
 /*******
  *
@@ -223,19 +229,33 @@ public class MinePageFragment extends BaseFragment {
         if(StringUtil.isEmpty(SharedPreferencedUtils.getString(activity,"SYSINVITATIONCODE"))) {
             SharedPreferencedUtils.setString(activity, "SYSINVITATIONCODE", userCenterBean.code);
         }
-         RequestOptions options = new RequestOptions()
-                .circleCrop().transforms(new GlideCircleTransform(activity))
-                .error(R.mipmap.head_default)
-                .placeholder(R.mipmap.head_default);
-         if(!StringUtil.isEmpty(userCenterBean.avatar)) {
-             if(!userCenterBean.avatar.contains("http")) {
-                 userCenterBean.avatar = HttpServicePath.BasePicUrl+userCenterBean.avatar;
-             }
-         }
-        Glide.with(activity).load(userCenterBean.avatar).apply(options).into(userIcon);
+
+        if(StringUtil.isEmpty(SharedPreferencedUtils.getString(activity,SharedPreferencedUtils.USER_ICON))) {
+            SharedPreferencedUtils.setString(activity,SharedPreferencedUtils.USER_ICON,userCenterBean.avatar);
+            loadUserIcon(userCenterBean);
+        }else {
+            if(!SharedPreferencedUtils.getString(activity,SharedPreferencedUtils.USER_ICON).equals(userCenterBean.avatar)) {
+                SharedPreferencedUtils.setString(activity,SharedPreferencedUtils.USER_ICON,userCenterBean.avatar);
+                loadUserIcon(userCenterBean);
+            }
+        }
         //存入userid
         SharedPreferencedUtils.setInteger(activity, "SYSUSERID", userCenterBean.userid);
         SnsConstants.URL_DOWNLOAD = userCenterBean.android_url;
+    }
+
+    public void loadUserIcon(UserCenterBean userCenterBean) {
+        if(null == userCenterBean) return;
+        RequestOptions options = new RequestOptions()
+                .circleCrop().transforms(new GlideCircleTransform(activity))
+                .error(R.mipmap.head_default)
+                .placeholder(R.mipmap.head_default);
+        if(!StringUtil.isEmpty(userCenterBean.avatar)) {
+            if(!userCenterBean.avatar.contains("http")) {
+                userCenterBean.avatar = HttpServicePath.BasePicUrl+userCenterBean.avatar;
+            }
+        }
+        Glide.with(activity).load(userCenterBean.avatar).apply(options).into(userIcon);
     }
 
     public void getBanner() {

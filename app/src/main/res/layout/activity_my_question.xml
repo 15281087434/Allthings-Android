@@ -30,7 +30,7 @@
                     android:hint="请描述您遇到的问题或反馈意见..."
                     android:gravity="top"
                     android:textSize="@dimen/x_ui_px_36.0"
-                    android:textColor="@color/FFBFBFBF"
+                    android:textColor="@color/bottom_tab_tv"
                     android:textColorHint="@color/FFBFBFBF"
                     android:maxLength="300"/>
 
