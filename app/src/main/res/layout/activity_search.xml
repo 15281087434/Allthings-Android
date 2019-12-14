@@ -32,7 +32,6 @@
             android:background="@drawable/bg_search_gary"
             android:imeOptions="actionSearch"
             android:inputType="text"
-            android:lines="1"
             android:maxLines="1"
             android:paddingLeft="@dimen/x_ui_px_20.0"
             android:paddingRight="@dimen/x_ui_px_20.0"

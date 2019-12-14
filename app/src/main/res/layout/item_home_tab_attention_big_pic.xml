@@ -106,7 +106,7 @@
             android:textSize="@dimen/x_ui_px_31.0"
             android:layout_marginTop="@dimen/x_ui_px_20.0"
             android:ellipsize="end"
-            android:lines="2"
+            android:maxLines="2"
             android:lineSpacingExtra="@dimen/x_ui_px_8.0"
             android:layout_marginLeft="@dimen/x_ui_px_30.0"
             android:layout_marginRight="@dimen/x_ui_px_30.0"

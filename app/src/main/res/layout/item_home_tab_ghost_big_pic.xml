@@ -121,7 +121,7 @@
         android:layout_height="@dimen/x_ui_px_330.0"
         android:layout_marginTop="@dimen/x_ui_px_19.0"
         android:src="@mipmap/item_home_tab_big_pic"
-        android:scaleType="fitXY"/>
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/contentTv"
