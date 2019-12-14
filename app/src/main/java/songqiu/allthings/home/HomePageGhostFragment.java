@@ -402,6 +402,7 @@ public class HomePageGhostFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void homeRefresh(EventTags.HomeRefresh homeRefresh) {
         if(visible) {
+            pageNo = 1;
             smartRefreshLayout.autoRefresh();
         }
     }
