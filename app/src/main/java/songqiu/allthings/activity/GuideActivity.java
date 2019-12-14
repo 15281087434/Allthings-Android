@@ -174,7 +174,7 @@ public class GuideActivity extends BaseActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 1000);
+        }, 1500);
     }
 
     public void toMainActivity() {

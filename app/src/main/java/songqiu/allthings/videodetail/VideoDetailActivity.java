@@ -324,7 +324,7 @@ public class VideoDetailActivity extends BaseActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 pageNo = 1;
-                getComment(videoId, pageNo,true);
+                getComment(articleid, pageNo,true);
             }
         });
 
