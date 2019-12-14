@@ -462,7 +462,11 @@ public class MainActivity extends BaseMainActivity {
     public void endSwitchRefesh() {
         if(clickPosition == 0) {
             homePageImg.clearAnimation();
-            homePageImg.setImageResource(R.mipmap.tab_home);
+            if(isGhost) {
+                homePageImg.setImageResource(R.mipmap.tab_home_ghost);
+            }else {
+                homePageImg.setImageResource(R.mipmap.tab_home);
+            }
         }else if(clickPosition == 1) {
             lookImg.clearAnimation();
             lookImg.setImageResource(R.mipmap.tab_look);
@@ -470,10 +474,10 @@ public class MainActivity extends BaseMainActivity {
     }
 
     private void clearSelection() {
-//        homePageImg.setImageResource(R.mipmap.tab_home_normal);
-//        lookImg.setImageResource(R.mipmap.tab_look_normal);
-//        taskImg.setImageResource(R.mipmap.tab_task_normal);
-//        mineImg.setImageResource(R.mipmap.tab_mine_normal);
+        homePageImg.setImageResource(R.mipmap.tab_home_normal);
+        lookImg.setImageResource(R.mipmap.tab_look_normal);
+        taskImg.setImageResource(R.mipmap.tab_task_normal);
+        mineImg.setImageResource(R.mipmap.tab_mine_normal);
         homePageTv.setTextColor(getResources().getColor(R.color.FF666666));
         lookTv.setTextColor(getResources().getColor(R.color.FF666666));
         taskTv.setTextColor(getResources().getColor(R.color.FF666666));
@@ -577,12 +581,12 @@ public class MainActivity extends BaseMainActivity {
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.homePageLayout:
-                setTabSelection(INDEX_HOME_PAGE,0);
                 if(isGhost) {
                     setBottomLayoutBackground(true,0);
                 }else {
                     setBottomLayoutBackground(false,0);
                 }
+                setTabSelection(INDEX_HOME_PAGE,0);
 //                if(effectiveHomeClick) {
 //                    setTabSelection(INDEX_HOME_PAGE,0);
 //                }
@@ -591,22 +595,22 @@ public class MainActivity extends BaseMainActivity {
 //                }
                 break;
             case R.id.lookLayout:
-                setTabSelection(INDEX_LOOK_PAGE,0);
                 setBottomLayoutBackground(false,1);
+                setTabSelection(INDEX_LOOK_PAGE,0);
 //                if(ClickUtil.onClick()) {
 //                    setTabSelection(INDEX_LOOK_PAGE,0);
 //                }
                 break;
             case R.id.taskLayout:
-                setTabSelection(INDEX_TASK_PAGE,0);
                 setBottomLayoutBackground(false,2);
+                setTabSelection(INDEX_TASK_PAGE,0);
 //                if(ClickUtil.onClick()) {
 //                    setTabSelection(INDEX_TASK_PAGE,0);
 //                }
                 break;
             case R.id.mineLayout:
-                setTabSelection(INDEX_MINE_PAGE,0);
                 setBottomLayoutBackground(false,3);
+                setTabSelection(INDEX_MINE_PAGE,0);
 //                if(ClickUtil.onClick()) {
 //                    setTabSelection(INDEX_MINE_PAGE,0);
 //                }
