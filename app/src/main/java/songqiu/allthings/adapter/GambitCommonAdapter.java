@@ -180,9 +180,9 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
                     if (0 == item.get(position).is_up) {//去点赞
-                        gambitItemListener.addLike(HttpServicePath.URL_LIKE, 3, item.get(position).id);
+                        gambitItemListener.addLike(HttpServicePath.URL_LIKE, 3, item.get(position).id,holder);
                     } else {//取消点赞
-                        gambitItemListener.addLike(HttpServicePath.URL_NO_LIKE, 3, item.get(position).id);
+                        gambitItemListener.addLike(HttpServicePath.URL_NO_LIKE, 3, item.get(position).id,holder);
                     }
                 }
             }
@@ -193,9 +193,9 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
                     if (0 == item.get(position).is_follow) { //去关注
-                        gambitItemListener.addFollow(item.get(position).userid, 1);
+                        gambitItemListener.addFollow(item.get(position).userid, 1,holder);
                     } else { //取消关注
-                        gambitItemListener.addFollow(item.get(position).userid, 2);
+                        gambitItemListener.addFollow(item.get(position).userid, 2,holder);
                     }
                 }
             }
@@ -351,9 +351,9 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
                     if (0 == item.get(position).is_up) {//去点赞
-                        gambitItemListener.addLike(HttpServicePath.URL_LIKE, 3, item.get(position).id);
+                        gambitItemListener.addLike(HttpServicePath.URL_LIKE, 3, item.get(position).id,holder);
                     } else {//取消点赞
-                        gambitItemListener.addLike(HttpServicePath.URL_NO_LIKE, 3, item.get(position).id);
+                        gambitItemListener.addLike(HttpServicePath.URL_NO_LIKE, 3, item.get(position).id,holder);
                     }
                 }
             }
@@ -365,9 +365,9 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
                     if (0 == item.get(position).is_follow) { //去关注
-                        gambitItemListener.addFollow(item.get(position).userid, 1);
+                        gambitItemListener.addFollow(item.get(position).userid, 1,holder);
                     } else { //取消关注
-                        gambitItemListener.addFollow(item.get(position).userid, 2);
+                        gambitItemListener.addFollow(item.get(position).userid, 2,holder);
                     }
                 }
             }
@@ -507,9 +507,9 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
                     if (0 == item.get(position).is_up) {//去点赞
-                        gambitItemListener.addLike(HttpServicePath.URL_LIKE, 3, item.get(position).id);
+                        gambitItemListener.addLike(HttpServicePath.URL_LIKE, 3, item.get(position).id,holder);
                     } else {//取消点赞
-                        gambitItemListener.addLike(HttpServicePath.URL_NO_LIKE, 3, item.get(position).id);
+                        gambitItemListener.addLike(HttpServicePath.URL_NO_LIKE, 3, item.get(position).id,holder);
                     }
                 }
             }
@@ -520,9 +520,9 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
                     if (0 == item.get(position).is_follow) { //去关注
-                        gambitItemListener.addFollow(item.get(position).userid, 1);
+                        gambitItemListener.addFollow(item.get(position).userid, 1,holder);
                     } else { //取消关注
-                        gambitItemListener.addFollow(item.get(position).userid, 2);
+                        gambitItemListener.addFollow(item.get(position).userid, 2,holder);
                     }
                 }
             }
@@ -595,11 +595,11 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
         @BindView(R.id.layout)
         LinearLayout layout;
         @BindView(R.id.attentionTv)
-        TextView attentionTv;
+        public TextView attentionTv;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
@@ -631,15 +631,15 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
         @BindView(R.id.userlayout)
         RelativeLayout userlayout;
         @BindView(R.id.attentionTv)
-        TextView attentionTv;
+        public TextView attentionTv;
         @BindView(R.id.contentTv)
         TextView contentTv;
         @BindView(R.id.bigPicImg)
         ImageView bigPicImg;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
@@ -673,15 +673,15 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
         @BindView(R.id.userlayout)
         RelativeLayout userlayout;
         @BindView(R.id.attentionTv)
-        TextView attentionTv;
+        public TextView attentionTv;
         @BindView(R.id.contentTv)
         TextView contentTv;
         @BindView(R.id.gridView)
         GridViewInScroll gridView;
         @BindView(R.id.likeImg)
-        ImageView likeImg;
+        public ImageView likeImg;
         @BindView(R.id.likeTv)
-        TextView likeTv;
+        public TextView likeTv;
         @BindView(R.id.likeLayout)
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)

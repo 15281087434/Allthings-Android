@@ -170,9 +170,9 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
                     if (0 == item.get(position).is_up) {//去点赞
-                        gambitItemListener.addLike(HttpServicePath.URL_LIKE, 3, item.get(position).id);
+                        gambitItemListener.addLike(HttpServicePath.URL_LIKE, 3, item.get(position).id,holder);
                     } else {//取消点赞
-                        gambitItemListener.addLike(HttpServicePath.URL_NO_LIKE, 3, item.get(position).id);
+                        gambitItemListener.addLike(HttpServicePath.URL_NO_LIKE, 3, item.get(position).id,holder);
                     }
                 }
             }
@@ -183,9 +183,9 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
                     if (0 == item.get(position).is_follow) { //去关注
-                        gambitItemListener.addFollow(item.get(position).userid, 1);
+                        gambitItemListener.addFollow(item.get(position).userid, 1,holder);
                     } else { //取消关注
-                        gambitItemListener.addFollow(item.get(position).userid, 2);
+                        gambitItemListener.addFollow(item.get(position).userid, 2,holder);
                     }
                 }
             }
@@ -307,9 +307,9 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
                     if (0 == item.get(position).is_up) {//去点赞
-                        gambitItemListener.addLike(HttpServicePath.URL_LIKE, 3, item.get(position).id);
+                        gambitItemListener.addLike(HttpServicePath.URL_LIKE, 3, item.get(position).id,holder);
                     } else {//取消点赞
-                        gambitItemListener.addLike(HttpServicePath.URL_NO_LIKE, 3, item.get(position).id);
+                        gambitItemListener.addLike(HttpServicePath.URL_NO_LIKE, 3, item.get(position).id,holder);
                     }
                 }
             }
@@ -320,9 +320,9 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
                     if (0 == item.get(position).is_follow) { //去关注
-                        gambitItemListener.addFollow(item.get(position).userid, 1);
+                        gambitItemListener.addFollow(item.get(position).userid, 1,holder);
                     } else { //取消关注
-                        gambitItemListener.addFollow(item.get(position).userid, 2);
+                        gambitItemListener.addFollow(item.get(position).userid, 2,holder);
                     }
                 }
             }
@@ -436,9 +436,9 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
                     if (0 == item.get(position).is_up) {//去点赞
-                        gambitItemListener.addLike(HttpServicePath.URL_LIKE, 3, item.get(position).id);
+                        gambitItemListener.addLike(HttpServicePath.URL_LIKE, 3, item.get(position).id,holder);
                     } else {//取消点赞
-                        gambitItemListener.addLike(HttpServicePath.URL_NO_LIKE, 3, item.get(position).id);
+                        gambitItemListener.addLike(HttpServicePath.URL_NO_LIKE, 3, item.get(position).id,holder);
                     }
                 }
             }
@@ -449,9 +449,9 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 if (ClickUtil.onClick()) {
                     if (0 == item.get(position).is_follow) { //去关注
-                        gambitItemListener.addFollow(item.get(position).userid, 1);
+                        gambitItemListener.addFollow(item.get(position).userid, 1,holder);
                     } else { //取消关注
-                        gambitItemListener.addFollow(item.get(position).userid, 2);
+                        gambitItemListener.addFollow(item.get(position).userid, 2,holder);
                     }
                 }
             }

@@ -36,6 +36,7 @@ import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.HomeHotGambitListener;
 import songqiu.allthings.util.SharedPreferencedUtils;
+import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.VibratorUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
@@ -116,8 +117,8 @@ public class AllHotGambitActivity extends BaseActivity {
 
         hotAdapter.setHomeHotGambitListener(new HomeHotGambitListener() {
             @Override
-            public void addFollow(String url, int id, List<HomeGambitHotBean> item) {
-                follow(url,id,item);
+            public void addFollow(String url, int id,RecyclerView.ViewHolder viewHolder) {
+                follow(url,id,viewHolder);
             }
         });
 
@@ -164,7 +165,7 @@ public class AllHotGambitActivity extends BaseActivity {
         });
     }
 
-    public void follow(String url,int talk_id,List<HomeGambitHotBean> item) {
+    public void follow(String url,int talk_id,RecyclerView.ViewHolder viewHolder) {
         Map<String, String> map = new HashMap<>();
         map.put("talk_id", talk_id + "");
         OkHttp.post(this, url, map, new RequestCallBack() {
@@ -174,21 +175,30 @@ public class AllHotGambitActivity extends BaseActivity {
                     @Override
                     public void run() {
                         if(url.contains("follow_talk_no")) { //取消关注
-                            for(int i = 0;i<item.size();i++) {
-                                if(talk_id == item.get(i).id) {
-                                    item.get(i).is_follow = 0;
-                                    item.get(i).follow_num = item.get(i).follow_num -1;
+                            for(int i = 0;i<list.size();i++) {
+                                if(talk_id == list.get(i).id) {
+                                    list.get(i).is_follow = 0;
+                                    list.get(i).follow_num = list.get(i).follow_num -1;
+                                    if(viewHolder instanceof AllHotGambitAdapter.GambitViewholder) {
+                                        ((AllHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setText("关注");
+                                        ((AllHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                        ((AllHotGambitAdapter.GambitViewholder)viewHolder).attentionNumTv.setText(ShowNumUtil.showUnm(list.get(i).follow_num)+" 关注");
+                                    }
                                 }
                             }
                         }else {
-                            for(int i = 0;i<item.size();i++) {
-                                if(talk_id == item.get(i).id) {
-                                    item.get(i).is_follow = 1;
-                                    item.get(i).follow_num = item.get(i).follow_num +1;
+                            for(int i = 0;i<list.size();i++) {
+                                if(talk_id == list.get(i).id) {
+                                    list.get(i).is_follow = 1;
+                                    list.get(i).follow_num = list.get(i).follow_num +1;
+                                    if(viewHolder instanceof AllHotGambitAdapter.GambitViewholder) {
+                                        ((AllHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setText("已关注");
+                                        ((AllHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                        ((AllHotGambitAdapter.GambitViewholder)viewHolder).attentionNumTv.setText(ShowNumUtil.showUnm(list.get(i).follow_num)+" 关注");
+                                    }
                                 }
                             }
                         }
-                        hotAdapter.notifyDataSetChanged();
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
                     }
                 });

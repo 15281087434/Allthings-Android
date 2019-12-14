@@ -48,6 +48,7 @@ import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.adapter.GambitCommonAdapter;
 import songqiu.allthings.adapter.GambitHotAdapter;
+import songqiu.allthings.adapter.LookTabClassAdapter;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.HotGambitCommonBean;
 import songqiu.allthings.bean.HotGambitDetailBean;
@@ -219,13 +220,13 @@ public class HotGambitDetailActivity extends BaseActivity{
 
         newGambitAdapter.setGambitItemListener(new GambitItemListener() {
             @Override
-            public void addLike(String url, int type, int mid) {
-                like(url,type,mid);
+            public void addLike(String url, int type, int mid,RecyclerView.ViewHolder viewHolder) {
+                like(url,type,mid,viewHolder);
             }
 
             @Override
-            public void addFollow(int parentid,int type) {
-                follow(parentid,type);
+            public void addFollow(int parentid,int type,RecyclerView.ViewHolder viewHolder) {
+                follow(parentid,type,viewHolder);
             }
 
             @Override
@@ -257,13 +258,13 @@ public class HotGambitDetailActivity extends BaseActivity{
 
         hotGambitAdapter.setGambitItemListener(new GambitItemListener() {
             @Override
-            public void addLike(String url, int type, int mid) {
-                like(url,type,mid);
+            public void addLike(String url, int type, int mid,RecyclerView.ViewHolder viewHolder) {
+                like(url,type,mid,viewHolder);
             }
 
             @Override
-            public void addFollow(int parentid,int type) {
-                follow(parentid,type);
+            public void addFollow(int parentid,int type,RecyclerView.ViewHolder viewHolder) {
+                follow(parentid,type,viewHolder);
             }
 
             @Override
@@ -774,7 +775,7 @@ public class HotGambitDetailActivity extends BaseActivity{
     }
 
     //点赞/取消点赞
-    public void like(String url,int type,int mid) {
+    public void like(String url,int type,int mid,RecyclerView.ViewHolder viewHolder) {
         Map<String,String> map = new HashMap<>();
         map.put("type",type+"");
         map.put("mid",mid+"");
@@ -789,6 +790,19 @@ public class HotGambitDetailActivity extends BaseActivity{
                                 if(mid == hotList.get(i).id) {
                                     hotList.get(i).is_up = 1;
                                     hotList.get(i).up_num = hotList.get(i).up_num+1;
+                                    if(viewHolder instanceof GambitHotAdapter.NoPicViewholder) {
+                                        ((GambitHotAdapter.NoPicViewholder) viewHolder).likeTv.setText(String.valueOf(hotList.get(i).up_num));
+                                        ((GambitHotAdapter.NoPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                        ((GambitHotAdapter.NoPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                    }else if(viewHolder instanceof GambitHotAdapter.BigPicViewholder) {
+                                        ((GambitHotAdapter.BigPicViewholder) viewHolder).likeTv.setText(String.valueOf(hotList.get(i).up_num));
+                                        ((GambitHotAdapter.BigPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                        ((GambitHotAdapter.BigPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                    }else if(viewHolder instanceof GambitHotAdapter.MoreViewholder) {
+                                        ((GambitHotAdapter.MoreViewholder) viewHolder).likeTv.setText(String.valueOf(hotList.get(i).up_num));
+                                        ((GambitHotAdapter.MoreViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                        ((GambitHotAdapter.MoreViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                    }
                                 }
                             }
 
@@ -796,6 +810,19 @@ public class HotGambitDetailActivity extends BaseActivity{
                                 if(mid == newList.get(i).id) {
                                     newList.get(i).is_up = 1;
                                     newList.get(i).up_num = newList.get(i).up_num+1;
+                                    if(viewHolder instanceof GambitCommonAdapter.NoPicViewholder) {
+                                        ((GambitCommonAdapter.NoPicViewholder) viewHolder).likeTv.setText(String.valueOf(hotList.get(i).up_num));
+                                        ((GambitCommonAdapter.NoPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                        ((GambitCommonAdapter.NoPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                    }else if(viewHolder instanceof GambitCommonAdapter.BigPicViewholder) {
+                                        ((GambitCommonAdapter.BigPicViewholder) viewHolder).likeTv.setText(String.valueOf(hotList.get(i).up_num));
+                                        ((GambitCommonAdapter.BigPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                        ((GambitCommonAdapter.BigPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                    }else if(viewHolder instanceof GambitCommonAdapter.MoreViewholder) {
+                                        ((GambitCommonAdapter.MoreViewholder) viewHolder).likeTv.setText(String.valueOf(hotList.get(i).up_num));
+                                        ((GambitCommonAdapter.MoreViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+                                        ((GambitCommonAdapter.MoreViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                    }
                                 }
                             }
                         }else {
@@ -803,6 +830,19 @@ public class HotGambitDetailActivity extends BaseActivity{
                                 if(mid == hotList.get(i).id) {
                                     hotList.get(i).is_up = 0;
                                     hotList.get(i).up_num = hotList.get(i).up_num-1;
+                                    if(viewHolder instanceof GambitHotAdapter.NoPicViewholder) {
+                                        ((GambitHotAdapter.NoPicViewholder) viewHolder).likeTv.setText(String.valueOf(hotList.get(i).up_num));
+                                        ((GambitHotAdapter.NoPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                        ((GambitHotAdapter.NoPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                    }else if(viewHolder instanceof GambitHotAdapter.BigPicViewholder) {
+                                        ((GambitHotAdapter.BigPicViewholder) viewHolder).likeTv.setText(String.valueOf(hotList.get(i).up_num));
+                                        ((GambitHotAdapter.BigPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                        ((GambitHotAdapter.BigPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                    }else if(viewHolder instanceof GambitHotAdapter.MoreViewholder) {
+                                        ((GambitHotAdapter.MoreViewholder) viewHolder).likeTv.setText(String.valueOf(hotList.get(i).up_num));
+                                        ((GambitHotAdapter.MoreViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                        ((GambitHotAdapter.MoreViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                    }
                                 }
                             }
 
@@ -810,11 +850,22 @@ public class HotGambitDetailActivity extends BaseActivity{
                                 if(mid == newList.get(i).id) {
                                     newList.get(i).is_up = 0;
                                     newList.get(i).up_num = newList.get(i).up_num-1;
+                                    if(viewHolder instanceof GambitCommonAdapter.NoPicViewholder) {
+                                        ((GambitCommonAdapter.NoPicViewholder) viewHolder).likeTv.setText(String.valueOf(hotList.get(i).up_num));
+                                        ((GambitCommonAdapter.NoPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                        ((GambitCommonAdapter.NoPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                    }else if(viewHolder instanceof GambitCommonAdapter.BigPicViewholder) {
+                                        ((GambitCommonAdapter.BigPicViewholder) viewHolder).likeTv.setText(String.valueOf(hotList.get(i).up_num));
+                                        ((GambitCommonAdapter.BigPicViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                        ((GambitCommonAdapter.BigPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                    }else if(viewHolder instanceof GambitCommonAdapter.MoreViewholder) {
+                                        ((GambitCommonAdapter.MoreViewholder) viewHolder).likeTv.setText(String.valueOf(hotList.get(i).up_num));
+                                        ((GambitCommonAdapter.MoreViewholder) viewHolder).likeTv.setTextColor(getResources().getColor(R.color.FF666666));
+                                        ((GambitCommonAdapter.MoreViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                    }
                                 }
                             }
                         }
-                        hotGambitAdapter.notifyDataSetChanged();
-                        newGambitAdapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -822,7 +873,7 @@ public class HotGambitDetailActivity extends BaseActivity{
     }
 
     //用户id 	type、1=添加关注，2=取消关注
-    public void follow(int parentid,int type) {
+    public void follow(int parentid,int type,RecyclerView.ViewHolder viewHolder) {
         Map<String, String> map = new HashMap<>();
         map.put("parentid", parentid + "");
         map.put("type", type + "");
@@ -836,29 +887,67 @@ public class HotGambitDetailActivity extends BaseActivity{
                             for(int i = 0;i<hotList.size();i++) {
                                 if(parentid == hotList.get(i).userid) {
                                     hotList.get(i).is_follow = 1;
+                                    if(viewHolder instanceof GambitHotAdapter.NoPicViewholder) {
+                                        ((GambitHotAdapter.NoPicViewholder)viewHolder).attentionTv.setText("已关注");
+                                        ((GambitHotAdapter.NoPicViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                    }else if(viewHolder instanceof GambitHotAdapter.BigPicViewholder) {
+                                        ((GambitHotAdapter.BigPicViewholder)viewHolder).attentionTv.setText("已关注");
+                                        ((GambitHotAdapter.BigPicViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                    }else if(viewHolder instanceof GambitHotAdapter.MoreViewholder) {
+                                        ((GambitHotAdapter.MoreViewholder)viewHolder).attentionTv.setText("已关注");
+                                        ((GambitHotAdapter.MoreViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                    }
                                 }
                             }
 
                             for(int i = 0;i<newList.size();i++) {
                                 if(parentid == newList.get(i).userid) {
                                     newList.get(i).is_follow = 1;
+                                    if(viewHolder instanceof GambitCommonAdapter.NoPicViewholder) {
+                                        ((GambitCommonAdapter.NoPicViewholder)viewHolder).attentionTv.setText("已关注");
+                                        ((GambitCommonAdapter.NoPicViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                    }else if(viewHolder instanceof GambitCommonAdapter.BigPicViewholder) {
+                                        ((GambitCommonAdapter.BigPicViewholder)viewHolder).attentionTv.setText("已关注");
+                                        ((GambitCommonAdapter.BigPicViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                    }else if(viewHolder instanceof GambitCommonAdapter.MoreViewholder) {
+                                        ((GambitCommonAdapter.MoreViewholder)viewHolder).attentionTv.setText("已关注");
+                                        ((GambitCommonAdapter.MoreViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                    }
                                 }
                             }
                         }else {
                             for(int i = 0;i<hotList.size();i++) {
                                 if(parentid == hotList.get(i).userid) {
                                     hotList.get(i).is_follow = 0;
+                                    if(viewHolder instanceof GambitHotAdapter.NoPicViewholder) {
+                                        ((GambitHotAdapter.NoPicViewholder)viewHolder).attentionTv.setText("关注");
+                                        ((GambitHotAdapter.NoPicViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                    }else if(viewHolder instanceof GambitHotAdapter.BigPicViewholder) {
+                                        ((GambitHotAdapter.BigPicViewholder)viewHolder).attentionTv.setText("关注");
+                                        ((GambitHotAdapter.BigPicViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                    }else if(viewHolder instanceof GambitHotAdapter.MoreViewholder) {
+                                        ((GambitHotAdapter.MoreViewholder)viewHolder).attentionTv.setText("关注");
+                                        ((GambitHotAdapter.MoreViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                    }
                                 }
                             }
 
                             for(int i = 0;i<newList.size();i++) {
                                 if(parentid == newList.get(i).userid) {
                                     newList.get(i).is_follow = 0;
+                                    if(viewHolder instanceof GambitCommonAdapter.NoPicViewholder) {
+                                        ((GambitCommonAdapter.NoPicViewholder)viewHolder).attentionTv.setText("关注");
+                                        ((GambitCommonAdapter.NoPicViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                    }else if(viewHolder instanceof GambitCommonAdapter.BigPicViewholder) {
+                                        ((GambitCommonAdapter.BigPicViewholder)viewHolder).attentionTv.setText("关注");
+                                        ((GambitCommonAdapter.BigPicViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                    }else if(viewHolder instanceof GambitCommonAdapter.MoreViewholder) {
+                                        ((GambitCommonAdapter.MoreViewholder)viewHolder).attentionTv.setText("关注");
+                                        ((GambitCommonAdapter.MoreViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                    }
                                 }
                             }
                         }
-                        hotGambitAdapter.notifyDataSetChanged();
-                        newGambitAdapter.notifyDataSetChanged();
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
                     }
                 });

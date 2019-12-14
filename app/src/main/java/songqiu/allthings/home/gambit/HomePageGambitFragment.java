@@ -38,6 +38,7 @@ import songqiu.allthings.adapter.BannerLooperAdapter;
 import songqiu.allthings.adapter.GambitCommonAdapter;
 import songqiu.allthings.adapter.HeaderViewAdapter;
 import songqiu.allthings.adapter.HomeHotGambitAdapter;
+import songqiu.allthings.adapter.LookTabClassAdapter;
 import songqiu.allthings.adapter.TaskSignAdapter;
 import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.base.BaseFragment;
@@ -65,6 +66,7 @@ import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
+import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.WindowUtil;
@@ -168,8 +170,8 @@ public class HomePageGambitFragment extends BaseFragment {
         hotRecyclerView.setAdapter(hotAdapter);
         hotAdapter.setHomeHotGambitListener(new HomeHotGambitListener() {
             @Override
-            public void addFollow(String url, int id, List<HomeGambitHotBean> item) {
-                follow(url,id,item);
+            public void addFollow(String url, int id,RecyclerView.ViewHolder viewHolder) {
+                follow(url,id,viewHolder);
             }
         });
     }
@@ -213,13 +215,13 @@ public class HomePageGambitFragment extends BaseFragment {
 
         newGambitAdapter.setGambitItemListener(new GambitItemListener() {
             @Override
-            public void addLike(String url, int type, int mid) { //点赞
-                like(url,type,mid);
+            public void addLike(String url, int type, int mid,RecyclerView.ViewHolder viewHolder) { //点赞
+                like(url,type,mid,viewHolder);
             }
 
             @Override
-            public void addFollow(int parentid,int type) { //关注
-                follow(parentid,type);
+            public void addFollow(int parentid,int type,RecyclerView.ViewHolder viewHolder) { //关注
+                follow(parentid,type,viewHolder);
             }
 
             @Override
@@ -547,7 +549,7 @@ public class HomePageGambitFragment extends BaseFragment {
         });
     }
 
-    public void follow(String url,int talk_id,List<HomeGambitHotBean> item) {
+    public void follow(String url,int talk_id,RecyclerView.ViewHolder viewHolder) {
         Map<String, String> map = new HashMap<>();
         map.put("talk_id", talk_id + "");
         OkHttp.post(activity, url, map, new RequestCallBack() {
@@ -557,22 +559,33 @@ public class HomePageGambitFragment extends BaseFragment {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(url.contains("follow_talk_no")) { //取消关注
-                                for(int i = 0;i<item.size();i++) {
-                                    if(talk_id == item.get(i).id) {
-                                        item.get(i).is_follow = 0;
-                                        item.get(i).follow_num = item.get(i).follow_num -1;
+                            if(url.equals(HttpServicePath.URL_FOLLOW_TALK_NO)) { //取消关注
+                                if(null == list) return;
+                                for(int i = 0;i<list.size();i++) {
+                                    if(talk_id == list.get(i).id) {
+                                        list.get(i).is_follow = 0;
+                                        list.get(i).follow_num = list.get(i).follow_num -1;
+                                        if(viewHolder instanceof HomeHotGambitAdapter.GambitViewholder) {
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setText("关注");
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionNumTv.setText(ShowNumUtil.showUnm(list.get(i).follow_num)+" 关注");
+                                        }
                                     }
                                 }
                             }else {
-                                for(int i = 0;i<item.size();i++) {
-                                    if(talk_id == item.get(i).id) {
-                                        item.get(i).is_follow = 1;
-                                        item.get(i).follow_num = item.get(i).follow_num +1;
+                                if(null == list) return;
+                                for(int i = 0;i<list.size();i++) {
+                                    if(talk_id == list.get(i).id) {
+                                        list.get(i).is_follow = 1;
+                                        list.get(i).follow_num = list.get(i).follow_num +1;
+                                        if(viewHolder instanceof HomeHotGambitAdapter.GambitViewholder) {
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setText("已关注");
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionNumTv.setText(ShowNumUtil.showUnm(list.get(i).follow_num)+" 关注");
+                                        }
                                     }
                                 }
                             }
-                            hotAdapter.notifyDataSetChanged();
                         }
                     });
                 }
@@ -581,7 +594,7 @@ public class HomePageGambitFragment extends BaseFragment {
     }
 
     //点赞/取消点赞
-    public void like(String url,int type,int mid) {
+    public void like(String url,int type,int mid,RecyclerView.ViewHolder viewHolder) {
         Map<String,String> map = new HashMap<>();
         map.put("type",type+"");
         map.put("mid",mid+"");
@@ -597,8 +610,19 @@ public class HomePageGambitFragment extends BaseFragment {
                                     if(mid == newList.get(i).id) {
                                         newList.get(i).is_up = 1;
                                         newList.get(i).up_num = newList.get(i).up_num+1;
-                                        newGambitAdapter.notifyDataSetChanged();
-                                        LogUtil.i("1");
+                                        if(viewHolder instanceof GambitCommonAdapter.NoPicViewholder) {
+                                            ((GambitCommonAdapter.NoPicViewholder) viewHolder).likeTv.setText(String.valueOf(newList.get(i).up_num));
+                                            ((GambitCommonAdapter.NoPicViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FFDE5C51));
+                                            ((GambitCommonAdapter.NoPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                        }else if(viewHolder instanceof GambitCommonAdapter.BigPicViewholder) {
+                                            ((GambitCommonAdapter.BigPicViewholder) viewHolder).likeTv.setText(String.valueOf(newList.get(i).up_num));
+                                            ((GambitCommonAdapter.BigPicViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FFDE5C51));
+                                            ((GambitCommonAdapter.BigPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                        }else if(viewHolder instanceof GambitCommonAdapter.MoreViewholder) {
+                                            ((GambitCommonAdapter.MoreViewholder) viewHolder).likeTv.setText(String.valueOf(newList.get(i).up_num));
+                                            ((GambitCommonAdapter.MoreViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FFDE5C51));
+                                            ((GambitCommonAdapter.MoreViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
+                                        }
                                     }
                                 }
                             }else {
@@ -606,8 +630,19 @@ public class HomePageGambitFragment extends BaseFragment {
                                     if(mid == newList.get(i).id) {
                                         newList.get(i).is_up = 0;
                                         newList.get(i).up_num = newList.get(i).up_num-1;
-                                        newGambitAdapter.notifyDataSetChanged();
-                                        LogUtil.i("2");
+                                        if(viewHolder instanceof GambitCommonAdapter.NoPicViewholder) {
+                                            ((GambitCommonAdapter.NoPicViewholder) viewHolder).likeTv.setText(String.valueOf(newList.get(i).up_num));
+                                            ((GambitCommonAdapter.NoPicViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FF666666));
+                                            ((GambitCommonAdapter.NoPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                        }else if(viewHolder instanceof GambitCommonAdapter.BigPicViewholder) {
+                                            ((GambitCommonAdapter.BigPicViewholder) viewHolder).likeTv.setText(String.valueOf(newList.get(i).up_num));
+                                            ((GambitCommonAdapter.BigPicViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FF666666));
+                                            ((GambitCommonAdapter.BigPicViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                        }else if(viewHolder instanceof GambitCommonAdapter.MoreViewholder) {
+                                            ((GambitCommonAdapter.MoreViewholder) viewHolder).likeTv.setText(String.valueOf(newList.get(i).up_num));
+                                            ((GambitCommonAdapter.MoreViewholder) viewHolder).likeTv.setTextColor(activity.getResources().getColor(R.color.FF666666));
+                                            ((GambitCommonAdapter.MoreViewholder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
+                                        }
                                     }
                                 }
                             }
@@ -619,7 +654,7 @@ public class HomePageGambitFragment extends BaseFragment {
     }
 
     //用户id 	type、1=添加关注，2=取消关注
-    public void follow(int parentid,int type) {
+    public void follow(int parentid,int type,RecyclerView.ViewHolder viewHolder) {
         Map<String, String> map = new HashMap<>();
         map.put("parentid", parentid + "");
         map.put("type", type + "");
@@ -634,28 +669,56 @@ public class HomePageGambitFragment extends BaseFragment {
                                 for(int i = 0;i<list.size();i++) {
                                     if(parentid == list.get(i).userid) {
                                         list.get(i).is_follow = 1;
-                                        hotAdapter.notifyDataSetChanged();
+                                        list.get(i).follow_num = list.get(i).follow_num +1;
+                                        if(viewHolder instanceof HomeHotGambitAdapter.GambitViewholder) {
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setText("已关注");
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionNumTv.setText(ShowNumUtil.showUnm(list.get(i).follow_num)+" 关注");
+                                        }
                                     }
                                 }
 
                                 for(int i = 0;i<newList.size();i++) {
                                     if(parentid == newList.get(i).userid) {
                                         newList.get(i).is_follow = 1;
-                                        newGambitAdapter.notifyDataSetChanged();
+                                        if(viewHolder instanceof GambitCommonAdapter.NoPicViewholder) {
+                                            ((GambitCommonAdapter.NoPicViewholder)viewHolder).attentionTv.setText("已关注");
+                                            ((GambitCommonAdapter.NoPicViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                        }else if(viewHolder instanceof GambitCommonAdapter.BigPicViewholder) {
+                                            ((GambitCommonAdapter.BigPicViewholder)viewHolder).attentionTv.setText("已关注");
+                                            ((GambitCommonAdapter.BigPicViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                        }else if(viewHolder instanceof GambitCommonAdapter.MoreViewholder) {
+                                            ((GambitCommonAdapter.MoreViewholder)viewHolder).attentionTv.setText("已关注");
+                                            ((GambitCommonAdapter.MoreViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                        }
                                     }
                                 }
                             }else {
                                 for(int i = 0;i<list.size();i++) {
                                     if(parentid == list.get(i).userid) {
                                         list.get(i).is_follow = 0;
-                                        hotAdapter.notifyDataSetChanged();
+                                        list.get(i).follow_num = list.get(i).follow_num-1;
+                                        if(viewHolder instanceof HomeHotGambitAdapter.GambitViewholder) {
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setText("关注");
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionNumTv.setText(ShowNumUtil.showUnm(list.get(i).follow_num)+" 关注");
+                                        }
                                     }
                                 }
 
                                 for(int i = 0;i<newList.size();i++) {
                                     if(parentid == newList.get(i).userid) {
                                         newList.get(i).is_follow = 0;
-                                        newGambitAdapter.notifyDataSetChanged();
+                                        if(viewHolder instanceof GambitCommonAdapter.NoPicViewholder) {
+                                            ((GambitCommonAdapter.NoPicViewholder)viewHolder).attentionTv.setText("关注");
+                                            ((GambitCommonAdapter.NoPicViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                        }else if(viewHolder instanceof GambitCommonAdapter.BigPicViewholder) {
+                                            ((GambitCommonAdapter.BigPicViewholder)viewHolder).attentionTv.setText("关注");
+                                            ((GambitCommonAdapter.BigPicViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                        }else if(viewHolder instanceof GambitCommonAdapter.MoreViewholder) {
+                                            ((GambitCommonAdapter.MoreViewholder)viewHolder).attentionTv.setText("关注");
+                                            ((GambitCommonAdapter.MoreViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                        }
                                     }
                                 }
                             }

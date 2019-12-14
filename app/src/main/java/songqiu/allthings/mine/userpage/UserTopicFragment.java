@@ -139,12 +139,12 @@ public class UserTopicFragment extends BaseFragment {
         //事件
         adapter.setGambitItemListener(new GambitItemListener() {
             @Override
-            public void addLike(String url, int type, int mid) {
+            public void addLike(String url, int type, int mid,RecyclerView.ViewHolder viewHolder) {
                 like(url,type,mid);
             }
 
             @Override
-            public void addFollow(int parentid,int type) {
+            public void addFollow(int parentid,int type,RecyclerView.ViewHolder viewHolder) {
                 follow(parentid,type);
             }
 

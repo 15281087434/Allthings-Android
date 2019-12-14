@@ -25,6 +25,7 @@ import java.util.Map;
 import butterknife.BindView;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
+import songqiu.allthings.adapter.HomeHotGambitAdapter;
 import songqiu.allthings.adapter.SearchTopicAdapter;
 import songqiu.allthings.adapter.SearchTxtAdapter;
 import songqiu.allthings.base.BaseFragment;
@@ -38,6 +39,7 @@ import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.HomeHotGambitListener;
 import songqiu.allthings.mine.attention.AttentionActivity;
 import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.VibratorUtil;
 
@@ -116,8 +118,8 @@ public class SearchTopicFragment extends BaseFragment {
 
         adapter.setHomeHotGambitListener(new HomeHotGambitListener() {
             @Override
-            public void addFollow(String url, int id, List<HomeGambitHotBean> item) {
-                follow(url,id,item);
+            public void addFollow(String url, int id,RecyclerView.ViewHolder viewHolder) {
+                follow(url,id,viewHolder);
             }
         });
     }
@@ -164,7 +166,7 @@ public class SearchTopicFragment extends BaseFragment {
         });
     }
 
-    public void follow(String url,int talk_id,List<HomeGambitHotBean> item) {
+    public void follow(String url,int talk_id,RecyclerView.ViewHolder viewHolder) {
         Map<String, String> map = new HashMap<>();
         map.put("talk_id", talk_id + "");
         OkHttp.post(activity, url, map, new RequestCallBack() {
@@ -175,19 +177,30 @@ public class SearchTopicFragment extends BaseFragment {
                         @Override
                         public void run() {
                             if(url.contains("follow_talk_no")) { //取消关注
-                                for(int i = 0;i<item.size();i++) {
-                                    if(talk_id == item.get(i).id) {
-                                        item.get(i).is_follow = 0;
+                                for(int i = 0;i<list.size();i++) {
+                                    if(talk_id == list.get(i).id) {
+                                        list.get(i).is_follow = 0;
+                                        list.get(i).follow_num = list.get(i).follow_num -1;
+                                        if(viewHolder instanceof SearchTopicAdapter.GambitViewholder) {
+                                            ((SearchTopicAdapter.GambitViewholder)viewHolder).attentionTv.setText("关注");
+                                            ((SearchTopicAdapter.GambitViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
+                                            ((SearchTopicAdapter.GambitViewholder)viewHolder).attentionNumTv.setText(ShowNumUtil.showUnm(list.get(i).follow_num)+" 关注");
+                                        }
                                     }
                                 }
                             }else {
-                                for(int i = 0;i<item.size();i++) {
-                                    if(talk_id == item.get(i).id) {
-                                        item.get(i).is_follow = 1;
+                                for(int i = 0;i<list.size();i++) {
+                                    if(talk_id == list.get(i).id) {
+                                        list.get(i).is_follow = 1;
+                                        list.get(i).follow_num = list.get(i).follow_num +1;
+                                        if(viewHolder instanceof HomeHotGambitAdapter.GambitViewholder) {
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setText("已关注");
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
+                                            ((HomeHotGambitAdapter.GambitViewholder)viewHolder).attentionNumTv.setText(ShowNumUtil.showUnm(list.get(i).follow_num)+" 关注");
+                                        }
                                     }
                                 }
                             }
-                            adapter.notifyDataSetChanged();
                         }
                     });
                 }

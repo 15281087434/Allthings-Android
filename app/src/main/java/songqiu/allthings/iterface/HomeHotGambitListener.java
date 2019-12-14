@@ -1,5 +1,7 @@
 package songqiu.allthings.iterface;
 
+import android.support.v7.widget.RecyclerView;
+
 import java.util.List;
 
 import songqiu.allthings.bean.HomeGambitHotBean;
@@ -14,5 +16,5 @@ import songqiu.allthings.bean.HomeGambitHotBean;
  *
  ********/
 public interface HomeHotGambitListener {
-    void addFollow(String url,int parentid,List<HomeGambitHotBean> item);
+    void addFollow(String url,int parentid,RecyclerView.ViewHolder viewHolder);
 }

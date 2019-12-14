@@ -573,7 +573,6 @@ public class MainActivity extends BaseMainActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         unregisterReceiver(myBroadcastReceiver);
-        SharedPreferencedUtils.setString(this,SharedPreferencedUtils.USER_ICON,"");
     }
 
 

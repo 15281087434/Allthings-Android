@@ -72,8 +72,7 @@ public class SearchTopicAdapter extends RecyclerView.Adapter {
         ((GambitViewholder)viewHolder).contentTv.setText(list.get(position).title);
         ((GambitViewholder)viewHolder).hotNumTv.setText(list.get(position).hot_num+" 热度");
         ((GambitViewholder)viewHolder).attentionNumTv.setText(list.get(position).follow_num+" 关注");
-        int is_follow = list.get(position).is_follow;
-        if (0 == is_follow) {
+        if (0 == list.get(position).is_follow) {
             ((GambitViewholder)viewHolder).attentionTv.setText("关注");
             ((GambitViewholder)viewHolder).attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
         }else {
@@ -85,13 +84,13 @@ public class SearchTopicAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View view) {
                 if(ClickUtil.onClick()) {
-                    if(0 == is_follow) {
+                    if(0 == list.get(position).is_follow) {
                         if (null != homeHotGambitListener) {
-                            homeHotGambitListener.addFollow(HttpServicePath.URL_FOLLOW_TALK,list.get(position).id,list);
+                            homeHotGambitListener.addFollow(HttpServicePath.URL_FOLLOW_TALK,list.get(position).id,viewHolder);
                         }
                     }else {
                         if (null != homeHotGambitListener) {
-                            homeHotGambitListener.addFollow(HttpServicePath.URL_FOLLOW_TALK_NO,list.get(position).id,list);
+                            homeHotGambitListener.addFollow(HttpServicePath.URL_FOLLOW_TALK_NO,list.get(position).id,viewHolder);
                         }
                     }
                 }
@@ -137,9 +136,9 @@ public class SearchTopicAdapter extends RecyclerView.Adapter {
         @BindView(R.id.hotNumTv)
         TextView hotNumTv;
         @BindView(R.id.attentionNumTv)
-        TextView attentionNumTv;
+        public TextView attentionNumTv;
         @BindView(R.id.attentionTv)
-        TextView attentionTv;
+        public TextView attentionTv;
         @BindView(R.id.line)
         TextView line;
         @BindView(R.id.moreLayout)

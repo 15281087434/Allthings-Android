@@ -85,6 +85,7 @@ public class GuideActivity extends BaseActivity {
         }
         StatusBarUtils.with(GuideActivity.this).init().setStatusTextColorWhite(true, GuideActivity.this);
         getDelRd();
+        SharedPreferencedUtils.setString(this,SharedPreferencedUtils.USER_ICON,"");
         boolean first = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.FIRST_ENTER_GUIDE,true);
         if(first) {
             decideFirst();
