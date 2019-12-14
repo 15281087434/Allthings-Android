@@ -55,16 +55,11 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.GlideCircleTransform;
-import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.TokenManager;
-import songqiu.allthings.util.helper.GlideApp;
-import songqiu.allthings.util.helper.GlideRoundTransform;
 import songqiu.allthings.videodetail.VideoDetailActivity;
-import songqiu.allthings.view.DialogFileUploading;
-import songqiu.allthings.view.DialogUploadVersion;
 import songqiu.allthings.view.banner.ColorPointHintView;
 import songqiu.allthings.view.banner.RollPagerView;
 

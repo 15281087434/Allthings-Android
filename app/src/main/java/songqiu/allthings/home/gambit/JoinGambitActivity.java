@@ -231,6 +231,7 @@ public class JoinGambitActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         linkedList.remove(position);
                         gvAlbumAdapter.notifyDataSetChanged();
+                        picnumTv.setText(linkedList.size()-1+"/9");
                         if(null != arryPic && arryPic.size()>= position) {
                             arryPic.remove(position);
                         }
@@ -290,21 +291,15 @@ public class JoinGambitActivity extends BaseActivity {
         if (requestCode == TAKE_PHOTOS_RESULT && resultCode == RESULT_OK) {
             String path = FileUtil.checkLsength(FileUtil
                     .getTakePhotoPath("songqiu.allthings"));
-            linkedList.add(linkedList.size() - 1, path);
             uploadPic(path);
-            picnumTv.setText(linkedList.size()-1+"/9");
-            gvAlbumAdapter.notifyDataSetChanged();
         }else {
             BoxingDefaultConfig.getCompressedBitmap(this, requestCode, data, new BoxingDefaultConfig.OnLuBanCompressed() {
                 @Override
                 public void onCompressed(List<File> files) {
                     if (null != files && 0 != files.size()) {
                         for (int i = 0; i < files.size(); i++) {
-                            linkedList.add(linkedList.size() - 1, files.get(i).getPath());
                             uploadPic(files.get(i).getPath());
                         }
-                        picnumTv.setText(linkedList.size()-1+"/9");
-                        gvAlbumAdapter.notifyDataSetChanged();
                     }
                 }
             });
@@ -327,6 +322,10 @@ public class JoinGambitActivity extends BaseActivity {
                         UploadPicBean uploadPicBean = gson.fromJson(data, UploadPicBean.class);
                         if(null == uploadPicBean) return;
                         arryPic.add(uploadPicBean.imgurl);
+                        //
+                        linkedList.add(linkedList.size() - 1, path);
+                        picnumTv.setText(linkedList.size()-1+"/9");
+                        gvAlbumAdapter.notifyDataSetChanged();
                     }
                 });
             }
