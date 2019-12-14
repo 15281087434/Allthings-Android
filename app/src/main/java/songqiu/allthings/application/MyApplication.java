@@ -195,14 +195,14 @@ public class MyApplication extends Application {
 
     public ArrayMap<Integer, Integer> colorBackGroundMap = new ArrayMap<Integer, Integer>() {
         {
-            put(0, R.color.FF33755FCF);
-            put(1, R.color.FF33755FCF);
-            put(2, R.color.FF339B820D);
-            put(3, R.color.FF330E909E);
-            put(4, R.color.FF33648854);
-            put(5, R.color.FF33B45D6B);
-            put(6, R.color.FF33206EDB);
-            put(7, R.color.FF33A47858);
+            put(0, R.drawable.label_item1_normal);
+            put(1, R.drawable.label_item1_normal);
+            put(2, R.drawable.label_item2_normal);
+            put(3, R.drawable.label_item3_normal);
+            put(4, R.drawable.label_item4_normal);
+            put(5, R.drawable.label_item5_normal);
+            put(6, R.drawable.label_item6_normal);
+            put(7, R.drawable.label_item7_normal);
         }
     };
 

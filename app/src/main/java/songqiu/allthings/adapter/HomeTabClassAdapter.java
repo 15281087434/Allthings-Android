@@ -318,6 +318,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
             holder.deleteImg.setVisibility(View.GONE);
         }else {
             holder.setTopTv.setVisibility(View.GONE);
+            holder.deleteImg.setVisibility(View.VISIBLE);
         }
     }
 
@@ -430,6 +431,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
             holder.deleteImg.setVisibility(View.GONE);
         }else {
             holder.setTopTv.setVisibility(View.GONE);
+            holder.deleteImg.setVisibility(View.VISIBLE);
         }
     }
 
@@ -531,6 +533,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
             holder.deleteImg.setVisibility(View.GONE);
         }else {
             holder.setTopTv.setVisibility(View.GONE);
+            holder.deleteImg.setVisibility(View.VISIBLE);
         }
     }
 
@@ -613,6 +616,9 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         if (1 < item.get(position).ranklist) {
             holder.setTopTv.setVisibility(View.VISIBLE);
             holder.deleteImg.setVisibility(View.GONE);
+        }else {
+            holder.setTopTv.setVisibility(View.GONE);
+            holder.deleteImg.setVisibility(View.VISIBLE);
         }
 
     }
@@ -686,6 +692,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
             holder.deleteImg.setVisibility(View.GONE);
         }else {
             holder.setTopTv.setVisibility(View.GONE);
+            holder.deleteImg.setVisibility(View.VISIBLE);
         }
 
     }
