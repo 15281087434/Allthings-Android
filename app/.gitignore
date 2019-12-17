@@ -1,7 +1,7 @@
 /build
 *.iml
 *.apk
-.gradle
+*.gradle
 .idea
 /gradlew
 /gradlew.bat
