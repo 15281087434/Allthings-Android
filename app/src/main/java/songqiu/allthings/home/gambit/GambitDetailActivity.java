@@ -131,8 +131,6 @@ public class GambitDetailActivity extends BaseActivity {
 
     @BindView(R.id.smartRefreshLayout)
     SmartRefreshLayout smartRefreshLayout;
-//    @BindView(R.id.scrollView)
-//    MyScrollView scrollView;
     @BindView(R.id.showEdit)
     TextView showEdit;
     @BindView(R.id.lookCommentImg)
