@@ -72,6 +72,7 @@ import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.GlideLoadUtils;
 import songqiu.allthings.util.PicParameterUtil;
+import songqiu.allthings.util.ScrollLinearLayoutManager;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
@@ -258,9 +259,15 @@ public class GambitDetailActivity extends BaseActivity {
     public void initRecly() {
         item1 = new ArrayList<>();
         videoDetailCommentAdapter = new CommentListAdapter(this, item1);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        commentRecycl.setLayoutManager(linearLayoutManager);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        commentRecycl.setLayoutManager(linearLayoutManager);
+
+        ScrollLinearLayoutManager linearLayoutManager1 = new ScrollLinearLayoutManager(this);
+        linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager1.setmCanVerticalScroll(false);
+        commentRecycl.setLayoutManager(linearLayoutManager1);
+
         mHeadView = LayoutInflater.from(this).inflate(R.layout.head_gambit_detail, null, false);
         initHeadView();
         mHeaderAdapter = new HeaderViewAdapter(videoDetailCommentAdapter);
