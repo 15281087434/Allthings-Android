@@ -24,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.internal.fuseable.HasUpstreamObservableSource;
 import pl.droidsonroids.gif.GifImageView;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
@@ -145,6 +146,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -257,6 +259,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -358,6 +361,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -439,6 +443,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));

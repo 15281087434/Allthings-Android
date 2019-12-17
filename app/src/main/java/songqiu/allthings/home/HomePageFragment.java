@@ -316,14 +316,18 @@ public class HomePageFragment extends BaseFragment {
             public IPagerTitleView getTitleView(Context context, final int index) {
                 //设置Magicindicator的一种标题模式， 标题模式有很多种，这是最基本的一种
                 simplePagerTitleView = new SimplePagerTitleView(context);
-                simplePagerTitleView.setText(list.get(index).name);
-                //设置被选中的item颜色
-                if(isGhost) {
-                    simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.normal_color));
+                if(list.get(index).tag.equals("ghost")) {
+                    if(isGhost) {
+                        simplePagerTitleView.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.icon_tab_ghost_selected), null, null, null);
+                    }else {
+                        simplePagerTitleView.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.icon_tab_ghost), null, null, null);
+                    }
                 }else {
-                    simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.black));
+                    simplePagerTitleView.setText(list.get(index).name);
+                    if(!isGhost) {
+                        simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.black));
+                    }
                 }
-                //设置为被选中item颜色
                 simplePagerTitleView.setNormalColor(getResources().getColor(R.color.FFA2A2A2));
                 simplePagerTitleView.setSelectedSize(19);
                 simplePagerTitleView.setDeselectedSize(18);
