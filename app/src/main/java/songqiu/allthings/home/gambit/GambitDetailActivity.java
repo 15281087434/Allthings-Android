@@ -257,15 +257,9 @@ public class GambitDetailActivity extends BaseActivity {
     public void initRecly() {
         item1 = new ArrayList<>();
         videoDetailCommentAdapter = new CommentListAdapter(this, item1);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-//        commentRecycl.setLayoutManager(linearLayoutManager);
-
-        ScrollLinearLayoutManager linearLayoutManager1 = new ScrollLinearLayoutManager(this);
-        linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
-        linearLayoutManager1.setmCanVerticalScroll(false);
-        commentRecycl.setLayoutManager(linearLayoutManager1);
-
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        commentRecycl.setLayoutManager(linearLayoutManager);
         mHeadView = LayoutInflater.from(this).inflate(R.layout.head_gambit_detail, null, false);
         initHeadView();
         mHeaderAdapter = new HeaderViewAdapter(videoDetailCommentAdapter);
