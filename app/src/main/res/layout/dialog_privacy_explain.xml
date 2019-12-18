@@ -20,7 +20,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="用户隐私政策说明"
+                    android:text="用户协议和隐私政策"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/x_ui_px_30.0"
                     android:textStyle="bold"
@@ -36,64 +36,19 @@
                     android:textColor="@color/FF666666"
                     android:textSize="@dimen/x_ui_px_32.0"
                     android:lineSpacingExtra="@dimen/x_ui_px_12.0"
-                    android:text="本《隐私政策》旨在向你说明："/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/x_ui_px_40.0"
-                android:layout_marginRight="@dimen/x_ui_px_40.0"
-                android:layout_marginTop="@dimen/x_ui_px_20.0"
-                android:textColor="@color/FF666666"
-                android:textSize="@dimen/x_ui_px_32.0"
-                android:lineSpacingExtra="@dimen/x_ui_px_8.0"
-                android:text="1. 在浏览推荐、发布内容、注册登录时，我们会收集部分必要的信息以提供服务。"/>
+                    android:text="请你务必仔细阅读，并充分理解“用户协议”和“隐私政策”的各项条款。并且悉知在你浏览推荐、发布内容、注册登录时，我们会收集部分必要的信息以提供服务，在功能及服务需要使用权限时，我们会明确提示并请求你的授权。"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/x_ui_px_40.0"
-                android:layout_marginRight="@dimen/x_ui_px_40.0"
-                android:layout_marginTop="@dimen/x_ui_px_20.0"
-                android:textColor="@color/FF666666"
-                android:textSize="@dimen/x_ui_px_32.0"
-                android:lineSpacingExtra="@dimen/x_ui_px_8.0"
-                android:text="2. 在功能及服务需要使用定位、照片、相机权限时，会明确提示并请求你的授权，我们不会在功能及服务不需要时而通过授权权限去收集信息。"/>
-
-            <TextView
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="@dimen/x_ui_px_40.0"
-                android:layout_marginRight="@dimen/x_ui_px_40.0"
-                android:layout_marginTop="@dimen/x_ui_px_20.0"
-                android:textColor="@color/FF666666"
-                android:textSize="@dimen/x_ui_px_32.0"
-                android:lineSpacingExtra="@dimen/x_ui_px_8.0"
-                android:text="3. 我们将严格保障你的个人信息安全，我们不会在未经过你同意的情况下，向第三方获取、共享及对外提供你的信息。"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/x_ui_px_20.0"
                     android:layout_marginLeft="@dimen/x_ui_px_40.0"
-                    android:layout_marginRight="@dimen/x_ui_px_40.0">
+                    android:layout_marginRight="@dimen/x_ui_px_40.0"
+                    android:textColor="@color/FF666666"
+                    android:textSize="@dimen/x_ui_px_32.0"
+                    android:lineSpacingExtra="@dimen/x_ui_px_12.0"
+                    />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="查看完整版"
-                        android:textSize="@dimen/x_ui_px_32.0"
-                        android:textColor="@color/bottom_tab_tv"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:id="@+id/tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="《隐私政策》"
-                        android:textSize="@dimen/x_ui_px_32.0"
-                        android:textColor="@color/FF6FA4EB"
-                        android:textStyle="bold"/>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
