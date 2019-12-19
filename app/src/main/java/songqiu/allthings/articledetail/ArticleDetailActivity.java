@@ -620,7 +620,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             contentWeb.loadDataWithBaseURL(null, getHtmlDataNight(articleDetailBean.content), "text/html", "utf-8", null);
         }
         likeNumTv.setText(ShowNumUtil.showUnm(articleDetailBean.up_num));
-        if(0==articleDetailBean.is_original) {
+        if(1==articleDetailBean.is_original) {
             originalTv.setText("原创");
             originalTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
         }else {
