@@ -47,7 +47,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:background="@color/FFF9FAFD"
-            android:weightSum="4"
+            android:weightSum="5"
             >
 
             <LinearLayout
@@ -126,6 +126,30 @@
                     android:textColor="@color/FF666666"
                     android:textSize="@dimen/x_ui_px_22.0" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/creationLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/creationImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/tab_creation_normal" />
+
+                <TextView
+                    android:id="@+id/creationTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="创作"
+                    android:textColor="@color/FF666666"
+                    android:textSize="@dimen/x_ui_px_22.0" />
             </LinearLayout>
 
             <LinearLayout
