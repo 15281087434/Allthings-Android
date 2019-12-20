@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -138,6 +140,19 @@ public class CurrentClassificationActivity extends BaseActivity {
                 if(null != item && 0!= item.size()) {
                     getUnLikeParameter(item.get(position).articleid,item.get(position).type,position);
                 }
+            }
+        });
+        smartRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                pageNo = pageNo+1;
+                getData(pageNo,false);
+            }
+
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                pageNo = 1;
+                getData(pageNo,true);
             }
         });
     }

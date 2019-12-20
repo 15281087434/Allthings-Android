@@ -58,6 +58,7 @@ import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.upload.UpdateManager;
 import songqiu.allthings.view.DialogPermission;
+import songqiu.allthings.view.DialogPrivacyExplain;
 import songqiu.allthings.view.DialogUploadVersion;
 
 /*******
@@ -85,13 +86,8 @@ public class GuideActivity extends BaseActivity {
         }
         StatusBarUtils.with(GuideActivity.this).init().setStatusTextColorWhite(true, GuideActivity.this);
         getDelRd();
+        decidePrivacyExplainFirst();
         SharedPreferencedUtils.setString(this,SharedPreferencedUtils.USER_ICON,"");
-        boolean first = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.FIRST_ENTER_GUIDE,true);
-        if(first) {
-            decideFirst();
-        }else {
-            applyPermission();
-        }
     }
 
     @Override
@@ -233,8 +229,36 @@ public class GuideActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    public void decideFirst() {
+    public void decidePrivacyExplainFirst() {
         //判断是否第一次进入应用
+        boolean first = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.FIRST_ENTER,true);
+        if(first) {
+            DialogPrivacyExplain dialogPrivacyExplain = new DialogPrivacyExplain(this);
+            dialogPrivacyExplain.setCanceledOnTouchOutside(false);
+            dialogPrivacyExplain.setCancelable(false);
+            dialogPrivacyExplain.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogPrivacyExplain.show();
+            dialogPrivacyExplain.setDialogPrivacyListener(new DialogPrivacyListener() {
+                    @Override
+                    public void cancel() {
+                        finish();
+                    }
+
+                    @Override
+                    public void sure() {
+                        SharedPreferencedUtils.setBoolean(GuideActivity.this,SharedPreferencedUtils.FIRST_ENTER,false);
+                        decidePermissionFirst();
+                    }
+                });
+        }else {
+            decidePermissionFirst();
+        }
+    }
+
+    public void decidePermissionFirst() {
+        boolean first = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.FIRST_ENTER_GUIDE,true);
+        if(first) {
+            //判断是否第一次进入应用
             DialogPermission dialogPermission = new DialogPermission(this);
             dialogPermission.setCanceledOnTouchOutside(false);
             dialogPermission.setCancelable(false);
@@ -252,6 +276,9 @@ public class GuideActivity extends BaseActivity {
                     applyPermission();
                 }
             });
+        }else {
+            applyPermission();
+        }
     }
 
     public void applyPermission() {
