@@ -107,7 +107,6 @@ public class HomePageFragment extends BaseFragment {
     DialogNewRedEnvelope dialog;
 
     MainActivity activity;
-    DialogPrivacyExplain dialogPrivacyExplain;
     public int indexPosition = 1;
     SimplePagerTitleView simplePagerTitleView;
     boolean isGhost;
@@ -135,7 +134,6 @@ public class HomePageFragment extends BaseFragment {
         }
         getTabData();
         getNewRedSate();
-        decideFirst();
     }
 
     @Override
@@ -163,7 +161,6 @@ public class HomePageFragment extends BaseFragment {
                             NewRedStateBean newRedStateBean = gson.fromJson(data, NewRedStateBean.class);
                             if(null != newRedStateBean && newRedStateBean.is_red == 0) {
                                 initDialog();
-                                decideFirst();
                             }
                         }
                     });
@@ -374,31 +371,6 @@ public class HomePageFragment extends BaseFragment {
                 reviceNewRed();
             }
         });
-    }
-
-    public void decideFirst() {
-        //判断是否第一次进入应用
-        boolean first = SharedPreferencedUtils.getBoolean(activity,SharedPreferencedUtils.FIRST_ENTER,true);
-        if(first) {
-            if(null == dialogPrivacyExplain) {
-                dialogPrivacyExplain = new DialogPrivacyExplain(activity);
-                dialogPrivacyExplain.setCanceledOnTouchOutside(false);
-                dialogPrivacyExplain.setCancelable(false);
-                dialogPrivacyExplain.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                dialogPrivacyExplain.show();
-                dialogPrivacyExplain.setDialogPrivacyListener(new DialogPrivacyListener() {
-                    @Override
-                    public void cancel() {
-                        activity.finish();
-                    }
-
-                    @Override
-                    public void sure() {
-                        SharedPreferencedUtils.setBoolean(activity,SharedPreferencedUtils.FIRST_ENTER,false);
-                    }
-                });
-            }
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
