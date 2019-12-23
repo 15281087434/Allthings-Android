@@ -573,6 +573,9 @@ public class OkHttp {
             @Override
             public void onFailure(Call call, IOException e) {
                 String error = "";
+                if(null != dialog) {
+                    dialog.disMiss();
+                }
                 if (e instanceof ConnectException) {
                     error = "网络状况不佳!";
                     Looper.prepare();
@@ -580,9 +583,6 @@ public class OkHttp {
                     Looper.loop();
                 } else {
 //                    error = "系统异常！";
-                }
-                if(null != dialog) {
-                    dialog.disMiss();
                 }
 //                Looper.prepare();
 //                Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
