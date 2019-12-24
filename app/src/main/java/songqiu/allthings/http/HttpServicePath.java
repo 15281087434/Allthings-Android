@@ -251,5 +251,12 @@ public class HttpServicePath {
     //标签搜索
     public static String URL_LABELS_SEARCH = BaseUrl+"labels_search";
 
+    //创作 数据标签
+    public static String URL_ARTICLE_LABEL = BaseUrl+"article_label";
+
+    //创作 作品管理
+    public static String URL_MANAGE_DATA = BaseUrl+"manage_data"; //type	是	int	1=未上架，2=已上架
+
+
 
 }

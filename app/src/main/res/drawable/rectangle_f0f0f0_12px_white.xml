@@ -6,7 +6,9 @@
     <solid android:color="@color/white" />
 
     <stroke
-        android:width="@dimen/x_ui_px_2.0"
+        android:width="1dp"
         android:color="@color/line_color" />
+
+    <corners android:radius="@dimen/x_ui_px_12.0" />
 
 </shape>

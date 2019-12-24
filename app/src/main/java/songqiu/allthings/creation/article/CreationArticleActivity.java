@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.base.BaseActivity;
@@ -42,7 +43,6 @@ public class CreationArticleActivity extends BaseActivity {
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_creation_article);
-        ButterKnife.bind(this);
     }
 
     @Override
@@ -56,16 +56,25 @@ public class CreationArticleActivity extends BaseActivity {
     public void modeUi(boolean isDay) {
         if(isDay) {
             shadowLayout.setVisibility(View.GONE);
-            StatusBarUtils.with(this)
-                    .setColor(getResources().getColor(R.color.FFF9FAFD))
-                    .init()
-                    .setStatusTextColorAndPaddingTop(true, this);
+//            StatusBarUtils.with(this)
+//                    .setColor(getResources().getColor(R.color.FFF9FAFD))
+//                    .init()
+//                    .setStatusTextColorAndPaddingTop(true, this);
         }else {
             shadowLayout.setVisibility(View.VISIBLE);
-            StatusBarUtils.with(this)
-                    .setColor(getResources().getColor(R.color.trans_6))
-                    .init()
-                    .setStatusTextColorAndPaddingTop(true, this);
+//            StatusBarUtils.with(this)
+//                    .setColor(getResources().getColor(R.color.trans_6))
+//                    .init()
+//                    .setStatusTextColorAndPaddingTop(true, this);
+        }
+    }
+
+    @OnClick({R.id.backImg})
+    public void onViewClick(View view) {
+        switch (view.getId()) {
+            case R.id.backImg:
+                finish();
+                break;
         }
     }
 

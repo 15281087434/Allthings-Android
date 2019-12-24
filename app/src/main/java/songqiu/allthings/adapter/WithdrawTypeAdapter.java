@@ -6,16 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import songqiu.allthings.R;
-import songqiu.allthings.bean.TaskSiginListBean;
 import songqiu.allthings.bean.WithdrawListBean;
-import songqiu.allthings.iterface.TaskSignListener;
 import songqiu.allthings.iterface.WithdrawListener;
 import songqiu.allthings.util.StringUtil;
 
@@ -83,7 +80,7 @@ public class WithdrawTypeAdapter extends BaseAdapter {
             viewHolder.hintTv.setTextColor(context.getResources().getColor(R.color.normal_color));
         }else {
             viewHolder.numTv.setTextColor(context.getResources().getColor(R.color.bottom_tab_tv));
-            viewHolder.layout.setBackgroundResource(R.drawable.rectangle_f0f0f0_white);
+            viewHolder.layout.setBackgroundResource(R.drawable.rectangle_f0f0f0_12px_white);
             viewHolder.selectImg.setVisibility(View.GONE);
             viewHolder.hintTv.setTextColor(context.getResources().getColor(R.color.FF999999));
         }
