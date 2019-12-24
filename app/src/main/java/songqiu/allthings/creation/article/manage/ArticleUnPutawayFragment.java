@@ -25,6 +25,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.Unbinder;
 import songqiu.allthings.R;
+import songqiu.allthings.adapter.ArticleUnPutawayAdapter;
 import songqiu.allthings.adapter.SearchTxtAdapter;
 import songqiu.allthings.base.BaseFragment;
 import songqiu.allthings.bean.SearchTxtBean;
@@ -58,6 +59,7 @@ public class ArticleUnPutawayFragment extends BaseFragment {
     SmartRefreshLayout smartRefreshLayout;
 
     int pageNo = 1;
+    ArticleUnPutawayAdapter adapter;
 
     ArticleManageActivity activity;
 
