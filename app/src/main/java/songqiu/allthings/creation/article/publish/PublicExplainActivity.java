@@ -1,4 +1,4 @@
-package songqiu.allthings.creation.article;
+package songqiu.allthings.creation.article.publish;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -25,22 +25,17 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.BuddingBoxingActivity;
 import songqiu.allthings.adapter.ArticleCoverAdapter;
 import songqiu.allthings.adapter.ArticleLabelsAdapter;
-import songqiu.allthings.adapter.GvAlbumAdapter;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.ArticleLabelsBean;
-import songqiu.allthings.bean.LookVideoBean;
-import songqiu.allthings.bean.UserInfoBean;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
-import songqiu.allthings.mine.help.MyQuestionActivity;
 import songqiu.allthings.util.BoxingDefaultConfig;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
@@ -53,10 +48,10 @@ import songqiu.allthings.view.GridViewInScroll;
  *
  *创建时间 2019/12/20
  *
- *类描述：写文章
+ *类描述：写文章标签
  *
  ********/
-public class CreationExplainActivity extends BaseActivity {
+public class PublicExplainActivity extends BaseActivity {
     @BindView(R.id.backImg)
     ImageView backImg;
     @BindView(R.id.titleTv)
@@ -134,7 +129,7 @@ public class CreationExplainActivity extends BaseActivity {
 
     public void initLabelGv() {
         articleLabelsList = new ArrayList<>();
-        labelsAdapter = new ArticleLabelsAdapter(CreationExplainActivity.this,articleLabelsList);
+        labelsAdapter = new ArticleLabelsAdapter(PublicExplainActivity.this,articleLabelsList);
         gridView.setAdapter(labelsAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -163,8 +158,8 @@ public class CreationExplainActivity extends BaseActivity {
             @Override
             public void addImage() {
                 Boxing.of(BoxingDefaultConfig.getInstance().getMultiConfig((maxNum+1) - linkedList.size()))
-                        .withIntent(CreationExplainActivity.this, BuddingBoxingActivity.class)
-                        .start(CreationExplainActivity.this, BoxingDefaultConfig.IMAGE_REQUEST_CODE);
+                        .withIntent(PublicExplainActivity.this, BuddingBoxingActivity.class)
+                        .start(PublicExplainActivity.this, BoxingDefaultConfig.IMAGE_REQUEST_CODE);
             }
 
             @Override

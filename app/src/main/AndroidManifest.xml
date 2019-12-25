@@ -216,19 +216,24 @@
             >
         </activity>
 
-        <activity android:name=".creation.article.CreationArticleActivity"
+        <activity android:name=".creation.article.publish.PublicArticleActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
             >
         </activity>
 
-        <activity android:name=".creation.article.CreationExplainActivity"
+        <activity android:name=".creation.article.publish.PublicExplainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             >
         </activity>
 
         <activity android:name=".creation.article.manage.ArticleManageActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+
+        <activity android:name=".creation.article.income.CreationIncomeActivity"
             android:screenOrientation="portrait"
             >
         </activity>

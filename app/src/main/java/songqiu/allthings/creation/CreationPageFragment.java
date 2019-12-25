@@ -8,9 +8,9 @@ import butterknife.OnClick;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.base.BaseFragment;
-import songqiu.allthings.creation.article.CreationArticleActivity;
-import songqiu.allthings.creation.article.CreationExplainActivity;
+import songqiu.allthings.creation.article.income.CreationIncomeActivity;
 import songqiu.allthings.creation.article.manage.ArticleManageActivity;
+import songqiu.allthings.creation.article.publish.PublicArticleActivity;
 import songqiu.allthings.iterface.DialogPrivacyListener;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.view.DialogArticleCommon;
@@ -79,7 +79,7 @@ public class CreationPageFragment extends BaseFragment{
                 break;
             case R.id.publishTv: //发布内容
                 if(ClickUtil.onClick()) {
-                    startActivity(new Intent(activity, CreationArticleActivity.class));
+                    startActivity(new Intent(activity, PublicArticleActivity.class));
                 }
                 break;
             case R.id.manageTv: //作品管理
@@ -90,7 +90,7 @@ public class CreationPageFragment extends BaseFragment{
                 break;
             case R.id.incomeTv: //创作收入
                 if (ClickUtil.onClick()) {
-
+                    startActivity(new Intent(activity, CreationIncomeActivity.class));
                 }
                 break;
             case R.id.planLayout: //计划招募
