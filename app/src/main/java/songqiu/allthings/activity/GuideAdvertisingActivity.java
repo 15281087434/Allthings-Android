@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 import songqiu.allthings.R;
 import songqiu.allthings.base.BaseActivity;
@@ -87,10 +88,10 @@ public class GuideAdvertisingActivity extends BaseActivity {
         File ads = FileUtil.getAdsFile(this, advertiseBean.url);
 
         if (ads.exists()) {
-            if (advertiseBean.type==2) {
+            if (advertiseBean.type == 2) {
                 //当广告类型为视频文件时播放缓存视频
                 player = new MediaPlayer();
-                player.setVolume(0,0);
+                player.setVolume(0, 0);
 
                 try {
                     player.setDataSource(ads.getAbsolutePath());
@@ -100,7 +101,7 @@ public class GuideAdvertisingActivity extends BaseActivity {
                 player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                     @Override
                     public boolean onError(MediaPlayer mp, int what, int extra) {
-                        if(surfaceView!=null) {
+                        if (surfaceView != null) {
                             surfaceView.setVisibility(View.GONE);
                         }
                         return false;
@@ -144,9 +145,19 @@ public class GuideAdvertisingActivity extends BaseActivity {
 
                     }
                 });
+            } else if (advertiseBean.url.endsWith("gif")) {
+                try {
+                    GifDrawable gifDrawable = new GifDrawable(FileUtil.getAdsFile(this, advertiseBean.url).getAbsolutePath());
+                    img.setImageDrawable(gifDrawable);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    img.setImageBitmap(BitmapFactory.decodeFile(FileUtil.getAdsFile(this, advertiseBean.url).getAbsolutePath()));
+                }
+
+
+
             } else {
                 img.setImageBitmap(BitmapFactory.decodeFile(FileUtil.getAdsFile(this, advertiseBean.url).getAbsolutePath()));
-
             }
         } else {
             Intent intent = new Intent(GuideAdvertisingActivity.this, MainActivity.class);
@@ -161,7 +172,7 @@ public class GuideAdvertisingActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(player!=null){
+        if (player != null) {
             player.stop();
             player.release();
         }
