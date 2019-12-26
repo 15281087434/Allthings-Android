@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/common_title_layout"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_margin="@dimen/x_ui_px_30.0"
+
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/x_ui_px_36.0"
+            android:layout_height="@dimen/x_ui_px_36.0"
+            android:layout_marginRight="@dimen/x_ui_px_6.0"
+            android:src="@mipmap/auth_original"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="申请原创作者认证"
+            android:textColor="#666666"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/font_ui_px_34.0"
+     />
+        <TextView
+            android:id="@+id/tv_auth_original"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="可申请"
+            android:lines="1"
+            android:ellipsize="end"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical"
+            android:textSize="@dimen/font_ui_px_34.0"
+            android:drawablePadding="@dimen/x_ui_px_20.0"
+            android:textColor="@drawable/cashout_textcolor_selector"
+            android:drawableRight="@mipmap/arrow_next"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_2.0"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"
+        android:background="#F0F0F0"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_margin="@dimen/x_ui_px_30.0"
+
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/x_ui_px_36.0"
+            android:layout_height="@dimen/x_ui_px_36.0"
+            android:layout_marginRight="@dimen/x_ui_px_6.0"
+            android:src="@mipmap/auth_sign"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="申请签约作者认证"
+            android:textColor="#666666"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/font_ui_px_34.0" />
+        <TextView
+            android:id="@+id/tv_auth_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="原创作者可申请"
+            android:textColor="@drawable/cashout_textcolor_selector"
+            android:enabled="false"
+            android:lines="1"
+            android:ellipsize="end"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical"
+            android:drawablePadding="@dimen/x_ui_px_20.0"
+            android:textSize="@dimen/font_ui_px_34.0"
+            android:drawableRight="@mipmap/arrow_next"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_2.0"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"
+        android:background="#F0F0F0"/>
+</LinearLayout>

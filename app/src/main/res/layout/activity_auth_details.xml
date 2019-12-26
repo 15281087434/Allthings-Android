@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/common_title_layout"/>
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/x_ui_px_40.0"
+        android:layout_weight="1"/>
+    <Button
+        android:id="@+id/btn_auth"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_88.0"
+        android:textSize="@dimen/font_ui_px_36.0"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/x_ui_px_58.0"
+        android:layout_marginLeft="@dimen/x_ui_px_156.0"
+        android:background="@drawable/auth_details_button_bg"
+        android:layout_marginRight="@dimen/x_ui_px_156.0"
+        android:text="申请原创作者认证"/>
+</LinearLayout>
