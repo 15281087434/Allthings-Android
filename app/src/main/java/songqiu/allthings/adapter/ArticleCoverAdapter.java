@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.LinkedList;
 
 import songqiu.allthings.R;
 import songqiu.allthings.util.AlbumUtil;
+import songqiu.allthings.util.LogUtil;
 
 /*******
  *
@@ -70,7 +73,7 @@ public class ArticleCoverAdapter extends BaseAdapter {
         }else{
             viewHolder = (GvVH) convertView.getTag();
         }
-        if(position==gvList.size()-1){
+        if(position == gvList.size()-1){
             viewHolder.removeImg.setVisibility(View.GONE);
             if(gvList.size()>maxNum) {
                 viewHolder.img.setVisibility(View.GONE);
@@ -151,8 +154,11 @@ public class ArticleCoverAdapter extends BaseAdapter {
 
         Bitmap bitmap = BitmapFactory.decodeFile(mPath, bmOptions);
 
-
-		/* Associate the Bitmap to the ImageView */
-        mImageView.setImageBitmap(AlbumUtil.fitBitmap(bitmap,targetW,targetH));
+        if(null != bitmap) {
+            /* Associate the Bitmap to the ImageView */
+            mImageView.setImageBitmap(AlbumUtil.fitBitmap(bitmap,targetW,targetH));
+        }else {
+            Glide.with(mContext).load(mPath).into(mImageView);
+        }
     }
 }

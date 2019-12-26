@@ -7,6 +7,7 @@
 
 
     <TextView
+        android:id="@+id/titleTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/x_ui_px_30.0"
@@ -19,6 +20,7 @@
         android:ellipsize="end"/>
 
     <TextView
+        android:id="@+id/timeTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/x_ui_px_30.0"
@@ -34,6 +36,7 @@
         android:layout_marginTop="@dimen/x_ui_px_20.0">
 
         <TextView
+            android:id="@+id/stateTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/x_ui_px_35.0"
@@ -43,6 +46,7 @@
             android:layout_centerVertical="true"/>
 
         <TextView
+            android:id="@+id/deleteTv"
             android:layout_width="@dimen/x_ui_px_134.0"
             android:layout_height="@dimen/x_ui_px_54.0"
             android:textSize="@dimen/x_ui_px_27.0"

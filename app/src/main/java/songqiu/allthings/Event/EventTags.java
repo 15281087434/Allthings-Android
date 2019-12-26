@@ -102,6 +102,10 @@ public class EventTags {
 
     }
 
+    public static class BindAlipay {
+
+    }
+
     public static class DeleteComment {
         public int mid;
         public int subMid;

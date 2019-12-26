@@ -18,6 +18,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,16 +27,21 @@ import butterknife.BindView;
 import butterknife.Unbinder;
 import songqiu.allthings.R;
 import songqiu.allthings.adapter.ArticleUnPutawayAdapter;
+import songqiu.allthings.adapter.HeaderViewAdapter;
 import songqiu.allthings.adapter.SearchTxtAdapter;
 import songqiu.allthings.base.BaseFragment;
+import songqiu.allthings.bean.ArticleUnPutawayBean;
 import songqiu.allthings.bean.SearchTxtBean;
+import songqiu.allthings.bean.UserInfoBean;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.iterface.DialogPrivacyListener;
 import songqiu.allthings.search.SearchActivity;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.VibratorUtil;
+import songqiu.allthings.view.DialogArticleCommon;
 
 /*******
  *
@@ -60,6 +66,9 @@ public class ArticleUnPutawayFragment extends BaseFragment {
 
     int pageNo = 1;
     ArticleUnPutawayAdapter adapter;
+    List<ArticleUnPutawayBean> item;
+    View mFooterView;
+    HeaderViewAdapter mHeaderAdapter;
 
     ArticleManageActivity activity;
 
@@ -81,31 +90,69 @@ public class ArticleUnPutawayFragment extends BaseFragment {
 
     @Override
     public void init() {
-//        initRecyc();
+        initRecyc();
         getUnPutaway(pageNo,1,false);
     }
 
-//    public void initRecyc() {
-//        adapter = new SearchTxtAdapter(activity,item);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
-//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-//        recycle.setLayoutManager(linearLayoutManager);
-//        recycle.setAdapter(adapter);
-//
-//        smartRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
-//            @Override
-//            public void onLoadmore(RefreshLayout refreshlayout) {
-//                pageNo = pageNo+1;
-//                getTxtSearch(pageNo,activity.keyword,false);
-//            }
-//
-//            @Override
-//            public void onRefresh(RefreshLayout refreshlayout) {
-//                pageNo = 1;
-//                getTxtSearch(pageNo,activity.keyword,true);
-//            }
-//        });
-//    }
+    public void initRecyc() {
+        mFooterView = LayoutInflater.from(activity).inflate(R.layout.layout_source_hint, null, false);
+        item = new ArrayList<>();
+        adapter = new ArticleUnPutawayAdapter(activity,item);
+        mHeaderAdapter = new HeaderViewAdapter(adapter);
+        mHeaderAdapter.addFooterView(mFooterView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recycle.setLayoutManager(linearLayoutManager);
+        recycle.setAdapter(mHeaderAdapter);
+        adapter.setDeleteListener(new ArticleUnPutawayAdapter.DeleteListener() {
+            @Override
+            public void delete(int articleid) {
+                initDeleteDialog(articleid);
+            }
+        });
+        smartRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                pageNo = pageNo+1;
+                getUnPutaway(pageNo,1,false);
+            }
+
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                pageNo = 1;
+                getUnPutaway(pageNo,1,true);
+            }
+        });
+    }
+
+    public void initDeleteDialog(int articleid) {
+        DialogArticleCommon dialogArticleCommon = new DialogArticleCommon(activity,"删除","删除后内容不可恢复，确认删除吗？");
+        dialogArticleCommon.setCanceledOnTouchOutside(true);
+        dialogArticleCommon.setCancelable(true);
+        dialogArticleCommon.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialogArticleCommon.show();
+        dialogArticleCommon.setDialogPrivacyListener(new DialogPrivacyListener() {
+            @Override
+            public void cancel() {
+
+            }
+
+            @Override
+            public void sure() {
+                for(int i = 0;i<item.size();i++) {
+                    if(item.get(i).id == articleid) {
+                        item.remove(i);
+                        adapter.notifyDataSetChanged();
+                        if(0 == item.size()) {
+                            emptyLayout.setVisibility(View.VISIBLE);
+                            recycle.setVisibility(View.GONE);
+                        }
+                        deleteArticle(articleid);
+                    }
+                }
+            }
+        });
+    }
 
     public void getUnPutaway(int pageNo,int type,boolean ringDown) {
         Map<String,Object> map = new HashMap<>();
@@ -122,18 +169,18 @@ public class ArticleUnPutawayFragment extends BaseFragment {
                             Gson gson = new Gson();
                             String data = gson.toJson(baseBean.data);
                             if(StringUtil.isEmpty(data)) return;
-//                            List<SearchTxtBean> searchTxtList = gson.fromJson(data, new TypeToken<List<SearchTxtBean>>() {}.getType());
-//                            if(pageNo ==1) {
-//                                item.clear();
-//                                if(null == searchTxtList || 0 == searchTxtList.size()) {
-//                                    emptyLayout.setVisibility(View.VISIBLE);
-//                                    smartRefreshLayout.setVisibility(View.GONE);
-//                                }
-//                            }
-//                            if(null != searchTxtList && 0!= searchTxtList.size()) {
-//                                item.addAll(searchTxtList);
-//                                adapter.notifyDataSetChanged();
-//                            }
+                            List<ArticleUnPutawayBean> articleUnPutawayList = gson.fromJson(data, new TypeToken<List<ArticleUnPutawayBean>>() {}.getType());
+                            if(pageNo ==1) {
+                                item.clear();
+                                if(null == articleUnPutawayList || 0 == articleUnPutawayList.size()) {
+                                    emptyLayout.setVisibility(View.VISIBLE);
+                                    recycle.setVisibility(View.GONE);
+                                }
+                            }
+                            if(null != articleUnPutawayList && 0!= articleUnPutawayList.size()) {
+                                item.addAll(articleUnPutawayList);
+                                adapter.notifyDataSetChanged();
+                            }
                             if(ringDown) {
                                 new Handler().postDelayed(new Runnable(){
                                     public void run() {
@@ -144,6 +191,22 @@ public class ArticleUnPutawayFragment extends BaseFragment {
                         }
                     });
                 }
+            }
+        });
+    }
+
+    public void deleteArticle(int articleid) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("articleid",articleid);
+        OkHttp.postObject(activity, HttpServicePath.URL_DEL_DATA, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
             }
         });
     }

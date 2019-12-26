@@ -12,7 +12,12 @@ import songqiu.allthings.creation.article.income.CreationIncomeActivity;
 import songqiu.allthings.creation.article.manage.ArticleManageActivity;
 import songqiu.allthings.creation.article.publish.PublicArticleActivity;
 import songqiu.allthings.iterface.DialogPrivacyListener;
+import songqiu.allthings.login.LoginActivity;
+import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
+import songqiu.allthings.util.SharedPreferencedUtils;
+import songqiu.allthings.util.StringUtil;
+import songqiu.allthings.util.TokenManager;
 import songqiu.allthings.view.DialogArticleCommon;
 
 /*******
@@ -27,6 +32,8 @@ import songqiu.allthings.view.DialogArticleCommon;
 public class CreationPageFragment extends BaseFragment{
 
     MainActivity activity;
+    String token;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -48,29 +55,17 @@ public class CreationPageFragment extends BaseFragment{
 
     }
 
-//    @OnClick(R.id.tv)
-//    public void onViewClick() {
-//        DialogArticleCommon dialogArticleCommon = new DialogArticleCommon(activity,"保存","是否保存已输入内容？");
-//        dialogArticleCommon.setCanceledOnTouchOutside(true);
-//        dialogArticleCommon.setCancelable(true);
-//        dialogArticleCommon.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//        dialogArticleCommon.show();
-//        dialogArticleCommon.setDialogPrivacyListener(new DialogPrivacyListener() {
-//            @Override
-//            public void cancel() {
-//
-//            }
-//
-//            @Override
-//            public void sure() {
-//
-//            }
-//        });
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        token = TokenManager.getRequestToken(activity);
+    }
+
 
     @OnClick({R.id.authenticationTv,R.id.publishTv,R.id.manageTv,R.id.incomeTv,R.id.planLayout,R.id.strategyLayout,R.id.explainLayout,
                 R.id.activityLayout,R.id.guideLayout})
     public void onViewClick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.authenticationTv: //验证身份证
                 if(ClickUtil.onClick()) {
@@ -79,18 +74,35 @@ public class CreationPageFragment extends BaseFragment{
                 break;
             case R.id.publishTv: //发布内容
                 if(ClickUtil.onClick()) {
-                    startActivity(new Intent(activity, PublicArticleActivity.class));
+                    if(StringUtil.isEmpty(token)) {
+                        intent = new Intent(activity,LoginActivity.class);
+                        startActivity(intent);
+                    }else {
+                        intent = new Intent(activity,PublicArticleActivity.class);
+                        startActivity(intent);
+                    }
                 }
                 break;
             case R.id.manageTv: //作品管理
                 if (ClickUtil.onClick()) {
-//                    startActivity(new Intent(activity, CreationExplainActivity.class));
-                    startActivity(new Intent(activity, ArticleManageActivity.class));
+                    if(StringUtil.isEmpty(token)) {
+                        intent = new Intent(activity,LoginActivity.class);
+                        startActivity(intent);
+                    }else {
+                        intent = new Intent(activity,ArticleManageActivity.class);
+                        startActivity(intent);
+                    }
                 }
                 break;
             case R.id.incomeTv: //创作收入
                 if (ClickUtil.onClick()) {
-                    startActivity(new Intent(activity, CreationIncomeActivity.class));
+                    if(StringUtil.isEmpty(token)) {
+                        intent = new Intent(activity,LoginActivity.class);
+                        startActivity(intent);
+                    }else {
+                        intent = new Intent(activity,CreationIncomeActivity.class);
+                        startActivity(intent);
+                    }
                 }
                 break;
             case R.id.planLayout: //计划招募

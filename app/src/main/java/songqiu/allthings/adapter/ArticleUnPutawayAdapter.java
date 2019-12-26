@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -15,7 +13,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import songqiu.allthings.R;
-import songqiu.allthings.bean.SystemListBean;
+import songqiu.allthings.bean.ArticleUnPutawayBean;
+import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 
 /*******
@@ -30,12 +29,14 @@ import songqiu.allthings.util.DateUtil;
 public class ArticleUnPutawayAdapter extends RecyclerView.Adapter<ArticleUnPutawayAdapter.ViewHolder> {
 
     Context context;
-    List<SystemListBean> list;
+    List<ArticleUnPutawayBean> list;
+    DeleteListener deleteListener;
 
-    public ArticleUnPutawayAdapter(Context context, List<SystemListBean> list) {
+    public ArticleUnPutawayAdapter(Context context, List<ArticleUnPutawayBean> list) {
         this.context = context;
         this.list = list;
     }
+
 
     @NonNull
     @Override
@@ -46,9 +47,28 @@ public class ArticleUnPutawayAdapter extends RecyclerView.Adapter<ArticleUnPutaw
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-//        viewHolder.userName.setText(list.get(position).title);
-//        viewHolder.contentTv.setText(list.get(position).content);
-
+        viewHolder.titleTv.setText(list.get(position).title);
+        long time = list.get(position).created * 1000;
+        viewHolder.timeTv.setText("发布时间:"+DateUtil.getTimeBig4(time));
+        //0审核中  3未审核  4已下架
+        if(list.get(position).status == 0 ) {
+            viewHolder.stateTv.setText("审核中");
+            viewHolder.stateTv.setTextColor(context.getResources().getColor(R.color.normal_color));
+        }else if(list.get(position).status == 3 ) {
+            viewHolder.stateTv.setText("未过审");
+            viewHolder.stateTv.setTextColor(context.getResources().getColor(R.color.FF5098FC));
+        }else if(list.get(position).status == 4 ) {
+            viewHolder.stateTv.setText("已下架");
+            viewHolder.stateTv.setTextColor(context.getResources().getColor(R.color.FF999999));
+        }
+        viewHolder.deleteTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ClickUtil.onClick()) {
+                    deleteListener.delete(list.get(position).id);
+                }
+            }
+        });
     }
 
 
@@ -63,10 +83,23 @@ public class ArticleUnPutawayAdapter extends RecyclerView.Adapter<ArticleUnPutaw
         return list.size();
     }
 
+    public interface DeleteListener {
+        void delete(int articleid);
+    }
+
+    public void setDeleteListener(DeleteListener deleteListener) {
+        this.deleteListener = deleteListener;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-
+        @BindView(R.id.titleTv)
+        TextView titleTv;
+        @BindView(R.id.timeTv)
+        TextView timeTv;
+        @BindView(R.id.stateTv)
+        TextView stateTv;
+        @BindView(R.id.deleteTv)
+        TextView deleteTv;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

@@ -254,6 +254,31 @@ public class HttpServicePath {
     //创作 数据标签
     public static String URL_ARTICLE_LABEL = BaseUrl+"article_label";
 
+    //保存文章
+    public static String URL_SAVES_ARTICLE = BaseUrl+"saves_article";
+
+    //上传加载数据
+    public static String URL_SAVE_DATA = BaseUrl+"save_data";
+
+    //上传发布数据
+    public static String URL_ADD_ARTICLE = BaseUrl+"add_article";
+
+    //上传- 删除数据
+    public static String URL_DEL_DATA = BaseUrl+"del_data";
+
+    //上传-申请稿酬/下架
+    public static String URL_SQ_DATA = BaseUrl+"sq_data";
+
+    //创造收入
+    public static String URL_CREATE_COME = BaseUrl+"create_come";
+
+
+
+
+
+
+
+
     //创作 作品管理
     public static String URL_MANAGE_DATA = BaseUrl+"manage_data"; //type	是	int	1=未上架，2=已上架
 
