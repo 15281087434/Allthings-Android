@@ -37,4 +37,13 @@ public class UserBean {
     public String invitation_code;
     public String token;
     public int user_status;
+    private String level;
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
 }

@@ -28,6 +28,7 @@ import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.iterface.HomeHotGambitListener;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
@@ -84,6 +85,8 @@ public class HomeHotGambitAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(list.get(position).icon).apply(options).into(((GambitViewholder)viewHolder).userIcon);
+
+        ((GambitViewholder)viewHolder).ivLevel.setImageResource(ImageResUtils.getLevelRes(list.get(position).level));
         ((GambitViewholder)viewHolder).contentTv.setText(list.get(position).title);
         ((GambitViewholder)viewHolder).hotNumTv.setText(ShowNumUtil.showUnm(list.get(position).hot_num)+" 热度");
         ((GambitViewholder)viewHolder).attentionNumTv.setText(ShowNumUtil.showUnm(list.get(position).follow_num)+" 关注");
@@ -162,6 +165,8 @@ public class HomeHotGambitAdapter extends RecyclerView.Adapter {
         RelativeLayout more;
         @BindView(R.id.layout)
         RelativeLayout layout;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
 
         public GambitViewholder(View itemView) {
             super(itemView);

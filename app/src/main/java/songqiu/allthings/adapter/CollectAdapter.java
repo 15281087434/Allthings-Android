@@ -32,6 +32,7 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.videodetail.VideoDetailActivity;
@@ -132,6 +133,8 @@ public class CollectAdapter extends RecyclerView.Adapter {
         } else if (holder instanceof BigPicViewholder) {
             setBigPicData((BigPicViewholder) holder, position);
         }
+
+
     }
 
     public void setNoPicData(NoPicViewholder holder, int position) {
@@ -146,6 +149,10 @@ public class CollectAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(homeSubitemBean.avatar).apply(options).into(holder.userIcon);
+
+
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(homeSubitemBean.level));
+
 
         holder.titleTv.setText(homeSubitemBean.title);
         holder.describeTv.setText(homeSubitemBean.descriptions);
@@ -187,7 +194,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.attentionImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     listener.cancelCollect(1, homeSubitemBean.articleid, position);
                 }
             }
@@ -196,15 +203,15 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     int is_up = homeSubitemBean.is_up;
                     if (0 == is_up) {
                         if (null != listener) {
-                            listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                            listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean, holder);
                         }
                     } else {
                         if (null != listener) {
-                            listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                            listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean, holder);
                         }
                     }
                 }
@@ -214,7 +221,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null != listener) {
                         listener.addShare(position, 1);
                     }
@@ -246,6 +253,10 @@ public class CollectAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(homeSubitemBean.avatar).apply(options).into(holder.userIcon);
+
+
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(homeSubitemBean.level));
+
 
         RequestOptions options1 = new RequestOptions()
                 .error(R.mipmap.pic_default_small)
@@ -310,11 +321,11 @@ public class CollectAdapter extends RecyclerView.Adapter {
                     int is_up = homeSubitemBean.is_up;
                     if (0 == is_up) {
                         if (null != listener) {
-                            listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                            listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean, holder);
                         }
                     } else {
                         if (null != listener) {
-                            listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                            listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean, holder);
                         }
                     }
                 }
@@ -356,6 +367,9 @@ public class CollectAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(homeSubitemBean.avatar).apply(options).into(holder.userIcon);
+
+
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(homeSubitemBean.level));
 
         RequestOptions options1 = new RequestOptions()
                 .error(R.mipmap.pic_default_small)
@@ -420,11 +434,11 @@ public class CollectAdapter extends RecyclerView.Adapter {
                     int is_up = homeSubitemBean.is_up;
                     if (0 == is_up) {
                         if (null != listener) {
-                            listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                            listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean, holder);
                         }
                     } else {
                         if (null != listener) {
-                            listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                            listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean, holder);
                         }
                     }
                 }
@@ -467,8 +481,12 @@ public class CollectAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(homeSubitemBean.avatar).apply(options).into(holder.userIcon);
-        if(null != item.get(position).photos) {
-            ImageTextMorePicAdapter gambitMorePicAdapter = new ImageTextMorePicAdapter(context,item.get(position).photos);
+
+
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(homeSubitemBean.level));
+
+        if (null != item.get(position).photos) {
+            ImageTextMorePicAdapter gambitMorePicAdapter = new ImageTextMorePicAdapter(context, item.get(position).photos);
             holder.gridView.setAdapter(gambitMorePicAdapter);
             holder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -532,11 +550,11 @@ public class CollectAdapter extends RecyclerView.Adapter {
                     int is_up = homeSubitemBean.is_up;
                     if (0 == is_up) {
                         if (null != listener) {
-                            listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                            listener.addLike(HttpServicePath.URL_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean, holder);
                         }
                     } else {
                         if (null != listener) {
-                            listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean,holder);
+                            listener.addLike(HttpServicePath.URL_NO_LIKE, 1, homeSubitemBean.articleid, homeSubitemBean, holder);
                         }
                     }
                 }
@@ -572,7 +590,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
         String path = homeSubitemBean.video_url;
         String image = homeSubitemBean.photo;
         String descriptions = homeSubitemBean.descriptions;
-        if(!StringUtil.isEmpty(path)) {
+        if (!StringUtil.isEmpty(path)) {
             HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(descriptions).setPath(path).setImagePath(image).setSaveProgress(false).builder();
             VideoControl control = new VideoControl(context);
             control.setInfo(info);
@@ -583,6 +601,10 @@ public class CollectAdapter extends RecyclerView.Adapter {
                 .error(R.mipmap.head_default)
                 .placeholder(R.mipmap.head_default);
         Glide.with(context).load(homeSubitemBean.avatar).apply(options).into(holder.userIcon);
+
+
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(homeSubitemBean.level));
+
         holder.titleTv.setText(homeSubitemBean.title);
         holder.userName.setText(homeSubitemBean.user_nickname);
         //判断时间 昨天  今天
@@ -633,11 +655,11 @@ public class CollectAdapter extends RecyclerView.Adapter {
                     int is_up = homeSubitemBean.is_up;
                     if (0 == is_up) {
                         if (null != listener) {
-                            listener.addLike(HttpServicePath.URL_LIKE, 2, homeSubitemBean.articleid, homeSubitemBean,holder);
+                            listener.addLike(HttpServicePath.URL_LIKE, 2, homeSubitemBean.articleid, homeSubitemBean, holder);
                         }
                     } else {
                         if (null != listener) {
-                            listener.addLike(HttpServicePath.URL_NO_LIKE, 2, homeSubitemBean.articleid, homeSubitemBean,holder);
+                            listener.addLike(HttpServicePath.URL_NO_LIKE, 2, homeSubitemBean.articleid, homeSubitemBean, holder);
                         }
                     }
                 }
@@ -708,6 +730,8 @@ public class CollectAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
 
         public NoPicViewholder(View itemView) {
             super(itemView);
@@ -746,6 +770,8 @@ public class CollectAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
 
         public BigPicViewholder(View itemView) {
             super(itemView);
@@ -785,6 +811,8 @@ public class CollectAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.userLayout)
         RelativeLayout userLayout;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
 
         public RightPicViewholder(View itemView) {
             super(itemView);
@@ -821,6 +849,9 @@ public class CollectAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
+
         public MorePicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -857,6 +888,8 @@ public class CollectAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.userLayout)
         RelativeLayout userLayout;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
 
         public Viewholder(View itemView) {
             super(itemView);

@@ -27,6 +27,7 @@ import songqiu.allthings.iterface.CancelAttentionGambitListener;
 import songqiu.allthings.iterface.CancelAttentionListener;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 
@@ -70,6 +71,7 @@ public class AttentionGambitAdapter extends RecyclerView.Adapter<AttentionGambit
             }
         }
         Glide.with(context).load(attentionGambitBean.icon).apply(options).into(holder.userIcon);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.userName.setText(attentionGambitBean.title);
         holder.hotTv.setText(ShowNumUtil.showUnm(attentionGambitBean.hot_num)+" 热度");
         holder.attentionTv.setText(ShowNumUtil.showUnm(attentionGambitBean.follow_num)+" 关注");
@@ -124,6 +126,8 @@ public class AttentionGambitAdapter extends RecyclerView.Adapter<AttentionGambit
         LinearLayout layout;
         @BindView(R.id.line)
         View line;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

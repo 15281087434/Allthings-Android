@@ -35,6 +35,8 @@ import songqiu.allthings.util.TokenManager;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.theme.ThemeManager;
 
+import static songqiu.allthings.util.SharedPreferencedUtils.USER_LEVEL;
+
 /*******
  *
  *Created by 杨延辉
@@ -135,6 +137,7 @@ public class SettingActivity extends BaseActivity {
                 SharedPreferencedUtils.setString(SettingActivity.this, "SYSAVATAR", "");
                 SharedPreferencedUtils.setString(SettingActivity.this, "SYSINVITATIONCODE", "");
                 SharedPreferencedUtils.setInteger(SettingActivity.this, "SYSUSERID", 0);
+                SharedPreferencedUtils.setString(SettingActivity.this,SharedPreferencedUtils.USER_LEVEL,"0");
                 SharedPreferencedUtils.setString(this,SharedPreferencedUtils.USER_ICON,"");
                 SharedPreferencedUtils.setBoolean(SettingActivity.this,SharedPreferencedUtils.LOGIN,false);
                 intent = new Intent(SettingActivity.this,LoginActivity.class);

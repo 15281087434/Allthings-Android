@@ -11,22 +11,37 @@
         android:layout_height="@dimen/x_ui_px_200.0"
         android:orientation="horizontal"
         >
-
-        <ImageView
-            android:id="@+id/userIcon"
-            android:layout_width="@dimen/x_ui_px_72.0"
-            android:layout_height="@dimen/x_ui_px_72.0"
+        <FrameLayout
+            android:id="@+id/fl_userIcon"
+            android:layout_width="wrap_content"
             android:layout_marginLeft="@dimen/x_ui_px_30.0"
-            android:src="@mipmap/head_default"
+
             android:layout_marginTop="@dimen/x_ui_px_28.0"
-            />
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/userIcon"
+                android:layout_width="@dimen/x_ui_px_72.0"
+                android:layout_height="@dimen/x_ui_px_72.0"
+                android:src="@mipmap/head_default"
+
+                />
+            <ImageView
+                    android:id="@+id/iv_level"
+                    android:layout_width="@dimen/x_ui_px_20.0"
+                    android:layout_height="@dimen/x_ui_px_20.0"
+                    android:layout_gravity="end|bottom"
+
+
+                />
+        </FrameLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginLeft="@dimen/x_ui_px_12.0"
             android:layout_marginRight="@dimen/x_ui_px_30.0"
-            android:layout_toRightOf="@+id/userIcon">
+            android:layout_toRightOf="@+id/fl_userIcon">
 
             <LinearLayout
                 android:layout_width="wrap_content"

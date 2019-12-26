@@ -12,13 +12,26 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
        >
-
-        <ImageView
-            android:id="@+id/userIcon"
-            android:layout_width="@dimen/x_ui_px_72.0"
-            android:layout_height="@dimen/x_ui_px_72.0"
+        <FrameLayout
+            android:id="@+id/fl_userIcon"
+            android:layout_width="wrap_content"
             android:layout_marginLeft="@dimen/x_ui_px_30.0"
-            android:src="@mipmap/head_default"/>
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/userIcon"
+                android:layout_width="@dimen/x_ui_px_72.0"
+                android:layout_height="@dimen/x_ui_px_72.0"
+                android:src="@mipmap/head_default"/>
+            <ImageView
+                    android:id="@+id/iv_level"
+                    android:layout_width="@dimen/x_ui_px_20.0"
+                    android:layout_height="@dimen/x_ui_px_20.0"
+                    android:layout_gravity="end|bottom"
+
+
+                />
+        </FrameLayout>
+
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

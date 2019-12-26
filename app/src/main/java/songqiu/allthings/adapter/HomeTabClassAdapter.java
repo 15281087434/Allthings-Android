@@ -3,8 +3,10 @@ package songqiu.allthings.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +39,8 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
+import songqiu.allthings.util.NetWorkUtil;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ViewProportion;
@@ -665,6 +669,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
             VideoControl control = new VideoControl(context);
             control.setInfo(info);
             holder.videoView.setHeartVideoContent(control);
+
+
         }
 
         holder.toDetailLayout.setOnClickListener(new View.OnClickListener() {
@@ -719,6 +725,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
             }
         }
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.commentTv.setText(String.valueOf(item.get(position).comment_num));
         if(!StringUtil.isEmpty(item.get(position).video_url)) {
             HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(item.get(position).title).setPath(item.get(position).video_url)
@@ -726,6 +733,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
             VideoControl control = new VideoControl(context);
             control.setInfo(info);
             holder.videoView.setHeartVideoContent(control);
+
         }
 
         holder.userName.setText(item.get(position).user_nickname);
@@ -882,6 +890,9 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         VideoControl control = new VideoControl(context);
         control.setInfo(info);
         holder.videoView.setHeartVideoContent(control);
+        if(item.get(position).state==1&& NetWorkUtil.getConnectedType(context)== ConnectivityManager.TYPE_WIFI){
+            holder.videoView.startSlence();
+        }
 
         holder.titleTv.setText(item.get(position).title);
         if (4 == item.get(position).change_type) {
@@ -969,6 +980,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).url = HttpServicePath.BasePicUrl + item.get(position).url;
             }
         }
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         String image = item.get(position).url;
         String title = item.get(position).title;
         if(!StringUtil.isEmpty(path)) {
@@ -976,6 +988,9 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
             VideoControl control = new VideoControl(context);
             control.setInfo(info);
             holder.videoView.setHeartVideoContent(control);
+            if(item.get(position).state==1&& NetWorkUtil.getConnectedType(context)== ConnectivityManager.TYPE_WIFI){
+                holder.videoView.startSlence();
+            }
         }
         if (4 == item.get(position).change_type) {
             holder.downloadLayout.setVisibility(View.VISIBLE);
@@ -1019,6 +1034,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).head_url = HttpServicePath.BasePicUrl + item.get(position).head_url;
             }
         }
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         Glide.with(context).load(item.get(position).head_url).apply(options).into(holder.userIcon);
         //
         holder.userName.setText(item.get(position).ad_name);
@@ -1316,7 +1332,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         ImageView settingImg;
         @BindView(R.id.userLayout)
         LinearLayout userLayout;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public LookVideoHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -1388,6 +1405,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         ImageView settingImg;
         @BindView(R.id.toDetailLayout)
         RelativeLayout toDetailLayout;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
 
         public VideoAdvertiseVideoHolder(View itemView) {
             super(itemView);
@@ -1412,7 +1431,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         RelativeLayout toDetailLayout;
         @BindView(R.id.layout)
         LinearLayout layout;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public BigPicAdvertiseVideoHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

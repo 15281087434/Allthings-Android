@@ -46,4 +46,6 @@ public class HomeAttentionBean {
     public int is_up;
     public int share_num;
     public String[] photos;
+      public String level;
+    public int state;
 }

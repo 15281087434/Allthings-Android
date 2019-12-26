@@ -4,7 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/main_bg_white">
-
+    <SurfaceView
+        android:id="@+id/surface"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent"/>
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/img"
         android:layout_width="match_parent"

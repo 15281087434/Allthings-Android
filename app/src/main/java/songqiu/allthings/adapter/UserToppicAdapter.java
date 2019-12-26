@@ -30,6 +30,7 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.view.GridViewInScroll;
@@ -116,6 +117,7 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.userName.setText(item.get(position).user_nickname);
         //变色
         if (item.get(position).descriptions.contains("#")) {
@@ -255,7 +257,7 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(item.get(position).images[0]).apply(options1).into(holder.bigPicImg);
-
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.userName.setText(item.get(position).user_nickname);
         //变色
         if (item.get(position).descriptions.contains("#")) {
@@ -383,6 +385,7 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
             }
         }
         GambitMorePicAdapter gambitMorePicAdapter = new GambitMorePicAdapter(context,item.get(position).images);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.gridView.setAdapter(gambitMorePicAdapter);
 
         holder.userName.setText(item.get(position).user_nickname);
@@ -541,6 +544,8 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.shareTv)
         TextView shareTv;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
 
         public NoPicViewholder(View itemView) {
             super(itemView);
@@ -586,7 +591,8 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.shareTv)
         TextView shareTv;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public BigPicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -630,7 +636,8 @@ public class UserToppicAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.shareTv)
         TextView shareTv;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public MoreViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

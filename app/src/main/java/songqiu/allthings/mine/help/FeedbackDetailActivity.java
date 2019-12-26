@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 
@@ -25,7 +24,6 @@ import songqiu.allthings.R;
 import songqiu.allthings.adapter.FeedbackDetailAdapter;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.FeedbackDetailBean;
-import songqiu.allthings.bean.UserInfoBean;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
@@ -34,11 +32,10 @@ import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.GlideLoadUtils;
-import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
-import songqiu.allthings.util.theme.ThemeManager;
 
 /*******
  *
@@ -79,8 +76,10 @@ public class FeedbackDetailActivity extends BaseActivity {
     TextView emptyHintTv;
     @BindView(R.id.shadowLayout)
     LinearLayout shadowLayout;
-    List<String> list ;
+    List<String> list;
     FeedbackDetailAdapter adapter;
+    @BindView(R.id.iv_level)
+    ImageView ivLevel;
 
 
     @Override
@@ -90,23 +89,23 @@ public class FeedbackDetailActivity extends BaseActivity {
 
     @Override
     public void init() {
-        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        boolean dayModel = SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true);
         modeUi(dayModel);
         titleTv.setText("我的反馈");
-        int id = getIntent().getIntExtra("fid",0);
+        int id = getIntent().getIntExtra("fid", 0);
         list = new ArrayList<>();
         initGridView();
         getFeedbackDetail(id);
     }
 
     public void modeUi(boolean isDay) {
-        if(isDay) {
+        if (isDay) {
             shadowLayout.setVisibility(View.GONE);
             StatusBarUtils.with(this)
                     .setColor(getResources().getColor(R.color.FFF9FAFD))
                     .init()
                     .setStatusTextColorAndPaddingTop(true, this);
-        }else {
+        } else {
             shadowLayout.setVisibility(View.VISIBLE);
             StatusBarUtils.with(this)
                     .setColor(getResources().getColor(R.color.trans_6))
@@ -116,31 +115,33 @@ public class FeedbackDetailActivity extends BaseActivity {
     }
 
     public void initGridView() {
-        adapter = new FeedbackDetailAdapter(this,list);
+        adapter = new FeedbackDetailAdapter(this, list);
         gridView.setAdapter(adapter);
     }
 
     public void initUi(FeedbackDetailBean feedbackDetailBean) {
-        if(null == feedbackDetailBean) return;
+        if (null == feedbackDetailBean) return;
         RequestOptions options = new RequestOptions()
                 .circleCrop().transforms(new GlideCircleTransform(this))
                 .error(R.mipmap.head_default)
                 .placeholder(R.mipmap.head_default);
-        if(!StringUtil.isEmpty(feedbackDetailBean.avatar)) {
-            if(!feedbackDetailBean.avatar.contains("http")) {
-                feedbackDetailBean.avatar = HttpServicePath.BasePicUrl+feedbackDetailBean.avatar;
+        if (!StringUtil.isEmpty(feedbackDetailBean.avatar)) {
+            if (!feedbackDetailBean.avatar.contains("http")) {
+                feedbackDetailBean.avatar = HttpServicePath.BasePicUrl + feedbackDetailBean.avatar;
             }
         }
-        GlideLoadUtils.getInstance().glideLoadHead(this,feedbackDetailBean.avatar,userIcon);
+
+        ivLevel.setImageResource(ImageResUtils.getLevelRes(feedbackDetailBean.level));
+        GlideLoadUtils.getInstance().glideLoadHead(this, feedbackDetailBean.avatar, userIcon);
         userName.setText(feedbackDetailBean.user_nickname);
         contentTv.setText(feedbackDetailBean.feedback_con);
-        long time = feedbackDetailBean.created*1000;
+        long time = feedbackDetailBean.created * 1000;
         timeTv.setText(DateUtil.getTimeBig4(time));
-        if(1==feedbackDetailBean.status) {
+        if (1 == feedbackDetailBean.status) {
             replyTv.setVisibility(View.GONE);
             emptyLayout.setVisibility(View.VISIBLE);
             emptyHintTv.setText("暂时没有回复哦!");
-        }else {
+        } else {
             replyTv.setVisibility(View.VISIBLE);
             emptyLayout.setVisibility(View.GONE);
             replyTv.setText(feedbackDetailBean.official);
@@ -150,7 +151,7 @@ public class FeedbackDetailActivity extends BaseActivity {
 
     public void getFeedbackDetail(int id) {
         Map<String, String> map = new HashMap<>();
-        map.put("fid",id+"");
+        map.put("fid", id + "");
         OkHttp.post(this, HttpServicePath.URL_FEEDBACK_DETAIL, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
@@ -162,7 +163,7 @@ public class FeedbackDetailActivity extends BaseActivity {
                         if (StringUtil.isEmpty(data)) return;
                         FeedbackDetailBean feedbackDetailBean = gson.fromJson(data, FeedbackDetailBean.class);
                         initUi(feedbackDetailBean);
-                        if(null != feedbackDetailBean.feedback_img && 0!=feedbackDetailBean.feedback_img.size()) {
+                        if (null != feedbackDetailBean.feedback_img && 0 != feedbackDetailBean.feedback_img.size()) {
                             list.addAll(feedbackDetailBean.feedback_img);
                         }
                         adapter.notifyDataSetChanged();
@@ -187,20 +188,26 @@ public class FeedbackDetailActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.backImg,R.id.sureTv})
+    @OnClick({R.id.backImg, R.id.sureTv})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.backImg:
                 finish();
                 break;
             case R.id.sureTv:
-               if(ClickUtil.onClick()) {
-                   Intent intent = new Intent(FeedbackDetailActivity.this,MyQuestionActivity.class);
-                   startActivity(intent);
-                   finish();
-               }
+                if (ClickUtil.onClick()) {
+                    Intent intent = new Intent(FeedbackDetailActivity.this, MyQuestionActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
                 break;
         }
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

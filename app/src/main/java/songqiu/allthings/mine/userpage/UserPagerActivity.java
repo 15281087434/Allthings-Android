@@ -12,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.heartfor.heartvideo.video.HeartVideo;
 import com.heartfor.heartvideo.video.HeartVideoManager;
@@ -41,7 +39,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
-import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.adapter.TablayoutViewAdapter;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.UserMemberDetailBean;
@@ -50,14 +47,12 @@ import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.util.ClickUtil;
-import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.GlideLoadUtils;
-import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
-import songqiu.allthings.util.theme.ThemeManager;
 
 /*******
  *
@@ -95,12 +90,15 @@ public class UserPagerActivity extends BaseActivity {
     @BindView(R.id.shadowLayout)
     LinearLayout shadowLayout;
 
+
     UserMemberDetailBean userMemberDetailBean;
 
     int userId;
     int myUserId;
     List<Fragment> mFragments = new ArrayList<>();
     List<String> list;
+    @BindView(R.id.iv_level)
+    ImageView ivLevel;
 
 
     @Override
@@ -111,7 +109,7 @@ public class UserPagerActivity extends BaseActivity {
     @Override
     public void init() {
         StatusBarUtils.with(UserPagerActivity.this).init().setStatusTextColorWhite(true, UserPagerActivity.this);
-        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        boolean dayModel = SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true);
         modeUi(dayModel);
         myUserId = SharedPreferencedUtils.getInteger(this, "SYSUSERID", 0);
         userId = getIntent().getIntExtra("userId", 0);
@@ -123,10 +121,11 @@ public class UserPagerActivity extends BaseActivity {
         list = getTableTitle();
         initMagicindicator();
     }
+
     public void modeUi(boolean isDay) {
-        if(isDay) {
+        if (isDay) {
             shadowLayout.setVisibility(View.GONE);
-        }else {
+        } else {
             shadowLayout.setVisibility(View.VISIBLE);
         }
     }
@@ -139,24 +138,25 @@ public class UserPagerActivity extends BaseActivity {
 
     public void initUi(UserMemberDetailBean userMemberDetailBean) {
         if (null == userMemberDetailBean) return;
-        if(!StringUtil.isEmpty(userMemberDetailBean.avatar)) {
-            if(!userMemberDetailBean.avatar.contains("http")) {
-                userMemberDetailBean.avatar = HttpServicePath.BasePicUrl+userMemberDetailBean.avatar;
+        if (!StringUtil.isEmpty(userMemberDetailBean.avatar)) {
+            if (!userMemberDetailBean.avatar.contains("http")) {
+                userMemberDetailBean.avatar = HttpServicePath.BasePicUrl + userMemberDetailBean.avatar;
             }
         }
-        GlideLoadUtils.getInstance().glideLoadHead(this,userMemberDetailBean.avatar,userIcon);
+        GlideLoadUtils.getInstance().glideLoadHead(this, userMemberDetailBean.avatar, userIcon);
         userName.setText(userMemberDetailBean.user_nickname);
         userIntroduce.setText(userMemberDetailBean.signature);
         upTv.setText(ShowNumUtil.showUnm(userMemberDetailBean.total_up));
         fansTv.setText(ShowNumUtil.showUnm(userMemberDetailBean.fs_num));
         attentionTv.setText(ShowNumUtil.showUnm(userMemberDetailBean.gz_num));
+        ivLevel.setImageResource(ImageResUtils.getLevelRes(userMemberDetailBean.level));
         if (userId == myUserId) {
             compileTv.setText("编辑资料");
-        }else {
-            if(0 == userMemberDetailBean.is_follow) { //未关注
+        } else {
+            if (0 == userMemberDetailBean.is_follow) { //未关注
                 compileTv.setText("关注");
                 compileTv.setTextColor(getResources().getColor(R.color.normal_color));
-            }else { //已关注
+            } else { //已关注
                 compileTv.setText("已关注");
                 compileTv.setTextColor(getResources().getColor(R.color.FF999999));
             }
@@ -328,9 +328,9 @@ public class UserPagerActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             HeartVideo heartVideo = HeartVideoManager.getInstance().getCurrPlayVideo();
-            if(null != heartVideo && heartVideo.getCurrModeStatus()== PlayerStatus.MODE_FULL_SCREEN) {
+            if (null != heartVideo && heartVideo.getCurrModeStatus() == PlayerStatus.MODE_FULL_SCREEN) {
                 HeartVideoManager.getInstance().getCurrPlayVideo().exitFullScreen();
-            }else {
+            } else {
                 finish();
             }
         }
@@ -349,8 +349,8 @@ public class UserPagerActivity extends BaseActivity {
                     if (userId == myUserId) { //去编辑资料
                         intent = new Intent(UserPagerActivity.this, ModificationInfoActivity.class);
                         startActivity(intent);
-                    }else { //关注、取消关注
-                        if(null == userMemberDetailBean) return;
+                    } else { //关注、取消关注
+                        if (null == userMemberDetailBean) return;
                         if (0 == userMemberDetailBean.is_follow) {//去关注
                             addFollow(userId, 1);
                         } else { //取消关注
@@ -364,4 +364,10 @@ public class UserPagerActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

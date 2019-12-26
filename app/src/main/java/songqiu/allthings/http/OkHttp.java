@@ -1,5 +1,6 @@
 package songqiu.allthings.http;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Looper;
@@ -527,7 +528,7 @@ public class OkHttp {
 
 
 
-    public static void postFile(final Context context, DialogFileUploading dialog, String requestPath, Map<String, String> params, File file, final RequestCallBack listener) {
+    public static void postFile(final Activity context, DialogFileUploading dialog, String requestPath, Map<String, String> params, File file, final RequestCallBack listener) {
         String time = String.valueOf(System.currentTimeMillis()/1000);
         Gson mGson = new Gson();
         String my = mGson.toJson(params);
@@ -572,41 +573,48 @@ public class OkHttp {
         mCall.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                String error = "";
-                if (e instanceof ConnectException) {
-                    error = "网络状况不佳!";
-                    Looper.prepare();
-                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-                    Looper.loop();
-                } else {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String error = "";
+                        if (e instanceof ConnectException) {
+                            error = "网络状况不佳!";
+                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                        } else {
 //                    error = "系统异常！";
-                }
-                if(null != dialog) {
-                    dialog.disMiss();
-                }
-//                Looper.prepare();
-//                Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-//                Looper.loop();
+                        }
+                        if(null != dialog) {
+                            dialog.disMiss();
+                        }
+                    }
+                });
+
+
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String str = response.body().string();
                 LogUtil.i(str);
-                if(null != dialog) {
-                    dialog.disMiss();
-                }
-                Gson gson = new Gson();
-                BaseBean baseBean = gson.fromJson(str, BaseBean.class);
-                if(null != baseBean) {
-                    if(HttpRuslt.OK.equals(baseBean.code)) {
-                        listener.httpResult(baseBean);
-                    }else {
-                        Looper.prepare();
-                        Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
-                        Looper.loop();
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(null != dialog) {
+                            dialog.disMiss();
+                        }
+                        Gson gson = new Gson();
+                        BaseBean baseBean = gson.fromJson(str, BaseBean.class);
+                        if(null != baseBean) {
+                            if(HttpRuslt.OK.equals(baseBean.code)) {
+                                listener.httpResult(baseBean);
+                            }else {
+                                Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
                     }
-                }
+                });
+
             }
         });
     }

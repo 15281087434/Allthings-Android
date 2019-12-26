@@ -9,6 +9,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.util.HashMap;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -17,13 +19,17 @@ import cn.sharesdk.wechat.friends.Wechat;
 import songqiu.allthings.R;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.constant.SnsConstants;
+import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
+import songqiu.allthings.http.OkHttp;
+import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.mine.WithdrawActivity;
 import songqiu.allthings.mine.invite.MyFriendActivity;
 import songqiu.allthings.mine.qrcode.EwmRedEnvelopeActivity;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
+import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.theme.ShareUrl;
 
@@ -41,7 +47,7 @@ public class CommentWebViewActivity extends BaseActivity {
     @BindView(R.id.webview)
     WebView webView;
     String url;
-
+    int type=0;
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_webview);
@@ -51,6 +57,9 @@ public class CommentWebViewActivity extends BaseActivity {
     public void init() {
         StatusBarUtils.with(CommentWebViewActivity.this).init().setStatusTextColorWhite(true, CommentWebViewActivity.this);
         url = getIntent().getStringExtra("url");
+        if(getIntent().hasExtra("authType")){
+            type=getIntent().getIntExtra("authType",0);
+        }
         initWebView(url);
     }
 
@@ -125,6 +134,23 @@ public class CommentWebViewActivity extends BaseActivity {
         public void onQQInvite() { //QQ分享
             showShare(QQ.NAME);
         }
+
+
+        @JavascriptInterface
+        public void onAuth(){
+
+                HashMap<String,Object> map=new HashMap<>();
+                map.put("type",type);
+                OkHttp.postObject(CommentWebViewActivity.this, HttpServicePath.URL_STATE_APPLY,map,new RequestCallBack(){
+
+                    @Override
+                    public void httpResult(BaseBean baseBean) {
+                        ToastUtil.showToast(baseBean.msg);
+                    }
+                });
+
+        }
+
 
     }
 

@@ -24,4 +24,5 @@ public class UserMemberDetailBean {
     public int fs_num;
     public int gz_num;
     public int is_follow; //0、未关注  1、已关注
+      public String level;
 }

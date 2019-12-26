@@ -2,6 +2,7 @@ package songqiu.allthings.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.NetWorkUtil;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ViewProportion;
@@ -875,7 +877,9 @@ public class HomeTabGhostAdapter extends RecyclerView.Adapter {
         VideoControl control = new VideoControl(context);
         control.setInfo(info);
         holder.videoView.setHeartVideoContent(control);
-
+        if(item.get(position).state==1&& NetWorkUtil.getConnectedType(context)== ConnectivityManager.TYPE_WIFI){
+            holder.videoView.startSlence();
+        }
         holder.titleTv.setText(item.get(position).title);
         if (4 == item.get(position).change_type) {
             holder.downloadLayout.setVisibility(View.VISIBLE);
@@ -969,6 +973,9 @@ public class HomeTabGhostAdapter extends RecyclerView.Adapter {
             VideoControl control = new VideoControl(context);
             control.setInfo(info);
             holder.videoView.setHeartVideoContent(control);
+            if(item.get(position).state==1&& NetWorkUtil.getConnectedType(context)== ConnectivityManager.TYPE_WIFI){
+                holder.videoView.startSlence();
+            }
         }
         if (4 == item.get(position).change_type) {
             holder.downloadLayout.setVisibility(View.VISIBLE);

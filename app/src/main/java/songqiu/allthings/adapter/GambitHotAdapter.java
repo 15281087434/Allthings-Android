@@ -32,6 +32,7 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
@@ -119,6 +120,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.userName.setText(item.get(position).user_nickname);
         //变色
         if (item.get(position).descriptions.contains("#")) {
@@ -253,6 +255,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         RequestOptions options1 = new RequestOptions()
 //                .circleCrop().transforms(new GlideCircleTransform(context))
                 .error(R.mipmap.pic_default_zhengfangxing)
@@ -409,6 +412,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         GambitMorePicAdapter gambitMorePicAdapter = new GambitMorePicAdapter(context,item.get(position).images);
         holder.gridView.setAdapter(gambitMorePicAdapter);
@@ -572,7 +576,8 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
         TextView commentTv;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         @BindView(R.id.otherLayout)
         LinearLayout otherLayout;
         @BindView(R.id.img)
@@ -583,6 +588,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.shareTv)
         TextView shareTv;
+
 
         public NoPicViewholder(View itemView) {
             super(itemView);
@@ -615,7 +621,8 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
         TextView commentTv;
         @BindView(R.id.layout)
         LinearLayout layout;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         @BindView(R.id.otherLayout)
         LinearLayout otherLayout;
         @BindView(R.id.img)
@@ -658,7 +665,8 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
         TextView commentTv;
         @BindView(R.id.layout)
         LinearLayout layout;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         @BindView(R.id.otherLayout)
         LinearLayout otherLayout;
         @BindView(R.id.img)

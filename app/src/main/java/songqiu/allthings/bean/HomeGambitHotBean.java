@@ -39,4 +39,5 @@ public class HomeGambitHotBean {
     public String updated;
     public int status;
     public int is_follow;
+      public String level;
 }

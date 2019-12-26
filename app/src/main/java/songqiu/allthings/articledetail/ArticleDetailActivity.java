@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -49,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.tencent.qq.QQ;
@@ -59,7 +61,6 @@ import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.adapter.ArticleDetailRandAdapter;
-import songqiu.allthings.adapter.LookTabClassAdapter;
 import songqiu.allthings.adapter.comment.CommentListAdapter;
 import songqiu.allthings.adapter.comment.CommentSubitemHolder;
 import songqiu.allthings.adapter.comment.HeaderHolder;
@@ -70,10 +71,10 @@ import songqiu.allthings.bean.ArticleDetailRandBean;
 import songqiu.allthings.bean.AwardRuleBean;
 import songqiu.allthings.bean.CommentSubitemBean;
 import songqiu.allthings.bean.DeleteCommentBean;
+import songqiu.allthings.bean.DetailCommentListBean;
 import songqiu.allthings.bean.ReadAwardBean;
 import songqiu.allthings.bean.ReportBean;
 import songqiu.allthings.bean.UnLikeBean;
-import songqiu.allthings.bean.DetailCommentListBean;
 import songqiu.allthings.comment.CommentDetailActivity;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
@@ -85,16 +86,17 @@ import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.ClickUtil;
-import songqiu.allthings.util.WebViewJsUtil;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideLoadUtils;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.ScrollLinearLayoutManager;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
+import songqiu.allthings.util.WebViewJsUtil;
 import songqiu.allthings.util.WindowUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.theme.ShareUrl;
@@ -236,6 +238,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     TextView goldTv;
     @BindView(R.id.circleProgress)
     CustomCircleProgress circleProgress;
+    @BindView(R.id.iv_level)
+    ImageView ivLevel;
 
 
     private String method = WebViewJsUtil.JSCALLJAVA;
@@ -244,23 +248,23 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     int progress;
     int circleTime = 300;
     public final int PROGRESS_CIRCLE_STARTING = 0x110;
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case PROGRESS_CIRCLE_STARTING:
                     progress = circleProgress.getProgress();
                     circleProgress.setProgress(++progress);
-                    if(progress >= 100){
+                    if (progress >= 100) {
                         handler.removeMessages(PROGRESS_CIRCLE_STARTING);
                         progress = 0;
                         circleProgress.setProgress(0);
                         circleProgress.setStatus(CustomCircleProgress.Status.End);//修改显示状态为完成
-                        if(null != articleDetailBean) {
+                        if (null != articleDetailBean) {
                             //调用接口
                             carryOutTime();
                         }
-                    }else{
+                    } else {
                         //延迟100ms后继续发消息，实现循环，直到progress=100
                         handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING, circleTime);
                     }
@@ -298,9 +302,9 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
         boolean dayModel = SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true);
 //        modeUi(dayModel);
-        if(dayModel) {
+        if (dayModel) {
             ThemeManager.setThemeMode(ThemeManager.ThemeMode.DAY);
-        }else {
+        } else {
             ThemeManager.setThemeMode(ThemeManager.ThemeMode.NIGHT);
         }
     }
@@ -337,9 +341,9 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         titleLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.FFF9FAFD)));
         titleTv.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.bottom_tab_tv)));
         timeTv.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.FF999999)));
-        lookCommentImg.setImageDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.mipmap.item_comment)));
-        shareImg.setImageDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.mipmap.item_share)));
-        lookImg.setImageDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.mipmap.icon_look)));
+        lookCommentImg.setImageDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.mipmap.item_comment)));
+        shareImg.setImageDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.mipmap.item_share)));
+        lookImg.setImageDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.mipmap.icon_look)));
         lookNumTv.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.FF999999)));
         contentWeb.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.main_bg_white)));
         prestrainLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.main_bg_white)));
@@ -347,26 +351,26 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             if (null != articleDetailBean) {
                 contentWeb.loadDataWithBaseURL(null, getHtmlData(articleDetailBean.content), "text/html", "utf-8", null);
             }
-        }else {
+        } else {
             if (null != articleDetailBean) {
                 contentWeb.loadDataWithBaseURL(null, getHtmlDataNight(articleDetailBean.content), "text/html", "utf-8", null);
             }
         }
         //
-        likeLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.drawable.article_tv_bg)));
-        nuLikeLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.drawable.article_tv_bg)));
-        shareFriendLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.drawable.article_tv_bg)));
-        shareWxLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.drawable.article_tv_bg)));
-        jumpLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.drawable.rectangle_f0f0f0_2px_white)));
+        likeLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.drawable.article_tv_bg)));
+        nuLikeLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.drawable.article_tv_bg)));
+        shareFriendLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.drawable.article_tv_bg)));
+        shareWxLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.drawable.article_tv_bg)));
+        jumpLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.drawable.rectangle_f0f0f0_2px_white)));
         advertisingTitleTv.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.bottom_tab_tv)));
         line1.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.color.line_color)));
         line2.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.color.line_color)));
         bottomLayout.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.color.FFF9FAFD)));
         showEdit.setBackgroundDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.drawable.bg_search_gary)));
-        if(null != articleDetailBean && 0!= articleDetailBean.is_collect) {
+        if (null != articleDetailBean && 0 != articleDetailBean.is_collect) {
             //对收藏图标不做处理
-        }else {
-            collectImg.setImageDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this,R.mipmap.item_collect)));
+        } else {
+            collectImg.setImageDrawable(getResources().getDrawable(ThemeManager.getCurrentThemeRes(this, R.mipmap.item_collect)));
         }
     }
 
@@ -394,12 +398,12 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             contentWeb.getSettings().setMixedContentMode(WebSettings
                     .MIXED_CONTENT_ALWAYS_ALLOW);  //注意安卓5.0以上的权限
         }
-        contentWeb.setWebViewClient(new WebViewClient(){
+        contentWeb.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 prestrainLayout.setVisibility(View.GONE);
-                WebViewJsUtil.setWebImageClick(view,method);
+                WebViewJsUtil.setWebImageClick(view, method);
             }
         });
 
@@ -428,7 +432,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         articleRecycle.setAdapter(articleDetailRandAdapter);
 
         item1 = new ArrayList<>();
-        videoDetailCommentAdapter = new CommentListAdapter(this,item1);
+        videoDetailCommentAdapter = new CommentListAdapter(this, item1);
 
         ScrollLinearLayoutManager linearLayoutManager1 = new ScrollLinearLayoutManager(this);
         linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
@@ -454,21 +458,22 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         videoDetailCommentAdapter.setVideoDetailCommentItemListener(new VideoDetailCommentItemListener() {
             //一级评论点赞、取消点赞
             @Override
-            public void addLike(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean,RecyclerView.ViewHolder viewHolder) {
-                like(url, type, mid, videoDetailCommentBean,viewHolder);
+            public void addLike(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean, RecyclerView.ViewHolder viewHolder) {
+                like(url, type, mid, videoDetailCommentBean, viewHolder);
             }
+
             //二级评论点赞、取消点赞
             @Override
-            public void addSubitemLike(String url, int type, int mid, CommentSubitemBean commentSubitemBean,RecyclerView.ViewHolder viewHolder) {
-                like(url, type, mid, commentSubitemBean,viewHolder);
+            public void addSubitemLike(String url, int type, int mid, CommentSubitemBean commentSubitemBean, RecyclerView.ViewHolder viewHolder) {
+                like(url, type, mid, commentSubitemBean, viewHolder);
             }
 
             //回复评论
             @Override
-            public void toReply(int type,int grade,int pid,String name) {
+            public void toReply(int type, int grade, int pid, String name) {
                 if (null != articleDetailBean) {
                     if (1 == articleDetailBean.is_comment) {
-                        showPopupwindow(type,grade,pid,"回复@"+name);
+                        showPopupwindow(type, grade, pid, "回复@" + name);
                     } else {
                         ToastUtil.showToast(ArticleDetailActivity.this, "暂时不能评论!");
                     }
@@ -477,39 +482,39 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
             //长按
             @Override
-            public void longClick(int id, int commentId, int article_id, int type, int position,int subPosition,String content) {
-                int userId = SharedPreferencedUtils.getInteger(ArticleDetailActivity.this,"SYSUSERID",0);
-                if(userId == id) {
+            public void longClick(int id, int commentId, int article_id, int type, int position, int subPosition, String content) {
+                int userId = SharedPreferencedUtils.getInteger(ArticleDetailActivity.this, "SYSUSERID", 0);
+                if (userId == id) {
                     //长按删除
-                    longClickDialog(ArticleDetailActivity.this,true,commentId,article_id,type,position,subPosition,content);
-                }else {
+                    longClickDialog(ArticleDetailActivity.this, true, commentId, article_id, type, position, subPosition, content);
+                } else {
                     //长按举报
-                    longClickDialog(ArticleDetailActivity.this,false,commentId,article_id,type,position,subPosition,content);
+                    longClickDialog(ArticleDetailActivity.this, false, commentId, article_id, type, position, subPosition, content);
                 }
             }
 
             //展开更多回复
             @Override
             public void showMoreComment(int mid) {
-                Intent intent = new Intent(ArticleDetailActivity.this,CommentDetailActivity.class);
-                intent.putExtra("mid",mid);
-                intent.putExtra("type",1);
-                if(null != articleDetailBean) {
+                Intent intent = new Intent(ArticleDetailActivity.this, CommentDetailActivity.class);
+                intent.putExtra("mid", mid);
+                intent.putExtra("type", 1);
+                if (null != articleDetailBean) {
                     if (1 == articleDetailBean.is_comment) {
-                        intent.putExtra("canToReply",true);
-                    }else {
-                        intent.putExtra("canToReply",false);
+                        intent.putExtra("canToReply", true);
+                    } else {
+                        intent.putExtra("canToReply", false);
                     }
-                }else {
-                    intent.putExtra("canToReply",true);
+                } else {
+                    intent.putExtra("canToReply", true);
                 }
                 startActivity(intent);
             }
         });
     }
 
-    public void longClickDialog(Context context,boolean isMyself,int commentId,int article_id,int type,int position,int subPosition,String content) {
-        LongClickDialog dialog = new LongClickDialog(context,isMyself);
+    public void longClickDialog(Context context, boolean isMyself, int commentId, int article_id, int type, int position, int subPosition, String content) {
+        LongClickDialog dialog = new LongClickDialog(context, isMyself);
         dialog.showDialog();
         dialog.setOnItemClickListener(new LongClickDialog.OnItemClick() {
             @Override
@@ -517,15 +522,15 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 switch (pos) {
                     //复制
                     case 0:
-                        CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(ArticleDetailActivity.this,content);
+                        CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(ArticleDetailActivity.this, content);
                         copyButtonLibrary.init(content);
-                        ToastUtil.showToast(ArticleDetailActivity.this,"复制成功");
+                        ToastUtil.showToast(ArticleDetailActivity.this, "复制成功");
                         break;
                     case 1:
-                        if(isMyself) { //删除自己的评论
-                            delComment(commentId, article_id, type, position,subPosition);
-                        }else { //举报他人的评论
-                            showReportWindow(commentId,4);
+                        if (isMyself) { //删除自己的评论
+                            delComment(commentId, article_id, type, position, subPosition);
+                        } else { //举报他人的评论
+                            showReportWindow(commentId, 4);
                         }
                         break;
                 }
@@ -563,6 +568,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                     public void run() {
                         Gson gson = new Gson();
                         String data = gson.toJson(baseBean.data);
+                        Log.e("details", data);
                         if (StringUtil.isEmpty(data)) return;
                         articleDetailBean = gson.fromJson(data, ArticleDetailBean.class);
                         setUi(articleDetailBean);
@@ -581,8 +587,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 articleDetailBean.avatar = HttpServicePath.BasePicUrl + articleDetailBean.avatar;
             }
         }
-        GlideLoadUtils.getInstance().glideLoadHead(this,articleDetailBean.avatar,userIcon);
-        GlideLoadUtils.getInstance().glideLoadHead(this,articleDetailBean.avatar,userIconTitleIcon);
+        GlideLoadUtils.getInstance().glideLoadHead(this, articleDetailBean.avatar, userIcon);
+        GlideLoadUtils.getInstance().glideLoadHead(this, articleDetailBean.avatar, userIconTitleIcon);
         userName.setText(articleDetailBean.user_nickname);
         userTitleName.setText(articleDetailBean.user_nickname);
         long time = articleDetailBean.created * 1000;
@@ -591,9 +597,11 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         } else if (DateUtil.IsYesterday(time)) {
             timeTv.setText("发布于1天前");
         } else {
-            timeTv.setText("发布于"+DateUtil.getTimeBig1(time));
+            timeTv.setText("发布于" + DateUtil.getTimeBig1(time));
         }
-        lookNumTv.setText(ShowNumUtil.showUnm1(articleDetailBean.view_num)+"万阅读");
+        lookNumTv.setText(ShowNumUtil.showUnm1(articleDetailBean.view_num) + "万阅读");
+
+        ivLevel.setImageResource(ImageResUtils.getLevelRes(articleDetailBean.level));
         //评论数
         commentNumTv.setText(String.valueOf(articleDetailBean.comment_num));
         if (0 == articleDetailBean.is_follow) {
@@ -610,16 +618,16 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         }
         //
 //        contentWeb.loadDataWithBaseURL(null, getHtmlData(articleDetailBean.content), "text/html", "utf-8", null);
-        if(SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true)) {
+        if (SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true)) {
             contentWeb.loadDataWithBaseURL(null, getHtmlData(articleDetailBean.content), "text/html", "utf-8", null);
-        }else {
+        } else {
             contentWeb.loadDataWithBaseURL(null, getHtmlDataNight(articleDetailBean.content), "text/html", "utf-8", null);
         }
         likeNumTv.setText(ShowNumUtil.showUnm(articleDetailBean.up_num));
-        if(0==articleDetailBean.is_original) {
+        if (0 == articleDetailBean.is_original) {
             originalTv.setText("原创");
             originalTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
-        }else {
+        } else {
             originalTv.setText("转载");
         }
         if (0 == articleDetailBean.is_up) {
@@ -632,28 +640,28 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
         if (0 == articleDetailBean.is_collect) {
             boolean dayModel = SharedPreferencedUtils.getBoolean(ArticleDetailActivity.this, SharedPreferencedUtils.dayModel, true);
-            if(dayModel) {
+            if (dayModel) {
                 collectImg.setImageResource(R.mipmap.item_collect);
-            }else {
+            } else {
                 collectImg.setImageResource(R.mipmap.item_collect_night);
             }
         } else {
             collectImg.setImageResource(R.mipmap.item_collect_pre);
         }
         //是否显示转圈
-        if(0 == articleDetailBean.is_coin) {
+        if (0 == articleDetailBean.is_coin) {
             //登录之后开始开始转圈
             if (CheckLogin.isLogin(this)) {
                 propressLayout.setVisibility(View.VISIBLE);
-                circleProgress.setProgress(SharedPreferencedUtils.getInteger(this,SharedPreferencedUtils.ARTICLE_READ_TIME,0));
+                circleProgress.setProgress(SharedPreferencedUtils.getInteger(this, SharedPreferencedUtils.ARTICLE_READ_TIME, 0));
                 //延迟100ms后继续发消息，实现循环，直到progress=100
                 handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING, circleTime);
-                LogUtil.i("init:"+SharedPreferencedUtils.getInteger(ArticleDetailActivity.this,SharedPreferencedUtils.ARTICLE_READ_TIME,0));
+                LogUtil.i("init:" + SharedPreferencedUtils.getInteger(ArticleDetailActivity.this, SharedPreferencedUtils.ARTICLE_READ_TIME, 0));
             }
         }
 
         String[] imgs = WebViewJsUtil.returnImageUrlsFromHtml(articleDetailBean.content);
-        contentWeb.addJavascriptInterface(new ImageJavascriptInterface(this,imgs), method);
+        contentWeb.addJavascriptInterface(new ImageJavascriptInterface(this, imgs), method);
     }
 
     public void getReadlog() {
@@ -692,11 +700,14 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         Gson gson = new Gson();
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
-                        List<AdvertiseBean> advertiseBeanListBean = gson.fromJson(data, new TypeToken<List<AdvertiseBean>>() {}.getType());
-                        if(null==advertiseBeanListBean || 0==advertiseBeanListBean.size()) return;
+                        List<AdvertiseBean> advertiseBeanListBean = gson.fromJson(data, new TypeToken<List<AdvertiseBean>>() {
+                        }.getType());
+                        if (null == advertiseBeanListBean || 0 == advertiseBeanListBean.size())
+                            return;
                         advertiseBean = advertiseBeanListBean.get(0);
                         if (null != advertiseBean) {
-                            String url = advertiseBean.url.replaceAll("\"","");;
+                            String url = advertiseBean.url.replaceAll("\"", "");
+                            ;
                             if (!StringUtil.isEmpty(url)) {
                                 if (!url.contains("http")) {
                                     url = HttpServicePath.BasePicUrl + url;
@@ -709,19 +720,20 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                                 RequestOptions options = new RequestOptions()
                                         .error(R.mipmap.pic_default)
                                         .placeholder(R.mipmap.pic_default);
-                                GlideLoadUtils.getInstance().glideLoad(ArticleDetailActivity.this,url,options,advertisingImg);
+                                GlideLoadUtils.getInstance().glideLoad(ArticleDetailActivity.this, url, options, advertisingImg);
                                 if (2 == advertiseBean.change_type) { //大图无下载
                                     downloadLayout.setVisibility(View.GONE);
                                 }
                             } else { //广告视频
                                 videoView.setVisibility(View.VISIBLE);
                                 String path = advertiseBean.video_url;//
-                                if(!ArticleDetailActivity.this.isDestroyed()) {
-                                    if(!StringUtil.isEmpty(path)) {
+                                if (!ArticleDetailActivity.this.isDestroyed()) {
+                                    if (!StringUtil.isEmpty(path)) {
                                         HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(path).setImagePath(url).setSaveProgress(false).builder();
                                         VideoControl control = new VideoControl(ArticleDetailActivity.this);
                                         control.setInfo(info);
                                         videoView.setHeartVideoContent(control);
+
                                     }
                                 }
                                 if (5 == advertiseBean.change_type) { //大图无下载
@@ -747,9 +759,10 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         Gson gson = new Gson();
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
-                        List<AwardRuleBean> awardRuleListBean = gson.fromJson(data, new TypeToken<List<AwardRuleBean>>() {}.getType());
-                        if(null == awardRuleListBean || 0==awardRuleListBean.size()) return;
-                        DialogAwardRule dialogAwardRule= new DialogAwardRule(ArticleDetailActivity.this,awardRuleListBean);
+                        List<AwardRuleBean> awardRuleListBean = gson.fromJson(data, new TypeToken<List<AwardRuleBean>>() {
+                        }.getType());
+                        if (null == awardRuleListBean || 0 == awardRuleListBean.size()) return;
+                        DialogAwardRule dialogAwardRule = new DialogAwardRule(ArticleDetailActivity.this, awardRuleListBean);
                         dialogAwardRule.setCanceledOnTouchOutside(true);
                         dialogAwardRule.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                         dialogAwardRule.show();
@@ -777,12 +790,12 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                             item.addAll(articleDetailRandBean);
                             articleDetailRandAdapter.notifyDataSetChanged();
 
-                            new Handler().postDelayed(new Runnable(){
+                            new Handler().postDelayed(new Runnable() {
                                 public void run() {
                                     boolean dayModel = SharedPreferencedUtils.getBoolean(ArticleDetailActivity.this, SharedPreferencedUtils.dayModel, true);
-                                    if(dayModel) {
+                                    if (dayModel) {
                                         articleDetailRandAdapter.setAdapterDayModel(ThemeManager.ThemeMode.DAY);
-                                    }else {
+                                    } else {
                                         articleDetailRandAdapter.setAdapterDayModel(ThemeManager.ThemeMode.NIGHT);
                                     }
                                 }
@@ -826,12 +839,12 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                             videoDetailCommentAdapter.notifyDataSetChanged();
                         }
                         //
-                        new Handler().postDelayed(new Runnable(){
+                        new Handler().postDelayed(new Runnable() {
                             public void run() {
                                 boolean dayModel = SharedPreferencedUtils.getBoolean(ArticleDetailActivity.this, SharedPreferencedUtils.dayModel, true);
-                                if(dayModel) {
+                                if (dayModel) {
                                     videoDetailCommentAdapter.setAdapterDayModel(ThemeManager.ThemeMode.DAY);
-                                }else {
+                                } else {
                                     videoDetailCommentAdapter.setAdapterDayModel(ThemeManager.ThemeMode.NIGHT);
                                 }
                             }
@@ -843,7 +856,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     }
 
     //一级评论点赞/取消点赞
-    public void like(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean,RecyclerView.ViewHolder viewHolder) {
+    public void like(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean, RecyclerView.ViewHolder viewHolder) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type + "");
         map.put("mid", mid + "");
@@ -856,7 +869,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         if (url.equals(HttpServicePath.URL_LIKE)) {
                             videoDetailCommentBean.up_num = videoDetailCommentBean.up_num + 1;
                             videoDetailCommentBean.is_up = 1;
-                            if(viewHolder instanceof HeaderHolder) {
+                            if (viewHolder instanceof HeaderHolder) {
                                 ((HeaderHolder) viewHolder).likeNumTv.setText(String.valueOf(videoDetailCommentBean.up_num));
                                 ((HeaderHolder) viewHolder).likeNumTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
                                 ((HeaderHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
@@ -864,7 +877,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         } else {
                             videoDetailCommentBean.up_num = videoDetailCommentBean.up_num - 1;
                             videoDetailCommentBean.is_up = 0;
-                            if(viewHolder instanceof HeaderHolder) {
+                            if (viewHolder instanceof HeaderHolder) {
                                 ((HeaderHolder) viewHolder).likeNumTv.setText(String.valueOf(videoDetailCommentBean.up_num));
                                 ((HeaderHolder) viewHolder).likeNumTv.setTextColor(getResources().getColor(R.color.FF666666));
                                 ((HeaderHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
@@ -877,7 +890,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     }
 
     //二级评论点赞/取消点赞
-    public void like(String url, int type, int mid, CommentSubitemBean commentSubitemBean,RecyclerView.ViewHolder viewHolder) {
+    public void like(String url, int type, int mid, CommentSubitemBean commentSubitemBean, RecyclerView.ViewHolder viewHolder) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type + "");
         map.put("mid", mid + "");
@@ -890,7 +903,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         if (url.equals(HttpServicePath.URL_LIKE)) {
                             commentSubitemBean.up_num = commentSubitemBean.up_num + 1;
                             commentSubitemBean.is_up = 1;
-                            if(viewHolder instanceof CommentSubitemHolder) {
+                            if (viewHolder instanceof CommentSubitemHolder) {
                                 ((CommentSubitemHolder) viewHolder).likeNumTv.setText(String.valueOf(commentSubitemBean.up_num));
                                 ((CommentSubitemHolder) viewHolder).likeNumTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
                                 ((CommentSubitemHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
@@ -898,7 +911,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         } else {
                             commentSubitemBean.up_num = commentSubitemBean.up_num - 1;
                             commentSubitemBean.is_up = 0;
-                            if(viewHolder instanceof CommentSubitemHolder) {
+                            if (viewHolder instanceof CommentSubitemHolder) {
                                 ((CommentSubitemHolder) viewHolder).likeNumTv.setText(String.valueOf(commentSubitemBean.up_num));
                                 ((CommentSubitemHolder) viewHolder).likeNumTv.setTextColor(getResources().getColor(R.color.FF666666));
                                 ((CommentSubitemHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
@@ -985,17 +998,17 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                             articleDetailBean.is_collect = 1;
                             collectImg.setImageResource(R.mipmap.item_collect_pre);
                             //发送收藏成功通知上一个页面数量增加1
-                            EventBus.getDefault().post(new EventTags.CollectEvent(mid,true));
+                            EventBus.getDefault().post(new EventTags.CollectEvent(mid, true));
                         } else {
                             articleDetailBean.is_collect = 0;
                             boolean dayModel = SharedPreferencedUtils.getBoolean(ArticleDetailActivity.this, SharedPreferencedUtils.dayModel, true);
-                            if(dayModel) {
+                            if (dayModel) {
                                 collectImg.setImageResource(R.mipmap.item_collect);
-                            }else {
+                            } else {
                                 collectImg.setImageResource(R.mipmap.item_collect_night);
                             }
                             //发送取消收藏成功通知上一个页面数量减少1
-                            EventBus.getDefault().post(new EventTags.CollectEvent(mid,false));
+                            EventBus.getDefault().post(new EventTags.CollectEvent(mid, false));
                         }
                     }
                 });
@@ -1007,7 +1020,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     //type评论类型,1=文章，2=视频，3=话题
     //grade 评论等级，0=一级评论，1=二级评论，2=三级评论
     //pid 上级id,0=没有上级
-    public void addComment(int type, int articleid, String content,int grade,int pid) {
+    public void addComment(int type, int articleid, String content, int grade, int pid) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type + "");
         map.put("articleid", articleid + "");
@@ -1023,7 +1036,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         pageNo = 1;
                         getComment(articleid, pageNo);
                         //评论数
-                        commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString())+1));
+                        commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString()) + 1));
                     }
                 });
             }
@@ -1031,7 +1044,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     }
 
     //删除评论
-    public void delComment(int commentId, int article_id, int type, int position,int subPosition) {
+    public void delComment(int commentId, int article_id, int type, int position, int subPosition) {
         Map<String, String> map = new HashMap<>();
         map.put("commentid", commentId + "");
         map.put("articleid", article_id + "");
@@ -1047,20 +1060,20 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
                         DeleteCommentBean deleteCommentBean = gson.fromJson(data, DeleteCommentBean.class);
-                        if(null != deleteCommentBean) {
-                            commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString())-deleteCommentBean.num));
+                        if (null != deleteCommentBean) {
+                            commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString()) - deleteCommentBean.num));
                         }
 
-                        if(null == item1) return;
-                        if(subPosition<0) { //长按一级评论的删除
+                        if (null == item1) return;
+                        if (subPosition < 0) { //长按一级评论的删除
                             item1.remove(position);
-                        }else { //删除二级或者三级评论的回复
+                        } else { //删除二级或者三级评论的回复
                             item1.get(position).num = item1.get(position).num - deleteCommentBean.num;
-                            if(null == item1.get(position).cdata1) return;
-                            for(int i = 0;i<item1.get(position).cdata1.size();i++) {
-                                if(commentId == item1.get(position).cdata1.get(i).commentid
+                            if (null == item1.get(position).cdata1) return;
+                            for (int i = 0; i < item1.get(position).cdata1.size(); i++) {
+                                if (commentId == item1.get(position).cdata1.get(i).commentid
                                         || commentId == item1.get(position).cdata1.get(i).pid
-                                        ) {
+                                ) {
                                     item1.get(position).cdata1.remove(i);
                                     i--;
                                 }
@@ -1093,14 +1106,14 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                             ReadAwardBean readAwardBean = gson.fromJson(data, ReadAwardBean.class);
                             if (null == readAwardBean) return;
                             goldTv.setVisibility(View.VISIBLE);
-                            goldTv.setText("+"+ readAwardBean.coin+"金币");
-                            new Handler().postDelayed(new Runnable(){
+                            goldTv.setText("+" + readAwardBean.coin + "金币");
+                            new Handler().postDelayed(new Runnable() {
                                 public void run() {
                                     //execute the task
                                     goldTv.setVisibility(View.INVISIBLE);
                                 }
                             }, 1500);
-                            handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING,circleTime);
+                            handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING, circleTime);
                         }
                     }
                 });
@@ -1123,8 +1136,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         return list;
     }
 
-    public void showPopupwindow(int type,int grade,int pid,String hint) {
-        CommentWindow fw = new CommentWindow(this,hint);
+    public void showPopupwindow(int type, int grade, int pid, String hint) {
+        CommentWindow fw = new CommentWindow(this, hint);
         fw.showAtLocation(titleTv, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         fw.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -1143,7 +1156,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             @Override
             public void publishComment(String comment) {
                 if (null != articleDetailBean) {
-                    addComment(type, articleDetailBean.articleid, comment,grade,pid);
+                    addComment(type, articleDetailBean.articleid, comment, grade, pid);
                 }
                 fw.dismiss();
             }
@@ -1152,8 +1165,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
 
     //举报弹窗
-    public void showReportWindow(int mid,int type) {
-        ReportPopupWindows rw = new ReportPopupWindows(this, reportList(),mid,type);
+    public void showReportWindow(int mid, int type) {
+        ReportPopupWindows rw = new ReportPopupWindows(this, reportList(), mid, type);
         WindowUtil.windowDeploy(this, rw, backImg);
     }
 
@@ -1179,7 +1192,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             }
             oks.setImageUrl(articleDetailBean.photo);
         } else {
-            oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
+            oks.setImageUrl(HttpServicePath.BasePicUrl + "sharelog.png?time=" + System.currentTimeMillis());
         }
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl(ShareUrl.getUrl(articleDetailBean.articleid, 1));
@@ -1222,7 +1235,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
             @Override
             public void link(int position) {
-                if(null != articleDetailBean) {
+                if (null != articleDetailBean) {
                     String link = ShareUrl.getUrl(articleDetailBean.articleid, 1);
                     CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(ArticleDetailActivity.this, link);
                     copyButtonLibrary.init(link);
@@ -1232,8 +1245,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
             @Override
             public void report() {
-                if(null != articleDetailBean) {
-                    showReportWindow(articleDetailBean.articleid,1);
+                if (null != articleDetailBean) {
+                    showReportWindow(articleDetailBean.articleid, 1);
                     rw.dismiss();
                 }
             }
@@ -1273,7 +1286,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         //注意，当我们暂停时，同时还要移除消息，不然的话进度不会被停止
         handler.removeMessages(PROGRESS_CIRCLE_STARTING);
         //将当前进度存入本地
-        SharedPreferencedUtils.setInteger(this,SharedPreferencedUtils.ARTICLE_READ_TIME,circleProgress.getProgress());
+        SharedPreferencedUtils.setInteger(this, SharedPreferencedUtils.ARTICLE_READ_TIME, circleProgress.getProgress());
         HeartVideoManager.getInstance().pause();
     }
 
@@ -1281,19 +1294,18 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     protected void onResume() {
         super.onResume();
         //是否显示转圈
-        if(null != articleDetailBean) {
-            if(0 == articleDetailBean.is_coin) {
+        if (null != articleDetailBean) {
+            if (0 == articleDetailBean.is_coin) {
                 //登录之后开始开始转圈
                 if (CheckLogin.isLogin(this)) {
                     propressLayout.setVisibility(View.VISIBLE);
-                    circleProgress.setProgress(SharedPreferencedUtils.getInteger(this,SharedPreferencedUtils.ARTICLE_READ_TIME,0));
+                    circleProgress.setProgress(SharedPreferencedUtils.getInteger(this, SharedPreferencedUtils.ARTICLE_READ_TIME, 0));
                     //延迟100ms后继续发消息，实现循环，直到progress=100
                     handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING, circleTime);
                 }
             }
         }
     }
-
 
 
     @Override
@@ -1310,13 +1322,13 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 //        modeUi(dayMoulde.getMoulde());
         if (dayMoulde.getMoulde()) {
             ThemeManager.setThemeMode(ThemeManager.ThemeMode.DAY);
-            if(null != articleDetailRandAdapter) {
+            if (null != articleDetailRandAdapter) {
                 articleDetailRandAdapter.setAdapterDayModel(ThemeManager.ThemeMode.DAY);
             }
 
         } else {
             ThemeManager.setThemeMode(ThemeManager.ThemeMode.NIGHT);
-            if(null != articleDetailRandAdapter) {
+            if (null != articleDetailRandAdapter) {
                 articleDetailRandAdapter.setAdapterDayModel(ThemeManager.ThemeMode.NIGHT);
             }
         }
@@ -1325,13 +1337,13 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     //评论详情一级评论点赞通知
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void LikeComment(EventTags.LikeComment likeComment) {
-        if(null == item1) return;
-        for(int i = 0;i<item1.size();i++) {
-            if(likeComment.getMid() == item1.get(i).commentid) {
-                if(likeComment.getLike()) { //评论详情点赞
+        if (null == item1) return;
+        for (int i = 0; i < item1.size(); i++) {
+            if (likeComment.getMid() == item1.get(i).commentid) {
+                if (likeComment.getLike()) { //评论详情点赞
                     item1.get(i).up_num = item1.get(i).up_num + 1;
                     item1.get(i).is_up = 1;
-                }else {//评论详情取消点赞
+                } else {//评论详情取消点赞
                     item1.get(i).up_num = item1.get(i).up_num - 1;
                     item1.get(i).is_up = 0;
                 }
@@ -1343,16 +1355,16 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     //评论详情二级评论点赞通知
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void LikeSubComment(EventTags.LikeSubComment likeSubComment) {
-        if(null == item1) return;
-        for(int i = 0;i<item1.size();i++) {
-            if(likeSubComment.getMid() == item1.get(i).commentid) {
-                if(null == item1.get(i).cdata1) return;
-                for(int j = 0;j<item1.get(i).cdata1.size();j++) {
-                    if(likeSubComment.getSubMid() == item1.get(i).cdata1.get(j).commentid) {
-                        if(likeSubComment.getLike()) {
+        if (null == item1) return;
+        for (int i = 0; i < item1.size(); i++) {
+            if (likeSubComment.getMid() == item1.get(i).commentid) {
+                if (null == item1.get(i).cdata1) return;
+                for (int j = 0; j < item1.get(i).cdata1.size(); j++) {
+                    if (likeSubComment.getSubMid() == item1.get(i).cdata1.get(j).commentid) {
+                        if (likeSubComment.getLike()) {
                             item1.get(i).cdata1.get(j).up_num = item1.get(i).cdata1.get(j).up_num + 1;
                             item1.get(i).cdata1.get(j).is_up = 1;
-                        }else {
+                        } else {
                             item1.get(i).cdata1.get(j).up_num = item1.get(i).cdata1.get(j).up_num - 1;
                             item1.get(i).cdata1.get(j).is_up = 0;
                         }
@@ -1366,13 +1378,13 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     //评论详情增加评论通知
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void AddComment(EventTags.AddComment addComment) {
-        if(null == item1) return;
-        for(int i = 0;i<item1.size();i++) {
-            if(addComment.getMid() == item1.get(i).commentid) {
-                item1.get(i).cdata1.add(0,addComment.getCommentSubitemBean());
+        if (null == item1) return;
+        for (int i = 0; i < item1.size(); i++) {
+            if (addComment.getMid() == item1.get(i).commentid) {
+                item1.get(i).cdata1.add(0, addComment.getCommentSubitemBean());
                 item1.get(i).num = item1.get(i).num + 1;
                 videoDetailCommentAdapter.notifyDataSetChanged();
-                int commentNum = Integer.valueOf(commentNumTv.getText().toString())+1;
+                int commentNum = Integer.valueOf(commentNumTv.getText().toString()) + 1;
                 commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
             }
         }
@@ -1381,19 +1393,19 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     //评论详情删除评论通知
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void DeleteComment(EventTags.DeleteComment deleteComment) {
-        if(null == item1) return;
-        for(int i = 0;i<item1.size();i++) {
-            if(deleteComment.getMid() == item1.get(i).commentid) {
-                if(null == item1.get(i).cdata1) return;
-                for(int k = 0;k<item1.get(i).cdata1.size();k++) {
-                    if((deleteComment.getSubMid()== item1.get(i).cdata1.get(k).commentid) ||
-                            (deleteComment.getSubMid()== item1.get(i).cdata1.get(k).pid)) {
+        if (null == item1) return;
+        for (int i = 0; i < item1.size(); i++) {
+            if (deleteComment.getMid() == item1.get(i).commentid) {
+                if (null == item1.get(i).cdata1) return;
+                for (int k = 0; k < item1.get(i).cdata1.size(); k++) {
+                    if ((deleteComment.getSubMid() == item1.get(i).cdata1.get(k).commentid) ||
+                            (deleteComment.getSubMid() == item1.get(i).cdata1.get(k).pid)) {
                         item1.get(i).cdata1.remove(k);
                         k--;
                     }
                 }
                 item1.get(i).num = item1.get(i).num - deleteComment.getDeleteCommentNum();
-                int commentNum = Integer.valueOf(commentNumTv.getText().toString())-deleteComment.getDeleteCommentNum();
+                int commentNum = Integer.valueOf(commentNumTv.getText().toString()) - deleteComment.getDeleteCommentNum();
                 commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
                 videoDetailCommentAdapter.notifyDataSetChanged();
             }
@@ -1417,14 +1429,14 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     }
 
     //调用不喜欢接口
-    public void unLike(int bid,int mid,int type) {
+    public void unLike(int bid, int mid, int type) {
         //bid 1=不敢兴趣，2=反馈垃圾内容，3=拉黑作者
         //mid 文章视频id
         //type 1=文章，2=视频
         Map<String, String> map = new HashMap<>();
-        map.put("bid",bid+"");
-        map.put("mid",mid+"");
-        map.put("type",type+"");
+        map.put("bid", bid + "");
+        map.put("mid", mid + "");
+        map.put("type", type + "");
         OkHttp.post(this, HttpServicePath.URL_UNLIKE, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
@@ -1436,8 +1448,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     //不喜欢列表
     public void getUnLikeParameter(int articleid) {
         Map<String, String> map = new HashMap<>();
-        map.put("articleid",String.valueOf(articleid));
-        map.put("type",1+"");
+        map.put("articleid", String.valueOf(articleid));
+        map.put("type", 1 + "");
         OkHttp.post(this, HttpServicePath.URL_REPORT_LIST, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
@@ -1448,7 +1460,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
                         UnLikeBean unLikeBean = gson.fromJson(data, UnLikeBean.class);
-                        if(null == unLikeBean) return;
+                        if (null == unLikeBean) return;
                         initDialog(unLikeBean);
                     }
                 });
@@ -1457,15 +1469,15 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     }
 
     public void doDeletel(int bid) {
-        if(null == articleDetailBean) return;
-        unLike(bid,articleDetailBean.articleid,1);
+        if (null == articleDetailBean) return;
+        unLike(bid, articleDetailBean.articleid, 1);
         //发送通知让列表删除对应item
         EventBus.getDefault().post(new EventTags.DeleteItemById(articleDetailBean.articleid));
-        ToastUtil.showToast(this,"将减少推荐类似内容");
+        ToastUtil.showToast(this, "将减少推荐类似内容");
     }
 
     public void initDialog(UnLikeBean unLikeBean) {
-        DialogDeleteCommon dialog = new DialogDeleteCommon(this,unLikeBean,false);
+        DialogDeleteCommon dialog = new DialogDeleteCommon(this, unLikeBean, false);
         dialog.showDialog();
         dialog.setOnItemClickListener(new DialogDeleteCommon.OnItemClick() {
             @Override
@@ -1484,21 +1496,28 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         doDeletel(4);
                         break;
                     case 5:
-                        if(null == articleDetailBean) return;
-                        showReportWindow(articleDetailBean.articleid,1);
+                        if (null == articleDetailBean) return;
+                        showReportWindow(articleDetailBean.articleid, 1);
                         break;
                 }
             }
         });
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
     private class MyBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if("enterFullScreen".equals(intent.getAction())) { //进入全屏
+            if ("enterFullScreen".equals(intent.getAction())) { //进入全屏
                 StatusBarUtils.with(ArticleDetailActivity.this).init().setStatusTextColorWhite(true, ArticleDetailActivity.this);
-            }else if("exitFullScreen".equals(intent.getAction())) {//退出全屏
-                boolean dayModel = SharedPreferencedUtils.getBoolean(ArticleDetailActivity.this,SharedPreferencedUtils.dayModel,true);
+            } else if ("exitFullScreen".equals(intent.getAction())) {//退出全屏
+                boolean dayModel = SharedPreferencedUtils.getBoolean(ArticleDetailActivity.this, SharedPreferencedUtils.dayModel, true);
                 modeUi(dayModel);
             }
         }
@@ -1508,9 +1527,9 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             HeartVideo heartVideo = HeartVideoManager.getInstance().getCurrPlayVideo();
-            if(null != heartVideo && heartVideo.getCurrModeStatus()== PlayerStatus.MODE_FULL_SCREEN) {
+            if (null != heartVideo && heartVideo.getCurrModeStatus() == PlayerStatus.MODE_FULL_SCREEN) {
                 HeartVideoManager.getInstance().getCurrPlayVideo().exitFullScreen();
-            }else {
+            } else {
                 finish();
             }
         }
@@ -1518,21 +1537,21 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     }
 
     @OnClick({R.id.backImg, R.id.rightImg, R.id.attentionTv, R.id.attentionTitleTv, R.id.likeLayout, R.id.collectImg, R.id.shareImg,
-            R.id.lookCommentImg, R.id.showEdit, R.id.layout, R.id.titleToUserLayout,R.id.jumpLayout,R.id.advertisingImg,R.id.propressLayout,
-            R.id.nuLikeLayout,R.id.shareFriendLayout,R.id.shareWxLayout,R.id.prestrainLayout})
+            R.id.lookCommentImg, R.id.showEdit, R.id.layout, R.id.titleToUserLayout, R.id.jumpLayout, R.id.advertisingImg, R.id.propressLayout,
+            R.id.nuLikeLayout, R.id.shareFriendLayout, R.id.shareWxLayout, R.id.prestrainLayout})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.backImg:
                 finish();
                 break;
             case R.id.rightImg:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     showShareWindow(1);
                 }
                 break;
             case R.id.attentionTv:
             case R.id.attentionTitleTv:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null == articleDetailBean) return;
                     if (0 == articleDetailBean.is_follow) {//去关注
                         addFollow(articleDetailBean.userid, 1);
@@ -1542,7 +1561,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 }
                 break;
             case R.id.likeLayout:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null == articleDetailBean) return;
                     if (0 == articleDetailBean.is_up) {//去点赞
                         addLike(HttpServicePath.URL_LIKE, 1, articleDetailBean.articleid);
@@ -1552,10 +1571,10 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 }
                 break;
             case R.id.showEdit:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null != articleDetailBean) {
                         if (1 == articleDetailBean.is_comment) {
-                            showPopupwindow(1,0,0,"优质评论会被优先展示哦!");
+                            showPopupwindow(1, 0, 0, "优质评论会被优先展示哦!");
                         } else {
                             ToastUtil.showToast(this, "暂时不能评论!");
                         }
@@ -1563,7 +1582,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 }
                 break;
             case R.id.collectImg:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null == articleDetailBean) return;
                     if (0 == articleDetailBean.is_collect) {//去收藏
                         addCollect(HttpServicePath.URL_COLLECT, 1, articleDetailBean.articleid);
@@ -1573,7 +1592,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 }
                 break;
             case R.id.shareImg:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     showShareWindow(0);
                 }
                 break;
@@ -1597,25 +1616,25 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 break;
             case R.id.jumpLayout:
             case R.id.advertisingImg:
-                if(ClickUtil.onClick()) {
-                    if(null == advertiseBean) return;
-                    Intent intent = new Intent(ArticleDetailActivity.this,CommentWebViewActivity.class);
+                if (ClickUtil.onClick()) {
+                    if (null == advertiseBean) return;
+                    Intent intent = new Intent(ArticleDetailActivity.this, CommentWebViewActivity.class);
                     intent.putExtra("url", advertiseBean.jump_url);
                     startActivity(intent);
                 }
                 break;
             case R.id.propressLayout: //转圈布局调用
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     getRewardRule();
                 }
                 break;
             case R.id.nuLikeLayout:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     getUnLikeParameter(articleid);
                 }
                 break;
             case R.id.shareFriendLayout:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null != articleDetailBean) {
                         showShare(WechatMoments.NAME);
                         totalShare(1, articleDetailBean.articleid);
@@ -1623,7 +1642,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 }
                 break;
             case R.id.shareWxLayout:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null != articleDetailBean) {
                         showShare(Wechat.NAME);
                         totalShare(1, articleDetailBean.articleid);

@@ -43,15 +43,26 @@
                     android:visibility="gone"
                     />
 
-
+                    <FrameLayout
+                        android:id="@+id/fl_userIcon"
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        android:layout_marginTop="@dimen/x_ui_px_110.0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/userIcon"
                         android:layout_width="@dimen/x_ui_px_104.0"
                         android:layout_height="@dimen/x_ui_px_104.0"
-                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
-                        android:layout_marginTop="@dimen/x_ui_px_110.0"
-                        android:src="@mipmap/head_default"/>
 
+                        android:src="@mipmap/head_default"/>
+                        <ImageView
+                            android:id="@+id/iv_level"
+                            android:layout_width="@dimen/x_ui_px_28.0"
+                            android:layout_height="@dimen/x_ui_px_28.0"
+                            android:layout_gravity="end|bottom"
+
+           />
+                    </FrameLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -59,7 +70,7 @@
                         android:gravity="center_vertical"
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="@dimen/x_ui_px_122.0"
-                        android:layout_toRightOf="@+id/userIcon"
+                        android:layout_toRightOf="@+id/fl_userIcon"
                         android:layout_marginLeft="@dimen/x_ui_px_20.0">
 
                         <TextView

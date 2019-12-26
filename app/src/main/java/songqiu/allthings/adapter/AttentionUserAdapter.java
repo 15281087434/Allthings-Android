@@ -25,6 +25,7 @@ import songqiu.allthings.iterface.CancelAttentionListener;
 import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.StringUtil;
 
 /*******
@@ -67,6 +68,7 @@ public class AttentionUserAdapter extends RecyclerView.Adapter<AttentionUserAdap
             }
         }
         Glide.with(context).load(attentionUserBean.avatar).apply(options).into(holder.userIcon);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.userName.setText(attentionUserBean.user_nickname);
         holder.contentTv.setText(attentionUserBean.signature);
         holder.stateTv.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +119,8 @@ public class AttentionUserAdapter extends RecyclerView.Adapter<AttentionUserAdap
         View line;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

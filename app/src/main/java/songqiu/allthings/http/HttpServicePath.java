@@ -12,12 +12,12 @@ package songqiu.allthings.http;
 public class HttpServicePath {
 
 //    public static String BaseUrl = "https://jianguaiapp.com:100/"; //线上测试、审核
-//    public static String BaseUrl = "http://192.168.0.88/"; //测试  内网
+    public static String BaseUrl = "http://192.168.0.88/"; //测试  内网
 //    public static String BasePicUrl = "http://47.108.29.87:81"; //图片地址
     public static String BasePicUrl = "http://1097.oss-cn-chengdu.aliyuncs.com/"; //OSS图片前缀
 
     //官方安卓 511、OPPO 512、vivo 513、华为 514、应用宝 515 、UC 516、360 517、百度 518、小米 519 魅族 520
-    public static String BaseUrl = "https://jianguaiapp.com:511/"; //正式 渠道
+//    public static String BaseUrl = "https://jianguaiapp.com:511/"; //正式 渠道
 
     //检测版本号
     public static String URL_VERSION = BaseUrl+"version";
@@ -250,6 +250,22 @@ public class HttpServicePath {
 
     //标签搜索
     public static String URL_LABELS_SEARCH = BaseUrl+"labels_search";
+
+    //获取当前认证等级
+    public static final String URL_STATE_DATA=BaseUrl+"stat_data";
+
+    //申请认证
+    public static final String URL_STATE_APPLY=BaseUrl+"verify_data";
+
+    //实名认证
+    public static final String URL_REALNAME_AUTH=BaseUrl+"verify_user";
+
+    //稿酬收入记录
+    public static final String URL_GCLOGS=BaseUrl+"gc_log";
+
+    //稿酬订单记录
+    public static final String URL_GC_ORDER=BaseUrl+"gc_order";
+
 
 
 }

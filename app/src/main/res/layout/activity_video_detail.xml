@@ -21,8 +21,7 @@
             <com.heartfor.heartvideo.video.HeartVideo
                 android:id="@+id/videoView"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x_ui_px_424.0"
-                />
+                android:layout_height="@dimen/x_ui_px_424.0" />
 
             <RelativeLayout
                 android:id="@+id/titleLayout"
@@ -51,6 +50,9 @@
                     android:padding="@dimen/x_ui_px_30.0"
                     android:src="@mipmap/ellipsis_white" />
             </RelativeLayout>
+
+            <include layout="@layout/play_completion_layout"
+                android:visibility="gone"/>
 
         </FrameLayout>
 

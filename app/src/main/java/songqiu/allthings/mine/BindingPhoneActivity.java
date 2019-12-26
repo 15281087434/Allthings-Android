@@ -226,6 +226,7 @@ public class BindingPhoneActivity extends BaseActivity {
                             SharedPreferencedUtils.setString(BindingPhoneActivity.this, "SYSAVATAR", userBean.avatar);
                             SharedPreferencedUtils.setString(BindingPhoneActivity.this, "SYSINVITATIONCODE", userBean.invitation_code);
                             SharedPreferencedUtils.setInteger(BindingPhoneActivity.this, "SYSUSERID", userBean.userid);
+                            SharedPreferencedUtils.setString(BindingPhoneActivity.this,SharedPreferencedUtils.USER_LEVEL,userBean.getLevel());
                             SharedPreferencedUtils.setBoolean(BindingPhoneActivity.this, SharedPreferencedUtils.LOGIN, true);
                             EventBus.getDefault().post(new EventTags.LoginSucceed());
                             Intent intent = new Intent(BindingPhoneActivity.this, MainActivity.class);

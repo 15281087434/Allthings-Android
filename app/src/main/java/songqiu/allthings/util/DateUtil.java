@@ -141,6 +141,8 @@ public class DateUtil {
         return currentDate;
     }
 
+
+
     public static String getDateType4(String time) {
         if (!TextUtils.isEmpty(time)) {
             long t = Long.parseLong(time);

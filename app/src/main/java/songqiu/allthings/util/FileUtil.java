@@ -131,4 +131,18 @@ public class FileUtil {
 		return inSampleSize;
 	}
 
+	/**
+	 * 获取广告文件
+	 * @param context
+	 * @return
+	 */
+	public static File   getAdsFile(Context context,String url){
+		String fileName =  url.substring(url.lastIndexOf("/") + 1);
+		File appDir =new  File(context.getExternalCacheDir(), "ads");
+		if (!appDir.exists()) {
+			appDir.mkdir();
+		}
+		File file =new  File(appDir, fileName);
+		return file;
+	}
 }

@@ -258,6 +258,8 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                             SharedPreferencedUtils.setString(LoginActivity.this, "SYSAVATAR", userBean.avatar);
                             SharedPreferencedUtils.setString(LoginActivity.this, "SYSINVITATIONCODE", userBean.invitation_code);
                             SharedPreferencedUtils.setInteger(LoginActivity.this, "SYSUSERID", userBean.userid);
+                            SharedPreferencedUtils.setString(LoginActivity.this,SharedPreferencedUtils.USER_LEVEL, userBean.getLevel());
+
                             SharedPreferencedUtils.setBoolean(LoginActivity.this,SharedPreferencedUtils.LOGIN,true);
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);

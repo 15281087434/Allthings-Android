@@ -27,4 +27,5 @@ public class FeedbackDetailBean {
     public String avatar;
     public String user_nickname;
     public String official; //已回复的回复内容
+      public String level;
 }

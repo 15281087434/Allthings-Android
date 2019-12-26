@@ -328,6 +328,7 @@
 -keep class org.android.agoo.**{*;}
 -keep class android.os.**{*;}
 -keep class org.json.**{*;}
+
 -dontwarn com.taobao.**
 -dontwarn com.alibaba.**
 -dontwarn com.alipay.**

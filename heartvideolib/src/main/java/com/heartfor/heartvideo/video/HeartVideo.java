@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.rtp.AudioStream;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -39,6 +40,14 @@ public class HeartVideo extends FrameLayout implements TextureView.SurfaceTextur
     private AudioManager mAudioManager;
     private int mBufferPercentage;
     private FrameLayout textureViewLayout;
+    private OnCompletionListener completionListener;
+
+
+
+    public void setCompletionListener(OnCompletionListener completionListener) {
+        this.completionListener = completionListener;
+    }
+
     public HeartVideo(Context context) {
         this(context,null,0);
     }
@@ -93,6 +102,11 @@ public class HeartVideo extends FrameLayout implements TextureView.SurfaceTextur
             initTextureView();
             addTextureView();
         }
+    }
+    //静音播放
+    public void startSlence(){
+        this.start();
+        mMediaPlayer.setVolume(0,0);
     }
     public void restart() {
         if (currStatus == PlayerStatus.STATE_PAUSED) {
@@ -153,6 +167,7 @@ public class HeartVideo extends FrameLayout implements TextureView.SurfaceTextur
         }
 
         if (mMediaPlayer != null) {
+            mMediaPlayer.reset();
             mMediaPlayer.release();
             mMediaPlayer=null;
         }
@@ -191,7 +206,6 @@ public class HeartVideo extends FrameLayout implements TextureView.SurfaceTextur
         if (mMediaPlayer == null) {
             mMediaPlayer = new MediaPlayer();
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mMediaPlayer.setScreenOnWhilePlaying(true);
             mMediaPlayer.setOnPreparedListener(this);
             mMediaPlayer.setOnVideoSizeChangedListener(this);
             mMediaPlayer.setOnCompletionListener(this);
@@ -199,13 +213,17 @@ public class HeartVideo extends FrameLayout implements TextureView.SurfaceTextur
             mMediaPlayer.setOnInfoListener(this);
             mMediaPlayer.setOnBufferingUpdateListener(this);
             mMediaPlayer.setOnSeekCompleteListener(seekCompleteListener);
+            mMediaPlayer.setVolume(1,1);
+            mMediaPlayer.setScreenOnWhilePlaying(true);
         }
     }
 
     private void initAudioManager() {
         if (mAudioManager == null) {
+
             mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
             mAudioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+
         }
     }
 
@@ -338,6 +356,9 @@ public class HeartVideo extends FrameLayout implements TextureView.SurfaceTextur
         mControl.onPlayStateChanged(currStatus);
         // 清除屏幕常亮
         mContainer.setKeepScreenOn(false);
+        if(completionListener!=null){
+            completionListener.onCompleticon();
+        }
     }
 
     @Override
@@ -429,5 +450,9 @@ public class HeartVideo extends FrameLayout implements TextureView.SurfaceTextur
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
 
+    }
+
+    public interface OnCompletionListener{
+        public void onCompleticon();
     }
 }

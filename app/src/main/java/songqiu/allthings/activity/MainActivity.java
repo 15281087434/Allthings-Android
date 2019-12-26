@@ -1,16 +1,18 @@
 package songqiu.allthings.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
+import android.content.ServiceConnection;
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,8 +27,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationListener;
 import com.google.gson.Gson;
 import com.heartfor.heartvideo.video.HeartVideo;
 import com.heartfor.heartvideo.video.HeartVideoManager;
@@ -36,23 +36,29 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.Response;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
-import songqiu.allthings.api.AndroidScheduler;
-import songqiu.allthings.api.BaseSubscriber;
-import songqiu.allthings.api.NetApi;
 import songqiu.allthings.articledetail.ArticleDetailActivity;
-import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.base.BaseMainActivity;
-import songqiu.allthings.bean.BaseBean;
+import songqiu.allthings.bean.AdvertiseBean;
 import songqiu.allthings.bean.ChangePage;
 import songqiu.allthings.bean.ReadAwardBean;
 import songqiu.allthings.home.HomePageFragment;
@@ -60,22 +66,24 @@ import songqiu.allthings.home.gambit.GambitDetailActivity;
 import songqiu.allthings.home.gambit.HotGambitDetailActivity;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
+import songqiu.allthings.http.OkHttpUtil;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.look.LookPageFragment;
 import songqiu.allthings.mine.MinePageFragment;
-import songqiu.allthings.mine.userpage.UserPagerActivity;
+import songqiu.allthings.service.DownloadService;
 import songqiu.allthings.task.TaskPageFragment;
 import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.ClickUtil;
-import songqiu.allthings.util.LocationUtils;
-import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.FileUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
-import songqiu.allthings.util.theme.ThemeManager;
 import songqiu.allthings.videodetail.VideoDetailActivity;
 import songqiu.allthings.view.CustomCircleProgress;
+
+import static songqiu.allthings.util.upload.UpdateManager.RESTART_DOANLOAD_ACTION;
+import static songqiu.allthings.util.upload.UpdateManager.UPDATE_PROGRESS_ACTION;
 
 public class MainActivity extends BaseMainActivity {
 
@@ -163,21 +171,21 @@ public class MainActivity extends BaseMainActivity {
     int progress;
     int circleTime = 300;
     public final int PROGRESS_CIRCLE_STARTING = 0x110;
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case PROGRESS_CIRCLE_STARTING:
                     progress = circleProgress.getProgress();
                     circleProgress.setProgress(++progress);
-                    if(progress >= 100){
+                    if (progress >= 100) {
                         handler.removeMessages(PROGRESS_CIRCLE_STARTING);
                         progress = 0;
                         circleProgress.setProgress(0);
                         circleProgress.setStatus(CustomCircleProgress.Status.End);//修改显示状态为完成
                         //调用接口
                         carryOutTime();
-                    }else{
+                    } else {
                         //延迟100ms后继续发消息，实现循环，直到progress=100
                         handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING, circleTime);
                     }
@@ -198,17 +206,100 @@ public class MainActivity extends BaseMainActivity {
             EventBus.getDefault().register(this);
         }
         rotate = AnimationUtils.loadAnimation(this, R.drawable.rotate_anim);
-        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        boolean dayModel = SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true);
         Intent intent = getIntent();
         notificationJump(intent);
         StatusBarUtils.with(MainActivity.this).init().setStatusTextColorWhite(true, MainActivity.this);
         modeUi(dayModel);
         fragmentManager = getSupportFragmentManager();
-        setTabSelection(INDEX_HOME_PAGE,0);
-        setBottomLayoutBackground(false,0);
-        animationDrawable = (AnimationDrawable)videoGoldImg.getBackground();
+        setTabSelection(INDEX_HOME_PAGE, 0);
+        setBottomLayoutBackground(false, 0);
+        animationDrawable = (AnimationDrawable) videoGoldImg.getBackground();
         initBroadcastReceiver();
+        AdvertiseBean advertiseBean = (AdvertiseBean) getIntent().getSerializableExtra("advertiseBean");
+        if (null != advertiseBean) {
+            downLoadAds(advertiseBean);
+        }
+
+
+
     }
+
+    //下载广告
+    public void downLoadAds(AdvertiseBean advertiseBean) {
+        if (StringUtil.isEmpty(advertiseBean.url)) return;
+        String url = advertiseBean.url.replaceAll("\"", "");
+
+        if (!StringUtil.isEmpty(url)) {
+            if (!url.contains("http")) {
+                url = HttpServicePath.BasePicUrl + url;
+            }
+        }
+
+        String finalUrl = url;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                downLoadFile(finalUrl);
+            }
+        }).start();
+
+
+    }
+
+    //下载文件
+    private void downLoadFile(String url) {
+        File adsFile = FileUtil.getAdsFile(this, url);
+        if (!adsFile.exists()) {
+            InputStream is = null;
+            HttpURLConnection conn = null;
+            RandomAccessFile aaf = null;
+            try {
+                URL Url = new URL(url);
+                conn = (HttpURLConnection) Url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setConnectTimeout(5 * 1000000);
+                conn.setReadTimeout(5 * 1000000);
+                conn.setRequestProperty("Referer", url.toString());
+                conn.setRequestProperty("Connection", "Keep-Alive");
+                conn.setAllowUserInteraction(true);
+                conn.connect();
+                is = conn.getInputStream();
+                aaf = new RandomAccessFile(adsFile, "rwd");
+                aaf.seek(0);
+                int len;
+
+                byte[] bytes = new byte[5120];
+                while ((len = is.read(bytes, 0, bytes.length)) != -1) {
+                    aaf.write(bytes, 0, len);
+                }
+                Log.e("mp4", "下载成功");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                Log.e("mp4", e.getMessage());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("mp4", e.getMessage());
+            } finally {
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                    if (aaf != null) {
+                        aaf.close();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (conn != null) {
+                    conn.disconnect();
+                }
+            }
+        }
+    }
+
 
     public void initBroadcastReceiver() {
         IntentFilter intentFilter = new IntentFilter();
@@ -222,22 +313,22 @@ public class MainActivity extends BaseMainActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if ("start_video".equals(intent.getAction())) {
-                videoId = intent.getIntExtra("videoId",0);
-                    //延迟100ms后继续发消息，实现循环，直到progress=100
-                if(activityVisible) {
-                    if(CheckLogin.isLogin(MainActivity.this)) {
-                        if(0!= videoId) {
+                videoId = intent.getIntExtra("videoId", 0);
+                //延迟100ms后继续发消息，实现循环，直到progress=100
+                if (activityVisible) {
+                    if (CheckLogin.isLogin(MainActivity.this)) {
+                        if (0 != videoId) {
                             handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING, circleTime);
                         }
                     }
                 }
-            }else if("stop_video".equals(intent.getAction())) {
-                    //点击则变成关闭暂停状态
+            } else if ("stop_video".equals(intent.getAction())) {
+                //点击则变成关闭暂停状态
                 circleProgress.setStatus(CustomCircleProgress.Status.End);
                 //注意，当我们暂停时，同时还要移除消息，不然的话进度不会被停止
                 handler.removeMessages(PROGRESS_CIRCLE_STARTING);
                 //将当前进度存入本地
-                SharedPreferencedUtils.setInteger(MainActivity.this, SharedPreferencedUtils.VEDIO_READ_TIME,circleProgress.getProgress());
+                SharedPreferencedUtils.setInteger(MainActivity.this, SharedPreferencedUtils.VEDIO_READ_TIME, circleProgress.getProgress());
 //                if(activityVisible) {
 //                   if(CheckLogin.isLogin(MainActivity.this)) {
 //                       if(0!=videoId) {
@@ -251,13 +342,14 @@ public class MainActivity extends BaseMainActivity {
 //                }
             }
         }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         activityVisible = true;
-        circleProgress.setProgress(SharedPreferencedUtils.getInteger(this,SharedPreferencedUtils.VEDIO_READ_TIME,0));
+        circleProgress.setProgress(SharedPreferencedUtils.getInteger(this, SharedPreferencedUtils.VEDIO_READ_TIME, 0));
     }
 
     @Override
@@ -273,39 +365,39 @@ public class MainActivity extends BaseMainActivity {
     }
 
     public void notificationJump(Intent intent) {
-        if(null == intent)return;
+        if (null == intent) return;
         String type = intent.getStringExtra("type");
-        int id = intent.getIntExtra("id",0);
+        int id = intent.getIntExtra("id", 0);
         Intent mIntent = null;
-        if("1".equals(type)) {
+        if ("1".equals(type)) {
             mIntent = new Intent(MainActivity.this, ArticleDetailActivity.class);
-            mIntent.putExtra("articleid",id);
+            mIntent.putExtra("articleid", id);
             startActivity(mIntent);
-        }else if("2".equals(type)) {
+        } else if ("2".equals(type)) {
             mIntent = new Intent(MainActivity.this, VideoDetailActivity.class);
-            mIntent.putExtra("articleid",id);
+            mIntent.putExtra("articleid", id);
             startActivity(mIntent);
-        }else { // 分享
+        } else { // 分享
             Uri uri = intent.getData();
-            if(uri!=null){
+            if (uri != null) {
                 String shareType = uri.getQueryParameter("type");
                 String shareId = uri.getQueryParameter("id");
-                if("1".equals(shareType)) {
+                if ("1".equals(shareType)) {
                     mIntent = new Intent(MainActivity.this, ArticleDetailActivity.class);
-                    mIntent.putExtra("articleid",Integer.valueOf(shareId));
+                    mIntent.putExtra("articleid", Integer.valueOf(shareId));
                     startActivity(mIntent);
-                }else if("2".equals(shareType)) {
+                } else if ("2".equals(shareType)) {
                     mIntent = new Intent(MainActivity.this, VideoDetailActivity.class);
-                    mIntent.putExtra("articleid",Integer.valueOf(shareId));
+                    mIntent.putExtra("articleid", Integer.valueOf(shareId));
                     startActivity(mIntent);
-                }else if("3".equals(shareType)) {
+                } else if ("3".equals(shareType)) {
                     String isMoment = uri.getQueryParameter("isMoment");
-                    if("1".equals(isMoment)) { //朋友圈详情
+                    if ("1".equals(isMoment)) { //朋友圈详情
                         mIntent = new Intent(MainActivity.this, GambitDetailActivity.class);
-                    }else {
+                    } else {
                         mIntent = new Intent(MainActivity.this, HotGambitDetailActivity.class);
                     }
-                    mIntent.putExtra("talkid",Integer.valueOf(shareId));
+                    mIntent.putExtra("talkid", Integer.valueOf(shareId));
                     startActivity(mIntent);
                 }
             }
@@ -313,9 +405,9 @@ public class MainActivity extends BaseMainActivity {
     }
 
     public void modeUi(boolean isDay) {
-        if(isDay) {
+        if (isDay) {
             shadowLayout.setVisibility(View.GONE);
-        }else {
+        } else {
             shadowLayout.setVisibility(View.VISIBLE);
         }
     }
@@ -324,8 +416,8 @@ public class MainActivity extends BaseMainActivity {
     public void toJump(EventTags.ToJump toJump) {
         int position = toJump.getJump();
         int childPosition = toJump.getChildPosition();
-        setTabSelection(position,childPosition);
-        setBottomLayoutBackground(false,position);
+        setTabSelection(position, childPosition);
+        setBottomLayoutBackground(false, position);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -336,37 +428,37 @@ public class MainActivity extends BaseMainActivity {
     //鬼话栏目变色
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void dayMoulde(EventTags.Ghost ghost) {
-        if(ghost.getGhost()) {
+        if (ghost.getGhost()) {
             isGhost = true;
-            setBottomLayoutBackground(true,0);
-        }else {
+            setBottomLayoutBackground(true, 0);
+        } else {
             isGhost = false;
-            setBottomLayoutBackground(false,0);
+            setBottomLayoutBackground(false, 0);
         }
     }
 
-    public void setBottomLayoutBackground(boolean isGhost,int position) {
-        if(isGhost) {
+    public void setBottomLayoutBackground(boolean isGhost, int position) {
+        if (isGhost) {
             bottomLayout.setBackgroundResource(R.color.FFF9FAFD_night);
             line.setBackgroundResource(R.color.line_color_night);
             homePageImg.setImageResource(R.mipmap.tab_home_ghost);
             lookImg.setImageResource(R.mipmap.tab_look_ghost_normal);
             taskImg.setImageResource(R.mipmap.tab_task_ghost_normal);
             mineImg.setImageResource(R.mipmap.tab_mine_ghost_normal);
-        }else {
+        } else {
             bottomLayout.setBackgroundResource(R.color.FFF9FAFD);
             line.setBackgroundResource(R.color.line_color);
             homePageImg.setImageResource(R.mipmap.tab_home_normal);
             lookImg.setImageResource(R.mipmap.tab_look_normal);
             taskImg.setImageResource(R.mipmap.tab_task_normal);
             mineImg.setImageResource(R.mipmap.tab_mine_normal);
-            if(position == INDEX_HOME_PAGE) {
+            if (position == INDEX_HOME_PAGE) {
                 homePageImg.setImageResource(R.mipmap.tab_home);
-            }else if(position == INDEX_LOOK_PAGE) {
+            } else if (position == INDEX_LOOK_PAGE) {
                 lookImg.setImageResource(R.mipmap.tab_look);
-            }else if(position == INDEX_TASK_PAGE) {
+            } else if (position == INDEX_TASK_PAGE) {
                 taskImg.setImageResource(R.mipmap.tab_task);
-            }else if(position == INDEX_MINE_PAGE) {
+            } else if (position == INDEX_MINE_PAGE) {
                 mineImg.setImageResource(R.mipmap.tab_mine);
             }
         }
@@ -378,23 +470,23 @@ public class MainActivity extends BaseMainActivity {
      *
      * @param index 每个tab页对应的下标
      */
-    public void setTabSelection(int index,int childPosition) {
+    public void setTabSelection(int index, int childPosition) {
         // 每次选中之前先清楚掉上次的选中状态
         endSwitchRefesh();
         switch (index) {
             case INDEX_HOME_PAGE:
-                if(0==clickPosition) {
-                    if(ClickUtil.onClick()) {
+                if (0 == clickPosition) {
+                    if (ClickUtil.onClick()) {
                         tabSwitchRefesh(homePageImg);
                         EventBus.getDefault().post(new EventTags.HomeRefresh());
                         homePageTv.setTextColor(getResources().getColor(R.color.normal_color));
                     }
-                }else {
+                } else {
                     clearSelection();
                     clickPosition = 0;
                     homePageImg.setImageResource(R.mipmap.tab_home);
                     homePageTv.setTextColor(getResources().getColor(R.color.normal_color));
-                    if(1==childPosition) {
+                    if (1 == childPosition) {
                         ChangePage changePage = new ChangePage();
                         changePage.type = "home_recommend";
                         EventBus.getDefault().post(changePage);
@@ -403,18 +495,18 @@ public class MainActivity extends BaseMainActivity {
                 }
                 break;
             case INDEX_LOOK_PAGE:
-                if(1==clickPosition) {
-                    if(ClickUtil.onClick()) {
-                            tabSwitchRefesh(lookImg);
-                            lookTv.setTextColor(getResources().getColor(R.color.normal_color));
-                            EventBus.getDefault().post(new EventTags.HomeRefresh());
+                if (1 == clickPosition) {
+                    if (ClickUtil.onClick()) {
+                        tabSwitchRefesh(lookImg);
+                        lookTv.setTextColor(getResources().getColor(R.color.normal_color));
+                        EventBus.getDefault().post(new EventTags.HomeRefresh());
                     }
-                }else {
+                } else {
                     clearSelection();
                     clickPosition = 1;
                     lookImg.setImageResource(R.mipmap.tab_look);
                     lookTv.setTextColor(getResources().getColor(R.color.normal_color));
-                    if(10==childPosition) {
+                    if (10 == childPosition) {
                         ChangePage changePage = new ChangePage();
                         changePage.type = "look_recommend";
                         EventBus.getDefault().post(changePage);
@@ -423,12 +515,12 @@ public class MainActivity extends BaseMainActivity {
                 }
                 break;
             case INDEX_TASK_PAGE:
-                  clearSelection();
-                  clickPosition = 2;
-                  taskImg.setImageResource(R.mipmap.tab_task);
-                  taskTv.setTextColor(getResources().getColor(R.color.normal_color));
-                  swithFragment(mContent, taskPageFragment);
-                  if(ClickUtil.onClick()) {
+                clearSelection();
+                clickPosition = 2;
+                taskImg.setImageResource(R.mipmap.tab_task);
+                taskTv.setTextColor(getResources().getColor(R.color.normal_color));
+                swithFragment(mContent, taskPageFragment);
+                if (ClickUtil.onClick()) {
                     EventBus.getDefault().post(new EventTags.TaskRefresh());
                 }
                 break;
@@ -452,7 +544,7 @@ public class MainActivity extends BaseMainActivity {
         imageView.setImageResource(R.mipmap.tab_refresh);
         imageView.setAnimation(rotate);
         imageView.startAnimation(rotate);
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
             public void run() {
                 endSwitchRefesh();
             }
@@ -460,14 +552,14 @@ public class MainActivity extends BaseMainActivity {
     }
 
     public void endSwitchRefesh() {
-        if(clickPosition == 0) {
+        if (clickPosition == 0) {
             homePageImg.clearAnimation();
-            if(isGhost) {
+            if (isGhost) {
                 homePageImg.setImageResource(R.mipmap.tab_home_ghost);
-            }else {
+            } else {
                 homePageImg.setImageResource(R.mipmap.tab_home);
             }
-        }else if(clickPosition == 1) {
+        } else if (clickPosition == 1) {
             lookImg.clearAnimation();
             lookImg.setImageResource(R.mipmap.tab_look);
         }
@@ -485,6 +577,7 @@ public class MainActivity extends BaseMainActivity {
     }
 
     Fragment mContent;
+
     private void swithFragment(Fragment from, Fragment to) {
         try {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -521,17 +614,17 @@ public class MainActivity extends BaseMainActivity {
                         if (StringUtil.isEmpty(data)) return;
                         ReadAwardBean readAwardBean = gson.fromJson(data, ReadAwardBean.class);
                         if (null == readAwardBean) return;
-                        goldTv.setText("+"+ readAwardBean.coin);
+                        goldTv.setText("+" + readAwardBean.coin);
                         videoAwardLayout.setVisibility(View.VISIBLE);
                         animationDrawable.start();
-                        new Handler().postDelayed(new Runnable(){
+                        new Handler().postDelayed(new Runnable() {
                             public void run() {
                                 //execute the task
                                 animationDrawable.stop();
                                 videoAwardLayout.setVisibility(View.GONE);
                             }
                         }, 1500);
-                        handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING,circleTime);
+                        handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING, circleTime);
                     }
                 });
             }
@@ -559,14 +652,15 @@ public class MainActivity extends BaseMainActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             HeartVideo heartVideo = HeartVideoManager.getInstance().getCurrPlayVideo();
-            if(null != heartVideo && heartVideo.getCurrModeStatus()== PlayerStatus.MODE_FULL_SCREEN) {
+            if (null != heartVideo && heartVideo.getCurrModeStatus() == PlayerStatus.MODE_FULL_SCREEN) {
                 HeartVideoManager.getInstance().getCurrPlayVideo().exitFullScreen();
-            }else {
+            } else {
                 exitBy2Click(); // 调用双击退出函数
             }
         }
         return false;
     }
+
 
     @Override
     public void onDestroy() {
@@ -576,16 +670,16 @@ public class MainActivity extends BaseMainActivity {
     }
 
 
-    @OnClick({R.id.homePageLayout,R.id.lookLayout,R.id.taskLayout,R.id.mineLayout})
+    @OnClick({R.id.homePageLayout, R.id.lookLayout, R.id.taskLayout, R.id.mineLayout})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.homePageLayout:
-                if(isGhost) {
-                    setBottomLayoutBackground(true,0);
-                }else {
-                    setBottomLayoutBackground(false,0);
+                if (isGhost) {
+                    setBottomLayoutBackground(true, 0);
+                } else {
+                    setBottomLayoutBackground(false, 0);
                 }
-                setTabSelection(INDEX_HOME_PAGE,0);
+                setTabSelection(INDEX_HOME_PAGE, 0);
 //                if(effectiveHomeClick) {
 //                    setTabSelection(INDEX_HOME_PAGE,0);
 //                }
@@ -594,22 +688,22 @@ public class MainActivity extends BaseMainActivity {
 //                }
                 break;
             case R.id.lookLayout:
-                setBottomLayoutBackground(false,1);
-                setTabSelection(INDEX_LOOK_PAGE,0);
+                setBottomLayoutBackground(false, 1);
+                setTabSelection(INDEX_LOOK_PAGE, 0);
 //                if(ClickUtil.onClick()) {
 //                    setTabSelection(INDEX_LOOK_PAGE,0);
 //                }
                 break;
             case R.id.taskLayout:
-                setBottomLayoutBackground(false,2);
-                setTabSelection(INDEX_TASK_PAGE,0);
+                setBottomLayoutBackground(false, 2);
+                setTabSelection(INDEX_TASK_PAGE, 0);
 //                if(ClickUtil.onClick()) {
 //                    setTabSelection(INDEX_TASK_PAGE,0);
 //                }
                 break;
             case R.id.mineLayout:
-                setBottomLayoutBackground(false,3);
-                setTabSelection(INDEX_MINE_PAGE,0);
+                setBottomLayoutBackground(false, 3);
+                setTabSelection(INDEX_MINE_PAGE, 0);
 //                if(ClickUtil.onClick()) {
 //                    setTabSelection(INDEX_MINE_PAGE,0);
 //                }

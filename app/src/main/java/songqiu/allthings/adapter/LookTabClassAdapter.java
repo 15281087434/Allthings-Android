@@ -2,6 +2,7 @@ package songqiu.allthings.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,6 +33,8 @@ import songqiu.allthings.iterface.LookItemListener;
 import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
+import songqiu.allthings.util.NetWorkUtil;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ViewProportion;
@@ -117,6 +120,7 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).photo = HttpServicePath.BasePicUrl+item.get(position).photo;
             }
         }
+        viewHolder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         String path = item.get(position).video_url;
         String image= item.get(position).photo;
         String title = item.get(position).title;
@@ -232,6 +236,7 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).head_url = HttpServicePath.BasePicUrl + item.get(position).head_url;
             }
         }
+
         Glide.with(context).load(item.get(position).head_url).apply(options).into(holder.userIcon);
         //
         holder.userName.setText(item.get(position).ad_name);
@@ -249,6 +254,9 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
             VideoControl control = new VideoControl(context);
             control.setInfo(info);
             holder.videoView.setHeartVideoContent(control);
+            if(item.get(position).state==1&& NetWorkUtil.getConnectedType(context)== ConnectivityManager.TYPE_WIFI){
+                holder.videoView.startSlence();
+            }
         }
 
         if (4 == item.get(position).change_type) {
@@ -394,6 +402,8 @@ public class LookTabClassAdapter extends RecyclerView.Adapter {
         ImageView settingImg;
         @BindView(R.id.userLayout)
         LinearLayout userLayout;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
 
         public VideoHolder(View itemView) {
             super(itemView);

@@ -34,4 +34,5 @@ public class HotGambitCommonBean {
     public int is_follow;
     public int is_up;
     public int share_num; //分享数
+      public String level;
 }

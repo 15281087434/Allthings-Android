@@ -49,6 +49,7 @@ import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.DialogPrivacyListener;
 import songqiu.allthings.iterface.DialogUploadVersionListener;
+import songqiu.allthings.util.FileUtil;
 import songqiu.allthings.util.LocationUtils;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.NetWorkUtil;
@@ -182,12 +183,23 @@ public class GuideActivity extends BaseActivity {
             public void run() {
                 //execute the task
                 Intent intent = new Intent(GuideActivity.this,MainActivity.class);
+
                 startActivity(intent);
                 finish();
             }
         }, 2000);
     }
-
+    public void toMainActivity(AdvertiseBean advertiseBean) {
+        new Handler().postDelayed(new Runnable(){
+            public void run() {
+                //execute the task
+                Intent intent = new Intent(GuideActivity.this,MainActivity.class);
+                intent.putExtra("advertiseBean",advertiseBean);
+                startActivity(intent);
+                finish();
+            }
+        }, 2000);
+    }
 
     public void getAdvertise() {
         if (!NetWorkUtil.isNetworkConnected(this)) {
@@ -206,16 +218,27 @@ public class GuideActivity extends BaseActivity {
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
                         List<AdvertiseBean> advertiseBeanListBean = gson.fromJson(data, new TypeToken<List<AdvertiseBean>>() {}.getType());
+//                        AdvertiseBean advertiseBean0 =new AdvertiseBean();
+//                        advertiseBean0.url="http://mv.eastday.com/vvideo/20191203/20191203040233701204521_1.mp4";
+//                        advertiseBean0.video_url="http://pic.2265.com/upload/2019-11/20191118152510764860.png";
+//                        advertiseBean0.jump_url="http://pic.2265.com/upload/2019-11/20191118152510764860.png";
+//                        advertiseBean0.type=1;
+//                        advertiseBeanListBean.add(advertiseBean0);
                         if(null==advertiseBeanListBean || 0==advertiseBeanListBean.size()) {
                             toMainActivity();
                             return;
                         }
                         AdvertiseBean advertiseBean = advertiseBeanListBean.get(0);
+
                         if(null == advertiseBean) {
-                            toMainActivity();
+                            toMainActivity(advertiseBean);
                             return;
                         }
-                        toGuideAdvertising(advertiseBean);
+                        if(FileUtil.getAdsFile(GuideActivity.this,advertiseBean.url).exists()) {
+                            toGuideAdvertising(advertiseBean);
+                        }else {
+                            toMainActivity(advertiseBean);
+                        }
                     }
                 });
             }
