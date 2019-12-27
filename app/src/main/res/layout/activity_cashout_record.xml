@@ -12,15 +12,33 @@
 <com.scwang.smartrefresh.layout.SmartRefreshLayout
     android:id="@+id/refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_weight="1"
+    android:layout_height="0dp">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_list"
         android:paddingLeft="@dimen/x_ui_px_30.0"
         android:paddingRight="@dimen/x_ui_px_30.0"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x_ui_px_40.0"
+        android:text="详细内容登陆网页端地址查看"
+        android:textColor="@color/FF999999"
+        android:textSize="@dimen/x_ui_px_28.0"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x_ui_px_5.0"
+        android:text="www.jianguaiapp.cn"
+        android:textColor="@color/FF999999"
+        android:layout_marginBottom="@dimen/x_ui_px_30.0"
+        android:textSize="@dimen/x_ui_px_28.0"
+        android:layout_gravity="center_horizontal"/>
 </LinearLayout>

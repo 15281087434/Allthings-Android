@@ -53,8 +53,8 @@ public class CashOutActivity extends BaseActivity {
     EditText etMoney;
     @BindView(R.id.tv_tips)
     TextView tvTips;
-    int maxMoney , cashoutMoney;
-    String zfb;
+    double maxMoney , cashoutMoney;
+
     @BindView(R.id.tv_cash_all)
     TextView tvCashAll;
     @BindView(R.id.btn_cash)
@@ -72,7 +72,7 @@ public class CashOutActivity extends BaseActivity {
     }
 
     private void initData() {
-        maxMoney= Integer.parseInt(info.now_money);
+        maxMoney= Double.parseDouble(info.now_money);
         tvTips.setText("可提现金额" + maxMoney + "元");
         tvUserZfb.setText(info.zfb+"");
     }
@@ -98,7 +98,7 @@ public class CashOutActivity extends BaseActivity {
                     cashoutMoney = 0;
                     btnCash.setEnabled(false);
                 } else {
-                    cashoutMoney = Integer.valueOf(s.toString());
+                    cashoutMoney = Double.valueOf(s.toString());
                     if (cashoutMoney > 0) {
                         btnCash.setEnabled(true);
                     }
