@@ -5,6 +5,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,7 +33,9 @@ import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ToastUtil;
+import songqiu.allthings.util.statusbar.StatusBarUtils;
 
 /**
  * create by: linyinjianying
@@ -56,12 +59,15 @@ public class CashOutRecordActivity extends BaseActivity {
     private CashOutRecordAdapter adapter;
     private ArrayList<CashOutRecordBean> list=new ArrayList<>();
     private int num = 10, page = 1;
-
+    @BindView(R.id.shadowLayout)
+    LinearLayout shadowLayout;
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_cashout_record);
         ButterKnife.bind(this);
         titleTv.setText("稿酬提现记录");
+        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        modeUi(dayModel);
         srl.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -81,7 +87,21 @@ public class CashOutRecordActivity extends BaseActivity {
         adapter=new CashOutRecordAdapter(this,list);
         rvList.setAdapter(adapter);
     }
-
+    public void modeUi(boolean isDay) {
+        if (isDay) {
+            shadowLayout.setVisibility(View.GONE);
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.FFF9FAFD))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+        } else {
+            shadowLayout.setVisibility(View.VISIBLE);
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.trans_6))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+        }
+    }
     @Override
     public void init() {
         getOrderList();

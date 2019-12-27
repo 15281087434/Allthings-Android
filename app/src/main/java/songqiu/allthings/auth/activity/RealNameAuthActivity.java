@@ -62,8 +62,10 @@ import songqiu.allthings.util.FileUtil;
 import songqiu.allthings.util.GlideLoadUtils;
 import songqiu.allthings.util.JsUtils;
 import songqiu.allthings.util.KeyBoardUtils;
+import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
+import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.view.ChooseSixDialog;
 import songqiu.allthings.view.CommentWindow;
 import songqiu.allthings.view.NoTitleDialog;
@@ -126,11 +128,14 @@ public class RealNameAuthActivity extends BaseActivity {
     private String sex;
     boolean isAuthing;
     int imageLoadType = 0;
-
+    @BindView(R.id.shadowLayout)
+    LinearLayout shadowLayout;
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_realname_auth);
         ButterKnife.bind(this);
+        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        modeUi(dayModel);
         titleTv.setText("实名认证");
         isAuthing=getIntent().getIntExtra("V_status",0)==1;
         if (isAuthing) {
@@ -140,6 +145,7 @@ public class RealNameAuthActivity extends BaseActivity {
             svContent.setVisibility(View.VISIBLE);
             llAuthing.setVisibility(View.GONE);
         }
+
 
     }
 
@@ -154,7 +160,21 @@ public class RealNameAuthActivity extends BaseActivity {
         super.onDestroy();
 
     }
-
+    public void modeUi(boolean isDay) {
+        if (isDay) {
+            shadowLayout.setVisibility(View.GONE);
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.FFF9FAFD))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+        } else {
+            shadowLayout.setVisibility(View.VISIBLE);
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.trans_6))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+        }
+    }
     int type = 0;
 
     @OnClick({R.id.tv_realname, R.id.tv_adress_details, R.id.tv_cardid, R.id.tv_email})

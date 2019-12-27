@@ -1,44 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tool="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white">
-    <include layout="@layout/common_title_layout"
-        />
+    android:background="@color/white"
+    android:orientation="vertical">
 
-<com.scwang.smartrefresh.layout.SmartRefreshLayout
-    android:id="@+id/refresh"
-    android:layout_width="match_parent"
-    android:layout_weight="1"
-    android:layout_height="0dp">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_list"
-        android:paddingLeft="@dimen/x_ui_px_30.0"
-        android:paddingRight="@dimen/x_ui_px_30.0"
-
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/x_ui_px_40.0"
-        android:text="详细内容登陆网页端地址查看"
-        android:textColor="@color/FF999999"
-        android:textSize="@dimen/x_ui_px_28.0"
-        android:layout_gravity="center_horizontal"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/x_ui_px_5.0"
-        android:text="www.jianguaiapp.cn"
-        android:textColor="@color/FF999999"
-        android:layout_marginBottom="@dimen/x_ui_px_30.0"
-        android:textSize="@dimen/x_ui_px_28.0"
-        android:layout_gravity="center_horizontal"/>
-</LinearLayout>
+        <include layout="@layout/common_title_layout" />
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:paddingLeft="@dimen/x_ui_px_30.0"
+                android:paddingRight="@dimen/x_ui_px_30.0" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/x_ui_px_40.0"
+            android:text="详细内容登陆网页端地址查看"
+            android:textColor="@color/FF999999"
+            android:textSize="@dimen/x_ui_px_28.0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/x_ui_px_5.0"
+            android:layout_marginBottom="@dimen/x_ui_px_30.0"
+            android:text="www.jianguaiapp.cn"
+            android:textColor="@color/FF999999"
+            android:textSize="@dimen/x_ui_px_28.0" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/trans_6"
+        android:orientation="vertical"
+        android:visibility="gone"></LinearLayout>
+
+</RelativeLayout>

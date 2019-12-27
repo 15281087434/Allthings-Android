@@ -22,6 +22,8 @@ import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.util.SharedPreferencedUtils;
+import songqiu.allthings.util.statusbar.StatusBarUtils;
 
 /**
  * create by: ADMIN
@@ -43,13 +45,15 @@ public class AuthActivity extends BaseActivity {
     @BindView(R.id.tv_auth_sign)
     TextView tvAuthSign;
     private AuthStateBean stateBean;
-
+    @BindView(R.id.shadowLayout)
+    LinearLayout shadowLayout;
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_auth);
         ButterKnife.bind(this);
         titleTv.setText("身份认证");
-
+        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        modeUi(dayModel);
 
     }
     @Override
@@ -72,7 +76,21 @@ public class AuthActivity extends BaseActivity {
         });
     }
 
-
+    public void modeUi(boolean isDay) {
+        if (isDay) {
+            shadowLayout.setVisibility(View.GONE);
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.FFF9FAFD))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+        } else {
+            shadowLayout.setVisibility(View.VISIBLE);
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.trans_6))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+        }
+    }
 
     //更新UI
     private void updateViewState() {

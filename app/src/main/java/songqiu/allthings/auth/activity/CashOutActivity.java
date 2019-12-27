@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,8 +26,10 @@ import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
+import songqiu.allthings.util.statusbar.StatusBarUtils;
 
 /**
  * create by: linyinjianying
@@ -54,7 +57,8 @@ public class CashOutActivity extends BaseActivity {
     @BindView(R.id.tv_tips)
     TextView tvTips;
     double maxMoney , cashoutMoney;
-
+    @BindView(R.id.shadowLayout)
+    LinearLayout shadowLayout;
     @BindView(R.id.tv_cash_all)
     TextView tvCashAll;
     @BindView(R.id.btn_cash)
@@ -65,9 +69,14 @@ public class CashOutActivity extends BaseActivity {
         setContentView(R.layout.activity_cashout);
         ButterKnife.bind(this);
         titleTv.setText("提现");
+        StatusBarUtils.with(this)
+                .setColor(getResources().getColor(R.color.FFF9FAFD))
+                .init()
+                .setStatusTextColorAndPaddingTop(true, this);
         info=getIntent().getParcelableExtra("info");
         initData();
-
+        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        modeUi(dayModel);
 
     }
 
@@ -78,7 +87,21 @@ public class CashOutActivity extends BaseActivity {
     }
 
 
-
+    public void modeUi(boolean isDay) {
+        if (isDay) {
+            shadowLayout.setVisibility(View.GONE);
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.FFF9FAFD))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+        } else {
+            shadowLayout.setVisibility(View.VISIBLE);
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.trans_6))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+        }
+    }
     @Override
     public void init() {
         etMoney.addTextChangedListener(new TextWatcher() {

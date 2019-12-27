@@ -39,6 +39,8 @@ import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.util.ClickUtil;
+import songqiu.allthings.util.SharedPreferencedUtils;
+import songqiu.allthings.util.statusbar.StatusBarUtils;
 
 /**
  * create by: linyinjianying
@@ -71,6 +73,8 @@ public class RoyaltiesActivity extends BaseActivity {
     ArrayList<String> mouths;
     TimePickerView timePicker;
     Calendar startTime,endTime;
+    @BindView(R.id.shadowLayout)
+    LinearLayout shadowLayout;
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_royalties_list);
@@ -80,7 +84,8 @@ public class RoyaltiesActivity extends BaseActivity {
         startTime=Calendar.getInstance();
         startTime.set(2018,1,0);
         endTime=Calendar.getInstance();
-
+        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        modeUi(dayModel);
         tvTimeChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +143,21 @@ public class RoyaltiesActivity extends BaseActivity {
 
         getGcLog();
     }
-
+    public void modeUi(boolean isDay) {
+        if (isDay) {
+            shadowLayout.setVisibility(View.GONE);
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.FFF9FAFD))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+        } else {
+            shadowLayout.setVisibility(View.VISIBLE);
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.trans_6))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+        }
+    }
     //获取稿酬列表
     private void getGcLog() {
         HashMap<String, Object> map = new HashMap<>();
