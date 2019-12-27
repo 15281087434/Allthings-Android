@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import com.amap.api.location.AMapLocation;
@@ -128,8 +129,8 @@ public class GuideActivity extends BaseActivity {
                         String data = gson.toJson(baseBean.data);
                         //{"code":"200","msg":"返回成功","data":null}
                         if (StringUtil.isEmpty(data)) {
-//                            getAdvertise();
-                            toMainActivity();
+                            getAdvertise();
+//                            toMainActivity();
                         }else {
                             versionBean = gson.fromJson(data, VersionBean.class);
                             initUploadVersionDialog(versionBean);
@@ -199,6 +200,7 @@ public class GuideActivity extends BaseActivity {
 
     public void getAdvertise() {
         if (!NetWorkUtil.isNetworkConnected(this)) {
+            Log.e("network",false+"");
             toMainActivity();
             return;
         }

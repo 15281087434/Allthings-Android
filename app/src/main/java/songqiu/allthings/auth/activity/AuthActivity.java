@@ -25,6 +25,8 @@ import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 
+import static songqiu.allthings.constant.SnsConstants.URL_BASE_H5;
+
 /**
  * create by: ADMIN
  * time:2019/12/2417:03
@@ -150,7 +152,7 @@ public class AuthActivity extends BaseActivity {
 
                     if (stateBean.getV_status() == 2&&stateBean.getStatus()==0) {
                         Intent intent=new Intent(this, CommentWebViewActivity.class);
-                        intent.putExtra("url","http://192.168.0.195:8080/certification/original");
+                        intent.putExtra("url",URL_BASE_H5+"certification/original");
                         intent.putExtra("authType",1);
                         startActivity(intent);
                     } else {
@@ -167,7 +169,7 @@ public class AuthActivity extends BaseActivity {
                 //level为1,v_status为2时为原创作者通过，可进入申请签约作者
                 if(stateBean.getLevel()==1){
                     Intent intent=new Intent(this, CommentWebViewActivity.class);
-                    intent.putExtra("url","http://192.168.0.195:8080/certification/signing");
+                    intent.putExtra("url",URL_BASE_H5+"certification/signing");
                     intent.putExtra("authType",2);
                     startActivity(intent);
                 }
