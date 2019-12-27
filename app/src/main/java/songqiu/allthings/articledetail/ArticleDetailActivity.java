@@ -43,8 +43,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -593,15 +595,21 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         userTitleName.setText(articleDetailBean.user_nickname);
         long time = articleDetailBean.created * 1000;
         if (DateUtil.IsToday(time)) {
-            timeTv.setText("发布于刚刚");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date(time);
+            timeTv.setText(DateUtil.getTimeFormatText(simpleDateFormat.format(date), "yyyy-MM-dd HH:mm:ss"));
         } else if (DateUtil.IsYesterday(time)) {
             timeTv.setText("发布于1天前");
         } else {
             timeTv.setText("发布于" + DateUtil.getTimeBig1(time));
         }
-        lookNumTv.setText(ShowNumUtil.showUnm1(articleDetailBean.view_num) + "万阅读");
+
+
 
         ivLevel.setImageResource(ImageResUtils.getLevelRes(articleDetailBean.level));
+
+        lookNumTv.setText(ShowNumUtil.showUnm1(articleDetailBean.view_num)+"阅读");
+
         //评论数
         commentNumTv.setText(String.valueOf(articleDetailBean.comment_num));
         if (0 == articleDetailBean.is_follow) {
@@ -624,7 +632,9 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             contentWeb.loadDataWithBaseURL(null, getHtmlDataNight(articleDetailBean.content), "text/html", "utf-8", null);
         }
         likeNumTv.setText(ShowNumUtil.showUnm(articleDetailBean.up_num));
+
         if (0 == articleDetailBean.is_original) {
+
             originalTv.setText("原创");
             originalTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
         } else {

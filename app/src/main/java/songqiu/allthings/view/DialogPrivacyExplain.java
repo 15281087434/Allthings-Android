@@ -3,8 +3,16 @@ package songqiu.allthings.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +21,15 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.iterface.DialogDeleteListener;
 import songqiu.allthings.iterface.DialogPrivacyListener;
+import songqiu.allthings.util.ClickUtil;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ToastUtil;
 
@@ -70,60 +81,16 @@ public class DialogPrivacyExplain extends Dialog{
             }
         });
 
+
+
         TextView tv = view.findViewById(R.id.tv);
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context,CommentWebViewActivity.class);
-                intent.putExtra("url", SnsConstants.URL_PRIVACY);
-                context.startActivity(intent);
-//                dismiss();
-            }
-        });
-//        LinearLayout parentLayout = view.findViewById(R.id.parentLayout);
-//        ImageView headImg = view.findViewById(R.id.headImg);
-//        TextView tv1 = view.findViewById(R.id.tv1);
-//        TextView tv2 = view.findViewById(R.id.tv2);
-//        TextView tv3 = view.findViewById(R.id.tv3);
-//        TextView tv4 = view.findViewById(R.id.tv4);
-//        TextView tv5 = view.findViewById(R.id.tv5);
-//        TextView tv6 = view.findViewById(R.id.tv6);
-//        TextView tv7 = view.findViewById(R.id.tv7);
-//
-//        View line1 = view.findViewById(R.id.line1);
-//        View line2 = view.findViewById(R.id.line2);
-//        View line3 = view.findViewById(R.id.line3);
-//
-//        boolean dayModel = SharedPreferencedUtils.getBoolean(context,SharedPreferencedUtils.dayModel,true);
-//        if(dayModel) {
-//            parentLayout.setBackgroundResource(R.drawable.white_around_radius);
-//            headImg.setImageResource(R.mipmap.icon_dialog_head);
-//            closeImg.setImageResource(R.mipmap.icon_dialog_close);
-//            tv1.setTextColor(context.getResources().getColor(R.color.bottom_tab_tv));
-//            tv2.setTextColor(context.getResources().getColor(R.color.FF999999));
-//            tv3.setTextColor(context.getResources().getColor(R.color.bottom_tab_tv));
-//            tv4.setTextColor(context.getResources().getColor(R.color.FF999999));
-//            tv5.setTextColor(context.getResources().getColor(R.color.bottom_tab_tv));
-//            tv6.setTextColor(context.getResources().getColor(R.color.FF999999));
-//            tv7.setTextColor(context.getResources().getColor(R.color.bottom_tab_tv));
-//            line1.setBackgroundColor(context.getResources().getColor(R.color.line_color));
-//            line2.setBackgroundColor(context.getResources().getColor(R.color.line_color));
-//            line3.setBackgroundColor(context.getResources().getColor(R.color.line_color));
-//        }else {
-//            parentLayout.setBackgroundResource(R.drawable.white_around_radius_night);
-//            headImg.setImageResource(R.mipmap.icon_dialog_head_night);
-//            closeImg.setImageResource(R.mipmap.icon_dialog_close_night);
-//            tv1.setTextColor(context.getResources().getColor(R.color.bottom_tab_tv_night));
-//            tv2.setTextColor(context.getResources().getColor(R.color.FF999999_night));
-//            tv3.setTextColor(context.getResources().getColor(R.color.bottom_tab_tv_night));
-//            tv4.setTextColor(context.getResources().getColor(R.color.FF999999_night));
-//            tv5.setTextColor(context.getResources().getColor(R.color.bottom_tab_tv_night));
-//            tv6.setTextColor(context.getResources().getColor(R.color.FF999999_night));
-//            tv7.setTextColor(context.getResources().getColor(R.color.bottom_tab_tv_night));
-//            line1.setBackgroundColor(context.getResources().getColor(R.color.line_color_night));
-//            line2.setBackgroundColor(context.getResources().getColor(R.color.line_color_night));
-//            line3.setBackgroundColor(context.getResources().getColor(R.color.line_color_night));
-//        }
+        tv.setHighlightColor(context.getResources().getColor(android.R.color.transparent));
+        String strString = "请查看《用户协议》及《隐私政策》了解详细信息。如果你同意，请点击“同意”开始使用我们的服务。";
+        SpannableString ss = new SpannableString(strString);
+        ss.setSpan(protocolClickSpan,3,9,Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        ss.setSpan(privacyClickSpan,10,16,Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        tv.setText(ss);
+        tv.setMovementMethod(LinkMovementMethod.getInstance());
 
         Window dialogWindow = getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
@@ -135,5 +102,39 @@ public class DialogPrivacyExplain extends Dialog{
     public void setDialogPrivacyListener(DialogPrivacyListener dialogPrivacyListener) {
         this.dialogPrivacyListener = dialogPrivacyListener;
     }
+
+    ClickableSpan protocolClickSpan = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            if(ClickUtil.onClick()) {
+                Intent intent = new Intent(context,CommentWebViewActivity.class);
+                intent.putExtra("url", SnsConstants.URL_USER_PROTOCOL);
+                context.startActivity(intent);
+            }
+        }
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setColor(ContextCompat.getColor(context,R.color.FF6FA4EB));
+            ds.setUnderlineText(false);
+            ds.clearShadowLayer();   //阴影
+        }
+    };
+    ClickableSpan privacyClickSpan = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            if(ClickUtil.onClick()) {
+                Intent intent = new Intent(context,CommentWebViewActivity.class);
+                intent.putExtra("url", SnsConstants.URL_PRIVACY);
+                context.startActivity(intent);
+            }
+        }
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setColor(ContextCompat.getColor(context,R.color.FF6FA4EB));
+            ds.setUnderlineText(false);
+            ds.clearShadowLayer();   //阴影
+        }
+    };
+
 
 }

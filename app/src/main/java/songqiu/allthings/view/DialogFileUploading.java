@@ -73,9 +73,9 @@ public class DialogFileUploading extends Dialog{
     }
 
     public void disMiss() {
-        if(null != imgView) {
-            imgView.clearAnimation();
-        }
+//        if(null != imgView) {
+//            imgView.clearAnimation();
+//        }
         dismiss();
     }
 

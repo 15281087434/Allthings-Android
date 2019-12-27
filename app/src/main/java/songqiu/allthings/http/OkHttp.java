@@ -573,6 +573,7 @@ public class OkHttp {
         mCall.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+
                 if(context==null){
                     return;
                 }
@@ -592,6 +593,23 @@ public class OkHttp {
                     }
                 });
 
+
+
+                String error = "";
+                if(null != dialog) {
+                    dialog.disMiss();
+                }
+                if (e instanceof ConnectException) {
+                    error = "网络状况不佳!";
+                    Looper.prepare();
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                } else {
+//                    error = "系统异常！";
+                }
+//                Looper.prepare();
+//                Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+//                Looper.loop();
 
             }
 

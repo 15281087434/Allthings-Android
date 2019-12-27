@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/item_img_album"
+        android:layout_width="@dimen/x_ui_px_215.0"
+        android:layout_height="@dimen/x_ui_px_146.0"
+        android:src="@mipmap/item_setting_add_img"
+        android:scaleType="centerCrop"
+        />
+    <ImageView
+        android:id="@+id/removeImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/item_delete_img"
+        android:layout_marginLeft="@dimen/x_ui_px_177.0"
+        android:layout_marginTop="@dimen/x_ui_px_3.0"
+        />
+</RelativeLayout>

@@ -6,8 +6,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -49,32 +46,33 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.HttpUrl;
-import okhttp3.Request;
-import okhttp3.Response;
+
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.base.BaseMainActivity;
+
 import songqiu.allthings.bean.AdvertiseBean;
+
 import songqiu.allthings.bean.ChangePage;
 import songqiu.allthings.bean.ReadAwardBean;
+import songqiu.allthings.creation.CreationPageFragment;
 import songqiu.allthings.home.HomePageFragment;
 import songqiu.allthings.home.gambit.GambitDetailActivity;
 import songqiu.allthings.home.gambit.HotGambitDetailActivity;
+import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.OkHttpUtil;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.look.LookPageFragment;
 import songqiu.allthings.mine.MinePageFragment;
-import songqiu.allthings.service.DownloadService;
+
 import songqiu.allthings.task.TaskPageFragment;
 import songqiu.allthings.util.CheckLogin;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.FileUtil;
+
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
@@ -82,15 +80,15 @@ import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.videodetail.VideoDetailActivity;
 import songqiu.allthings.view.CustomCircleProgress;
 
-import static songqiu.allthings.util.upload.UpdateManager.RESTART_DOANLOAD_ACTION;
-import static songqiu.allthings.util.upload.UpdateManager.UPDATE_PROGRESS_ACTION;
+
 
 public class MainActivity extends BaseMainActivity {
 
     public static final int INDEX_HOME_PAGE = 0;
     public static final int INDEX_LOOK_PAGE = 1;
     public static final int INDEX_TASK_PAGE = 2;
-    public static final int INDEX_MINE_PAGE = 3;
+    public static final int INDEX_CREATION_PAGE = 3;
+    public static final int INDEX_MINE_PAGE = 4;
     public int clickPosition = 10;
     boolean isGhost;
 
@@ -111,6 +109,10 @@ public class MainActivity extends BaseMainActivity {
      * 任务的fragment
      */
     private TaskPageFragment taskPageFragment = new TaskPageFragment();
+    /**
+     * 创作的fragment
+     */
+    private CreationPageFragment creationPageFragment = new CreationPageFragment();
     /**
      * 我的的fragment
      */
@@ -136,6 +138,12 @@ public class MainActivity extends BaseMainActivity {
     TextView taskTv;
     @BindView(R.id.taskLayout)
     LinearLayout taskLayout;
+    @BindView(R.id.creationImg)
+    ImageView creationImg;
+    @BindView(R.id.creationTv)
+    TextView creationTv;
+    @BindView(R.id.creationLayout)
+    LinearLayout creationLayout;
     @BindView(R.id.mineImg)
     ImageView mineImg;
     @BindView(R.id.mineTv)
@@ -273,14 +281,14 @@ public class MainActivity extends BaseMainActivity {
                 while ((len = is.read(bytes, 0, bytes.length)) != -1) {
                     aaf.write(bytes, 0, len);
                 }
-                Log.e("mp4", "下载成功");
+
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-                Log.e("mp4", e.getMessage());
+
 
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("mp4", e.getMessage());
+
             } finally {
                 try {
                     if (is != null) {
@@ -308,6 +316,7 @@ public class MainActivity extends BaseMainActivity {
         myBroadcastReceiver = new MyBroadcastReceiver();
         registerReceiver(myBroadcastReceiver, intentFilter);
     }
+
 
     private class MyBroadcastReceiver extends BroadcastReceiver {
         @Override
@@ -444,6 +453,7 @@ public class MainActivity extends BaseMainActivity {
             homePageImg.setImageResource(R.mipmap.tab_home_ghost);
             lookImg.setImageResource(R.mipmap.tab_look_ghost_normal);
             taskImg.setImageResource(R.mipmap.tab_task_ghost_normal);
+            creationImg.setImageResource(R.mipmap.tab_creation_ghost_normal);
             mineImg.setImageResource(R.mipmap.tab_mine_ghost_normal);
         } else {
             bottomLayout.setBackgroundResource(R.color.FFF9FAFD);
@@ -451,6 +461,7 @@ public class MainActivity extends BaseMainActivity {
             homePageImg.setImageResource(R.mipmap.tab_home_normal);
             lookImg.setImageResource(R.mipmap.tab_look_normal);
             taskImg.setImageResource(R.mipmap.tab_task_normal);
+            creationImg.setImageResource(R.mipmap.tab_creation_normal);
             mineImg.setImageResource(R.mipmap.tab_mine_normal);
             if (position == INDEX_HOME_PAGE) {
                 homePageImg.setImageResource(R.mipmap.tab_home);
@@ -458,6 +469,10 @@ public class MainActivity extends BaseMainActivity {
                 lookImg.setImageResource(R.mipmap.tab_look);
             } else if (position == INDEX_TASK_PAGE) {
                 taskImg.setImageResource(R.mipmap.tab_task);
+
+            }else if (position == INDEX_CREATION_PAGE) {
+                creationImg.setImageResource(R.mipmap.tab_creation);
+
             } else if (position == INDEX_MINE_PAGE) {
                 mineImg.setImageResource(R.mipmap.tab_mine);
             }
@@ -524,9 +539,16 @@ public class MainActivity extends BaseMainActivity {
                     EventBus.getDefault().post(new EventTags.TaskRefresh());
                 }
                 break;
-            case INDEX_MINE_PAGE:
+            case INDEX_CREATION_PAGE:
                 clearSelection();
                 clickPosition = 3;
+                creationImg.setImageResource(R.mipmap.tab_creation);
+                creationTv.setTextColor(getResources().getColor(R.color.normal_color));
+                swithFragment(mContent, creationPageFragment);
+                break;
+            case INDEX_MINE_PAGE:
+                clearSelection();
+                clickPosition = 4;
                 mineImg.setImageResource(R.mipmap.tab_mine);
                 mineTv.setTextColor(getResources().getColor(R.color.normal_color));
                 swithFragment(mContent, minePageFragment);
@@ -569,10 +591,12 @@ public class MainActivity extends BaseMainActivity {
         homePageImg.setImageResource(R.mipmap.tab_home_normal);
         lookImg.setImageResource(R.mipmap.tab_look_normal);
         taskImg.setImageResource(R.mipmap.tab_task_normal);
+        creationImg.setImageResource(R.mipmap.tab_creation_normal);
         mineImg.setImageResource(R.mipmap.tab_mine_normal);
         homePageTv.setTextColor(getResources().getColor(R.color.FF666666));
         lookTv.setTextColor(getResources().getColor(R.color.FF666666));
         taskTv.setTextColor(getResources().getColor(R.color.FF666666));
+        creationTv.setTextColor(getResources().getColor(R.color.FF666666));
         mineTv.setTextColor(getResources().getColor(R.color.FF666666));
     }
 
@@ -605,7 +629,7 @@ public class MainActivity extends BaseMainActivity {
         map.put("articleid", videoId + "");
         OkHttp.post(this, HttpServicePath.URL_READ_VIDEO, map, new RequestCallBack() {
             @Override
-            public void httpResult(songqiu.allthings.http.BaseBean baseBean) {
+            public void httpResult(BaseBean baseBean) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -670,7 +694,9 @@ public class MainActivity extends BaseMainActivity {
     }
 
 
-    @OnClick({R.id.homePageLayout, R.id.lookLayout, R.id.taskLayout, R.id.mineLayout})
+
+    @OnClick({R.id.homePageLayout, R.id.lookLayout, R.id.taskLayout, R.id.creationLayout,R.id.mineLayout})
+
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.homePageLayout:
@@ -701,8 +727,13 @@ public class MainActivity extends BaseMainActivity {
 //                    setTabSelection(INDEX_TASK_PAGE,0);
 //                }
                 break;
-            case R.id.mineLayout:
+            case R.id.creationLayout:
                 setBottomLayoutBackground(false, 3);
+                setTabSelection(INDEX_CREATION_PAGE, 0);
+                break;
+            case R.id.mineLayout:
+
+                setBottomLayoutBackground(false, 4);
                 setTabSelection(INDEX_MINE_PAGE, 0);
 //                if(ClickUtil.onClick()) {
 //                    setTabSelection(INDEX_MINE_PAGE,0);

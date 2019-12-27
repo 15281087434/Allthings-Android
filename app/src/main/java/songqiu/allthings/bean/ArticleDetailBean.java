@@ -44,6 +44,8 @@ public class ArticleDetailBean {
     public long created;
     public int is_comment; // 1可以评论  0不能评论
     public int is_coin;//0显示转圈  1领取奖励已上限不显示转圈
+
     public int is_original;  //0原创 1转载
       public String level;
+
 }

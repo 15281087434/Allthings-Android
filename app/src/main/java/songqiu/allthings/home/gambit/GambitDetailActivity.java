@@ -72,6 +72,7 @@ import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.GlideLoadUtils;
 import songqiu.allthings.util.PicParameterUtil;
+import songqiu.allthings.util.ScrollLinearLayoutManager;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;

@@ -7,7 +7,7 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x_ui_px_120.0"
-        android:background="@drawable/rectangle_f0f0f0_white">
+        android:background="@drawable/rectangle_f0f0f0_12px_white">
 
         <ImageView
             android:id="@+id/selectImg"

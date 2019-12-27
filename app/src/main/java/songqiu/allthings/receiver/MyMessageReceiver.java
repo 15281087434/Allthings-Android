@@ -48,11 +48,11 @@ public class MyMessageReceiver extends MessageReceiver {
                 JSONObject jsonObject = new JSONObject(extraMap);
                 String type = jsonObject.optString("type");
 //                LogUtil.i("type:"+type);
-                 int target = jsonObject.optInt("target");
+                 int target = jsonObject.optInt("id");
 //                LogUtil.i("target:"+target);
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra("type",type);
-                intent.putExtra("target",target);
+                intent.putExtra("id",target);
                 context.startActivity(intent);
             } catch (JSONException e) {
                 e.printStackTrace();

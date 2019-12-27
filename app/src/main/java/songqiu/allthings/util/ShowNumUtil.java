@@ -19,7 +19,7 @@ public class ShowNumUtil {
         }else {
             float strNum =(float)num/10000;
             DecimalFormat df = new DecimalFormat("0.0");
-            return df.format(strNum);
+            return df.format(strNum)+"?";
         }
     }
 }
