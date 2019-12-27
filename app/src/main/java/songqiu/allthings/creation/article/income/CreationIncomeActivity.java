@@ -21,6 +21,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
+import songqiu.allthings.auth.activity.CashOutActivity;
+import songqiu.allthings.auth.activity.CashOutRecordActivity;
+import songqiu.allthings.auth.activity.RoyaltiesActivity;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.CreationIncomeBean;
 import songqiu.allthings.http.BaseBean;
@@ -140,7 +143,7 @@ public class CreationIncomeActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.backImg,R.id.withdrawTv,R.id.withdrawLayout})
+    @OnClick({R.id.backImg,R.id.withdrawTv,R.id.withdrawLayout,R.id.explainLayout})
     public void onViewClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -154,19 +157,25 @@ public class CreationIncomeActivity extends BaseActivity {
                         intent = new Intent(CreationIncomeActivity.this, AlipaySettingActivity.class);
                         startActivity(intent);
                     }else {
-                        intent = new Intent(CreationIncomeActivity.this, WithdrawActivity.class);
-                        intent.putExtra("withdrawType",2);
+                        intent = new Intent(CreationIncomeActivity.this, CashOutActivity.class);
+                        intent.putExtra("info",creationIncomeBean);
                         startActivity(intent);
                     }
                 }
                 break;
             case R.id.withdrawLayout:
                 if(ClickUtil.onClick()) {
-                    intent = new Intent(CreationIncomeActivity.this, WithdrawRecordActivity.class);
-                    intent.putExtra("withdrawType",2);
+                    intent = new Intent(CreationIncomeActivity.this, CashOutRecordActivity.class);
                     startActivity(intent);
                 }
                 break;
+            case R.id.explainLayout:
+                if(ClickUtil.onClick()) {
+                    intent = new Intent(CreationIncomeActivity.this, RoyaltiesActivity.class);
+                    startActivity(intent);
+                }
+                break;
+
         }
 
     }

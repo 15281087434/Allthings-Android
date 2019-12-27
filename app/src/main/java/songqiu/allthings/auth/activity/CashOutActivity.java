@@ -10,17 +10,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import songqiu.allthings.R;
 import songqiu.allthings.base.BaseActivity;
+import songqiu.allthings.bean.CreationIncomeBean;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 
 /**
@@ -48,21 +53,31 @@ public class CashOutActivity extends BaseActivity {
     EditText etMoney;
     @BindView(R.id.tv_tips)
     TextView tvTips;
-    int maxMoney = 9999, cashoutMoney;
+    int maxMoney , cashoutMoney;
     String zfb;
     @BindView(R.id.tv_cash_all)
     TextView tvCashAll;
     @BindView(R.id.btn_cash)
     Button btnCash;
-
+    CreationIncomeBean info;
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_cashout);
         ButterKnife.bind(this);
         titleTv.setText("提现");
-        tvTips.setText("可提现金额" + maxMoney + "元");
+        info=getIntent().getParcelableExtra("info");
+        initData();
+
 
     }
+
+    private void initData() {
+        maxMoney= Integer.parseInt(info.now_money);
+        tvTips.setText("可提现金额" + maxMoney + "元");
+        tvUserZfb.setText(info.zfb+"");
+    }
+
+
 
     @Override
     public void init() {
@@ -99,6 +114,12 @@ public class CashOutActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getCreateCome();
+    }
+
     @OnClick(R.id.tv_cash_all)
     public void onCashAll() {
         cashoutMoney = maxMoney;
@@ -108,7 +129,25 @@ public class CashOutActivity extends BaseActivity {
             btnCash.setEnabled(true);
         }
     }
-
+    public void getCreateCome() {
+        Map<String, String> map = new HashMap<>();
+        OkHttp.post(this, HttpServicePath.URL_CREATE_COME, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson = new Gson();
+                        String data = gson.toJson(baseBean.data);
+                        if (StringUtil.isEmpty(data)) return;
+                        info = gson.fromJson(data, CreationIncomeBean.class);
+                        if (null == info) return;
+                        initData();
+                    }
+                });
+            }
+        });
+    }
     @OnClick(R.id.btn_cash)
     public void onCash() {
         if (cashoutMoney <= 0) {
@@ -137,10 +176,5 @@ public class CashOutActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

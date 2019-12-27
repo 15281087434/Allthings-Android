@@ -7,6 +7,7 @@ import android.view.View;
 import butterknife.OnClick;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.MainActivity;
+import songqiu.allthings.auth.activity.AuthActivity;
 import songqiu.allthings.base.BaseFragment;
 import songqiu.allthings.creation.article.income.CreationIncomeActivity;
 import songqiu.allthings.creation.article.manage.ArticleManageActivity;
@@ -69,7 +70,13 @@ public class CreationPageFragment extends BaseFragment{
         switch (view.getId()) {
             case R.id.authenticationTv: //验证身份证
                 if(ClickUtil.onClick()) {
-
+                    if(StringUtil.isEmpty(token)) {
+                        intent = new Intent(activity,LoginActivity.class);
+                        startActivity(intent);
+                    }else {
+                        intent = new Intent(activity, AuthActivity.class);
+                        startActivity(intent);
+                    }
                 }
                 break;
             case R.id.publishTv: //发布内容
