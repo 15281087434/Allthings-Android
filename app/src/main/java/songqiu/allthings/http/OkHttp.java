@@ -573,6 +573,9 @@ public class OkHttp {
         mCall.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                if(context==null){
+                    return;
+                }
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -596,6 +599,9 @@ public class OkHttp {
             public void onResponse(Call call, Response response) throws IOException {
                 String str = response.body().string();
                 LogUtil.i(str);
+                if(context==null){
+                    return;
+                }
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

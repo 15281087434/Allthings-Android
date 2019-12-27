@@ -64,13 +64,15 @@ public class AuthActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        updateViewState();
+                        updateViewState();
                     }
                 });
 
             }
         });
     }
+
+
 
     //更新UI
     private void updateViewState() {
@@ -108,6 +110,12 @@ public class AuthActivity extends BaseActivity {
                 tvAuthOriginal.setTextColor(getResources().getColor(R.color.FFE7A722));
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        init();
     }
 
     @OnClick({R.id.tv_auth_original,R.id.tv_auth_sign,R.id.backImg})

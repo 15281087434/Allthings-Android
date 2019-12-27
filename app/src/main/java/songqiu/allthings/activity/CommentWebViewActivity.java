@@ -55,10 +55,13 @@ public class CommentWebViewActivity extends BaseActivity {
 
     @Override
     public void init() {
-        StatusBarUtils.with(CommentWebViewActivity.this).init().setStatusTextColorWhite(true, CommentWebViewActivity.this);
+
         url = getIntent().getStringExtra("url");
         if(getIntent().hasExtra("authType")){
             type=getIntent().getIntExtra("authType",0);
+        //认证页不使用沉浸式
+        }else {
+            StatusBarUtils.with(CommentWebViewActivity.this).init().setStatusTextColorWhite(true, CommentWebViewActivity.this);
         }
         initWebView(url);
     }
@@ -139,13 +142,20 @@ public class CommentWebViewActivity extends BaseActivity {
         @JavascriptInterface
         public void onAuth(){
 
-                HashMap<String,Object> map=new HashMap<>();
-                map.put("type",type);
-                OkHttp.postObject(CommentWebViewActivity.this, HttpServicePath.URL_STATE_APPLY,map,new RequestCallBack(){
+                HashMap<String,String> map=new HashMap<>();
+                map.put("type",type+"");
+                OkHttp.post(CommentWebViewActivity.this, HttpServicePath.URL_STATE_APPLY,map,new RequestCallBack(){
 
                     @Override
                     public void httpResult(BaseBean baseBean) {
-                        ToastUtil.showToast(baseBean.msg);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtil.showToast(baseBean.msg);
+                                finish();
+                            }
+                        });
+
                     }
                 });
 

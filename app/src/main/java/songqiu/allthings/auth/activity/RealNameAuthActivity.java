@@ -471,6 +471,7 @@ public class RealNameAuthActivity extends BaseActivity {
                     @Override
                     public void run() {
                         ToastUtil.showToast(baseBean.msg);
+                        finish();
                     }
                 });
             }
