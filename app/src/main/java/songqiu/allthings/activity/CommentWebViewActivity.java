@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -19,6 +20,7 @@ import cn.sharesdk.wechat.friends.Wechat;
 import songqiu.allthings.R;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.constant.SnsConstants;
+import songqiu.allthings.creation.article.publish.PublicArticleActivity;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
@@ -59,6 +61,8 @@ public class CommentWebViewActivity extends BaseActivity {
         url = getIntent().getStringExtra("url");
         if(getIntent().hasExtra("authType")){
             type=getIntent().getIntExtra("authType",0);
+            boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+            setModelUi(dayModel);
         //认证页不使用沉浸式
         }else {
             StatusBarUtils.with(CommentWebViewActivity.this).init().setStatusTextColorWhite(true, CommentWebViewActivity.this);
@@ -93,6 +97,20 @@ public class CommentWebViewActivity extends BaseActivity {
 //        webView.loadUrl("file:///android_asset/share/about.html");
         webView.loadUrl(url);
         webView.addJavascriptInterface(new JsInterface(), "android");
+    }
+
+    public void setModelUi(boolean dayModel) {
+        if(dayModel) {
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor( R.color.FFF9FAFD))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+        }else {
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.trans_6))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+        }
     }
 
     /**
@@ -159,6 +177,13 @@ public class CommentWebViewActivity extends BaseActivity {
                     }
                 });
 
+        }
+
+        //编辑文章
+        @JavascriptInterface
+        public void onEdit() {
+            Intent intent = new Intent(CommentWebViewActivity.this, PublicArticleActivity.class);
+            startActivity(intent);
         }
 
 

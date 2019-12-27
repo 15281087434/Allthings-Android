@@ -27,6 +27,7 @@ import songqiu.allthings.iterface.DialogPrivacyListener;
 import songqiu.allthings.iterface.IEditTextChangeListener;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.EditTextCheckUtil;
+import songqiu.allthings.util.KeyBoardUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;

@@ -18,6 +18,7 @@ import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.auth.bean.AuthStateBean;
 import songqiu.allthings.base.BaseActivity;
+import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
@@ -152,7 +153,7 @@ public class AuthActivity extends BaseActivity {
 
                     if (stateBean.getV_status() == 2&&stateBean.getStatus()==0) {
                         Intent intent=new Intent(this, CommentWebViewActivity.class);
-                        intent.putExtra("url",URL_BASE_H5+"certification/original");
+                        intent.putExtra("url", SnsConstants.URL_ORIGINAL);
                         intent.putExtra("authType",1);
                         startActivity(intent);
                     } else {
@@ -169,7 +170,7 @@ public class AuthActivity extends BaseActivity {
                 //level为1,v_status为2时为原创作者通过，可进入申请签约作者
                 if(stateBean.getLevel()==1){
                     Intent intent=new Intent(this, CommentWebViewActivity.class);
-                    intent.putExtra("url",URL_BASE_H5+"certification/signing");
+                    intent.putExtra("url",SnsConstants.URL_SIGNING);
                     intent.putExtra("authType",2);
                     startActivity(intent);
                 }
