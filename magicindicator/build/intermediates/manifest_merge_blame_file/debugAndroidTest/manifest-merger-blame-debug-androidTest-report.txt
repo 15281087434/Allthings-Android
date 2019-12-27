@@ -1,0 +1,40 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="net.lucode.hackware.magicindicator.test" >
+4
+5    <uses-sdk
+5-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:5:5-74
+6        android:minSdkVersion="15"
+6-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:5:15-41
+7        android:targetSdkVersion="27" />
+7-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:5:42-71
+8
+9    <instrumentation
+9-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:11:5-15:89
+10        android:name="android.test.InstrumentationTestRunner"
+10-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:11:22-75
+11        android:functionalTest="false"
+11-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:14:22-52
+12        android:handleProfiling="false"
+12-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:13:22-53
+13        android:label="Tests for net.lucode.hackware.magicindicator.test"
+13-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:15:22-87
+14        android:targetPackage="net.lucode.hackware.magicindicator.test" />
+14-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:12:22-85
+15
+16    <application android:debuggable="true" >
+16-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:7:5-9:19
+16-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:7:18-43
+17        <uses-library android:name="android.test.runner" />
+17-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:8:9-60
+17-->D:\Allthings-Android\magicindicator\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger8843659593874876708.xml:8:23-57
+18
+19        <meta-data
+19-->[android.arch.lifecycle:runtime:1.0.0] C:\Users\windows10\.gradle\caches\transforms-2\files-2.1\180d9238b5395c6112e09493cf66a3d5\runtime-1.0.0\AndroidManifest.xml:25:9-27:47
+20            android:name="android.arch.lifecycle.VERSION"
+20-->[android.arch.lifecycle:runtime:1.0.0] C:\Users\windows10\.gradle\caches\transforms-2\files-2.1\180d9238b5395c6112e09493cf66a3d5\runtime-1.0.0\AndroidManifest.xml:26:13-58
+21            android:value="27.0.0-SNAPSHOT" />
+21-->[android.arch.lifecycle:runtime:1.0.0] C:\Users\windows10\.gradle\caches\transforms-2\files-2.1\180d9238b5395c6112e09493cf66a3d5\runtime-1.0.0\AndroidManifest.xml:27:13-44
+22    </application>
+23
+24</manifest>
