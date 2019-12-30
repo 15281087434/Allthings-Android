@@ -58,7 +58,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/x_ui_px_30.0"
                 android:textSize="@dimen/x_ui_px_32.0"
-                android:textColor="@color/FFD2D2D2"
+                android:textColor="@color/normal_color"
                 />
 
         </RelativeLayout>
@@ -72,29 +72,6 @@
             >
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/titleEt"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x_ui_px_80.0"
-            android:background="@null"
-            android:textSize="@dimen/x_ui_px_36.0"
-            android:textColor="@color/bottom_tab_tv"
-            android:textColorHint="@color/bottom_tab_tv"
-            android:hint="标题"
-            android:visibility="gone"
-            />
-
-        <EditText
-            android:id="@+id/contentEt"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x_ui_px_80.0"
-            android:background="@null"
-            android:textSize="@dimen/x_ui_px_36.0"
-            android:textColor="@color/bottom_tab_tv"
-            android:textColorHint="@color/bottom_tab_tv"
-            android:hint="内容"
-            android:visibility="gone"
-            />
         <WebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
