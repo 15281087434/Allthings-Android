@@ -2,11 +2,13 @@ package songqiu.allthings.creation.article.publish;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -132,12 +134,19 @@ public class PublicArticleActivity extends BaseActivity {
         // 支持javascript
         webView.getSettings().setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setAllowContentAccess(true);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAllowFileAccessFromFileURLs(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setSupportMultipleWindows(true);
         // 设置可以支持缩放
         webView.getSettings().setSupportZoom(true);
         // 设置出现缩放工具
 //		webView.getSettings().setBuiltInZoomControls(true);
         // 扩大比例的缩放
         webView.getSettings().setUseWideViewPort(true);
+
         // 自适应屏幕
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setLoadWithOverviewMode(true);
@@ -153,20 +162,24 @@ public class PublicArticleActivity extends BaseActivity {
 
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
-            public boolean onJsAlert(WebView view, String url, final String message, final JsResult result) {
-                return true;
-
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                return super.onJsAlert(view, url, message, result);
             }
-            //设置响应js 的Confirm()函数
-            @Override
-            public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
 
-                return true;
-            }
-            //设置响应js 的Prompt()函数
             @Override
-            public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, final JsPromptResult result) {
+            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+//                mUploadCallbackAboveL = filePathCallback;
+//                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+//                i.addCategory(Intent.CATEGORY_OPENABLE);           i.setType("*/*");
+ Intent intent = new Intent();
 
+                intent.setAction(Intent.ACTION_PICK);
+                intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+intent.setType("image/*");
+
+ startActivityForResult(intent, 0x101);
+//
+//                PublicArticleActivity.this.startActivityForResult(                      Intent.createChooser(i, "File Browser"),                      0x101);           return true;
                 return true;
             }
         });
