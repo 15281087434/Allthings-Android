@@ -81,6 +81,7 @@
             android:textColor="@color/bottom_tab_tv"
             android:textColorHint="@color/bottom_tab_tv"
             android:hint="标题"
+            android:visibility="gone"
             />
 
         <EditText
@@ -92,31 +93,13 @@
             android:textColor="@color/bottom_tab_tv"
             android:textColorHint="@color/bottom_tab_tv"
             android:hint="内容"
+            android:visibility="gone"
             />
-        <LinearLayout
-            android:id="@+id/ll_no_data"
+        <WebView
+            android:id="@+id/webview"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#FFFFFFFF"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
             />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x_ui_px_88.0"
-            android:background="@color/FFF4F5F6"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="sdfasdfasdf"
-                />
-        </LinearLayout>
-
 
     </LinearLayout>
     <LinearLayout
