@@ -418,10 +418,10 @@ public class RealNameAuthActivity extends BaseActivity {
                     //返回的分别是三个级别的选中位置
                     String tx;
                     if (options1Items.get(options1).getPickerViewText().equals(options2Items.get(options1).get(options2))) {
-                        tx = options1Items.get(options1).getPickerViewText() + options3Items.get(options1).get(options2).get(options3);
+                        tx = options1Items.get(options1).getPickerViewText()+"," + options3Items.get(options1).get(options2).get(options3);
                     } else {
-                        tx = options1Items.get(options1).getPickerViewText() +
-                                options2Items.get(options1).get(options2) +
+                        tx = options1Items.get(options1).getPickerViewText()+"," +
+                                options2Items.get(options1).get(options2) +","+
                                 options3Items.get(options1).get(options2).get(options3);
                     }
                     address = tx;
