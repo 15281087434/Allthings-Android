@@ -288,12 +288,8 @@ public class HttpServicePath {
     //创造收入
     public static String URL_CREATE_COME = BaseUrl+"create_come";
 
-
-
-
-
-
-
+    //浏览文章
+    public static String URL_SHOW_DATA = BaseUrl+"show_data";
 
     //创作 作品管理
     public static String URL_MANAGE_DATA = BaseUrl+"manage_data"; //type	是	int	1=未上架，2=已上架

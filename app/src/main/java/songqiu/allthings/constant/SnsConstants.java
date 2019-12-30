@@ -7,6 +7,7 @@ public class SnsConstants {
 	//h5变为gn 原因未知  老是在改
 	public static String URL_BASE_H5 = "http://gn.jianguaiapp.com/";
 
+	public static String URL_BASE_ARTICLE_H5 = "http://jianguaiapp.cn/";
 	public static String URL_GUANWANG = "http://gn.jianguaiapp.com/download.html";
 
 
@@ -42,27 +43,28 @@ public class SnsConstants {
 	public static String URL_ZHUXIAO =  URL_BASE_H5+"zhuxiao_info.html";
 
 	//作者招募计划
-	public static String URL_RECRUITMENT =  URL_BASE_H5+"#/explian/welfare";
+	public static String URL_RECRUITMENT =  URL_BASE_ARTICLE_H5+"#/explian/recruitment";
 
 	//作者投稿计划
-	public static String URL_CONTRIBUTE =  URL_BASE_H5+"#/explian/contribute";
+	public static String URL_CONTRIBUTE =  URL_BASE_ARTICLE_H5+"#/explian/contribute";
 
 
-	//作者招募计划
-	public static String URL_WELFARE =  URL_BASE_H5+"#/explian/explian/welfare";
-
-	//
-	public static String URL_ORIGINAL =  URL_BASE_H5+"#/certification/original";
+	//作者福利说明
+	public static String URL_WELFARE =  URL_BASE_ARTICLE_H5+"#/explian/welfare";
 
 	//
-	public static String URL_SIGNING =  URL_BASE_H5+"#/certification/signing";
+	public static String URL_ORIGINAL =  URL_BASE_ARTICLE_H5+"#/certification/original";
+
+	//
+	public static String URL_SIGNING =  URL_BASE_ARTICLE_H5+"#/certification/signing";
 
 
 
 
 	//浏览文章
 	public static String getUrlArticle(int id,int isEdit) {
-		return URL_BASE_H5+"artical/preview?id="+id+"&isEdit="+isEdit;
+//		return URL_BASE_ARTICLE_H5+"#/artical/preview_black?id="+id+"&isEdit="+isEdit;
+		return "http://192.168.0.195:8080/artical/preview_black?id="+id+"&isEdit="+isEdit;
 	}
 
 }
