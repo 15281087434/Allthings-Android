@@ -1,12 +1,14 @@
 package songqiu.allthings.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import songqiu.allthings.R;
+import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.bean.ArticlePutawayBean;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
@@ -102,6 +105,17 @@ public class ArticlePutawayAdapter extends RecyclerView.Adapter<ArticlePutawayAd
             }
         });
 
+        viewHolder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ClickUtil.onClick()) {
+                    Intent intent = new Intent(context, ArticleDetailActivity.class);
+                    intent.putExtra("articleid", list.get(position).id);
+                    context.startActivity(intent);
+                }
+            }
+        });
+
     }
 
 
@@ -142,6 +156,8 @@ public class ArticlePutawayAdapter extends RecyclerView.Adapter<ArticlePutawayAd
         TextView soldoutTv;
         @BindView(R.id.applyedTv)
         TextView applyedTv;
+        @BindView(R.id.layout)
+        LinearLayout layout;
 
         public ViewHolder(View itemView) {
             super(itemView);

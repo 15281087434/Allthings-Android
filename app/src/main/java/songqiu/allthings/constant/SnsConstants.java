@@ -41,4 +41,28 @@ public class SnsConstants {
 	//注销账号
 	public static String URL_ZHUXIAO =  URL_BASE_H5+"zhuxiao_info.html";
 
+	//作者招募计划
+	public static String URL_RECRUITMENT =  URL_BASE_H5+"explian/recruitment";
+
+	//作者投稿计划
+	public static String URL_CONTRIBUTE =  URL_BASE_H5+"explian/contribute";
+
+
+	//作者招募计划
+	public static String URL_WELFARE =  URL_BASE_H5+"explian/explian/welfare";
+
+	//
+	public static String URL_ORIGINAL =  URL_BASE_H5+"certification/original";
+
+	//
+	public static String URL_SIGNING =  URL_BASE_H5+"certification/signing";
+
+
+
+
+	//浏览文章
+	public static String getUrlArticle(int id,int isEdit) {
+		return URL_BASE_H5+"artical/preview?id="+id+"&isEdit="+isEdit;
+	}
+
 }

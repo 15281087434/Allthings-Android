@@ -1,8 +1,16 @@
 package songqiu.allthings.creation.article.publish;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.JsPromptResult;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +23,10 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.sharesdk.tencent.qq.QQ;
+import cn.sharesdk.wechat.friends.Wechat;
 import songqiu.allthings.R;
+import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.SaveArticleBean;
 import songqiu.allthings.bean.UserInfoBean;
@@ -25,8 +36,13 @@ import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.DialogPrivacyListener;
 import songqiu.allthings.iterface.IEditTextChangeListener;
+import songqiu.allthings.mine.WithdrawActivity;
+import songqiu.allthings.mine.invite.MyFriendActivity;
+import songqiu.allthings.mine.qrcode.EwmRedEnvelopeActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.EditTextCheckUtil;
+import songqiu.allthings.util.KeyBoardUtils;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
@@ -59,6 +75,10 @@ public class PublicArticleActivity extends BaseActivity {
     EditText titleEt;
     @BindView(R.id.contentEt)
     EditText contentEt;
+    @BindView(R.id.webview)
+    WebView webView;
+    WebSettings webSettings;
+    //http://192.168.0.175/share/test/example/demo/test-sperate.html
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -87,6 +107,7 @@ public class PublicArticleActivity extends BaseActivity {
             }
         });
         getSaveArticle();
+        initWebView("http://192.168.0.175/share/test/example/demo/test-sperate.html");
     }
 
 
@@ -96,6 +117,60 @@ public class PublicArticleActivity extends BaseActivity {
         }else {
             shadowLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void initWebView(String url) {
+        webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);//支持JavaScript脚本
+//        webView.setWebChromeClient(new MyWebChromeClient());
+        webView.setWebViewClient(new WebViewClient());
+        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.clearView();
+        webView.clearCache(true);
+        webView.clearHistory();
+        webView.clearFormData();
+        // 支持javascript
+        webView.getSettings().setJavaScriptEnabled(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        // 设置可以支持缩放
+        webView.getSettings().setSupportZoom(true);
+        // 设置出现缩放工具
+//		webView.getSettings().setBuiltInZoomControls(true);
+        // 扩大比例的缩放
+        webView.getSettings().setUseWideViewPort(true);
+        // 自适应屏幕
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                // 重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        webView.loadUrl(url);
+//        webView.addJavascriptInterface(new JsInterface(), "android");
+
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public boolean onJsAlert(WebView view, String url, final String message, final JsResult result) {
+                return true;
+
+            }
+            //设置响应js 的Confirm()函数
+            @Override
+            public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
+
+                return true;
+            }
+            //设置响应js 的Prompt()函数
+            @Override
+            public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, final JsPromptResult result) {
+
+                return true;
+            }
+        });
+
     }
 
     public void getSaveArticle() {
@@ -155,6 +230,19 @@ public class PublicArticleActivity extends BaseActivity {
                 saveArticle(title,content);
             }
         });
+    }
+
+
+    /**
+     * JS调用APP接口
+     */
+    public class JsInterface {
+//        //编辑文章
+//        @JavascriptInterface
+//        public void onEdit() {
+//
+//        }
+
     }
 
     @OnClick({R.id.backImg,R.id.saveTv,R.id.rightTv})

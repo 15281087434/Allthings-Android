@@ -6,9 +6,11 @@ import android.view.View;
 
 import butterknife.OnClick;
 import songqiu.allthings.R;
+import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.auth.activity.AuthActivity;
 import songqiu.allthings.base.BaseFragment;
+import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.creation.article.income.CreationIncomeActivity;
 import songqiu.allthings.creation.article.manage.ArticleManageActivity;
 import songqiu.allthings.creation.article.publish.PublicArticleActivity;
@@ -16,6 +18,7 @@ import songqiu.allthings.iterface.DialogPrivacyListener;
 import songqiu.allthings.login.LoginActivity;
 import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.TokenManager;
@@ -64,7 +67,7 @@ public class CreationPageFragment extends BaseFragment{
 
 
     @OnClick({R.id.authenticationTv,R.id.publishTv,R.id.manageTv,R.id.incomeTv,R.id.planLayout,R.id.strategyLayout,R.id.explainLayout,
-                R.id.activityLayout,R.id.guideLayout})
+                })
     public void onViewClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -112,31 +115,31 @@ public class CreationPageFragment extends BaseFragment{
                     }
                 }
                 break;
-            case R.id.planLayout: //计划招募
+            case R.id.planLayout: //招募计划
                 if (ClickUtil.onClick()) {
-
+                    intent = new Intent(activity, CommentWebViewActivity.class);
+                    intent.putExtra("url", SnsConstants.URL_RECRUITMENT);
+                    intent.putExtra("authType",1);
+                    startActivity(intent);
                 }
                 break;
-            case R.id.strategyLayout: //加V认证攻略
+            case R.id.strategyLayout: //投稿协议
                 if (ClickUtil.onClick()) {
-
+                    intent = new Intent(activity, CommentWebViewActivity.class);
+                    intent.putExtra("url",SnsConstants.URL_CONTRIBUTE);
+                    intent.putExtra("authType",1);
+                    startActivity(intent);
                 }
                 break;
             case R.id.explainLayout: //作者福利说明
                 if (ClickUtil.onClick()) {
-
+                    intent = new Intent(activity, CommentWebViewActivity.class);
+                    intent.putExtra("url",SnsConstants.URL_WELFARE);
+                    intent.putExtra("authType",1);
+                    startActivity(intent);
                 }
                 break;
-            case R.id.activityLayout: //创作活动
-                if (ClickUtil.onClick()) {
 
-                }
-                break;
-            case R.id.guideLayout: //内容指南
-                if (ClickUtil.onClick()) {
-
-                }
-                break;
         }
     }
 }
