@@ -155,8 +155,8 @@ public class ArticleCoverAdapter extends BaseAdapter {
         Bitmap bitmap = BitmapFactory.decodeFile(mPath, bmOptions);
 
         if(null != bitmap) {
-            /* Associate the Bitmap to the ImageView */
-            mImageView.setImageBitmap(AlbumUtil.fitBitmap(bitmap,targetW,targetH));
+            /* Associate the Bitmap to the ImageView */ //AlbumUtil.fitBitmap(bitmap,targetW,targetH)
+            mImageView.setImageBitmap(bitmap);
         }else {
             Glide.with(mContext).load(mPath).into(mImageView);
         }

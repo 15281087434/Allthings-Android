@@ -50,12 +50,13 @@ public class AuthActivity extends BaseActivity {
     private AuthStateBean stateBean;
     @BindView(R.id.shadowLayout)
     LinearLayout shadowLayout;
+    boolean dayModel;
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_auth);
         ButterKnife.bind(this);
         titleTv.setText("身份认证");
-        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
         modeUi(dayModel);
 
     }
@@ -153,7 +154,11 @@ public class AuthActivity extends BaseActivity {
 
                     if (stateBean.getV_status() == 2&&stateBean.getStatus()==0) {
                         Intent intent=new Intent(this, CommentWebViewActivity.class);
-                        intent.putExtra("url", SnsConstants.URL_ORIGINAL);
+                        if(dayModel) {
+                            intent.putExtra("url", SnsConstants.URL_ORIGINAL);
+                        }else {
+                            intent.putExtra("url", SnsConstants.URL_ORIGINAL_NIGHT);
+                        }
                         intent.putExtra("authType",1);
                         startActivity(intent);
                     } else {
@@ -170,7 +175,11 @@ public class AuthActivity extends BaseActivity {
                 //level为1,v_status为2时为原创作者通过，可进入申请签约作者
                 if(stateBean.getLevel()==1){
                     Intent intent=new Intent(this, CommentWebViewActivity.class);
-                    intent.putExtra("url",SnsConstants.URL_SIGNING);
+                    if(dayModel) {
+                        intent.putExtra("url", SnsConstants.URL_SIGNING);
+                    }else {
+                        intent.putExtra("url", SnsConstants.URL_SIGNING_NIGHT);
+                    }
                     intent.putExtra("authType",2);
                     startActivity(intent);
                 }

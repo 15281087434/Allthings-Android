@@ -49,19 +49,28 @@ public class SnsConstants {
 
 	//作者招募计划
 	public static String URL_RECRUITMENT =  URL_BASE_ARTICLE_H5+"#/explian/recruitment";
+    //作者招募计划夜间
+    public static String URL_RECRUITMENT_NIGHT =  URL_BASE_ARTICLE_H5+"#/explian/recruitment_black";
+
 
 	//作者投稿计划
 	public static String URL_CONTRIBUTE =  URL_BASE_ARTICLE_H5+"#/explian/contribute";
+    //作者投稿计划
+    public static String URL_CONTRIBUTE_NIGHT =  URL_BASE_ARTICLE_H5+"#/explian/contribute_black";
 
 
 	//作者福利说明
 	public static String URL_WELFARE =  URL_BASE_ARTICLE_H5+"#/explian/welfare";
+    //作者福利说明夜间
+    public static String URL_WELFARE_NIGHT =  URL_BASE_ARTICLE_H5+"#/explian/welfare_black";
 
 	//
 	public static String URL_ORIGINAL =  URL_BASE_ARTICLE_H5+"#/certification/original";
+    public static String URL_ORIGINAL_NIGHT =  URL_BASE_ARTICLE_H5+"#/certification/original_black";
 
 	//
-	public static String URL_SIGNING =  URL_BASE_ARTICLE_H5+"#/certification/signing";
+    public static String URL_SIGNING =  URL_BASE_ARTICLE_H5+"#/certification/signing";
+	public static String URL_SIGNING_NIGHT =  URL_BASE_ARTICLE_H5+"#/certification/signing_black";
 
 
 
