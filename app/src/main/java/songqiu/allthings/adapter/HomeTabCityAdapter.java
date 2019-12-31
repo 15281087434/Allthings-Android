@@ -159,6 +159,7 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
+        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         holder.titleTv.setText(item.get(position).title);
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
@@ -262,6 +263,7 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
                 item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
             }
         }
+        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         Glide.with(context).load(item.get(position).photo).apply(options1).into(holder.bigPicImg);
         holder.titleTv.setText(item.get(position).title);
@@ -350,6 +352,7 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
+        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         RequestOptions options1 = new RequestOptions()
                 .error(R.mipmap.pic_default_small)
@@ -439,6 +442,7 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         holder.titleTv.setText(item.get(position).title);
         holder.userName.setText(item.get(position).user_nickname);
         //标签
+        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
             holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
@@ -534,6 +538,7 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
+        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         holder.titleTv.setText(item.get(position).title);
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
@@ -613,6 +618,7 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
             control.setInfo(info);
             holder.videoView.setHeartVideoContent(control);
         }
+
         holder.userName.setText(item.get(position).user_nickname);
         holder.likeTv.setText(item.get(position).up_num + "");
         if (0 == item.get(position).is_up) {
@@ -744,7 +750,8 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         TextView labels1;
         @BindView(R.id.labels2)
         TextView labels2;
-
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public RightPicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -781,7 +788,8 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         TextView labels1;
         @BindView(R.id.labels2)
         TextView labels2;
-
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public MorePicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -822,7 +830,8 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         TextView labels1;
         @BindView(R.id.labels2)
         TextView labels2;
-
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public BigPicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -861,7 +870,8 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         TextView labels1;
         @BindView(R.id.labels2)
         TextView labels2;
-
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public NoPicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -888,7 +898,8 @@ public class HomeTabCityAdapter extends RecyclerView.Adapter {
         ImageView deleteImg;
         @BindView(R.id.collectTv)
         TextView collectTv;
-
+@BindView(R.id.tv_sai)
+TextView tvSai;
         public CityAndChoiseVideoHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Surface;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -36,6 +37,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import songqiu.allthings.R;
+import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.SaveArticleBean;
 import songqiu.allthings.constant.SnsConstants;
@@ -122,6 +124,7 @@ public class PublicArticleActivity extends BaseActivity {
     }
 
     public void initWebView(String url) {
+        getSolict();
         webSettings = webView.getSettings();
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -280,6 +283,7 @@ public class PublicArticleActivity extends BaseActivity {
                 webView.evaluateJavascript("javascript:getContent()", new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String value) {
+
                         if(StringUtil.isEmpty(value))return;
                         String strBaseString = new String(Base64.decode(value.getBytes(), Base64.DEFAULT));
                         if(StringUtil.isEmpty(strBaseString))return;
@@ -288,6 +292,7 @@ public class PublicArticleActivity extends BaseActivity {
                             String title = jsonObject.getString("title");
                             String content = jsonObject.getString("content");
                             saveArticle(title,content);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -296,7 +301,18 @@ public class PublicArticleActivity extends BaseActivity {
             }
         });
     }
-
+    public void getSolict() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("page", 1+"");
+        OkHttp.post(this, HttpServicePath.URL_SOLICIT, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+                Gson gson=new Gson();
+                String data=gson.toJson(baseBean.data);
+                Log.e("solicit",data+"");
+            }
+        });
+    }
 
     /**
      * JS调用APP接口

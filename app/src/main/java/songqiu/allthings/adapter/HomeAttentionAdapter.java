@@ -100,6 +100,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
             return new Viewholder(view);
 
         }
+
         return null;
     }
 
@@ -145,6 +146,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
             }
         }
+        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
         holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.contentTv.setText(homeAttentionBean.title);
@@ -244,6 +246,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
             }
         }
+        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
         RequestOptions options1 = new RequestOptions()
                 .error(R.mipmap.pic_default_small)
@@ -369,6 +372,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.photo = HttpServicePath.BasePicUrl + homeAttentionBean.photo;
             }
         }
+        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.photo).apply(options1).into(holder.bigPicImg);
         holder.contentTv.setText(homeAttentionBean.title);
         holder.describeTv.setText(homeAttentionBean.descriptions);
@@ -466,6 +470,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
             }
         }
+        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
         holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         if (null != item.get(position).photos) {
@@ -589,6 +594,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
             }
         }
+        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
         holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.titleTv.setText(homeAttentionBean.title);
@@ -692,6 +698,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
     }
 
     public class TextViewholder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         @BindView(R.id.userIcon)
         ImageView userIcon;
         @BindView(R.id.userName)
@@ -761,6 +769,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         RelativeLayout userLayout;
         @BindView(R.id.iv_level)
         ImageView ivLevel;
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public RightPicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -800,6 +810,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.iv_level)
         ImageView ivLevel;
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public BigPicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -838,6 +850,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.iv_level)
         ImageView ivLevel;
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public MorePicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -876,6 +890,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         RelativeLayout userLayout;
         @BindView(R.id.iv_level)
         ImageView ivLevel;
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public Viewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

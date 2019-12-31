@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -174,6 +175,9 @@ public class RoyaltiesActivity extends BaseActivity {
                             Gson gson=new Gson();
                             String data=gson.toJson(baseBean.data);
                             Log.e("start",data);
+                            if(TextUtils.isEmpty(data)){
+                                return;
+                            }
                             GcLogBean gcLogBean=gson.fromJson(data,GcLogBean.class);
                             if(gcLogBean!=null) {
                                 if (gcLogBean.getLogdata()==null||gcLogBean.getLogdata().size() <= num) {
