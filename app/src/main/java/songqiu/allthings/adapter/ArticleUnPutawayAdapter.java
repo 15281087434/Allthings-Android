@@ -20,6 +20,7 @@ import songqiu.allthings.bean.ArticleUnPutawayBean;
 import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
+import songqiu.allthings.util.LogUtil;
 
 /*******
  *
@@ -80,7 +81,7 @@ public class ArticleUnPutawayAdapter extends RecyclerView.Adapter<ArticleUnPutaw
                 if(ClickUtil.onClick()) {
                     Intent intent = new Intent(context, CommentWebViewActivity.class);
                     intent.putExtra("url", SnsConstants.getUrlArticle(list.get(position).id,list.get(position).status));
-                    intent.putExtra("authType",1);
+                    intent.putExtra("articleid", list.get(position).id);
                     context.startActivity(intent);
                 }
             }

@@ -10,7 +10,10 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.google.gson.Gson;
+
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +22,8 @@ import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 import songqiu.allthings.R;
 import songqiu.allthings.base.BaseActivity;
+import songqiu.allthings.bean.ShowArticleBean;
+import songqiu.allthings.bean.UserInfoBean;
 import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.creation.article.publish.PublicArticleActivity;
 import songqiu.allthings.http.BaseBean;
@@ -50,6 +55,7 @@ public class CommentWebViewActivity extends BaseActivity {
     WebView webView;
     String url;
     int type=0;
+    int articleid;
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_webview);
@@ -59,6 +65,7 @@ public class CommentWebViewActivity extends BaseActivity {
     public void init() {
 
         url = getIntent().getStringExtra("url");
+        articleid = getIntent().getIntExtra("articleid",0);
         if(getIntent().hasExtra("authType")){
             type=getIntent().getIntExtra("authType",0);
             boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
@@ -92,6 +99,14 @@ public class CommentWebViewActivity extends BaseActivity {
                 // 重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器
                 view.loadUrl(url);
                 return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                if(url.contains("artical/preview")) {
+                    getShowData(articleid);
+                }
             }
         });
 //        webView.loadUrl("file:///android_asset/share/about.html");
@@ -159,7 +174,6 @@ public class CommentWebViewActivity extends BaseActivity {
 
         @JavascriptInterface
         public void onAuth(){
-
                 HashMap<String,String> map=new HashMap<>();
                 map.put("type",type+"");
                 OkHttp.post(CommentWebViewActivity.this, HttpServicePath.URL_STATE_APPLY,map,new RequestCallBack(){
@@ -186,6 +200,11 @@ public class CommentWebViewActivity extends BaseActivity {
             startActivity(intent);
         }
 
+        //编辑文章
+        @JavascriptInterface
+        public void onInit() {
+
+        }
 
     }
 
@@ -219,4 +238,28 @@ public class CommentWebViewActivity extends BaseActivity {
         oks.show(this);
     }
 
+    public void getShowData(int articleid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("articleid",articleid+"");
+        OkHttp.post(this, HttpServicePath.URL_SHOW_DATA, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson = new Gson();
+                        String data = gson.toJson(baseBean.data);
+                        if (StringUtil.isEmpty(data)) return;
+                        ShowArticleBean showArticleBean = gson.fromJson(data, ShowArticleBean.class);
+                        if(null == showArticleBean) return;
+                        if (!showArticleBean.avatar.contains("http")) {
+                            showArticleBean.avatar = HttpServicePath.BasePicUrl + showArticleBean.avatar;
+                         }
+                        webView.loadUrl("javascript:sendEditContent('" + showArticleBean.title + "','" + showArticleBean.user_nickname + "','"
+                                + showArticleBean.avatar+ "','" + showArticleBean.content +"')");
+                    }
+                });
+            }
+        });
+    }
 }

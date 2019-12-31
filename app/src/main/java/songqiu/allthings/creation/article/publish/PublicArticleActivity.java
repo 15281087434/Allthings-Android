@@ -1,5 +1,6 @@
 package songqiu.allthings.creation.article.publish;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,21 +14,19 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.View;
 import android.webkit.JavascriptInterface;
-import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.heartfor.heartvideo.video.PlayerStatus;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,27 +36,22 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 import songqiu.allthings.R;
-import songqiu.allthings.activity.BuddingBoxingActivity;
+import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.SaveArticleBean;
-import songqiu.allthings.bean.UserInfoBean;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.DialogPrivacyListener;
-import songqiu.allthings.iterface.IEditTextChangeListener;
-import songqiu.allthings.mine.userpage.ModificationInfoActivity;
-import songqiu.allthings.util.BoxingDefaultConfig;
 import songqiu.allthings.util.ClickUtil;
-import songqiu.allthings.util.EditTextCheckUtil;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.view.DialogArticleCommon;
-import songqiu.allthings.view.NoTitleDialog;
 
 /*******
  *
@@ -86,6 +80,8 @@ public class PublicArticleActivity extends BaseActivity {
     WebView webView;
     WebSettings webSettings;
 
+    SaveArticleBean saveArticleBean;
+
 
     private ValueCallback<Uri[]> uploadMessageAboveL;
     private final static int FILE_CHOOSER_RESULT_CODE = 10000;
@@ -101,9 +97,7 @@ public class PublicArticleActivity extends BaseActivity {
         titleTv.setText("写文章");
         rightTv.setVisibility(View.VISIBLE);
         rightTv.setText("下一步");
-
-        getSaveArticle();
-        initWebView("http://192.168.0.175/share/test/example/demo/test-sperate.html");
+        initWebView("http://192.168.0.175/share/editFile.html");
     }
 
 
@@ -118,8 +112,6 @@ public class PublicArticleActivity extends BaseActivity {
     public void initWebView(String url) {
         getSolict();
         webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);//支持JavaScript脚本
-//        webView.setWebChromeClient(new MyWebChromeClient());
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.clearView();
@@ -148,19 +140,18 @@ public class PublicArticleActivity extends BaseActivity {
         webView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 // 重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器
-                LogUtil.i("-----------shouldOverrideUrlLoading:"+url);
                 view.loadUrl(url);
                 return true;
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                LogUtil.i("-----------onPageFinished:"+url);
                 super.onPageFinished(view, url);
+                getSaveArticle();
             }
         });
         webView.loadUrl(url);
-//        webView.addJavascriptInterface(new JsInterface(), "android");
+        webView.addJavascriptInterface(new JsInterface(), "android");
 
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
@@ -178,9 +169,9 @@ public class PublicArticleActivity extends BaseActivity {
                 startActivityForResult(intent, FILE_CHOOSER_RESULT_CODE);
                 return true;
             }
+
         });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -229,9 +220,11 @@ public class PublicArticleActivity extends BaseActivity {
                         Gson gson = new Gson();
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
-                        SaveArticleBean saveArticleBean = gson.fromJson(data, SaveArticleBean.class);
+                        saveArticleBean = gson.fromJson(data, SaveArticleBean.class);
                         if(null == saveArticleBean) return;
-
+                        if(!StringUtil.isEmpty(saveArticleBean.title) && !StringUtil.isEmpty(saveArticleBean.content)) {
+                            webView.loadUrl("javascript:sendContent('" + saveArticleBean.title  + "','" + saveArticleBean.content  +"')");
+                        }
                     }
                 });
             }
@@ -269,36 +262,22 @@ public class PublicArticleActivity extends BaseActivity {
 
             @Override
             public void sure() {
-//                String title = titleEt.getText().toString();
-//                String content = contentEt.getText().toString();
-//                saveArticle(title,content);
-//                String ss = "?title=**&content=**";
-
-
                 webView.evaluateJavascript("javascript:getContent()", new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String value) {
-                        LogUtil.i("=========:"+value);
 
+                        if(StringUtil.isEmpty(value))return;
+                        String strBaseString = new String(Base64.decode(value.getBytes(), Base64.DEFAULT));
+                        if(StringUtil.isEmpty(strBaseString))return;
                         try {
-                            JSONObject jsonObject = new JSONObject("{\"title\":\"落汤鸡了去\",\"content\":\"\u003Cp楼梯\u003Cbr\u003C/p\"}");
-                            LogUtil.i("---------:"+jsonObject.getString("title"));
+                            JSONObject jsonObject = new JSONObject(strBaseString);
+                            String title = jsonObject.getString("title");
+                            String content = jsonObject.getString("content");
+                            saveArticle(title,content);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
-//                        String ss = value.substring(1);
-//                        String ss1 = ss.substring(0,ss.length()-1);
-//                        String sss = getUnicode(ss1);
-//                        String s1= "{\"title\":\"近距离\",\"content\":\"\u003Cp>all哦OK了\u003Cbr>\u003C/p>\"}";
-//                        getUnicode(s1);
-
-
-//                        JSONObject jsonObject = JSONObject.parseObject(value);
-//                        String title = jsonObject.getString("title");
-//                        String content = jsonObject.getString("content");
-//                        LogUtil.i("*********:"+title +" content:"+content);
                     }
                 });
             }
@@ -321,22 +300,12 @@ public class PublicArticleActivity extends BaseActivity {
      * JS调用APP接口
      */
     public class JsInterface {
-//        //编辑文章
-//        @JavascriptInterface
-//        public void onEdit() {
-//
-//        }
+        //编辑文章
+        @JavascriptInterface
+        public void onEdit() {
 
-    }
-
-    public  String getUnicode(String s){
-        String result = "";
-        char[] c = s.toCharArray();
-        for(char tmp:c){
-          result += tmp;
         }
-        System.out.println(result);
-        return result;
+
     }
 
     @OnClick({R.id.backImg,R.id.saveTv,R.id.rightTv})
@@ -352,16 +321,30 @@ public class PublicArticleActivity extends BaseActivity {
                 break;
             case R.id.rightTv:
                 if(ClickUtil.onClick()) {
-//                    String title = titleEt.getText().toString();
-//                    String content = contentEt.getText().toString();
-//                    if(StringUtil.isEmpty(title) || StringUtil.isEmpty(content)) {
-//                        ToastUtil.showToast(this,"标题或者正文不能为空");
-//                        return;
-//                    }
-//                    Intent intent = new Intent(this,PublicExplainActivity.class);
-//                    intent.putExtra("title",title);
-//                    intent.putExtra("content",content);
-//                    startActivity(intent);
+                    webView.evaluateJavascript("javascript:getContent()", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String value) {
+                            if(StringUtil.isEmpty(value))return;
+                            String strBaseString = new String(Base64.decode(value.getBytes(), Base64.DEFAULT));
+                            if(StringUtil.isEmpty(strBaseString))return;
+                            try {
+                                JSONObject jsonObject = new JSONObject(strBaseString);
+                                String title = jsonObject.optString("title");
+                                String content = jsonObject.optString("content");
+                                if(StringUtil.isEmpty(title) || StringUtil.isEmpty(content)) {
+                                    ToastUtil.showToast(PublicArticleActivity.this,"标题或者正文不能为空");
+                                    return;
+                                }
+                                Intent intent = new Intent(PublicArticleActivity.this,PublicExplainActivity.class);
+                                intent.putExtra("title",title);
+                                intent.putExtra("content",content);
+                                startActivity(intent);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
                 }
                 break;
         }

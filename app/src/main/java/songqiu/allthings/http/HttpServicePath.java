@@ -288,6 +288,7 @@ public class HttpServicePath {
     //创造收入
     public static String URL_CREATE_COME = BaseUrl+"create_come";
 
+
     //征文栏目
     public static String URL_SOLICIT=BaseUrl+"solicit";
 
@@ -295,6 +296,9 @@ public class HttpServicePath {
     public static String URL_TP=BaseUrl+"home/user/create";
 
 
+
+    //浏览文章
+    public static String URL_SHOW_DATA = BaseUrl+"show_data";
 
 
     //创作 作品管理
