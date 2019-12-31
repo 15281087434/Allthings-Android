@@ -215,7 +215,16 @@ public class HomePageSubitemFragment extends BaseFragment {
                     recyclerView.post(new Runnable() {
                         @Override
                         public void run() {
-                            adapter.notifyItemRangeChanged(position_play,1);
+                            View childAt = layoutManager.findViewByPosition((position_play));
+                                  if (childAt!=null&&item.get(position_play).ad==1&&item.get(position_play).type!=1){
+                                //视频开始播放
+                                HeartVideo video=childAt.findViewById(R.id.videoView);
+                                if(video!=null) {
+                                    if (video == HeartVideoManager.getInstance().getCurrPlayVideo()) {
+                                      video.startSlence();
+                                    }
+                                }
+                            }
                             looperFlag = 0;//自动播放上一个
                         }
                     });
@@ -249,7 +258,16 @@ public class HomePageSubitemFragment extends BaseFragment {
                             recyclerView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    adapter.notifyItemRangeChanged(position_play,1);
+                                    View childAt = layoutManager.findViewByPosition((position_play));
+                                          if (childAt!=null&&item.get(position_play).ad==1&&item.get(position_play).type!=1){
+                                        //视频开始播放
+                                        HeartVideo video=childAt.findViewById(R.id.videoView);
+                                        if(video!=null) {
+                                            if (video == HeartVideoManager.getInstance().getCurrPlayVideo()) {
+                                                HeartVideoManager.getInstance().release();
+                                            }
+                                        }
+                                    }
                                     looperFlag = 2;//自动播放上一个
                                 }
                             });
@@ -267,7 +285,16 @@ public class HomePageSubitemFragment extends BaseFragment {
                             recyclerView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    adapter.notifyItemRangeChanged(position_play,1);
+                                    View childAt = layoutManager.findViewByPosition((position_play));
+                                          if (childAt!=null&&item.get(position_play).ad==1&&item.get(position_play).type!=1){
+                                        //视频开始播放
+                                        HeartVideo video=childAt.findViewById(R.id.videoView);
+                                        if(video!=null) {
+                                            if (video == HeartVideoManager.getInstance().getCurrPlayVideo()) {
+                                                HeartVideoManager.getInstance().release();
+                                            }
+                                        }
+                                    }
                                     looperFlag = 1;//自动播放上一个
                                 }
                             });

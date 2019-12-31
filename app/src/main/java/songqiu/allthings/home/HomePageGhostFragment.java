@@ -1,6 +1,7 @@
 package songqiu.allthings.home;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.heartfor.heartvideo.video.HeartVideo;
 import com.heartfor.heartvideo.video.HeartVideoManager;
 import com.mob.MobSDK;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -49,6 +51,7 @@ import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.HomeItemListener;
 import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.util.CopyButtonLibrary;
+import songqiu.allthings.util.NetWorkUtil;
 import songqiu.allthings.util.ScreenUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
@@ -181,7 +184,15 @@ public class HomePageGhostFragment extends BaseFragment {
                     recyclerView.post(new Runnable() {
                         @Override
                         public void run() {
-                            adapter.notifyItemRangeChanged(position_play,1);
+                            View childAt = layoutManager.findViewByPosition((position_play));
+                            if (childAt!=null&&item.get(position_play).ad==1&&item.get(position_play).type!=1){
+
+                                //视频开始播放
+                                HeartVideo video=childAt.findViewById(R.id.videoView);
+                                if(video!=null&& NetWorkUtil.getConnectedType(getContext())== ConnectivityManager.TYPE_WIFI) {
+                                    video.startSlence();
+                                }
+                            }
                             looperFlag = 0;//自动播放上一个
                         }
                     });
@@ -215,7 +226,16 @@ public class HomePageGhostFragment extends BaseFragment {
                             recyclerView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    adapter.notifyItemRangeChanged(position_play,1);
+                                    View childAt = layoutManager.findViewByPosition((position_play));
+                                    if (childAt!=null&&item.get(position_play).ad==1&&item.get(position_play).type!=1){
+                                        //视频开始播放
+                                        HeartVideo video=childAt.findViewById(R.id.videoView);
+                                        if(video!=null) {
+                                            if (video == HeartVideoManager.getInstance().getCurrPlayVideo()) {
+                                                HeartVideoManager.getInstance().release();
+                                            }
+                                        }
+                                    }
                                     looperFlag = 2;//自动播放上一个
                                 }
                             });
@@ -233,7 +253,16 @@ public class HomePageGhostFragment extends BaseFragment {
                             recyclerView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    adapter.notifyItemRangeChanged(position_play,1);
+                                    View childAt = layoutManager.findViewByPosition((position_play));
+                                    if (childAt!=null&&item.get(position_play).ad==1&&item.get(position_play).type!=1){
+                                        //视频开始播放
+                                        HeartVideo video=childAt.findViewById(R.id.videoView);
+                                        if(video!=null) {
+                                            if (video == HeartVideoManager.getInstance().getCurrPlayVideo()) {
+                                                HeartVideoManager.getInstance().release();
+                                            }
+                                        }
+                                    }
                                     looperFlag = 1;//自动播放上一个
                                 }
                             });

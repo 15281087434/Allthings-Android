@@ -3,6 +3,7 @@ package songqiu.allthings.look;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,6 +57,7 @@ import songqiu.allthings.iterface.LookItemListener;
 import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.NetWorkUtil;
 import songqiu.allthings.util.ScreenUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
@@ -183,12 +185,22 @@ public class LookPageSubitemFragment extends BaseFragment {
 
                             break;
                     }
+
                     item.get(position_play).state=1;
 
                     recyclerView.post(new Runnable() {
                         @Override
                         public void run() {
-                            adapter.notifyItemRangeChanged(position_play,1);
+                            View childAt = layoutManager.findViewByPosition((position_play));
+                            if (childAt!=null&&item.get(position_play).ad==1&&item.get(position_play).type!=1){
+                                //视频开始播放
+                                HeartVideo video=childAt.findViewById(R.id.videoView);
+                                if(video!=null&& NetWorkUtil.getConnectedType(getContext())== ConnectivityManager.TYPE_WIFI) {
+                                    video.startSlence();
+                                }
+                            }
+//                            adapter.notifyItemRangeChanged(position_play,1);
+
                             looperFlag = 0;//自动播放上一个
                         }
                     });
@@ -222,7 +234,16 @@ public class LookPageSubitemFragment extends BaseFragment {
                             recyclerView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    adapter.notifyItemRangeChanged(position_play,1);
+                                    View childAt = layoutManager.findViewByPosition((position_play));
+                                          if (childAt!=null&&item.get(position_play).ad==1&&item.get(position_play).type!=1){
+                                        //视频开始播放
+                                        HeartVideo video=childAt.findViewById(R.id.videoView);
+                                        if(video!=null) {
+                                            if (video == HeartVideoManager.getInstance().getCurrPlayVideo()) {
+                                                HeartVideoManager.getInstance().release();
+                                            }
+                                        }
+                                    }
                                     looperFlag = 2;//自动播放上一个
                                 }
                             });
@@ -240,7 +261,16 @@ public class LookPageSubitemFragment extends BaseFragment {
                             recyclerView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    adapter.notifyItemRangeChanged(position_play,1);
+                                    View childAt = layoutManager.findViewByPosition((position_play));
+                                          if (childAt!=null&&item.get(position_play).ad==1&&item.get(position_play).type!=1){
+                                        //视频开始播放
+                                        HeartVideo video=childAt.findViewById(R.id.videoView);
+                                        if(video!=null) {
+                                            if (video == HeartVideoManager.getInstance().getCurrPlayVideo()) {
+                                                HeartVideoManager.getInstance().release();
+                                            }
+                                        }
+                                    }
                                     looperFlag = 1;//自动播放上一个
                                 }
                             });
