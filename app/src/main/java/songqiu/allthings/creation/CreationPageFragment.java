@@ -70,6 +70,7 @@ public class CreationPageFragment extends BaseFragment{
                 })
     public void onViewClick(View view) {
         Intent intent;
+        boolean dayModel = SharedPreferencedUtils.getBoolean(activity, SharedPreferencedUtils.dayModel, true);
         switch (view.getId()) {
             case R.id.authenticationTv: //验证身份证
                 if(ClickUtil.onClick()) {
@@ -118,21 +119,33 @@ public class CreationPageFragment extends BaseFragment{
             case R.id.planLayout: //招募计划
                 if (ClickUtil.onClick()) {
                     intent = new Intent(activity, CommentWebViewActivity.class);
-                    intent.putExtra("url", SnsConstants.URL_RECRUITMENT);
+                    if(dayModel) {
+                        intent.putExtra("url", SnsConstants.URL_RECRUITMENT);
+                    }else {
+                        intent.putExtra("url", SnsConstants.URL_RECRUITMENT_NIGHT);
+                    }
                     startActivity(intent);
                 }
                 break;
             case R.id.strategyLayout: //投稿协议
                 if (ClickUtil.onClick()) {
                     intent = new Intent(activity, CommentWebViewActivity.class);
-                    intent.putExtra("url",SnsConstants.URL_CONTRIBUTE);
+                    if(dayModel) {
+                        intent.putExtra("url", SnsConstants.URL_CONTRIBUTE);
+                    }else {
+                        intent.putExtra("url", SnsConstants.URL_CONTRIBUTE_NIGHT);
+                    }
                     startActivity(intent);
                 }
                 break;
             case R.id.explainLayout: //作者福利说明
                 if (ClickUtil.onClick()) {
                     intent = new Intent(activity, CommentWebViewActivity.class);
-                    intent.putExtra("url",SnsConstants.URL_WELFARE);
+                    if(dayModel) {
+                        intent.putExtra("url", SnsConstants.URL_WELFARE);
+                    }else {
+                        intent.putExtra("url", SnsConstants.URL_WELFARE_NIGHT);
+                    }
                     startActivity(intent);
                 }
                 break;
