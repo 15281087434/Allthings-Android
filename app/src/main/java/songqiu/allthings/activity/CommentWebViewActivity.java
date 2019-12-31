@@ -33,6 +33,7 @@ import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.mine.WithdrawActivity;
 import songqiu.allthings.mine.invite.MyFriendActivity;
 import songqiu.allthings.mine.qrcode.EwmRedEnvelopeActivity;
+import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
@@ -197,6 +198,8 @@ public class CommentWebViewActivity extends BaseActivity {
         @JavascriptInterface
         public void onEdit() {
             Intent intent = new Intent(CommentWebViewActivity.this, PublicArticleActivity.class);
+            intent.putExtra("type",2);
+            intent.putExtra("articleid",articleid);
             startActivity(intent);
         }
 
@@ -204,6 +207,14 @@ public class CommentWebViewActivity extends BaseActivity {
         @JavascriptInterface
         public void onInit() {
 
+        }
+
+        //复制
+        @JavascriptInterface
+        public void onCopy(String value) {
+            CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(CommentWebViewActivity.this, value);
+            copyButtonLibrary.init(value);
+            ToastUtil.showToast(CommentWebViewActivity.this,"复制成功!");
         }
 
     }

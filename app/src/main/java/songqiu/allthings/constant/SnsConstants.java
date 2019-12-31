@@ -42,6 +42,11 @@ public class SnsConstants {
 	//注销账号
 	public static String URL_ZHUXIAO =  URL_BASE_H5+"zhuxiao_info.html";
 
+    //编辑文章
+    public static String RUL_EDIT_FILE = URL_BASE_H5+"editFile.html";
+    //编辑文章 夜间
+    public static String RUL_EDIT_FILE_NIGHT  = URL_BASE_H5+"editFile_black.html";
+
 	//作者招募计划
 	public static String URL_RECRUITMENT =  URL_BASE_ARTICLE_H5+"#/explian/recruitment";
 
@@ -62,9 +67,13 @@ public class SnsConstants {
 
 
 	//浏览文章
-	public static String getUrlArticle(int id,int isEdit) {
+	public static String getUrlArticle(int id,int isEdit,boolean isDay) {
 //		return URL_BASE_ARTICLE_H5+"#/artical/preview_black?id="+id+"&isEdit="+isEdit;
-		return "http://192.168.0.195:8080/artical/preview_black?id="+id+"&isEdit="+isEdit;
+        if(isDay) {
+            return URL_BASE_ARTICLE_H5+"#/artical/preview?id="+id+"&isEdit="+isEdit;
+        }else {
+            return URL_BASE_ARTICLE_H5+"#/artical/preview_black?id="+id+"&isEdit="+isEdit;
+        }
 	}
 
 }
