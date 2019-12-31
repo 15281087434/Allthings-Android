@@ -431,6 +431,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         ScrollLinearLayoutManager linearLayoutManager = new ScrollLinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         linearLayoutManager.setmCanVerticalScroll(false);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         articleRecycle.setLayoutManager(linearLayoutManager);
         articleRecycle.setAdapter(articleDetailRandAdapter);
 
@@ -603,7 +605,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
         ivLevel.setImageResource(ImageResUtils.getLevelRes(articleDetailBean.level));
 
-        lookNumTv.setText(ShowNumUtil.showUnm1(articleDetailBean.view_num)+"阅读");
+        lookNumTv.setText(ShowNumUtil.showUnm1(articleDetailBean.view_num)+"次阅读");
 
         //评论数
         commentNumTv.setText(String.valueOf(articleDetailBean.comment_num));

@@ -699,7 +699,7 @@ public class VideoDetailActivity extends BaseActivity {
                 }
             }
         }
-        lookNumTv.setText(ShowNumUtil.showUnm1(videoDetailBean.view_num) + "万次播放");
+        lookNumTv.setText(ShowNumUtil.showUnm1(videoDetailBean.view_num) + "次播放");
         if (0 == videoDetailBean.is_original) {
             originalTv.setText("原创");
             originalTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
