@@ -300,6 +300,7 @@ public class EventTags {
         }
     }
 
+
     public static class ShowDot { //是否显示红点
         public boolean show;
         public int position;

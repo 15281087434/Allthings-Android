@@ -40,4 +40,5 @@ public class HomeGambitHotBean {
     public int status;
     public int is_follow;
       public String level;
+    public int is_match;//是否为参赛作品
 }

@@ -288,9 +288,11 @@ public class HttpServicePath {
     //创造收入
     public static String URL_CREATE_COME = BaseUrl+"create_come";
 
+    //征文栏目
+    public static String URL_SOLICIT=BaseUrl+"solicit";
 
-
-
+    //征文投票
+    public static String URL_TP=BaseUrl+"home/user/create";
 
 
 

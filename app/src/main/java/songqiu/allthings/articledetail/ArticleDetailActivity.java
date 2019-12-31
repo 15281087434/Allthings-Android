@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -632,14 +633,19 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             contentWeb.loadDataWithBaseURL(null, getHtmlDataNight(articleDetailBean.content), "text/html", "utf-8", null);
         }
         likeNumTv.setText(ShowNumUtil.showUnm(articleDetailBean.up_num));
+        if(articleDetailBean.is_match==1&& !TextUtils.isEmpty(articleDetailBean.activity_name)){
+            originalTv.setText(articleDetailBean.activity_name+"");
+            originalTv.setTextColor(getResources().getColor(R.color.FF5098FC));
+        }else {
+            if (0 == articleDetailBean.is_original) {
 
-        if (0 == articleDetailBean.is_original) {
-
-            originalTv.setText("原创");
-            originalTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
-        } else {
-            originalTv.setText("转载");
+                originalTv.setText("原创");
+                originalTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
+            } else {
+                originalTv.setText("转载");
+            }
         }
+
         if (0 == articleDetailBean.is_up) {
             likeImg.setImageResource(R.mipmap.item_like);
             likeNumTv.setTextColor(getResources().getColor(R.color.FF666666));

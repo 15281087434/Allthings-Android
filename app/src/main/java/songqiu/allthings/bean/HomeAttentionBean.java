@@ -48,4 +48,5 @@ public class HomeAttentionBean {
     public String[] photos;
       public String level;
     public int state;
+    public int is_match;//是否为参赛作品
 }

@@ -85,7 +85,8 @@ public class HomeSubitemBean {
     public int popular_icon; //1：热标签
     public int push_icon; //1：荐标签
     public int new_icon; //1：新标签
-      public String level;//用户认证等级
+    public String level;//用户认证等级
     public int state;//自定义参数，用于标记视频广告播放标记
+    public int is_match;//是否为参赛作品
 
 }

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Surface;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -115,6 +116,7 @@ public class PublicArticleActivity extends BaseActivity {
     }
 
     public void initWebView(String url) {
+        getSolict();
         webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);//支持JavaScript脚本
 //        webView.setWebChromeClient(new MyWebChromeClient());
@@ -277,9 +279,9 @@ public class PublicArticleActivity extends BaseActivity {
                     @Override
                     public void onReceiveValue(String value) {
                         LogUtil.i("=========:"+value);
-                        String ss = new String(value+"");
+
                         try {
-                            JSONObject jsonObject = new JSONObject(ss);
+                            JSONObject jsonObject = new JSONObject("{\"title\":\"落汤鸡了去\",\"content\":\"\u003Cp楼梯\u003Cbr\u003C/p\"}");
                             LogUtil.i("---------:"+jsonObject.getString("title"));
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -302,7 +304,18 @@ public class PublicArticleActivity extends BaseActivity {
             }
         });
     }
-
+    public void getSolict() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("page", 1+"");
+        OkHttp.post(this, HttpServicePath.URL_SOLICIT, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+                Gson gson=new Gson();
+                String data=gson.toJson(baseBean.data);
+                Log.e("solicit",data+"");
+            }
+        });
+    }
 
     /**
      * JS调用APP接口

@@ -109,7 +109,7 @@ public class HomePageFragment extends BaseFragment {
     MainActivity activity;
     public int indexPosition = 1;
     SimplePagerTitleView simplePagerTitleView;
-    boolean isGhost;
+    boolean isGhost,isZw;
 
     @Override
     public void onAttach(Context context) {
@@ -248,6 +248,7 @@ public class HomePageFragment extends BaseFragment {
                 HomePageChoicenessFragment homePageChoicenessFragment = new HomePageChoicenessFragment();
                 mFragments.add(i, homePageChoicenessFragment);
                 homePageChoicenessFragment.tag = list.get(i).tag;
+
             } else if (list.get(i).tag.equals("ghost")) { //鬼话
                  HomePageGhostFragment homePageGhostFragment = new HomePageGhostFragment();
                  mFragments.add(i, homePageGhostFragment);
@@ -255,6 +256,9 @@ public class HomePageFragment extends BaseFragment {
              }else if (list.get(i).tag.equals("topic")) { //话题 标签
                  HomePageGambitFragment homePageGambitFragment = new HomePageGambitFragment();
                  mFragments.add(i, homePageGambitFragment);
+             } else if(list.get(i).tag.equals("solicit")){//征文
+                 HomeSolicitFragment homeSolicitFragment = new HomeSolicitFragment();
+                 mFragments.add(i, homeSolicitFragment);
              } else {
                 HomePageSubitemFragment homePageSubitemFragment = new HomePageSubitemFragment();
                 mFragments.add(homePageSubitemFragment);
@@ -280,12 +284,22 @@ public class HomePageFragment extends BaseFragment {
                 if (null == list || 0 == list.size()) return;
                 if(list.get(position).tag.equals("ghost")) {
                     isGhost = true;
+                    isZw = false;
                     headLayout.setBackgroundResource(R.mipmap.home_tab_ghost_bg);
                     line.setBackgroundResource(R.color.FF0F1012);
                     searchImg.setBackgroundResource(R.drawable.bg_search_ghost_gary);
                     EventBus.getDefault().post(new EventTags.Ghost(true));
+                }else if(list.get(position).tag.equals("solicit")){
+                    isZw=true;
+                    isGhost=false;
+                    headLayout.setBackgroundColor(getResources().getColor(R.color.zw_bg));
+//                    line.setBackgroundColor(getResources().getColor(R.color.zw_bg));
+                    line.setBackgroundResource(R.color.FF0F1012);
+//                    searchImg.setBackgroundResource(R.drawable.bg_search_ghost_gary);
+
                 }else {
                     isGhost = false;
+                    isZw=false;
                     headLayout.setBackgroundResource(R.color.FFF9FAFD);
                     line.setBackgroundResource(R.color.line_color);
                     searchImg.setBackgroundResource(R.drawable.bg_search_gary);
@@ -314,10 +328,15 @@ public class HomePageFragment extends BaseFragment {
                 //设置Magicindicator的一种标题模式， 标题模式有很多种，这是最基本的一种
                 simplePagerTitleView = new SimplePagerTitleView(context);
                 if(list.get(index).tag.equals("ghost")) {
-                    if(isGhost) {
+                    if (isGhost) {
                         simplePagerTitleView.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.icon_tab_ghost_selected), null, null, null);
-                    }else {
+                    } else {
                         simplePagerTitleView.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.icon_tab_ghost), null, null, null);
+                    }
+                }else if(list.get(index).tag.equals("solicit")){
+                    simplePagerTitleView.setText(list.get(index).name);
+                    if (isZw) {
+                        simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.normal_color));
                     }
                 }else {
                     simplePagerTitleView.setText(list.get(index).name);
