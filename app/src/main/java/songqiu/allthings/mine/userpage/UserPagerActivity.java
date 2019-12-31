@@ -104,6 +104,7 @@ public class UserPagerActivity extends BaseActivity {
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main_pager);
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -150,6 +151,7 @@ public class UserPagerActivity extends BaseActivity {
         fansTv.setText(ShowNumUtil.showUnm(userMemberDetailBean.fs_num));
         attentionTv.setText(ShowNumUtil.showUnm(userMemberDetailBean.gz_num));
         ivLevel.setImageResource(ImageResUtils.getLevelRes(userMemberDetailBean.level));
+        userIntroduce.setText(ImageResUtils.getLevelTextNoPoint(userMemberDetailBean.level));
         if (userId == myUserId) {
             compileTv.setText("编辑资料");
         } else {
@@ -364,10 +366,5 @@ public class UserPagerActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

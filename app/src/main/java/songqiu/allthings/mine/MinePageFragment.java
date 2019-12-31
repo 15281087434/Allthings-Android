@@ -220,6 +220,7 @@ public class MinePageFragment extends BaseFragment {
             userName.setText("点此登录");
             userCode.setText("登录后,享受更好的阅读体验");
             userIcon.setImageResource(R.mipmap.head_default);
+            ivLevel.setImageResource(0);
             allGoldTv.setText("0");
             todayGoldTv.setText("0");
         }

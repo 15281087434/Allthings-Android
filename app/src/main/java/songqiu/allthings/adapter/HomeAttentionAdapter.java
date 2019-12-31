@@ -22,6 +22,7 @@ import com.heartfor.heartvideo.video.HeartVideoInfo;
 import com.heartfor.heartvideo.video.HeartVideoManager;
 import com.heartfor.heartvideo.video.VideoControl;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -154,13 +155,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.userName.setText(homeAttentionBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeAttentionBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeAttentionBean.up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(homeAttentionBean.comment_num));
         holder.shareTv.setText(ShowNumUtil.showUnm(homeAttentionBean.share_num));
@@ -263,13 +258,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.userName.setText(homeAttentionBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeAttentionBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeAttentionBean.up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(homeAttentionBean.comment_num));
         holder.shareTv.setText(ShowNumUtil.showUnm(homeAttentionBean.share_num));
@@ -379,13 +368,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.userName.setText(homeAttentionBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeAttentionBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeAttentionBean.up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(homeAttentionBean.comment_num));
         holder.shareTv.setText(ShowNumUtil.showUnm(homeAttentionBean.share_num));
@@ -490,13 +473,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.userName.setText(homeAttentionBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeAttentionBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeAttentionBean.up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(homeAttentionBean.comment_num));
         holder.shareTv.setText(ShowNumUtil.showUnm(homeAttentionBean.share_num));
@@ -601,13 +578,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.userName.setText(homeAttentionBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeAttentionBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeAttentionBean.up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(homeAttentionBean.comment_num));
         holder.shareTv.setText(ShowNumUtil.showUnm(homeAttentionBean.share_num));

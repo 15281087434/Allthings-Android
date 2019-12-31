@@ -1,5 +1,6 @@
 package songqiu.allthings.auth.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -32,6 +33,8 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bilibili.boxing.Boxing;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.json.JSONArray;
 
@@ -44,9 +47,11 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 import songqiu.allthings.BuildConfig;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.BuddingBoxingActivity;
+import songqiu.allthings.activity.GuideActivity;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.ProvinceBean;
 import songqiu.allthings.bean.UploadPicBean;
@@ -130,14 +135,15 @@ public class RealNameAuthActivity extends BaseActivity {
     int imageLoadType = 0;
     @BindView(R.id.shadowLayout)
     LinearLayout shadowLayout;
+
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_realname_auth);
         ButterKnife.bind(this);
-        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        boolean dayModel = SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true);
         modeUi(dayModel);
         titleTv.setText("实名认证");
-        isAuthing=getIntent().getIntExtra("V_status",0)==1;
+        isAuthing = getIntent().getIntExtra("V_status", 0) == 1;
         if (isAuthing) {
             svContent.setVisibility(View.GONE);
             llAuthing.setVisibility(View.VISIBLE);
@@ -160,6 +166,7 @@ public class RealNameAuthActivity extends BaseActivity {
         super.onDestroy();
 
     }
+
     public void modeUi(boolean isDay) {
         if (isDay) {
             shadowLayout.setVisibility(View.GONE);
@@ -175,6 +182,7 @@ public class RealNameAuthActivity extends BaseActivity {
                     .setStatusTextColorAndPaddingTop(true, this);
         }
     }
+
     int type = 0;
 
     @OnClick({R.id.tv_realname, R.id.tv_adress_details, R.id.tv_cardid, R.id.tv_email})
@@ -418,10 +426,10 @@ public class RealNameAuthActivity extends BaseActivity {
                     //返回的分别是三个级别的选中位置
                     String tx;
                     if (options1Items.get(options1).getPickerViewText().equals(options2Items.get(options1).get(options2))) {
-                        tx = options1Items.get(options1).getPickerViewText()+"," + options3Items.get(options1).get(options2).get(options3);
+                        tx = options1Items.get(options1).getPickerViewText() + "," + options3Items.get(options1).get(options2).get(options3);
                     } else {
-                        tx = options1Items.get(options1).getPickerViewText()+"," +
-                                options2Items.get(options1).get(options2) +","+
+                        tx = options1Items.get(options1).getPickerViewText() + "," +
+                                options2Items.get(options1).get(options2) + "," +
                                 options3Items.get(options1).get(options2).get(options3);
                     }
                     address = tx;
@@ -551,7 +559,7 @@ public class RealNameAuthActivity extends BaseActivity {
             public void onWhichItemClick(int pos) {
                 switch (pos) {
                     case 0:
-                        takePhotos();
+                        applyPermission();
                         break;
                     case 1:
                         Boxing.of(BoxingDefaultConfig.getInstance().getMultiConfig(1))
@@ -567,4 +575,33 @@ public class RealNameAuthActivity extends BaseActivity {
             }
         });
     }
-}
+
+    public void applyPermission() {
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions
+                .requestEach(
+                        Manifest.permission.CAMERA
+                )
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if (permission.name.equals(Manifest.permission.CAMERA)) {
+                            if (permission.granted) {
+                                takePhotos();
+                            } else if (permission.shouldShowRequestPermissionRationale) {
+                                // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+//                                Log.d(TAG, permission.name + " is denied. More info should be provided.");
+//                                alertPermissionDialog("请在设置-应用-利卡-权限中开启定位权限");
+                                ToastUtil.showToast("请在权限设置中允许应用访问相机");
+                            } else {
+                                // 用户拒绝了该权限，并且选中『不再询问』
+//                                Log.d(TAG, permission.name + " is denied.");
+                                ToastUtil.showToast("请在权限设置中允许应用访问相机");
+                            }
+                        }
+                    }
+                });
+    }
+
+    }
+

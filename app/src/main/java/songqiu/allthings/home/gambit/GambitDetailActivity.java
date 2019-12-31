@@ -33,6 +33,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,7 @@ import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.GlideLoadUtils;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.PicParameterUtil;
 import songqiu.allthings.util.ScrollLinearLayoutManager;
 import songqiu.allthings.util.SharedPreferencedUtils;
@@ -122,7 +124,7 @@ public class GambitDetailActivity extends BaseActivity {
     TextView commentNumTv;
     TextView lineTv;
     LinearLayout emptyLayout;
-
+    ImageView ivLevel;
 
 
     @BindView(R.id.commentRecycl)
@@ -353,14 +355,10 @@ public class GambitDetailActivity extends BaseActivity {
         }
 
         long time = gambitDetailBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            timeTv.setText("1天前");
-        } else {
-            timeTv.setText(DateUtil.getTimeBig1(time));
-        }
 
+            timeTv.setText(DateUtil.fromToday(new Date(time))+ ImageResUtils.getLevelText(gambitDetailBean.level));
+
+        ivLevel.setImageResource(ImageResUtils.getLevelRes(gambitDetailBean.level));
         if (0 == gambitDetailBean.is_follow) {
             attentionTv.setText("关注");
             attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);

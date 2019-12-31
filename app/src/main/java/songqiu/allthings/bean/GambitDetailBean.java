@@ -39,7 +39,7 @@ public class GambitDetailBean {
     public int is_follow;
     public int is_collect;
 //    public int is_comment;
-
+    public String level;
 
 
 

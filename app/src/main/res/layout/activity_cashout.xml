@@ -30,7 +30,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/x_ui_px_200.0"
                     android:layout_height="@dimen/x_ui_px_120.0"
                     android:layout_marginLeft="@dimen/x_ui_px_40.0"
                     android:gravity="center"
@@ -41,11 +41,15 @@
                     android:id="@+id/tv_user_zfb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/x_ui_px_240.0"
+                    android:singleLine="true"
+                    android:ellipsize="middle"
+                    android:layout_gravity="center_vertical"
                     android:drawableLeft="@mipmap/icon_zhifubao"
                     android:drawablePadding="@dimen/x_ui_px_10.0"
+                    android:layout_marginRight="@dimen/x_ui_px_60.0"
                     android:gravity="center"
-                    tools:text="730*****000" />
+                    tools:text="730*****1111" />
 
             </FrameLayout>
 

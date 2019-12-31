@@ -595,15 +595,9 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         userName.setText(articleDetailBean.user_nickname);
         userTitleName.setText(articleDetailBean.user_nickname);
         long time = articleDetailBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = new Date(time);
-            timeTv.setText(DateUtil.getTimeFormatText(simpleDateFormat.format(date), "yyyy-MM-dd HH:mm:ss"));
-        } else if (DateUtil.IsYesterday(time)) {
-            timeTv.setText("发布于1天前");
-        } else {
-            timeTv.setText("发布于" + DateUtil.getTimeBig1(time));
-        }
+
+            timeTv.setText("发布于" + DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(articleDetailBean.level));
+
 
 
 

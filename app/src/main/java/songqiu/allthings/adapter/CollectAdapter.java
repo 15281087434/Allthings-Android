@@ -19,6 +19,7 @@ import com.heartfor.heartvideo.video.HeartVideoInfo;
 import com.heartfor.heartvideo.video.HeartVideoManager;
 import com.heartfor.heartvideo.video.VideoControl;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -159,13 +160,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.userName.setText(homeSubitemBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeSubitemBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+                holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
 
         holder.shareTv.setText(ShowNumUtil.showUnm(homeSubitemBean.share_num));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeSubitemBean.up_num));
@@ -273,13 +268,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.userName.setText(homeSubitemBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeSubitemBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+                holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
 
         holder.shareTv.setText(ShowNumUtil.showUnm(homeSubitemBean.share_num));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeSubitemBean.up_num));
@@ -386,13 +375,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.userName.setText(homeSubitemBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeSubitemBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+                holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
 
         holder.shareTv.setText(ShowNumUtil.showUnm(homeSubitemBean.share_num));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeSubitemBean.up_num));
@@ -502,14 +485,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.userName.setText(homeSubitemBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeSubitemBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
-
+                holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.shareTv.setText(ShowNumUtil.showUnm(homeSubitemBean.share_num));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeSubitemBean.up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(homeSubitemBean.comment_num));
@@ -609,13 +585,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
         holder.userName.setText(homeSubitemBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeSubitemBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+                holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.shareTv.setText(ShowNumUtil.showUnm(homeSubitemBean.share_num));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeSubitemBean.up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(homeSubitemBean.comment_num));
