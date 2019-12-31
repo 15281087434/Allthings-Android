@@ -119,7 +119,6 @@ public class CreationPageFragment extends BaseFragment{
                 if (ClickUtil.onClick()) {
                     intent = new Intent(activity, CommentWebViewActivity.class);
                     intent.putExtra("url", SnsConstants.URL_RECRUITMENT);
-                    intent.putExtra("authType",1);
                     startActivity(intent);
                 }
                 break;
@@ -127,7 +126,6 @@ public class CreationPageFragment extends BaseFragment{
                 if (ClickUtil.onClick()) {
                     intent = new Intent(activity, CommentWebViewActivity.class);
                     intent.putExtra("url",SnsConstants.URL_CONTRIBUTE);
-                    intent.putExtra("authType",1);
                     startActivity(intent);
                 }
                 break;
@@ -135,7 +133,6 @@ public class CreationPageFragment extends BaseFragment{
                 if (ClickUtil.onClick()) {
                     intent = new Intent(activity, CommentWebViewActivity.class);
                     intent.putExtra("url",SnsConstants.URL_WELFARE);
-                    intent.putExtra("authType",1);
                     startActivity(intent);
                 }
                 break;

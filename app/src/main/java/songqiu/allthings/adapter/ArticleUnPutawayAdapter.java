@@ -20,7 +20,7 @@ import songqiu.allthings.bean.ArticleUnPutawayBean;
 import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
-import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.SharedPreferencedUtils;
 
 /*******
  *
@@ -79,9 +79,14 @@ public class ArticleUnPutawayAdapter extends RecyclerView.Adapter<ArticleUnPutaw
             @Override
             public void onClick(View v) {
                 if(ClickUtil.onClick()) {
+                    boolean dayModel = SharedPreferencedUtils.getBoolean(context,SharedPreferencedUtils.dayModel,true);
                     Intent intent = new Intent(context, CommentWebViewActivity.class);
-                    intent.putExtra("url", SnsConstants.getUrlArticle(list.get(position).id,list.get(position).status));
                     intent.putExtra("articleid", list.get(position).id);
+                    if(dayModel) {
+                        intent.putExtra("url", SnsConstants.getUrlArticle(list.get(position).id,list.get(position).status,true));
+                    }else {
+                        intent.putExtra("url", SnsConstants.getUrlArticle(list.get(position).id,list.get(position).status,false));
+                    }
                     context.startActivity(intent);
                 }
             }

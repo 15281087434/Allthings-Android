@@ -36,11 +36,11 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.SaveArticleBean;
+import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
@@ -51,6 +51,7 @@ import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
+import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.view.DialogArticleCommon;
 
 /*******
@@ -82,6 +83,8 @@ public class PublicArticleActivity extends BaseActivity {
 
     SaveArticleBean saveArticleBean;
 
+    int type; //2：从编辑页面进来 此时需要传递articleid
+    int articleid;
 
     private ValueCallback<Uri[]> uploadMessageAboveL;
     private final static int FILE_CHOOSER_RESULT_CODE = 10000;
@@ -92,20 +95,31 @@ public class PublicArticleActivity extends BaseActivity {
 
     @Override
     public void init() {
+        type = getIntent().getIntExtra("type",0);
+        articleid = getIntent().getIntExtra("articleid",0);
         boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
         modeUi(dayModel);
         titleTv.setText("写文章");
         rightTv.setVisibility(View.VISIBLE);
         rightTv.setText("下一步");
-        initWebView("http://192.168.0.175/share/editFile.html");
     }
 
 
     public void modeUi(boolean isDay) {
         if(isDay) {
             shadowLayout.setVisibility(View.GONE);
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.FFF9FAFD))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+            initWebView(SnsConstants.RUL_EDIT_FILE);
         }else {
             shadowLayout.setVisibility(View.VISIBLE);
+            StatusBarUtils.with(this)
+                    .setColor(getResources().getColor(R.color.trans_6))
+                    .init()
+                    .setStatusTextColorAndPaddingTop(true, this);
+            initWebView(SnsConstants.RUL_EDIT_FILE_NIGHT);
         }
     }
 
@@ -211,6 +225,10 @@ public class PublicArticleActivity extends BaseActivity {
 
     public void getSaveArticle() {
         Map<String, String> map = new HashMap<>();
+        if(2==type) {
+            map.put("type",type+"");
+            map.put("articleid",articleid+"");
+        }
         OkHttp.post(this, HttpServicePath.URL_SAVE_DATA, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
