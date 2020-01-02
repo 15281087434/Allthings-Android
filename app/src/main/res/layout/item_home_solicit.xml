@@ -119,14 +119,14 @@
         <TextView
             android:id="@+id/tv_tp"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/x_ui_px_32.0"
-            android:textSize="@dimen/x_ui_px_24.0"
-            android:textColor="@drawable/textview_tp_textcolor_selector"
-           android:text="投TA一票"
-            android:gravity="center"
-
+            android:layout_height="@dimen/x_ui_px_90.0"
             android:layout_marginLeft="@dimen/x_ui_px_24.0"
-            android:visibility="visible"/>
+            android:gravity="center"
+            android:text="投TA一票"
+            android:textColor="@drawable/textview_tp_textcolor_selector"
+
+            android:textSize="@dimen/x_ui_px_24.0"
+            android:visibility="visible" />
 
     </LinearLayout>
 
