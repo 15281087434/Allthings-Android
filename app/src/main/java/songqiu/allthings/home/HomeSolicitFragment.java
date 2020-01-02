@@ -130,17 +130,17 @@ public class HomeSolicitFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if(baseBean.code.equals("200")){
+
                                     item.get(position).setSupport_num(  item.get(position).getSupport_num()+1);
                                     RecyclerView.LayoutManager manager=recycle.getLayoutManager();
-                                    View chatAt=manager.getChildAt(position+1);
+                                    View chatAt=manager.findViewByPosition(position+1);
                                     if(chatAt!=null){
-                                        ((TextView) chatAt.findViewById(R.id.tv_tickets)).setText((item.get(position).getSupport_num()+1)+"");
-                                        ((TextView) chatAt.findViewById(R.id.tv_tickets)).setEnabled(false);
+                                        ((TextView) chatAt.findViewById(R.id.tv_tickets)).setText(item.get(position).getSupport_num()+"");
+                                        ((TextView) chatAt.findViewById(R.id.tv_tp)).setEnabled(false);
                                         item.get(position).setIs_support(2);
                                     }
 
-                                }
+
                             }
                         });
                     }
