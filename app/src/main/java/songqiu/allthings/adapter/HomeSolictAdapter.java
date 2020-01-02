@@ -3,6 +3,7 @@ package songqiu.allthings.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -28,8 +31,11 @@ import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.videodetail.VideoDetailActivity;
+import songqiu.allthings.view.SuperImageView;
 
 /**
  * create by: ADMIN
@@ -93,6 +99,19 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             holder.getTextView(R.id.tv_title).setText(bean.getTitle());
             holder.getTextView(R.id.tv_contents).setText(bean.getDescriptions());
             holder.getTextView(R.id.tv_tickets).setText(bean.getSupport_num()+"");
+            holder.getTextView(R.id.userName).setText(bean.getUser_nickname()+"");
+            RequestOptions options = new RequestOptions()
+                    .circleCrop().transforms(new GlideCircleTransform(context))
+                    .error(R.mipmap.head_default)
+                    .placeholder(R.mipmap.head_default);
+            if (!StringUtil.isEmpty(bean.getAvatar())) {
+                if (!bean.getAvatar().contains("http")) {
+                    bean.setAvatar(HttpServicePath.BasePicUrl + bean.getAvatar());
+                }
+            }
+            Glide.with(context).load(bean.getAvatar()).apply(options).into(holder.getImageView(R.id.userIcon));
+            holder.getImageView(R.id.iv_level).setImageResource(ImageResUtils.getLevelRes(bean.getLevel()));
+
             if(position<4){
                 holder.getTextView(R.id.tv_rank).setText(position+"");
                 holder.getTextView(R.id.tv_rank).setVisibility(View.VISIBLE);
