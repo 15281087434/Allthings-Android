@@ -2,6 +2,7 @@ package songqiu.allthings.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import songqiu.allthings.R;
+import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.auth.adapter.BaseViewHolder;
 import songqiu.allthings.bean.BannerBean;
@@ -28,8 +30,13 @@ import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.login.LoginActivity;
+import songqiu.allthings.mine.income.IncomeRecordActivity;
 import songqiu.allthings.util.StringUtil;
+import songqiu.allthings.util.TokenManager;
 import songqiu.allthings.videodetail.VideoDetailActivity;
+import songqiu.allthings.view.banner.ColorPointHintView;
+import songqiu.allthings.view.banner.RollPagerView;
 
 /**
  * create by: ADMIN
@@ -41,6 +48,7 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     Context context;
     List<HomeSolictBean> item;
     private TpCallBack mCallBack;
+    SolictListener solictListener;
 
     public void setmCallBack(TpCallBack mCallBack) {
         this.mCallBack = mCallBack;
@@ -58,6 +66,13 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     }
 
+    public interface SolictListener {
+        void onSolictListener(List<BannerBean> bannerBeans,int position);
+    }
+
+    public void setSolictListener(SolictListener solictListener) {
+        this.solictListener = solictListener;
+    }
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType==0){
@@ -69,25 +84,23 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         if(position==0){
-            SimpleDraweeView view  = (SimpleDraweeView) holder.getView(R.id.banner);
-
-            view.setScaleType(ImageView.ScaleType.CENTER);
-            if(bannerBeans==null||bannerBeans.size()<=0){
-                view.setBackgroundResource(R.mipmap.item_home_tab_big_pic);
-            }else{
-                if(!StringUtil.isEmpty(bannerBeans.get(position).photo)) {
-                    if(!bannerBeans.get(position).photo.contains("http")) {
-                        bannerBeans.get(position).photo = HttpServicePath.BasePicUrl+bannerBeans.get(position).photo;
-                    }
-                }
-                DraweeController controller = Fresco.newDraweeControllerBuilder()
-                        .setUri(bannerBeans.get(position).photo)
-                        .setOldController(view.getController())
-                        .setTapToRetryEnabled(true).build();
-                view.setController(controller);
+            RollPagerView roll_page_mine  = (RollPagerView) holder.getView(R.id.roll_page_mine);
+            BannerMineAdapter mBannerAdapter = new BannerMineAdapter(roll_page_mine, (ArrayList<BannerBean>) bannerBeans);
+            roll_page_mine.setAdapter(mBannerAdapter);
+            roll_page_mine.setHintView(new ColorPointHintView(context, Color.WHITE, Color.GRAY));
+            roll_page_mine.setHintPadding(0, 0, 0, 10);
+            roll_page_mine.resume();
+            if (1 == bannerBeans.size()) {
+                roll_page_mine.pause();
+                roll_page_mine.setHintViewVisibility(false);
+                roll_page_mine.setScrollable(false);
+            } else {
+                roll_page_mine.setScrollable(true);
             }
-            view.setScaleType(ImageView.ScaleType.CENTER);
-
+            //点击事件
+            roll_page_mine.setOnItemClickListener(mPosition -> {
+                solictListener.onSolictListener(bannerBeans,mPosition);
+            });
         }else {
             HomeSolictBean bean=item.get(position-1);
             holder.getTextView(R.id.tv_title).setText(bean.getTitle());

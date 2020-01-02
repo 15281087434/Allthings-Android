@@ -11,16 +11,20 @@
         android:background="#270A4E"
         app:layout_constraintTop_toTopOf="parent"
         />
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/banner"
+
+    <!-- 滑动广告-->
+    <songqiu.allthings.view.banner.RollPagerView
+        android:id="@+id/roll_page_mine"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x_ui_px_300.0"
+        android:layout_height="@dimen/x_ui_px_173.0"
+        app:rollviewpager_hint_gravity="center"
+        app:rollviewpager_play_delay="3000"
+        android:layout_marginTop="@dimen/x_ui_px_15.0"
         android:layout_marginLeft="@dimen/x_ui_px_30.0"
         android:layout_marginRight="@dimen/x_ui_px_30.0"
-        android:background="#FFFFFF"
-
         app:layout_constraintTop_toTopOf="parent"
         />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/x_ui_px_72.0"
@@ -32,7 +36,6 @@
         android:layout_marginRight="@dimen/x_ui_px_30.0"
         android:background="@drawable/item_solicit_textview_shape"
         android:layout_marginTop="@dimen/x_ui_px_30.0"
-
-        app:layout_constraintTop_toBottomOf="@+id/banner"
+        app:layout_constraintTop_toBottomOf="@+id/roll_page_mine"
         android:text="票选最佳作品"/>
 </android.support.constraint.ConstraintLayout>

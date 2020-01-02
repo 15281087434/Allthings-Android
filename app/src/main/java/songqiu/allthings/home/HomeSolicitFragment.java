@@ -1,5 +1,7 @@
 package songqiu.allthings.home;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -30,21 +32,33 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import songqiu.allthings.R;
+import songqiu.allthings.activity.CommentWebViewActivity;
+import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.adapter.HomeSolictAdapter;
+import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.auth.bean.CashOutRecordBean;
 import songqiu.allthings.bean.BannerBean;
 import songqiu.allthings.bean.HomeSolictBean;
 import songqiu.allthings.bean.HomeSubitemBean;
+import songqiu.allthings.bean.InviteParameterBean;
+import songqiu.allthings.constant.SnsConstants;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.login.LoginActivity;
+import songqiu.allthings.mine.income.IncomeRecordActivity;
 import songqiu.allthings.util.ScreenUtils;
+import songqiu.allthings.util.SharedPreferencedUtils;
+import songqiu.allthings.util.StringUtil;
+import songqiu.allthings.util.TokenManager;
 import songqiu.allthings.util.VibratorUtil;
+import songqiu.allthings.videodetail.VideoDetailActivity;
 
 /**
  * create by: ADMIN
@@ -72,6 +86,7 @@ public class HomeSolicitFragment extends Fragment {
     @BindView(R.id.smartRefreshLayout)
     SmartRefreshLayout smartRefreshLayout;
 
+    MainActivity activity;
 
     @Nullable
     @Override
@@ -82,6 +97,17 @@ public class HomeSolicitFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (MainActivity) context;//保存Context引用
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        activity = null;
+    }
+
     private void initView() {
         initRecycle();
         getBanner();
@@ -90,7 +116,6 @@ public class HomeSolicitFragment extends Fragment {
 
 
     public void initRecycle() {
-
         adapter = new HomeSolictAdapter(getContext(), item);
         adapter.setmCallBack(new HomeSolictAdapter.TpCallBack() {
             @Override
@@ -115,6 +140,47 @@ public class HomeSolicitFragment extends Fragment {
                 });
             }
         });
+
+        //广告banner点击事件
+        adapter.setSolictListener(new HomeSolictAdapter.SolictListener() {
+            @Override
+            public void onSolictListener(List<BannerBean> bannerBeans, int mPosition) {
+                String token = TokenManager.getRequestToken(getActivity());
+            if (bannerBeans == null || mPosition >= bannerBeans.size()) {
+                return;
+            }
+            //0 不跳转 1 跳转文章 2视频 3 h5url 4 收入记录页面 5 邀请好友页面
+            Intent intent;
+            if (1 == bannerBeans.get(mPosition).jump_type) { //文章
+                intent = new Intent(activity, ArticleDetailActivity.class);
+                intent.putExtra("articleid", bannerBeans.get(mPosition).url_id);
+                activity.startActivity(intent);
+            } else if (2 == bannerBeans.get(mPosition).jump_type) { //视频
+                intent = new Intent(activity, VideoDetailActivity.class);
+                intent.putExtra("articleid", bannerBeans.get(mPosition).url_id);
+                activity.startActivity(intent);
+            } else if (3 == bannerBeans.get(mPosition).jump_type) { //h5
+                intent = new Intent(activity, CommentWebViewActivity.class);
+                intent.putExtra("url", bannerBeans.get(mPosition).url);
+                activity.startActivity(intent);
+            } else if (4 == bannerBeans.get(mPosition).jump_type) { //
+                if (StringUtil.isEmpty(token)) {
+                    intent = new Intent(activity, LoginActivity.class);
+                } else {
+                    intent = new Intent(activity, IncomeRecordActivity.class);
+                }
+                activity.startActivity(intent);
+            } else if (5 == bannerBeans.get(mPosition).jump_type) { //邀请好友
+                if (StringUtil.isEmpty(token)) {
+                    intent = new Intent(activity, LoginActivity.class);
+                    activity.startActivity(intent);
+                } else {
+                    getInviteParameter();
+                }
+            }
+            }
+        });
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycle.setLayoutManager(linearLayoutManager);
@@ -137,10 +203,39 @@ public class HomeSolicitFragment extends Fragment {
         });
     }
 
+    public void getInviteParameter() {
+        Map<String, String> map = new HashMap<>();
+        OkHttp.post(activity, HttpServicePath.URL_INVITE_PARAMETER, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+                if (null != activity) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Gson gson = new Gson();
+                            String data = gson.toJson(baseBean.data);
+                            if (StringUtil.isEmpty(data)) return;
+                            InviteParameterBean inviteParameterBean = gson.fromJson(data, InviteParameterBean.class);
+                            if (null == inviteParameterBean) return;
+                            Intent intent = new Intent(activity, CommentWebViewActivity.class);
+                            boolean dayModel = SharedPreferencedUtils.getBoolean(activity, SharedPreferencedUtils.dayModel, true);
+                            if (dayModel) {
+                                intent.putExtra("url", SnsConstants.getUrlInviteFriend(inviteParameterBean.friend_num, inviteParameterBean.money, inviteParameterBean.total_coin));
+                            } else {
+                                intent.putExtra("url", SnsConstants.getUrlInviteFriendNight(inviteParameterBean.friend_num, inviteParameterBean.money, inviteParameterBean.total_coin));
+                            }
+                            startActivity(intent);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     public void getSolict() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("page", page);
-        OkHttp.post(getActivity(), smartRefreshLayout, HttpServicePath.URL_SOLICIT, map, new RequestCallBack() {
+        OkHttp.post(activity, smartRefreshLayout, HttpServicePath.URL_SOLICIT, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
                 Gson gson = new Gson();
@@ -152,7 +247,7 @@ public class HomeSolicitFragment extends Fragment {
                 List<HomeSolictBean> beans = gson.fromJson(data, new TypeToken<List<HomeSolictBean>>() {
                 }.getType());
 
-                getActivity().runOnUiThread(new Runnable() {
+                activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if(page ==1) {
