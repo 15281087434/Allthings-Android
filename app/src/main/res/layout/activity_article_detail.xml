@@ -512,13 +512,18 @@
 
                 <!--广告结束-->
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/articleRecycle"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    >
+                    android:descendantFocusability="blocksDescendants">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/articleRecycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
 
-                </android.support.v7.widget.RecyclerView>
+                    </android.support.v7.widget.RecyclerView>
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/line1"
