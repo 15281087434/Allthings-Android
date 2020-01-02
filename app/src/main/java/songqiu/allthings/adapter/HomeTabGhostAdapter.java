@@ -242,7 +242,8 @@ public class HomeTabGhostAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         holder.titleTv.setText(item.get(position).title);
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
@@ -337,7 +338,8 @@ public class HomeTabGhostAdapter extends RecyclerView.Adapter {
                 holder.bigPicImg.setLayoutParams(ViewProportion.getLinearParams(holder.bigPicImg, 2));
             }
         });
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         if (!StringUtil.isEmpty(item.get(position).avatar)) {
             if (!item.get(position).avatar.contains("http")) {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
@@ -438,7 +440,8 @@ public class HomeTabGhostAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         RequestOptions options1 = new RequestOptions()
                 .error(R.mipmap.pic_default_small)
@@ -555,7 +558,8 @@ public class HomeTabGhostAdapter extends RecyclerView.Adapter {
             holder.labels1.setVisibility(View.GONE);
             holder.labels2.setVisibility(View.GONE);
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         holder.collectTv.setText(ShowNumUtil.showUnm(item.get(position).collect_num));
         if(0!=item.get(position).popular_icon) {
             holder.hotTv.setVisibility(View.VISIBLE);
@@ -617,7 +621,8 @@ public class HomeTabGhostAdapter extends RecyclerView.Adapter {
                 holder.videoView.setLayoutParams(ViewProportion.getLinearParams(holder.videoView, 1.77));
             }
         });
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         RequestOptions options = new RequestOptions()
                 .circleCrop().transforms(new GlideCircleTransform(context))
                 .error(R.mipmap.head_default)
@@ -694,7 +699,8 @@ public class HomeTabGhostAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         if (!StringUtil.isEmpty(item.get(position).photo)) {
             if (!item.get(position).photo.contains("http")) {

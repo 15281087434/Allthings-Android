@@ -293,7 +293,7 @@ public class HttpServicePath {
     public static String URL_SOLICIT=BaseUrl+"solicit";
 
     //征文投票
-    public static String URL_TP=BaseUrl+"home/user/create";
+    public static String URL_TP=BaseUrl+"vote";
 
 
 

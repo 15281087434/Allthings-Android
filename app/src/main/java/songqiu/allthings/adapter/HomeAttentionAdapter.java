@@ -147,7 +147,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
             }
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+        String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
         holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.contentTv.setText(homeAttentionBean.title);
@@ -241,7 +242,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
             }
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
         RequestOptions options1 = new RequestOptions()
                 .error(R.mipmap.pic_default_small)
@@ -361,7 +363,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.photo = HttpServicePath.BasePicUrl + homeAttentionBean.photo;
             }
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.photo).apply(options1).into(holder.bigPicImg);
         holder.contentTv.setText(homeAttentionBean.title);
         holder.describeTv.setText(homeAttentionBean.descriptions);
@@ -453,7 +456,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
             }
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
         holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         if (null != item.get(position).photos) {
@@ -571,7 +575,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
             }
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
         holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.titleTv.setText(homeAttentionBean.title);

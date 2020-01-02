@@ -629,7 +629,9 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             contentWeb.loadDataWithBaseURL(null, getHtmlDataNight(articleDetailBean.content), "text/html", "utf-8", null);
         }
         likeNumTv.setText(ShowNumUtil.showUnm(articleDetailBean.up_num));
-        if(articleDetailBean.is_match==1&& !TextUtils.isEmpty(articleDetailBean.activity_name)){
+        String is_match=articleDetailBean.is_match+"";
+
+        if(is_match.equals("1")&& !TextUtils.isEmpty(articleDetailBean.activity_name)){
             originalTv.setText(articleDetailBean.activity_name+"");
             originalTv.setTextColor(getResources().getColor(R.color.FF5098FC));
         }else {

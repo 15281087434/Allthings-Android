@@ -10,7 +10,7 @@
     android:background="@drawable/item_solicit_shape">
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/x_ui_px_34.0"
         android:layout_marginRight="@dimen/x_ui_px_34.0"
@@ -38,12 +38,12 @@
         app:layout_constraintRight_toRightOf="parent"/>
     <TextView
         android:id="@+id/tv_contents"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/x_ui_px_34.0"
         android:layout_marginRight="@dimen/x_ui_px_34.0"
         android:layout_marginTop="@dimen/x_ui_px_24.0"
-        tools:text="这是内容"
+        tools:text="这是内容1111111111111111"
         android:maxLines="2"
         android:ellipsize="end"
         android:textColor="@color/FF666666"

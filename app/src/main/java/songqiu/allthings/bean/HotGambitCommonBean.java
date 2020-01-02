@@ -35,5 +35,5 @@ public class HotGambitCommonBean {
     public int is_up;
     public int share_num; //分享数
       public String level;
-    public int is_match;//是否为参赛作品
+    public String is_match;//是否为参赛作品
 }

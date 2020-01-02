@@ -16,6 +16,7 @@ public class HomeSolictBean {
     private String created;
     private String avatar;
     private String user_nickname;
+    private int is_support;
     private String Level;
 
     public int getSupport_num() {
@@ -88,5 +89,13 @@ public class HomeSolictBean {
 
     public void setLevel(String level) {
         Level = level;
+    }
+
+    public int getIs_support() {
+        return is_support;
+    }
+
+    public void setIs_support(int is_support) {
+        this.is_support = is_support;
     }
 }

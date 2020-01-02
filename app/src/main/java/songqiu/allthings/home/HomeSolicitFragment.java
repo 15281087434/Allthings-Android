@@ -133,9 +133,11 @@ public class HomeSolicitFragment extends Fragment {
                                 if(baseBean.code.equals("200")){
                                     item.get(position).setSupport_num(  item.get(position).getSupport_num()+1);
                                     RecyclerView.LayoutManager manager=recycle.getLayoutManager();
-                                    View chatAt=manager.getChildAt(position);
+                                    View chatAt=manager.getChildAt(position+1);
                                     if(chatAt!=null){
                                         ((TextView) chatAt.findViewById(R.id.tv_tickets)).setText((item.get(position).getSupport_num()+1)+"");
+                                        ((TextView) chatAt.findViewById(R.id.tv_tickets)).setEnabled(false);
+                                        item.get(position).setIs_support(2);
                                     }
 
                                 }

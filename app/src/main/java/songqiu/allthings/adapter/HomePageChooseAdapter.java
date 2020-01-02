@@ -128,7 +128,8 @@ public class HomePageChooseAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(homeSubitemBean.photo).apply(options1).into(holder.rightPic);
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         holder.contentTv.setText(homeSubitemBean.title);
         holder.describeTv.setText(homeSubitemBean.descriptions);
         holder.lookNumTv.setText(String.valueOf(homeSubitemBean.view_num) + "次观看");

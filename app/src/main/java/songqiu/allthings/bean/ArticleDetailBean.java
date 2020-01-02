@@ -47,7 +47,7 @@ public class ArticleDetailBean {
 
     public int is_original;  //0原创 1转载
       public String level;
-    public int is_match;//是否为参赛作品
+    public String is_match;//是否为参赛作品
     public String activity_name;//参赛名称
 
 }

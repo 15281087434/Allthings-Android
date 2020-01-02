@@ -128,6 +128,7 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }else {
                 holder.getTextView(R.id.tv_rank).setVisibility(View.GONE);
             }
+            holder.getView(R.id.tv_tp).setEnabled(bean.getIs_support()==1?true:false);
             holder.getView(R.id.tv_tp).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -139,9 +140,9 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String articleid = item.get(position).getArticleid();
+                    String articleid = item.get(position-1).getArticleid();
                     Intent intent = new Intent(context, ArticleDetailActivity.class);
-                    intent.putExtra("articleid", articleid);
+                    intent.putExtra("articleid", Integer.parseInt(articleid));
                     context.startActivity(intent);
                 }
             });

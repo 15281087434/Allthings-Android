@@ -244,7 +244,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         holder.titleTv.setText(item.get(position).title);
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
@@ -351,7 +352,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
             }
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         Glide.with(context).load(item.get(position).photo).apply(options1).into(holder.bigPicImg);
         holder.titleTv.setText(item.get(position).title);
@@ -450,7 +452,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
             }
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).photo).apply(options1).into(holder.rightPic);
         holder.titleTv.setText(item.get(position).title);
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
@@ -543,7 +546,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         }else {
             holder.keywordsTv.setVisibility(View.GONE);
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         //多标签
         if(null != item.get(position).labels && 0!=item.get(position).labels.length) {
             if(1==item.get(position).labels.length) {
@@ -633,7 +637,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
-        holder.tvSai.setVisibility(item.get(position).is_match==1?View.VISIBLE:View.GONE);
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         holder.titleTv.setText(item.get(position).title);
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
