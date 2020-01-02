@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/zw_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <TextView
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x_ui_px_1.0"
-        android:background="@color/zw_bg"
         android:layout_marginLeft="@dimen/x_ui_px_30.0"
         android:visibility="gone"
         android:layout_marginRight="@dimen/x_ui_px_30.0"/>
@@ -19,7 +19,6 @@
         >
         <pl.droidsonroids.gif.GifImageView
             android:layout_width="match_parent"
-            android:background="@color/zw_bg"
             android:layout_height="wrap_content"
             android:src="@mipmap/refesh_loading"/>
        <LinearLayout
@@ -46,7 +45,8 @@
            <android.support.v7.widget.RecyclerView
                android:id="@+id/recycle"
                android:layout_width="match_parent"
-               android:layout_height="wrap_content"
+               android:layout_height="match_parent"
+               android:background="@color/white"
                />
            <include layout="@layout/layout_empty_content"/>
        </LinearLayout>
