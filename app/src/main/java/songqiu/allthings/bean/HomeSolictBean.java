@@ -16,6 +16,7 @@ public class HomeSolictBean {
     private String created;
     private String avatar;
     private String user_nickname;
+    private String Level;
 
     public int getSupport_num() {
         return support_num;
@@ -81,5 +82,11 @@ public class HomeSolictBean {
         this.user_nickname = user_nickname;
     }
 
+    public String getLevel() {
+        return Level;
+    }
 
+    public void setLevel(String level) {
+        Level = level;
+    }
 }
