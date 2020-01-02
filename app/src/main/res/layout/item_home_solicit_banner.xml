@@ -16,7 +16,7 @@
     <songqiu.allthings.view.banner.RollPagerView
         android:id="@+id/roll_page_mine"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x_ui_px_173.0"
+        android:layout_height="@dimen/x_ui_px_304.0"
         app:rollviewpager_hint_gravity="center"
         app:rollviewpager_play_delay="3000"
         android:layout_marginTop="@dimen/x_ui_px_15.0"

@@ -36,6 +36,7 @@ import songqiu.allthings.login.LoginActivity;
 import songqiu.allthings.mine.income.IncomeRecordActivity;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.ImageResUtils;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.TokenManager;
 import songqiu.allthings.videodetail.VideoDetailActivity;
@@ -88,18 +89,16 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         if(position==0){
-            RollPagerView roll_page_mine  = (RollPagerView) holder.getView(R.id.roll_page_mine);
+            RollPagerView roll_page_mine = (RollPagerView) holder.getView(R.id.roll_page_mine);
             BannerMineAdapter mBannerAdapter = new BannerMineAdapter(roll_page_mine, (ArrayList<BannerBean>) bannerBeans);
             roll_page_mine.setAdapter(mBannerAdapter);
             roll_page_mine.setHintView(new ColorPointHintView(context, Color.WHITE, Color.GRAY));
             roll_page_mine.setHintPadding(0, 0, 0, 10);
             roll_page_mine.resume();
+            if(null == bannerBeans) return;
             if (1 == bannerBeans.size()) {
                 roll_page_mine.pause();
                 roll_page_mine.setHintViewVisibility(false);
-                roll_page_mine.setScrollable(false);
-            } else {
-                roll_page_mine.setScrollable(true);
             }
             //点击事件
             roll_page_mine.setOnItemClickListener(mPosition -> {

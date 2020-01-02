@@ -191,13 +191,13 @@ public class HomeSolicitFragment extends Fragment {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 page++;
-                getBanner();
                 getSolict();
             }
 
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 page = 1;
+                getBanner();
                 getSolict();
             }
         });
@@ -289,7 +289,6 @@ public class HomeSolicitFragment extends Fragment {
             public void httpResult(BaseBean baseBean) {
                 Gson gson = new Gson();
                 String data = gson.toJson(baseBean.data);
-
                 if(TextUtils.isEmpty(data)){
                     return;
                 }
@@ -299,7 +298,6 @@ public class HomeSolicitFragment extends Fragment {
                     @Override
                     public void run() {
                         if(bannerBeanList!=null) {
-                            bannerBeanList.clear();
                             adapter.setBannerBeans(bannerBeanList);
                         }
                     }
