@@ -267,16 +267,16 @@ public class HomeSolicitFragment extends Fragment {
 //                            }
                         }
                         if(null == beans || 0==beans.size()) {
-                            for (int i = 0; i < 10; i++) {
-                                HomeSolictBean bean = new HomeSolictBean();
-                                bean.setTitle("Test" + i);
-                                bean.setCreated("2019-2");
-                                bean.setUser_nickname("Test" + i);
-                                bean.setSupport_num((10 - i) );
-                                bean.setDescriptions("Test" + i);
-                                beans.add(bean);
-                            }
-//                            return;
+//                            for (int i = 0; i < 10; i++) {
+//                                HomeSolictBean bean = new HomeSolictBean();
+//                                bean.setTitle("Test" + i);
+//                                bean.setCreated("2019-2");
+//                                bean.setUser_nickname("Test" + i);
+//                                bean.setSupport_num((10 - i) );
+//                                bean.setDescriptions("Test" + i);
+//                                beans.add(bean);
+//                            }
+                            return;
                         }
                         item.addAll(beans);
                         adapter.notifyDataSetChanged();
