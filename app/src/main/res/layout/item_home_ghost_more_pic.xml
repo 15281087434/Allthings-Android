@@ -7,22 +7,43 @@
     android:id="@+id/layout"
     android:background="@color/FF233239">
 
-    <TextView
-        android:id="@+id/titleTv"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:textColor="@color/normal_color"
-        android:textSize="@dimen/x_ui_px_40.0"
-        android:layout_marginTop="@dimen/x_ui_px_28.0"
-        android:layout_marginLeft="@dimen/x_ui_px_30.0"
-        android:layout_marginRight="@dimen/x_ui_px_30.0"
-        android:text="草船借箭是一个故事"
-        android:maxLines="2"
-        android:lineSpacingExtra="@dimen/x_ui_px_4.0"
-        android:ellipsize="end"
-        android:textStyle="bold"
-        />
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/x_ui_px_30.0"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/x_ui_px_28.0">
+
+        <TextView
+            android:id="@+id/tv_sai"
+            android:layout_width="@dimen/x_ui_px_40.0"
+            android:layout_height="@dimen/x_ui_px_40.0"
+            android:text="赛"
+            android:gravity="center"
+            android:textColor="@color/FFE7A722"
+            android:layout_marginRight="@dimen/x_ui_px_10.0"
+            android:paddingRight="@dimen/x_ui_px_10.0"
+            android:textSize="@dimen/font_ui_px_30.0"
+            android:visibility="gone"
+            android:background="@drawable/tag_sai_bg_shape"/>
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textColor="@color/normal_color"
+            android:textSize="@dimen/x_ui_px_40.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:text="草船借箭是一个故事"
+            android:maxLines="2"
+            android:lineSpacingExtra="@dimen/x_ui_px_4.0"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
     <!--标签-->
     <LinearLayout
         android:layout_width="wrap_content"
