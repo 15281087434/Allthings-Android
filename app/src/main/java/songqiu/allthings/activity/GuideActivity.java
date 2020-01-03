@@ -228,7 +228,7 @@ public class GuideActivity extends BaseActivity {
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
                         List<AdvertiseBean> advertiseBeanListBean = gson.fromJson(data, new TypeToken<List<AdvertiseBean>>() {}.getType());
-//                        AdvertiseBean advertiseBean0 =new AdvertiseBean();
+                        AdvertiseBean advertiseBean0 =new AdvertiseBean();
 //                        advertiseBean0.url="http://mv.eastday.com/vvideo/20191203/20191203040233701204521_1.mp4";
 //                        advertiseBean0.video_url="http://pic.2265.com/upload/2019-11/20191118152510764860.png";
 //                        advertiseBean0.jump_url="http://pic.2265.com/upload/2019-11/20191118152510764860.png";

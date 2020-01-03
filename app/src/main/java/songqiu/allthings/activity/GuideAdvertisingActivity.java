@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Surface;
@@ -52,6 +53,7 @@ public class GuideAdvertisingActivity extends BaseActivity {
     private MediaPlayer player;
     @BindView(R.id.surface)
     SurfaceView surfaceView;
+    private MyTimer myTimer;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -70,16 +72,20 @@ public class GuideAdvertisingActivity extends BaseActivity {
 
 
     public void toMainActivity() {
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                //execute the task
-                if (enterable) {
-                    Intent intent = new Intent(GuideAdvertisingActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        }, 5000);
+
+//        new Handler().postDelayed(new Runnable() {
+//            public void run() {
+//                //execute the task
+//                if (enterable) {
+//                    Intent intent = new Intent(GuideAdvertisingActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            }
+//        }, 5000);
+        jumpTv.setText("5s跳过");
+        myTimer = new MyTimer(5*1000,1000);
+        myTimer.start();
     }
 
     public void setAdvertising(AdvertiseBean advertiseBean) {
@@ -172,6 +178,9 @@ public class GuideAdvertisingActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(myTimer!=null){
+            myTimer.cancel();
+        }
         if (player != null) {
             player.stop();
             player.release();
@@ -197,6 +206,26 @@ public class GuideAdvertisingActivity extends BaseActivity {
             intent.putExtra("url", advertiseBean.jump_url);
             startActivity(intent);
             finish();
+        }
+    }
+    private  class MyTimer extends CountDownTimer{
+
+        public MyTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            jumpTv.setText(millisUntilFinished/1000+"s跳过");
+        }
+
+        @Override
+        public void onFinish() {
+            if (enterable) {
+                Intent intent = new Intent(GuideAdvertisingActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 }
