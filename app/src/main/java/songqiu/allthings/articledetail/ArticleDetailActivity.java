@@ -598,7 +598,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         userTitleName.setText(articleDetailBean.user_nickname);
         long time = articleDetailBean.created * 1000;
 
-            timeTv.setText("发布于" + DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(articleDetailBean.level));
+            timeTv.setText("发布于" + DateUtil.fromToday(new Date(time)));
 
 
 

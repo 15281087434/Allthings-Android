@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -138,7 +139,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
             holder.contentTv.setText(item.get(position).descriptions);
         }
         long time = item.get(position).created * 1000;
-        holder.timeTv.setText(DateUtil.getTimeBig3(time));
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         if (0 == item.get(position).is_follow) { //未关注
             holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
@@ -284,7 +285,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
             holder.contentTv.setText(item.get(position).descriptions);
         }
         long time = item.get(position).created * 1000;
-        holder.timeTv.setText(DateUtil.getTimeBig3(time));
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         if (0 == item.get(position).is_follow) { //未关注
             holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
@@ -442,7 +443,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
             holder.contentTv.setText(item.get(position).descriptions);
         }
         long time = item.get(position).created * 1000;
-        holder.timeTv.setText(DateUtil.getTimeBig3(time));
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         if (0 == item.get(position).is_follow) { //未关注
             holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);

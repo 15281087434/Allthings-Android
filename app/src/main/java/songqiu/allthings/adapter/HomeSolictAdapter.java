@@ -34,6 +34,7 @@ import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.login.LoginActivity;
 import songqiu.allthings.mine.income.IncomeRecordActivity;
+import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.LogUtil;
@@ -65,6 +66,7 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     List<BannerBean> bannerBeans;
+
     public HomeSolictAdapter(Context context, List<HomeSolictBean> item) {
         this.context = context;
         this.item = item;
@@ -72,44 +74,45 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public interface SolictListener {
-        void onSolictListener(List<BannerBean> bannerBeans,int position);
+        void onSolictListener(List<BannerBean> bannerBeans, int position);
     }
 
     public void setSolictListener(SolictListener solictListener) {
         this.solictListener = solictListener;
     }
+
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType==0){
-            return new BaseViewHolder(LayoutInflater.from(context).inflate(R.layout.item_home_solicit_banner,parent,false));
+        if (viewType == 0) {
+            return new BaseViewHolder(LayoutInflater.from(context).inflate(R.layout.item_home_solicit_banner, parent, false));
         }
-        return new BaseViewHolder(LayoutInflater.from(context).inflate(R.layout.item_home_solicit,parent,false));
+        return new BaseViewHolder(LayoutInflater.from(context).inflate(R.layout.item_home_solicit, parent, false));
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        if(position==0){
+        if (position == 0) {
             RollPagerView roll_page_mine = (RollPagerView) holder.getView(R.id.roll_page_mine);
             BannerMineAdapter mBannerAdapter = new BannerMineAdapter(roll_page_mine, (ArrayList<BannerBean>) bannerBeans);
             roll_page_mine.setAdapter(mBannerAdapter);
             roll_page_mine.setHintView(new ColorPointHintView(context, Color.WHITE, Color.GRAY));
             roll_page_mine.setHintPadding(0, 0, 0, 10);
             roll_page_mine.resume();
-            if(null == bannerBeans) return;
+            if (null == bannerBeans) return;
             if (1 == bannerBeans.size()) {
                 roll_page_mine.pause();
                 roll_page_mine.setHintViewVisibility(false);
             }
             //点击事件
             roll_page_mine.setOnItemClickListener(mPosition -> {
-                solictListener.onSolictListener(bannerBeans,mPosition);
+                solictListener.onSolictListener(bannerBeans, mPosition);
             });
-        }else {
-            HomeSolictBean bean=item.get(position-1);
+        } else {
+            HomeSolictBean bean = item.get(position - 1);
             holder.getTextView(R.id.tv_title).setText(bean.getTitle());
             holder.getTextView(R.id.tv_contents).setText(bean.getDescriptions());
-            holder.getTextView(R.id.tv_tickets).setText(bean.getSupport_num()+"");
-            holder.getTextView(R.id.userName).setText(bean.getUser_nickname()+"");
+            holder.getTextView(R.id.tv_tickets).setText(bean.getSupport_num() + "");
+            holder.getTextView(R.id.userName).setText(bean.getUser_nickname() + "");
             RequestOptions options = new RequestOptions()
                     .circleCrop().transforms(new GlideCircleTransform(context))
                     .error(R.mipmap.head_default)
@@ -122,48 +125,55 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             Glide.with(context).load(bean.getAvatar()).apply(options).into(holder.getImageView(R.id.userIcon));
             holder.getImageView(R.id.iv_level).setImageResource(ImageResUtils.getLevelRes(bean.getLevel()));
 
-            if(position<4){
-                holder.getTextView(R.id.tv_rank).setText(position+"");
+            if (position < 4) {
+                holder.getTextView(R.id.tv_rank).setText(position + "");
                 holder.getTextView(R.id.tv_rank).setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 holder.getTextView(R.id.tv_rank).setVisibility(View.GONE);
             }
-            holder.getView(R.id.tv_tp).setEnabled(bean.getIs_support()==1?true:false);
+
             holder.getView(R.id.tv_tp).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        if(mCallBack!=null){
-                            mCallBack.onTp(position-1);
+                    if (ClickUtil.onClick()) {
+                        if (mCallBack != null) {
+                            mCallBack.onTp(position - 1);
                         }
+                    }
                 }
             });
+
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String articleid = item.get(position-1).getArticleid();
-                    Intent intent = new Intent(context, ArticleDetailActivity.class);
-                    intent.putExtra("articleid", Integer.parseInt(articleid));
-                    context.startActivity(intent);
+                    if (ClickUtil.onClick()) {
+                        String articleid = item.get(position - 1).getArticleid();
+                        Intent intent = new Intent(context, ArticleDetailActivity.class);
+                        intent.putExtra("articleid", Integer.parseInt(articleid));
+                        context.startActivity(intent);
+                    }
                 }
             });
+
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position==0){
+        if (position == 0) {
             return 0;
-        }else {
+        } else {
             return 1;
         }
     }
 
     @Override
     public int getItemCount() {
-        return item.size()+1;
+        return item.size() + 1;
     }
 
-    public interface TpCallBack{
+    public interface TpCallBack {
         void onTp(int position);
     }
 }
