@@ -116,7 +116,7 @@ public class HomeSolicitFragment extends Fragment {
 
 
     public void initRecycle() {
-        adapter = new HomeSolictAdapter(getContext(), item);
+        adapter = new HomeSolictAdapter(activity, item);
         adapter.setmCallBack(new HomeSolictAdapter.TpCallBack() {
             @Override
             public void onTp(int position) {
@@ -124,10 +124,10 @@ public class HomeSolicitFragment extends Fragment {
                 HashMap<String,String>map =new HashMap<>();
                 map.put("mid",item.get(position).getArticleid());
                 map.put("activityid",item.get(position).getActivityid());
-                OkHttp.post(getContext(), HttpServicePath.URL_TP, map, new RequestCallBack() {
+                OkHttp.post(activity, HttpServicePath.URL_TP, map, new RequestCallBack() {
                     @Override
                     public void httpResult(BaseBean baseBean) {
-                        getActivity().runOnUiThread(new Runnable() {
+                        activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
@@ -151,7 +151,7 @@ public class HomeSolicitFragment extends Fragment {
         adapter.setSolictListener(new HomeSolictAdapter.SolictListener() {
             @Override
             public void onSolictListener(List<BannerBean> bannerBeans, int mPosition) {
-                String token = TokenManager.getRequestToken(getActivity());
+                String token = TokenManager.getRequestToken(activity);
             if (bannerBeans == null || mPosition >= bannerBeans.size()) {
                 return;
             }
@@ -187,7 +187,7 @@ public class HomeSolicitFragment extends Fragment {
             }
         });
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycle.setLayoutManager(linearLayoutManager);
         recycle.setAdapter(adapter);
