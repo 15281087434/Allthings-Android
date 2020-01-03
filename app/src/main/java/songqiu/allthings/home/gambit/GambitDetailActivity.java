@@ -209,6 +209,7 @@ public class GambitDetailActivity extends BaseActivity {
         commentNumTv = mHeadView.findViewById(R.id.commentNumTv);
         lineTv = mHeadView.findViewById(R.id.lineTv);
         emptyLayout = mHeadView.findViewById(R.id.emptyLayout);
+        ivLevel = mHeadView.findViewById(R.id.iv_level);
 
         layout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -106,6 +106,66 @@ public class EventTags {
 
     }
 
+    public static class AllGambitHotNum {
+        public int num;
+        public int id;
+        public AllGambitHotNum(int id,int num) {
+            this.id = id;
+            this.num = num;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getNum() {
+            return num;
+        }
+
+        public void setNum(int num) {
+            this.num = num;
+        }
+    }
+
+    public static class AllGambitAttention {
+        public boolean isAttention;
+        public int attentionNum;
+        public int id;
+        public AllGambitAttention(int id,boolean isAttention,int attentionNum) {
+            this.id = id;
+            this.isAttention = isAttention;
+            this.attentionNum = attentionNum;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getAttentionNum() {
+            return attentionNum;
+        }
+
+        public void setAttentionNum(int attentionNum) {
+            this.attentionNum = attentionNum;
+        }
+
+        public boolean getAttention() {
+            return isAttention;
+        }
+
+        public void setAttention(boolean isAttention) {
+            this.isAttention = isAttention;
+        }
+    }
+
     public static class DeleteComment {
         public int mid;
         public int subMid;
