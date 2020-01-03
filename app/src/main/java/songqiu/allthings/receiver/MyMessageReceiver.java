@@ -10,9 +10,14 @@ import com.alibaba.sdk.android.push.notification.CPushMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import songqiu.allthings.activity.MainActivity;
+import songqiu.allthings.http.BaseBean;
+import songqiu.allthings.http.HttpServicePath;
+import songqiu.allthings.http.OkHttp;
+import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.StringUtil;
 
@@ -39,6 +44,7 @@ public class MyMessageReceiver extends MessageReceiver {
     public void onMessage(Context context, CPushMessage cPushMessage) {
         LogUtil.i("=========================onMessage");
         Log.e("MyMessageReceiver", "onMessage, messageId: " + cPushMessage.getMessageId() + ", title: " + cPushMessage.getTitle() + ", content:" + cPushMessage.getContent());
+        getRecord(context);
     }
     @Override
     public void onNotificationOpened(Context context, String title, String summary, String extraMap) {
@@ -76,5 +82,15 @@ public class MyMessageReceiver extends MessageReceiver {
     protected void onNotificationRemoved(Context context, String messageId) {
         LogUtil.i("=========================onNotificationRemoved");
         Log.e("MyMessageReceiver", "onNotificationRemoved");
+    }
+
+    public void getRecord(Context context) {
+        Map<String, String> map = new HashMap<>();
+        map.put("type",1+"");
+        OkHttp.post(context, HttpServicePath.URL_RECORD, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+            }
+        });
     }
 }

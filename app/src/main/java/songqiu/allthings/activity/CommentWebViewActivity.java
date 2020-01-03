@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 import songqiu.allthings.R;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.ShowArticleBean;
@@ -30,16 +31,20 @@ import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.mine.WithdrawActivity;
 import songqiu.allthings.mine.invite.MyFriendActivity;
 import songqiu.allthings.mine.qrcode.EwmRedEnvelopeActivity;
+import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
+import songqiu.allthings.util.WindowUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.theme.ShareUrl;
+import songqiu.allthings.view.SharePopupWindows;
 
 /*******
  *
@@ -79,6 +84,7 @@ public class CommentWebViewActivity extends BaseActivity {
     }
 
     public void initWebView(String url) {
+        webView.setVerticalScrollBarEnabled(false);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.clearView();
         webView.clearCache(true);
@@ -158,7 +164,7 @@ public class CommentWebViewActivity extends BaseActivity {
 
         @JavascriptInterface
         public void onWeChatInvite() { //微信分享
-            showShare(Wechat.NAME);
+            showShare(Wechat.NAME,0);
         }
 
         @JavascriptInterface
@@ -169,7 +175,7 @@ public class CommentWebViewActivity extends BaseActivity {
 
         @JavascriptInterface
         public void onQQInvite() { //QQ分享
-            showShare(QQ.NAME);
+            showShare(QQ.NAME,0);
         }
 
 
@@ -217,34 +223,61 @@ public class CommentWebViewActivity extends BaseActivity {
             ToastUtil.showToast(CommentWebViewActivity.this,"复制成功!");
         }
 
+        //征文
+        @JavascriptInterface
+        public void onShare() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showShareWindow(0);
+                }
+            });
+        }
+
     }
 
-    private void showShare(String platform) {
+    private void showShare(String platform,int type) { //type = 1 一字千金的分享
         final OnekeyShare oks = new OnekeyShare();
         //指定分享的平台，如果为空，还是会调用九宫格的平台列表界面
         if (platform != null) {
             oks.setPlatform(platform);
         }
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle("见怪APP");
-        // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
-        if(!StringUtil.isEmpty(SnsConstants.URL_DOWNLOAD)) {
-            oks.setTitleUrl(SnsConstants.URL_DOWNLOAD);
+        if(1==type) {
+            oks.setTitle("见怪“一字千金”征文大赛正式开启!");
         }else {
-            oks.setTitleUrl(SnsConstants.URL_GUANWANG);
+            oks.setTitle("见怪APP");
+        }
+        // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
+        if(type ==1) {
+            oks.setTitleUrl(url);
+        }else {
+            if(!StringUtil.isEmpty(SnsConstants.URL_DOWNLOAD)) {
+                oks.setTitleUrl(SnsConstants.URL_DOWNLOAD);
+            }else {
+                oks.setTitleUrl(SnsConstants.URL_GUANWANG);
+            }
         }
         // text是分享文本，所有平台都需要这个字段
         StringBuffer sb = new StringBuffer();
-        sb.append("看看这个应用，可以边看文章边赚钱，当天提现哦，记得输我的邀请码~");
-        sb.append(SharedPreferencedUtils.getString(this,"SYSINVITATIONCODE"));
+        if(type ==1){
+            sb.append("全新平台，高额奖金，多全方位宣传，“一字千金”等你来参加!");
+        }else {
+            sb.append("看看这个应用，可以边看文章边赚钱，当天提现哦，记得输我的邀请码~");
+            sb.append(SharedPreferencedUtils.getString(this,"SYSINVITATIONCODE"));
+        }
         oks.setText(sb.toString());
         oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
         // url仅在微信（包括好友和朋友圈）中使用
-        if(!StringUtil.isEmpty(SnsConstants.URL_DOWNLOAD)) {
-            oks.setUrl(SnsConstants.URL_DOWNLOAD);
-        }else {
-            oks.setUrl(SnsConstants.URL_GUANWANG);
-        }
+       if(type==1) {
+           oks.setUrl(url);
+       }else {
+           if(!StringUtil.isEmpty(SnsConstants.URL_DOWNLOAD)) {
+               oks.setUrl(SnsConstants.URL_DOWNLOAD);
+           }else {
+               oks.setUrl(SnsConstants.URL_GUANWANG);
+           }
+       }
         //启动分享
         oks.show(this);
     }
@@ -270,6 +303,62 @@ public class CommentWebViewActivity extends BaseActivity {
                                 + showArticleBean.avatar+ "','" + showArticleBean.content +"')");
                     }
                 });
+            }
+        });
+    }
+
+    //分享弹窗
+    public void showShareWindow(int type) {
+        SharePopupWindows rw = new SharePopupWindows(this, type, 0);
+        WindowUtil.windowDeploy(this, rw, webView);
+        rw.setWindowShareListener(new WindowShareListener() {
+            @Override
+            public void qqShare(int positon) {
+                if(ClickUtil.onClick()) {
+                    showShare(QQ.NAME,1);
+                }
+                rw.dismiss();
+            }
+
+            @Override
+            public void wechatShare(int positon) {
+                if(ClickUtil.onClick()) {
+                    showShare(Wechat.NAME,1);
+                }
+                rw.dismiss();
+            }
+
+            @Override
+            public void wechatFriendShare(int positon) {
+                if(ClickUtil.onClick()) {
+                    showShare(WechatMoments.NAME,1);
+                }
+                rw.dismiss();
+            }
+
+            @Override
+            public void link(int position) {
+                if(ClickUtil.onClick()) {
+                    CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(CommentWebViewActivity.this, url);
+                    copyButtonLibrary.init(url);
+                    ToastUtil.showToast(CommentWebViewActivity.this,"复制成功!");
+                }
+                rw.dismiss();
+            }
+
+            @Override
+            public void report() {
+
+            }
+
+            @Override
+            public void daytime() {
+
+            }
+
+            @Override
+            public void night() {
+
             }
         });
     }
