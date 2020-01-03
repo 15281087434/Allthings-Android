@@ -635,8 +635,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             originalTv.setText(articleDetailBean.activity_name+"");
             originalTv.setTextColor(getResources().getColor(R.color.FF5098FC));
         }else {
-            if (0 == articleDetailBean.is_original) {
-
+            if (1 == articleDetailBean.is_original) {
                 originalTv.setText("原创");
                 originalTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
             } else {

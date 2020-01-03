@@ -89,6 +89,8 @@ public class GuideActivity extends BaseActivity {
         StatusBarUtils.with(GuideActivity.this).init().setStatusTextColorWhite(true, GuideActivity.this);
         getDelRd();
         decidePrivacyExplainFirst();
+        //埋点
+        getRecord();
         SharedPreferencedUtils.setString(this,SharedPreferencedUtils.USER_ICON,"");
     }
 
@@ -100,6 +102,16 @@ public class GuideActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    public void getRecord() {
+        Map<String, String> map = new HashMap<>();
+        map.put("type",1+"");
+        OkHttp.post(this, HttpServicePath.URL_RECORD, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+            }
+        });
     }
 
     public void getDelRd() {

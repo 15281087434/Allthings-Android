@@ -304,6 +304,10 @@ public class HttpServicePath {
     //创作 作品管理
     public static String URL_MANAGE_DATA = BaseUrl+"manage_data"; //type	是	int	1=未上架，2=已上架
 
+    //埋点
+    public static String URL_RECORD = BaseUrl+"record"; //type 1 打开APP
+
+
 
 
 }
