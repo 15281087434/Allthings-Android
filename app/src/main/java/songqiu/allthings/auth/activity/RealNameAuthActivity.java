@@ -69,6 +69,7 @@ import songqiu.allthings.util.JsUtils;
 import songqiu.allthings.util.KeyBoardUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
+import songqiu.allthings.util.TextVerifyUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.view.ChooseSixDialog;
@@ -452,8 +453,8 @@ public class RealNameAuthActivity extends BaseActivity {
             ToastUtil.showToast("请填写真实姓名");
             return;
         }
-        if (TextUtils.isEmpty(cardid)) {
-            ToastUtil.showToast("请填写身份证号");
+        if (!TextVerifyUtil.isCardId(cardid)) {
+            ToastUtil.showToast("请填写正确的身份证号");
             return;
         }
         if (TextUtils.isEmpty(sex)) {
@@ -478,6 +479,10 @@ public class RealNameAuthActivity extends BaseActivity {
         }
         if (TextUtils.isEmpty(cardIdHand)) {
             ToastUtil.showToast("请上传手持身份证正面照");
+            return;
+        }
+        if(!TextVerifyUtil.isEmail(email)){
+            ToastUtil.showToast("请输入正确的邮箱");
             return;
         }
 
