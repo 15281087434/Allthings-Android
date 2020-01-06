@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/x_ui_px_460.0"
     android:background="@color/white"
-    android:layout_marginBottom="@dimen/x_ui_px_30.0"
+    android:layout_marginBottom="@dimen/x_ui_px_10.0"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <View
         android:layout_width="match_parent"
@@ -25,16 +25,16 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <TextView
+    <Button
         android:layout_width="match_parent"
         android:layout_height="@dimen/x_ui_px_92.0"
         android:elevation="@dimen/x_ui_px_6.0"
         android:textColor="#2E9DFB"
         android:textSize="@dimen/font_ui_px_28.0"
         android:gravity="center"
+        android:clickable="false"
         android:layout_marginRight="@dimen/x_ui_px_34.0"
         android:layout_marginLeft="@dimen/x_ui_px_34.0"
-
         android:background="@drawable/item_solicit_textview_shape"
         android:layout_marginTop="@dimen/x_ui_px_30.0"
         app:layout_constraintTop_toBottomOf="@+id/roll_page_mine"

@@ -220,10 +220,10 @@ public class CommentDetailActivity extends Activity {
 
         userLevel.setImageResource(ImageResUtils.getLevelRes(commentDetailBean.con1.level));
         userName.setText(commentDetailBean.con1.user_nickname);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         Date date = new Date(commentDetailBean.con1.created*1000);
-        String  time = simpleDateFormat.format(date);
-        timeTv.setText(DateUtil.getTimeFormatText(time, "yyyy-MM-dd HH:mm:ss"));
+//        String  time = simpleDateFormat.format(date);
+        timeTv.setText(DateUtil.fromToday(date)+ ImageResUtils.getLevelText(commentDetailBean.con1.level));
         contentTv.setText(commentDetailBean.con1.content);
         likeNumTv.setText(ShowNumUtil.showUnm(commentDetailBean.con1.up_num));
         if(0 == commentDetailBean.con1.is_up) {

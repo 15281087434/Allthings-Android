@@ -27,6 +27,7 @@ import songqiu.allthings.iterface.VideoDetailCommentItemListener;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
@@ -155,11 +156,11 @@ public class CommentListAdapter extends SectionedRecyclerViewAdapter<HeaderHolde
         }
         Glide.with(mContext).load(videoDetailCommentBean.avatar).apply(options).into(holder.userIcon);
         holder.userName.setText(videoDetailCommentBean.user_nickname);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(videoDetailCommentBean.level));
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(videoDetailCommentBean.created*1000);
-        String  time = simpleDateFormat.format(date);
-        holder.timeTv.setText(DateUtil.getTimeFormatText(time, "yyyy-MM-dd HH:mm:ss"));
+//        String  time = simpleDateFormat.format(date);
+        holder.timeTv.setText(DateUtil.fromToday(date)+ ImageResUtils.getLevelText(videoDetailCommentBean.level));
         holder.contentTv.setText(videoDetailCommentBean.content);
         holder.likeNumTv.setText(ShowNumUtil.showUnm(videoDetailCommentBean.up_num));
         int userId = SharedPreferencedUtils.getInteger(mContext,"SYSUSERID",0);
@@ -239,11 +240,13 @@ public class CommentListAdapter extends SectionedRecyclerViewAdapter<HeaderHolde
             }
             Glide.with(mContext).load(commentSubitemBean.avatar).apply(options).into(((CommentSubitemHolder)holder).userIcon);
             ((CommentSubitemHolder)holder).userName.setText(commentSubitemBean.user_nickname);
+            ((CommentSubitemHolder) holder).ivLevel.setImageResource(ImageResUtils.getLevelRes(commentSubitemBean.level));
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date(commentSubitemBean.created*1000);
-            String  time = simpleDateFormat.format(date);
-            ((CommentSubitemHolder)holder).timeTv.setText(DateUtil.getTimeFormatText(time, "yyyy-MM-dd HH:mm:ss"));
+//        String  time = simpleDateFormat.format(date);
+            ((CommentSubitemHolder) holder).timeTv.setText(DateUtil.fromToday(date)+ ImageResUtils.getLevelText(commentSubitemBean.level));
+
+
             if(!StringUtil.isEmpty(commentSubitemBean.nickname)) {
                 String content = "回复 "+commentSubitemBean.nickname+" : "+commentSubitemBean.content;
                 //变色

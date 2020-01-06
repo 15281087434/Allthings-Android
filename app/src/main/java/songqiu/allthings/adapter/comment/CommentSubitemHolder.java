@@ -31,7 +31,8 @@ public class CommentSubitemHolder extends RecyclerView.ViewHolder {
     public ImageView likeImg;
     @BindView(R.id.likeLayout)
     LinearLayout likeLayout;
-
+    @BindView(R.id.iv_level)
+    ImageView ivLevel;
     public CommentSubitemHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);

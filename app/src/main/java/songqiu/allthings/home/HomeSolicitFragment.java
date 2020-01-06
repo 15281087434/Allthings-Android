@@ -277,7 +277,7 @@ public class HomeSolicitFragment extends Fragment {
 //                                beans.add(bean);
 //                            }
                             return;
-                        }
+                    }
                         item.addAll(beans);
                         adapter.notifyDataSetChanged();
                     }
