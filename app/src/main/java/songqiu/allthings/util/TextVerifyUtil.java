@@ -70,7 +70,7 @@ public class TextVerifyUtil {
 		if(TextUtils.isEmpty(s)){
 			return false;
 		}
-		Pattern p=Pattern.compile("^([0-9A-Za-z\\\\-_\\\\.]+)@([0-9a-z]+\\\\.[a-z]{2,3}(\\\\.[a-z]{2})?)$");
+		Pattern p=Pattern.compile("^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
 		return p.matcher(s).find();
 	}
 	public static class ValidateException extends Exception {

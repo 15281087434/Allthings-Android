@@ -454,6 +454,7 @@ public class RealNameAuthActivity extends BaseActivity {
 
     @OnClick(R.id.tv_auth)
     public void onAuth() {
+
         if (TextUtils.isEmpty(realname)) {
             ToastUtil.showToast("请填写真实姓名");
             return;
@@ -464,6 +465,10 @@ public class RealNameAuthActivity extends BaseActivity {
         }
         if (TextUtils.isEmpty(sex)) {
             ToastUtil.showToast("请选择性别");
+            return;
+        }
+        if(!TextVerifyUtil.isEmail(email)){
+            ToastUtil.showToast("请输入正确的邮箱");
             return;
         }
         if (TextUtils.isEmpty(address)) {
@@ -486,10 +491,7 @@ public class RealNameAuthActivity extends BaseActivity {
             ToastUtil.showToast("请上传手持身份证正面照");
             return;
         }
-        if(!TextVerifyUtil.isEmail(email)){
-            ToastUtil.showToast("请输入正确的邮箱");
-            return;
-        }
+
 
         HashMap<String, String> map = new HashMap<>();
         map.put("zone", address);
