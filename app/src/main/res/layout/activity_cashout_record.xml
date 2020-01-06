@@ -29,6 +29,21 @@
                 android:paddingRight="@dimen/x_ui_px_30.0" />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+        <LinearLayout
+            android:id="@+id/emptyLayout"
+            android:layout_width="match_parent"
+            android:paddingLeft="@dimen/x_ui_px_30.0"
+            android:layout_weight="1"
+            android:paddingRight="@dimen/x_ui_px_30.0"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <include layout="@layout/item_earnings_empty"/>
+
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

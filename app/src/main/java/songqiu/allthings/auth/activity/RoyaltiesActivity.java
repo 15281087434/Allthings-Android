@@ -40,6 +40,7 @@ import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.util.ClickUtil;
+import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 
@@ -58,6 +59,8 @@ public class RoyaltiesActivity extends BaseActivity {
     TextView rightTv;
     @BindView(R.id.line)
     LinearLayout line;
+    @BindView(R.id.emptyLayout)
+    LinearLayout emptyLayout;
     @BindView(R.id.rv_list)
     RecyclerView rvList;
     @BindView(R.id.tv_time_choose)
@@ -185,6 +188,13 @@ public class RoyaltiesActivity extends BaseActivity {
                                 }
                                 if (page == 1) {
                                     list.clear();
+                                    if(null == gcLogBean.getLogdata() || gcLogBean.getLogdata().size() == 0) {
+                                        refresh.setVisibility(View.GONE);
+                                        emptyLayout.setVisibility(View.VISIBLE);
+                                    }else {
+                                        refresh.setVisibility(View.VISIBLE);
+                                        emptyLayout.setVisibility(View.GONE);
+                                    }
                                     list.addAll(gcLogBean.getLogdata());
                                 } else {
                                     list.addAll(gcLogBean.getLogdata());
