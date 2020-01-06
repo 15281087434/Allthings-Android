@@ -145,6 +145,9 @@ public class SearchTopicFragment extends BaseFragment {
                                 if(null == searchTopicList || 0 == searchTopicList.size()) {
                                     emptyLayout.setVisibility(View.VISIBLE);
                                     smartRefreshLayout.setVisibility(View.GONE);
+                                }else {
+                                    emptyLayout.setVisibility(View.GONE);
+                                    smartRefreshLayout.setVisibility(View.VISIBLE);
                                 }
                             }
                             if(null != searchTopicList && 0!= searchTopicList.size()) {
