@@ -521,6 +521,7 @@ public class HomePageGambitFragment extends BaseFragment {
         });
     }
 
+
     public void getHotData() {
         Map<String, String> map = new HashMap<>();
         OkHttp.post(activity, HttpServicePath.URL_RAND_LIST, map, new RequestCallBack() {
@@ -799,6 +800,19 @@ public class HomePageGambitFragment extends BaseFragment {
                 break;
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void allGambitHotNum(EventTags.AllGambitHotNum allGambitHotNum) {
+        if(null != list) {
+            for(int i = 0;i<list.size();i++) {
+                if(list.get(i).id == allGambitHotNum.getId()) {
+                    list.get(i).hot_num = allGambitHotNum.getNum();
+                    hotAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginSucceed(EventTags.LoginSucceed loginSucceed) {
