@@ -143,6 +143,9 @@ public class SearchTxtFragment extends BaseFragment {
                                 if(null == searchTxtList || 0 == searchTxtList.size()) {
                                     emptyLayout.setVisibility(View.VISIBLE);
                                     smartRefreshLayout.setVisibility(View.GONE);
+                                }else {
+                                    emptyLayout.setVisibility(View.GONE);
+                                    smartRefreshLayout.setVisibility(View.VISIBLE);
                                 }
                             }
                             if(null != searchTxtList && 0!= searchTxtList.size()) {
