@@ -81,10 +81,14 @@ public class CommentWindow extends PopupWindow{
             }
         }, 100);
     }
-    public CommentWindow(Context context,String hintTv,String buttonText) {
-        this(context,hintTv);
+    public CommentWindow(Context context,String content,String buttonText) {
+        this(context,"");
         if(publishTv!=null){
             publishTv.setText(buttonText);
+        }
+        if(editText!=null){
+            editText.setText(content+"");
+            editText.setSelection(content.length());
         }
 
     }

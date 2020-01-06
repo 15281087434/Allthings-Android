@@ -216,7 +216,7 @@ public class GuideAdvertisingActivity extends BaseActivity {
 
         @Override
         public void onTick(long millisUntilFinished) {
-            jumpTv.setText(millisUntilFinished/1000+"s跳过");
+            jumpTv.setText("跳过"+millisUntilFinished/1000+"s");
         }
 
         @Override

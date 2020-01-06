@@ -190,24 +190,29 @@ public class RealNameAuthActivity extends BaseActivity {
     public void showEdit(View view) {
         type = 0;
         int inputType = 0;
+        String content="";
         switch (view.getId()) {
             case R.id.tv_realname:
                 type = REQ_REALNAME;
+                content=TextUtils.isEmpty(realname)?"":realname;
                 break;
             case R.id.tv_adress_details:
                 type = REQ_ADREESS_DETAILS;
+                content=TextUtils.isEmpty(addressDetails)?"":addressDetails;
                 break;
             case R.id.tv_email:
                 type = REQ_EMAIL;
+                content=TextUtils.isEmpty(email)?"":email;;
                 break;
             case R.id.tv_cardid:
 
                 type = REQ_CARDID;
+                content=TextUtils.isEmpty(cardid)?"":cardid;;
                 break;
         }
         if (type != 0) {
 
-            CommentWindow fw = new CommentWindow(this, "", "完成");
+            CommentWindow fw = new CommentWindow(this, content, "完成");
             fw.showAtLocation(titleTv, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             fw.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
