@@ -293,6 +293,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/x_ui_px_30.0"
                         tools:text=""
+                        android:lines="1"
+                        android:ellipsize="end"
                         android:textSize="@dimen/x_ui_px_24.0"
                         android:textColor="@color/FF999999"
                         />

@@ -632,7 +632,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         String is_match=articleDetailBean.is_match+"";
 
         if(is_match.equals("1")&& !TextUtils.isEmpty(articleDetailBean.activity_name)){
-            originalTv.setText(articleDetailBean.activity_name+"");
+            originalTv.setText("<"+articleDetailBean.activity_name+">参赛作品");
             originalTv.setTextColor(getResources().getColor(R.color.FF5098FC));
         }else {
             if (1 == articleDetailBean.is_original) {
