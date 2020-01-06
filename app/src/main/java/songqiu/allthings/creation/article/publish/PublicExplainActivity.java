@@ -249,6 +249,9 @@ public class PublicExplainActivity extends BaseActivity {
                         gvAlbumAdapter.notifyDataSetChanged();
                         if(null != arryPic && arryPic.size()> position) {
                             arryPic.remove(position);
+                            if(2==module || 3==module) {
+                                img ="";
+                            }
                             setRightTvBg();
                         }
                     }
