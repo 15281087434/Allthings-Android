@@ -14,6 +14,9 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mob.MobSDK;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -93,6 +96,8 @@ public class HomePageGambitFragment extends BaseFragment {
     TextView line;
     @BindView(R.id.reyclerView)
     RecyclerView reyclerView;
+    @BindView(R.id.smartRefreshLayout)
+    SmartRefreshLayout smartRefreshLayout;
 
     RecyclerView hotRecyclerView;
     RollPagerView rollPageHome;
@@ -111,6 +116,7 @@ public class HomePageGambitFragment extends BaseFragment {
     //动态分享(朋友圈)
     List<HotGambitCommonBean> newList;
     GambitCommonAdapter newGambitAdapter;
+    int page = 1;
 
     MainActivity activity;
 
@@ -135,9 +141,10 @@ public class HomePageGambitFragment extends BaseFragment {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+        smartRefreshLayout.setEnableRefresh(false);
         initRecyclerView();
         getHotData();
-        getFriendsData();
+        getFriendsData(page);
     }
 
     public void initBanner() {
@@ -208,7 +215,8 @@ public class HomePageGambitFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 if(ClickUtil.onClick()) {
-                    getFriendsData();
+                    page = 1;
+                    getFriendsData(page);
                 }
             }
         });
@@ -252,6 +260,19 @@ public class HomePageGambitFragment extends BaseFragment {
                     startActivity(intent);
 //                    activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 }
+            }
+        });
+
+        smartRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page = page+1;
+                getFriendsData(page);
+            }
+
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+
             }
         });
     }
@@ -342,7 +363,8 @@ public class HomePageGambitFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void toGambitRefresh(EventTags.GambitRefresh gambitRefresh) {
         getHotData();
-        getFriendsData();
+        page = 1;
+        getFriendsData(page);
     }
 
     //分享弹窗
@@ -499,6 +521,7 @@ public class HomePageGambitFragment extends BaseFragment {
         });
     }
 
+
     public void getHotData() {
         Map<String, String> map = new HashMap<>();
         OkHttp.post(activity, HttpServicePath.URL_RAND_LIST, map, new RequestCallBack() {
@@ -524,9 +547,11 @@ public class HomePageGambitFragment extends BaseFragment {
         });
     }
 
-    public void getFriendsData() {
-        Map<String, String> map = new HashMap<>();
-        OkHttp.post(activity, HttpServicePath.URL_FRIENDS, map, new RequestCallBack() {
+    public void getFriendsData(int page) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("num", 10);
+        map.put("page", page);
+        OkHttp.post(activity,smartRefreshLayout,HttpServicePath.URL_FRIENDS, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
                 if(null != activity) {
@@ -537,8 +562,10 @@ public class HomePageGambitFragment extends BaseFragment {
                             String data = gson.toJson(baseBean.data);
                             if (StringUtil.isEmpty(data)) return;
                             List<HotGambitCommonBean> homeGambitHotList = gson.fromJson(data, new TypeToken<List<HotGambitCommonBean>>() {}.getType());
-                            if(null != homeGambitHotList && 0!=homeGambitHotList.size()) {
+                            if(page == 1) {
                                 newList.clear();
+                            }
+                            if(null != homeGambitHotList && 0!=homeGambitHotList.size()) {
                                 newList.addAll(homeGambitHotList);
                                 newGambitAdapter.notifyDataSetChanged();
                             }
@@ -775,15 +802,30 @@ public class HomePageGambitFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void allGambitHotNum(EventTags.AllGambitHotNum allGambitHotNum) {
+        if(null != list) {
+            for(int i = 0;i<list.size();i++) {
+                if(list.get(i).id == allGambitHotNum.getId()) {
+                    list.get(i).hot_num = allGambitHotNum.getNum();
+                    hotAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginSucceed(EventTags.LoginSucceed loginSucceed) {
         getHotData();
-        getFriendsData();
+        page =1;
+        getFriendsData(page);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void toLogin(EventTags.ToLogin toLogin) {
         getHotData();
-        getFriendsData();
+        page = 1;
+        getFriendsData(page);
     }
 
     @Override
