@@ -10,6 +10,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 
 /*******
@@ -33,6 +34,7 @@ public class OkHttpUtil {
                         .connectTimeout(30000, TimeUnit.SECONDS)// 设置超时时间
                         .readTimeout(30000, TimeUnit.SECONDS)// 设置读取超时时间
                         .writeTimeout(30000, TimeUnit.SECONDS)// 设置写入超时时间
+                        .connectionPool(new ConnectionPool(10,5,TimeUnit.SECONDS))
                         .build();
             }
         }

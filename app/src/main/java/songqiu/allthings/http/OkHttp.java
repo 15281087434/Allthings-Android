@@ -128,9 +128,14 @@ public class OkHttp {
                     mProgressDialog.cancel();
                 }
                 if(str.contains("DOCTYPE")) {
-                    Looper.prepare();
-                    Toast.makeText(context, "服务器错误", Toast.LENGTH_SHORT).show();
-                    Looper.loop();
+                    new Thread(){
+
+                        public void run() {
+                            Looper.prepare();
+                            Toast.makeText(context, "服务器错误", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
+                    }.start();
                     return;
                 }
                 Gson gson = new Gson();
@@ -159,9 +164,14 @@ public class OkHttp {
                     }else if(HttpRuslt.OK.equals(baseBean.code)) {
                         listener.httpResult(baseBean);
                     }else {
-                        Looper.prepare();
-                        Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
-                        Looper.loop();
+                        new Thread(){
+
+                            public void run() {
+                                Looper.prepare();
+                                Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
+                                Looper.loop();
+                            }
+                        }.start();
                     }
                 }
             }
@@ -233,9 +243,14 @@ public class OkHttp {
                 String str = response.body().string();
                 LogUtil.i(requestPath+"====>"+ str);
                 if(str.contains("DOCTYPE")) {
-                    Looper.prepare();
-                    Toast.makeText(context, "服务器错误", Toast.LENGTH_SHORT).show();
-                    Looper.loop();
+                    new Thread(){
+
+                        public void run() {
+                            Looper.prepare();
+                            Toast.makeText(context,"服务器错误", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
+                    }.start();
                     return;
                 }
                 Gson gson = new Gson();
@@ -267,9 +282,10 @@ public class OkHttp {
                     }else if(HttpRuslt.OK.equals(baseBean.code)) {
                         listener.httpResult(baseBean);
                     }else {
-                        Looper.prepare();
-                        Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
-                        Looper.loop();
+//
+//                        Looper.prepare();
+//                        Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
+//                        Looper.loop();
                     }
                 }
             }
@@ -358,9 +374,14 @@ public class OkHttp {
                         EventBus.getDefault().post(new EventTags.Advertising());
                         return;
                     }
-                    Looper.prepare();
-                    Toast.makeText(context, "服务器错误", Toast.LENGTH_SHORT).show();
-                    Looper.loop();
+                    new Thread(){
+
+                        public void run() {
+                            Looper.prepare();
+                            Toast.makeText(context,"服务器错误", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
+                    }.start();
                     return;
                 }
                 Gson gson = new Gson();
@@ -401,9 +422,16 @@ public class OkHttp {
                     }else if(HttpRuslt.OK.equals(baseBean.code)) {
                         listener.httpResult(baseBean);
                     }else {
-                        Looper.prepare();
-                        Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
-                        Looper.loop();
+                        new Thread(){
+
+                            public void run() {
+                                Looper.prepare();
+                                Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
+                                Looper.loop();
+                            }
+                        }.start();
+
+
                     }
                 }
             }
@@ -489,9 +517,14 @@ public class OkHttp {
                 long duration = endTime-startTime;
                 LogUtil.i(requestPath+"====>"+duration+" "+ str);
                 if(str.contains("DOCTYPE")|| str.contains("<html>")) {
-                    Looper.prepare();
-                    Toast.makeText(context, "服务器错误", Toast.LENGTH_SHORT).show();
-                    Looper.loop();
+                    new Thread(){
+
+                        public void run() {
+                            Looper.prepare();
+                            Toast.makeText(context, "服务器错误", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
+                    }.start();
                     return;
                 }
                 Gson gson = new Gson();
@@ -517,9 +550,15 @@ public class OkHttp {
                     }else if(HttpRuslt.OK.equals(baseBean.code)) {
                         listener.httpResult(baseBean);
                     }else {
-                        Looper.prepare();
-                        Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
-                        Looper.loop();
+                        new Thread(){
+
+                            public void run() {
+                                Looper.prepare();
+                                Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
+                                Looper.loop();
+                            }
+                        }.start();
+
                     }
                 }
             }
@@ -580,10 +619,16 @@ public class OkHttp {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        String error = "";
+
                         if (e instanceof ConnectException) {
-                            error = "网络状况不佳!";
-                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                            new Thread(){
+
+                                public void run() {
+                                    Looper.prepare();
+                                    Toast.makeText(context, "网络状况不佳", Toast.LENGTH_SHORT).show();
+                                    Looper.loop();
+                                }
+                            }.start();
                         } else {
 //                    error = "系统异常！";
                         }
@@ -600,10 +645,14 @@ public class OkHttp {
                     dialog.disMiss();
                 }
                 if (e instanceof ConnectException) {
-                    error = "网络状况不佳!";
-                    Looper.prepare();
-                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-                    Looper.loop();
+                    new Thread(){
+
+                        public void run() {
+                            Looper.prepare();
+                            Toast.makeText(context, "网络状况不佳", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
+                    }.start();
                 } else {
 //                    error = "系统异常！";
                 }
