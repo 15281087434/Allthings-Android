@@ -72,7 +72,6 @@ public class BannerMineAdapter extends LoopPagerAdapter {
             if (!bannerBeans.get(position).photo.contains("http")) {
                 bannerBeans.get(position).photo = HttpServicePath.BasePicUrl + bannerBeans.get(position).photo;
             }
-            LogUtil.i(""+bannerBeans.get(position).photo);
             DraweeController controller = Fresco.newDraweeControllerBuilder()
                     .setUri(bannerBeans.get(position).photo)
                     .setOldController(view.getController())

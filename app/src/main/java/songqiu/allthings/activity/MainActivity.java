@@ -377,7 +377,9 @@ public class MainActivity extends BaseMainActivity {
         if (null == intent) return;
         String type = intent.getStringExtra("type");
         int id = intent.getIntExtra("id", 0);
-        Intent mIntent = null;
+        int isMoment = intent.getIntExtra("isMoment",0);
+//        LogUtil.i("type:"+type+"  id:"+id+"  isMoment:"+isMoment);
+        Intent mIntent;
         if ("1".equals(type)) {
             mIntent = new Intent(MainActivity.this, ArticleDetailActivity.class);
             mIntent.putExtra("articleid", id);
@@ -386,11 +388,22 @@ public class MainActivity extends BaseMainActivity {
             mIntent = new Intent(MainActivity.this, VideoDetailActivity.class);
             mIntent.putExtra("articleid", id);
             startActivity(mIntent);
-        } else { // 分享
+        } else if("3".equals(type)){
+            //话题通知
+            if (1 == isMoment) { //朋友圈详情
+                mIntent = new Intent(MainActivity.this, GambitDetailActivity.class);
+            } else {
+                mIntent = new Intent(MainActivity.this, HotGambitDetailActivity.class);
+            }
+            mIntent.putExtra("talkid", Integer.valueOf(id));
+            startActivity(mIntent);
+        }else {
             Uri uri = intent.getData();
-            if (uri != null) {
+            if (uri != null) {// 分享
+//                LogUtil.i("分享uri："+uri.toString());
                 String shareType = uri.getQueryParameter("type");
                 String shareId = uri.getQueryParameter("id");
+//                LogUtil.i("shareType:"+shareType+"  shareId:"+shareId);
                 if ("1".equals(shareType)) {
                     mIntent = new Intent(MainActivity.this, ArticleDetailActivity.class);
                     mIntent.putExtra("articleid", Integer.valueOf(shareId));
@@ -400,8 +413,9 @@ public class MainActivity extends BaseMainActivity {
                     mIntent.putExtra("articleid", Integer.valueOf(shareId));
                     startActivity(mIntent);
                 } else if ("3".equals(shareType)) {
-                    String isMoment = uri.getQueryParameter("isMoment");
-                    if ("1".equals(isMoment)) { //朋友圈详情
+                    String shareIsMoment = uri.getQueryParameter("isMoment");
+//                    LogUtil.i("shareIsMoment:"+shareIsMoment);
+                    if ("1".equals(shareIsMoment)) { //朋友圈详情
                         mIntent = new Intent(MainActivity.this, GambitDetailActivity.class);
                     } else {
                         mIntent = new Intent(MainActivity.this, HotGambitDetailActivity.class);

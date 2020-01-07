@@ -457,7 +457,7 @@ public class GambitDetailActivity extends BaseActivity {
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
         oks.setTitle(gambitDetailBean.user_nickname);
         // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
-        oks.setTitleUrl(ShareUrl.getUrl(gambitDetailBean.id,3));
+        oks.setTitleUrl(ShareUrl.getUrl(gambitDetailBean.id,3,1));
         // text是分享文本，所有平台都需要这个字段
         oks.setText(gambitDetailBean.descriptions);
         if(null != gambitDetailBean.images && 0!=gambitDetailBean.images.length) {
