@@ -102,6 +102,7 @@
                 android:layout_width="@dimen/x_ui_px_40.0"
                 android:layout_height="@dimen/x_ui_px_40.0"
                 android:text="赛"
+                android:layout_marginTop="@dimen/tv_padding"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="@color/FFE7A722"

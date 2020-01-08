@@ -15,8 +15,9 @@
             android:id="@+id/tv_sai"
             android:layout_width="@dimen/x_ui_px_40.0"
             android:layout_height="@dimen/x_ui_px_40.0"
-            android:layout_marginTop="@dimen/x_ui_px_6.0"
+            android:layout_marginTop="@dimen/tv_padding"
             android:text="赛"
+
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/FFE7A722"

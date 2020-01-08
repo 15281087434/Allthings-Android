@@ -4,4 +4,5 @@
     <item name="statusbarutil_translucent_view" type="id" />
     <item name="viewpager_inner" type="id" />
     <item name="status_layout_origin_helper" type="id" />
+
 </resources>
