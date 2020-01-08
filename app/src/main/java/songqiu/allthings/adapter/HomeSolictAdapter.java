@@ -126,9 +126,15 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             holder.getImageView(R.id.iv_level).setImageResource(ImageResUtils.getLevelRes(bean.getLevel()));
 
             if (position < 4) {
+
                 holder.getTextView(R.id.tv_rank).setText(position + "");
                 holder.getTextView(R.id.tv_rank).setVisibility(View.VISIBLE);
-            } else {
+            } else if(position<11){
+
+                holder.getTextView(R.id.tv_rank).setText(position + "");
+                holder.getTextView(R.id.tv_rank).setVisibility(View.VISIBLE);
+            }else {
+
                 holder.getTextView(R.id.tv_rank).setVisibility(View.GONE);
             }
 

@@ -206,7 +206,10 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     TextView line1;
     @BindView(R.id.line2)
     TextView line2;
-
+    @BindView(R.id.ll_tp)
+    LinearLayout llTp;
+    @BindView(R.id.tv_tickets)
+    TextView tvTickets;
     int articleid;
     int pageNo = 1;
 
@@ -292,6 +295,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
         articleid = getIntent().getIntExtra("articleid", 1);
         smartRefreshLayout.setEnableRefresh(false);
         initTaskDetailView();
+
         initRecycl();
         //scrollview滚动监听
         scrollViewListener();
@@ -622,6 +626,8 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
             attentionTitleTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
         }
         //
+        llTp.setVisibility(articleDetailBean.add_vote==1?View.VISIBLE:View.GONE);
+        tvTickets.setText("已有"+articleDetailBean.support_num+"票");
 //        contentWeb.loadDataWithBaseURL(null, getHtmlData(articleDetailBean.content), "text/html", "utf-8", null);
         if (SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true)) {
             contentWeb.loadDataWithBaseURL(null, getHtmlData(articleDetailBean.content), "text/html", "utf-8", null);
@@ -1551,7 +1557,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
 
     @OnClick({R.id.backImg, R.id.rightImg, R.id.attentionTv, R.id.attentionTitleTv, R.id.likeLayout, R.id.collectImg, R.id.shareImg,
             R.id.lookCommentImg, R.id.showEdit, R.id.layout, R.id.titleToUserLayout, R.id.jumpLayout, R.id.advertisingImg, R.id.propressLayout,
-            R.id.nuLikeLayout, R.id.shareFriendLayout, R.id.shareWxLayout, R.id.prestrainLayout})
+            R.id.nuLikeLayout, R.id.shareFriendLayout, R.id.shareWxLayout, R.id.prestrainLayout,R.id.ll_tp})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.backImg:
@@ -1663,6 +1669,26 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 }
                 break;
             case R.id.prestrainLayout:
+                break;
+            case R.id.ll_tp:
+                if(ClickUtil.onClick()){
+                    //TODO 投票
+                    HashMap<String,String>map =new HashMap<>();
+                    map.put("mid",articleDetailBean.articleid+"");
+                    map.put("activityid",articleDetailBean.activityid);
+                    OkHttp.post(this, HttpServicePath.URL_TP, map, new RequestCallBack() {
+                        @Override
+                        public void httpResult(BaseBean baseBean) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    articleDetailBean.support_num++;
+                                    tvTickets.setText("已有"+articleDetailBean.support_num+"票");
+                                }
+                            });
+                        }
+                    });
+                }
                 break;
         }
     }

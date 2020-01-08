@@ -49,5 +49,7 @@ public class ArticleDetailBean {
       public String level;
     public String is_match;//是否为参赛作品
     public String activity_name;//参赛名称
-
+    public String activityid;//参赛活动id
+    public int support_num;//参赛活动投票数
+    public int add_vote;//是否显示投票 1为显示
 }
