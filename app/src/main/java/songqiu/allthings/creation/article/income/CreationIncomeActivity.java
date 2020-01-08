@@ -34,8 +34,10 @@ import songqiu.allthings.mine.AlipaySettingActivity;
 import songqiu.allthings.mine.WithdrawActivity;
 import songqiu.allthings.mine.WithdrawRecordActivity;
 import songqiu.allthings.util.ClickUtil;
+import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
+import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 
 /*******
@@ -66,6 +68,8 @@ public class CreationIncomeActivity extends BaseActivity {
     TextView freezeMoneyTv;
     @BindView(R.id.allMoneyTv)
     TextView allMoneyTv;
+    @BindView(R.id.hintTv)
+    TextView hintTv;
     @BindView(R.id.explainLayout)
     LinearLayout explainLayout;
     @BindView(R.id.withdrawLayout)
@@ -143,12 +147,17 @@ public class CreationIncomeActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.backImg,R.id.withdrawTv,R.id.withdrawLayout,R.id.explainLayout})
+    @OnClick({R.id.backImg,R.id.hintTv,R.id.withdrawTv,R.id.withdrawLayout,R.id.explainLayout})
     public void onViewClick(View view) {
         Intent intent;
         switch (view.getId()) {
             case R.id.backImg:
                 finish();
+                break;
+            case R.id.hintTv:
+                CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(CreationIncomeActivity.this, hintTv);
+                copyButtonLibrary.init(hintTv);
+                ToastUtil.showToast(CreationIncomeActivity.this, "复制成功:" + hintTv.getText().toString());
                 break;
             case R.id.withdrawTv:
                 if(ClickUtil.onClick()) {

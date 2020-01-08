@@ -35,6 +35,7 @@ import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.DialogPrivacyListener;
+import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.VibratorUtil;
@@ -64,6 +65,7 @@ public class ArticlePutawayFragment extends BaseFragment {
     ArticlePutawayAdapter adapter;
     List<ArticlePutawayBean> item;
     View mFooterView;
+    TextView hintTv;
     HeaderViewAdapter mHeaderAdapter;
 
     ArticleManageActivity activity;
@@ -92,6 +94,15 @@ public class ArticlePutawayFragment extends BaseFragment {
 
     public void initRecyc() {
         mFooterView = LayoutInflater.from(activity).inflate(R.layout.layout_source_hint, null, false);
+        hintTv = mFooterView.findViewById(R.id.hintTv);
+        hintTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(activity, hintTv);
+                copyButtonLibrary.init(hintTv);
+                ToastUtil.showToast(activity, "复制成功:" + hintTv.getText().toString());
+            }
+        });
         item = new ArrayList<>();
         adapter = new ArticlePutawayAdapter(activity,item);
         mHeaderAdapter = new HeaderViewAdapter(adapter);
