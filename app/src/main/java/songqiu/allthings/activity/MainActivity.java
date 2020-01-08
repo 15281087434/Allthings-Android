@@ -86,8 +86,8 @@ public class MainActivity extends BaseMainActivity {
 
     public static final int INDEX_HOME_PAGE = 0;
     public static final int INDEX_LOOK_PAGE = 1;
-    public static final int INDEX_TASK_PAGE = 2;
-    public static final int INDEX_CREATION_PAGE = 3;
+    public static final int INDEX_CREATION_PAGE = 2;
+    public static final int INDEX_TASK_PAGE = 3;
     public static final int INDEX_MINE_PAGE = 4;
     public int clickPosition = 10;
     boolean isGhost;
@@ -138,6 +138,8 @@ public class MainActivity extends BaseMainActivity {
     TextView taskTv;
     @BindView(R.id.taskLayout)
     LinearLayout taskLayout;
+    @BindView(R.id.creationbg)
+    ImageView creationbg;
     @BindView(R.id.creationImg)
     ImageView creationImg;
     @BindView(R.id.creationTv)
@@ -154,8 +156,6 @@ public class MainActivity extends BaseMainActivity {
     LinearLayout shadowLayout;
     @BindView(R.id.bottomLayout)
     LinearLayout bottomLayout;
-    @BindView(R.id.line)
-    View line;
 
     //旋转动画
     Animation rotate;
@@ -463,15 +463,15 @@ public class MainActivity extends BaseMainActivity {
     public void setBottomLayoutBackground(boolean isGhost, int position) {
         if (isGhost) {
             bottomLayout.setBackgroundResource(R.color.FFF9FAFD_night);
-            line.setBackgroundResource(R.color.line_color_night);
+            creationbg.setImageResource(R.mipmap.man_creation_bottom_night);
             homePageImg.setImageResource(R.mipmap.tab_home_ghost);
             lookImg.setImageResource(R.mipmap.tab_look_ghost_normal);
             taskImg.setImageResource(R.mipmap.tab_task_ghost_normal);
             creationImg.setImageResource(R.mipmap.tab_creation_ghost_normal);
             mineImg.setImageResource(R.mipmap.tab_mine_ghost_normal);
         } else {
-            bottomLayout.setBackgroundResource(R.color.FFF9FAFD);
-            line.setBackgroundResource(R.color.line_color);
+            bottomLayout.setBackgroundResource(R.mipmap.man_bottom);
+            creationbg.setImageResource(R.mipmap.man_creation_bottom);
             homePageImg.setImageResource(R.mipmap.tab_home_normal);
             lookImg.setImageResource(R.mipmap.tab_look_normal);
             taskImg.setImageResource(R.mipmap.tab_task_normal);
@@ -512,6 +512,7 @@ public class MainActivity extends BaseMainActivity {
                     }
                 } else {
                     clearSelection();
+                    setBottomLayoutBackground(isGhost, 0);
                     clickPosition = 0;
                     homePageImg.setImageResource(R.mipmap.tab_home);
                     homePageTv.setTextColor(getResources().getColor(R.color.normal_color));
@@ -545,7 +546,7 @@ public class MainActivity extends BaseMainActivity {
                 break;
             case INDEX_TASK_PAGE:
                 clearSelection();
-                clickPosition = 2;
+                clickPosition = 3;
                 taskImg.setImageResource(R.mipmap.tab_task);
                 taskTv.setTextColor(getResources().getColor(R.color.normal_color));
                 swithFragment(mContent, taskPageFragment);
@@ -555,7 +556,7 @@ public class MainActivity extends BaseMainActivity {
                 break;
             case INDEX_CREATION_PAGE:
                 clearSelection();
-                clickPosition = 3;
+                clickPosition = 2;
                 creationImg.setImageResource(R.mipmap.tab_creation);
                 creationTv.setTextColor(getResources().getColor(R.color.normal_color));
                 swithFragment(mContent, creationPageFragment);
@@ -735,14 +736,14 @@ public class MainActivity extends BaseMainActivity {
 //                }
                 break;
             case R.id.taskLayout:
-                setBottomLayoutBackground(false, 2);
+                setBottomLayoutBackground(false, 3);
                 setTabSelection(INDEX_TASK_PAGE, 0);
 //                if(ClickUtil.onClick()) {
 //                    setTabSelection(INDEX_TASK_PAGE,0);
 //                }
                 break;
             case R.id.creationLayout:
-                setBottomLayoutBackground(false, 3);
+                setBottomLayoutBackground(false, 2);
                 setTabSelection(INDEX_CREATION_PAGE, 0);
                 break;
             case R.id.mineLayout:

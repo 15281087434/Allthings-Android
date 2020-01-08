@@ -25,21 +25,36 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="网页端上传更方便："
+                        android:textColor="@color/FF999999"
+                        android:textSize="@dimen/x_ui_px_28.0"
+                        android:layout_gravity="center_horizontal"/>
+                    <TextView
+                        android:id="@+id/hintTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="www.jianguaiapp.cn"
+                        android:textColor="@color/FF5098FC"
+                        android:textSize="@dimen/x_ui_px_28.0"
+                        android:layout_gravity="center_horizontal"/>
+                </LinearLayout>
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="内容上传平台网页端地址"
-                    android:textColor="@color/FF999999"
-                    android:textSize="@dimen/x_ui_px_28.0"
-                    android:layout_gravity="center_horizontal"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x_ui_px_5.0"
-                    android:text="www.jianguaiapp.cn"
+                    android:text="所有活动和奖励与Apple Inc.公司无关"
                     android:textColor="@color/FF999999"
                     android:textSize="@dimen/x_ui_px_28.0"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/x_ui_px_40.0"/>
             </LinearLayout>
 
         </LinearLayout>

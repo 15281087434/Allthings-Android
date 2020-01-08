@@ -296,7 +296,7 @@ public class HomePageFragment extends BaseFragment {
 //                    line.setBackgroundColor(getResources().getColor(R.color.zw_bg));
                     line.setBackgroundResource(R.color.zw_bg);
 //                    searchImg.setBackgroundResource(R.drawable.bg_search_ghost_gary);
-
+                    EventBus.getDefault().post(new EventTags.Ghost(false));
                 }else {
                     isGhost = false;
                     isZw=false;

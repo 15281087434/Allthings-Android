@@ -307,6 +307,9 @@ public class HttpServicePath {
     //埋点
     public static String URL_RECORD = BaseUrl+"record"; //type 1 打开APP
 
+    //创作广播
+    public static String URL_BROADCAST = BaseUrl+"broadcast";
+
 
 
 

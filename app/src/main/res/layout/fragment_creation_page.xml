@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,83 +11,154 @@
         android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@color/white"
             >
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x_ui_px_320.0"
-                android:background="@mipmap/creation_heard">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/FFF9FAFD"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/x_ui_px_70.0"
+                android:paddingBottom="@dimen/x_ui_px_10.0">
 
-                <TextView
-                    android:id="@+id/authenticationTv"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="验证身份"
-                    android:textSize="@dimen/x_ui_px_32.0"
-                    android:textColor="@color/main_bg_white"
-                    android:drawableLeft="@mipmap/creation_head"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/x_ui_px_70.0"
-                    android:drawablePadding="@dimen/x_ui_px_14.0"/>
+                    android:src="@mipmap/icon_navigation_bar"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/x_ui_px_174.0"
-                    android:background="@drawable/report_buttom_radius"
-                    android:layout_alignParentBottom="true"
+                    android:id="@+id/searchImg"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/x_ui_px_58.0"
+                    android:layout_weight="1"
                     android:layout_marginLeft="@dimen/x_ui_px_30.0"
-                    android:layout_marginRight="@dimen/x_ui_px_30.0"
+                    android:layout_marginRight="@dimen/x_ui_px_25.0"
+                    android:background="@drawable/bg_search_gary"
                     android:orientation="horizontal"
-                    android:weightSum="3"
                     android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/x_ui_px_40.0"
-                    android:paddingRight="@dimen/x_ui_px_40.0"
+                    android:paddingLeft="@dimen/x_ui_px_20.0"
                     >
 
                     <TextView
-                        android:id="@+id/publishTv"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="内容发布"
-                        android:gravity="center"
-                        android:drawableTop="@mipmap/article_publish"
-                        android:drawablePadding="@dimen/x_ui_px_10.0"/>
-                    <TextView
-                        android:id="@+id/manageTv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="作品管理"
-                        android:gravity="center"
-                        android:drawableTop="@mipmap/article_manage"
-                        android:drawablePadding="@dimen/x_ui_px_10.0"/>
-                    <TextView
-                        android:id="@+id/incomeTv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="创作收入"
-                        android:gravity="center"
-                        android:drawableTop="@mipmap/article_income"
-                        android:drawablePadding="@dimen/x_ui_px_10.0"/>
+                        android:drawableLeft="@mipmap/home_search"
+                        android:text="搜索故事、用户、标签"
+                        android:textColor="@color/FF999999"
+                        android:textSize="@dimen/x_ui_px_27.0"
+                        android:drawablePadding="@dimen/x_ui_px_15.0"/>
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/classification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@mipmap/icon_classification"
+                    android:text="分类"
+                    android:textColor="@color/bottom_tab_tv_night"
+                    android:textSize="@dimen/x_ui_px_19.0"
+                    android:paddingLeft="@dimen/x_ui_px_10.0"
+                    android:paddingRight="@dimen/x_ui_px_10.0"
+                    android:layout_marginRight="@dimen/x_ui_px_20.0"/>
+            </LinearLayout>
+
+
+
+            <!---->
+            <!-- 滑动广告-->
+            <songqiu.allthings.view.banner.RollPagerView
+                android:id="@+id/roll_page_mine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x_ui_px_340.0"
+                app:rollviewpager_hint_gravity="center"
+                app:rollviewpager_play_delay="3000"
+                android:layout_marginTop="@dimen/x_ui_px_28.0"
+                android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                android:layout_marginRight="@dimen/x_ui_px_30.0"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x_ui_px_28.0"
+                >
+
+                <TextView
+                    android:id="@+id/manageTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="作品管理"
+                    android:gravity="center"
+                    android:textColor="@color/bottom_tab_tv"
+                    android:textSize="@dimen/x_ui_px_32.0"
+                    android:drawableTop="@mipmap/article_manage"
+                    android:drawablePadding="@dimen/x_ui_px_12.0"
+                    android:layout_marginLeft="@dimen/x_ui_px_76.0"
+                   />
+
+                <TextView
+                    android:id="@+id/publishTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="内容发布"
+                    android:gravity="center"
+                    android:textColor="@color/bottom_tab_tv"
+                    android:textSize="@dimen/x_ui_px_32.0"
+                    android:drawableTop="@mipmap/article_publish"
+                    android:drawablePadding="@dimen/x_ui_px_12.0"
+                    android:layout_centerHorizontal="true"/>
+
+                <TextView
+                    android:id="@+id/incomeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="创作收入"
+                    android:gravity="center"
+                    android:textColor="@color/bottom_tab_tv"
+                    android:textSize="@dimen/x_ui_px_32.0"
+                    android:drawableTop="@mipmap/article_income"
+                    android:drawablePadding="@dimen/x_ui_px_12.0"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/x_ui_px_76.0"
+                    />
+
             </RelativeLayout>
 
-
-            <ImageView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x_ui_px_112.0"
-                android:layout_marginLeft="@dimen/x_ui_px_24.0"
-                android:layout_marginRight="@dimen/x_ui_px_24.0"
-                android:layout_marginTop="@dimen/x_ui_px_36.0"
-                android:background="@mipmap/creation_hint"/>
+                android:layout_height="@dimen/x_ui_px_60.0"
+                android:orientation="horizontal"
+                android:background="@color/FFF1FFFC"
+                android:layout_marginTop="@dimen/x_ui_px_40.0">
+
+                <TextView
+                    android:id="@+id/notificationTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="一字千金征文大赛于2020年1月20号开始征稿啦!"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/normal_color"
+                    android:textSize="@dimen/x_ui_px_24.0"
+                    android:drawableLeft="@mipmap/article_notification"
+                    android:layout_marginLeft="@dimen/x_ui_px_76.0"
+                    android:layout_marginRight="@dimen/x_ui_px_30.0"
+                    android:drawablePadding="@dimen/x_ui_px_20.0"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -96,9 +167,42 @@
                 android:layout_weight="1">
 
                 <LinearLayout
+                    android:id="@+id/authenticationLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_112.0"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="认证身份"
+                        android:textColor="@color/bottom_tab_tv"
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:layout_marginTop="@dimen/x_ui_px_26.0"
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        android:drawableLeft="@mipmap/article_authentication"
+                        android:drawablePadding="@dimen/x_ui_px_20.0"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/arrow_next"
+                        android:layout_marginTop="@dimen/x_ui_px_36.0"
+                        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_1.0"
+                    android:background="@color/line_color"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+                <LinearLayout
                     android:id="@+id/planLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x_ui_px_108.0"
+                    android:layout_height="@dimen/x_ui_px_112.0"
                     android:orientation="horizontal">
 
                     <TextView
@@ -109,7 +213,9 @@
                         android:textColor="@color/bottom_tab_tv"
                         android:textSize="@dimen/x_ui_px_36.0"
                         android:layout_marginTop="@dimen/x_ui_px_26.0"
-                        android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        android:drawableLeft="@mipmap/article_plan"
+                        android:drawablePadding="@dimen/x_ui_px_20.0"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -140,7 +246,9 @@
                         android:textColor="@color/bottom_tab_tv"
                         android:textSize="@dimen/x_ui_px_36.0"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        android:drawableLeft="@mipmap/article_strategy"
+                        android:drawablePadding="@dimen/x_ui_px_20.0"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -171,7 +279,9 @@
                         android:textColor="@color/bottom_tab_tv"
                         android:textSize="@dimen/x_ui_px_36.0"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/x_ui_px_30.0"/>
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        android:drawableLeft="@mipmap/article_explain"
+                        android:drawablePadding="@dimen/x_ui_px_20.0"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -182,24 +292,40 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="内容上传平台网页端地址"
-                android:textColor="@color/FF999999"
-                android:textSize="@dimen/x_ui_px_28.0"
-                android:layout_gravity="center_horizontal"/>
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="网页端上传更方便："
+                    android:textColor="@color/FF999999"
+                    android:textSize="@dimen/x_ui_px_28.0"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:id="@+id/hintTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="www.jianguaiapp.cn"
+                    android:textColor="@color/FF5098FC"
+                    android:textSize="@dimen/x_ui_px_28.0"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/x_ui_px_5.0"
-                android:text="www.jianguaiapp.cn"
+                android:text="所有活动和奖励与Apple Inc.公司无关"
                 android:textColor="@color/FF999999"
                 android:textSize="@dimen/x_ui_px_28.0"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/x_ui_px_40.0"/>
+                android:layout_marginBottom="@dimen/x_ui_px_60.0"/>
 
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+    <include layout="@layout/layout_empty_network"/>
+
+</FrameLayout>
