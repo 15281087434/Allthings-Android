@@ -40,8 +40,10 @@ import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.util.ClickUtil;
+import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
+import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 
 /**
@@ -59,6 +61,8 @@ public class RoyaltiesActivity extends BaseActivity {
     TextView rightTv;
     @BindView(R.id.line)
     LinearLayout line;
+    @BindView(R.id.hintTv)
+    TextView hintTv;
     @BindView(R.id.emptyLayout)
     LinearLayout emptyLayout;
     @BindView(R.id.rv_list)
@@ -215,5 +219,12 @@ public class RoyaltiesActivity extends BaseActivity {
     @OnClick(R.id.backImg)
     public void onBack(){
         finish();
+    }
+
+    @OnClick(R.id.hintTv)
+    public void onHintClick() {
+        CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(RoyaltiesActivity.this, hintTv);
+        copyButtonLibrary.init(hintTv);
+        ToastUtil.showToast(RoyaltiesActivity.this, "复制成功:" + hintTv.getText().toString());
     }
 }

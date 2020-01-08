@@ -296,7 +296,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/x_ui_px_60.0">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -313,15 +314,6 @@
                     android:textSize="@dimen/x_ui_px_28.0"
                     android:layout_gravity="center_horizontal"/>
             </LinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x_ui_px_5.0"
-                android:text="所有活动和奖励与Apple Inc.公司无关"
-                android:textColor="@color/FF999999"
-                android:textSize="@dimen/x_ui_px_28.0"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/x_ui_px_60.0"/>
 
         </LinearLayout>
     </ScrollView>
