@@ -129,10 +129,19 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
                 holder.getTextView(R.id.tv_rank).setText(position + "");
                 holder.getTextView(R.id.tv_rank).setVisibility(View.VISIBLE);
+                if(position==1){
+                    holder.getTextView(R.id.tv_rank).setBackgroundResource(R.mipmap.rank1);
+                }else if(position==2){
+                    holder.getTextView(R.id.tv_rank).setBackgroundResource(R.mipmap.rank3);
+                }else if(position==3){
+                    holder.getTextView(R.id.tv_rank).setBackgroundResource(R.mipmap.rank2);
+                }
+
             } else if(position<11){
 
                 holder.getTextView(R.id.tv_rank).setText(position + "");
                 holder.getTextView(R.id.tv_rank).setVisibility(View.VISIBLE);
+                holder.getTextView(R.id.tv_rank).setBackgroundResource(R.mipmap.rank4);
             }else {
 
                 holder.getTextView(R.id.tv_rank).setVisibility(View.GONE);
