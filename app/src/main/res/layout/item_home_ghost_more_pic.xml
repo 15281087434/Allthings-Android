@@ -145,7 +145,7 @@
                 android:text="荐"
                 android:gravity="center"
                 android:textSize="@dimen/x_ui_px_17.0"
-                android:textColor="@color/FF5098FC"
+                android:textColor="@color/FF3086FE"
                 android:layout_marginRight="@dimen/x_ui_px_15.0"
                 android:visibility="gone"/>
             <TextView
