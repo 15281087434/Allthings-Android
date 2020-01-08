@@ -49,16 +49,20 @@ public class MyMessageReceiver extends MessageReceiver {
     @Override
     public void onNotificationOpened(Context context, String title, String summary, String extraMap) {
         //type 0：打开APP、 1：文章详情  target：id、 2：视频详情 target：id
+        LogUtil.i("=====>extraMap: " + extraMap);
+        //{type=1, _ALIYUN_NOTIFICATION_ID_=287894, target=0}
         if(!StringUtil.isEmpty(extraMap)) {
             try {
                 JSONObject jsonObject = new JSONObject(extraMap);
                 String type = jsonObject.optString("type");
 //                LogUtil.i("type:"+type);
                  int target = jsonObject.optInt("id");
+                 int isMoment = jsonObject.getInt("isMoment");
 //                LogUtil.i("target:"+target);
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra("type",type);
                 intent.putExtra("id",target);
+                intent.putExtra("isMoment",isMoment);
                 context.startActivity(intent);
             } catch (JSONException e) {
                 e.printStackTrace();
