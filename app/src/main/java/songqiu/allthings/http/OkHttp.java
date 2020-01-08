@@ -282,10 +282,14 @@ public class OkHttp {
                     }else if(HttpRuslt.OK.equals(baseBean.code)) {
                         listener.httpResult(baseBean);
                     }else {
-//
-//                        Looper.prepare();
-//                        Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
-//                        Looper.loop();
+                        new Thread(){
+
+                            public void run() {
+                                Looper.prepare();
+                                Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
+                                Looper.loop();
+                            }
+                        }.start();
                     }
                 }
             }

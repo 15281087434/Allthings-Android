@@ -250,8 +250,6 @@
         </activity>
 
 
-
-
         <activity android:name=".auth.activity.AuthActivity"
             android:screenOrientation="portrait">
 
@@ -277,6 +275,17 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
             <!--元数据-->
+        </provider>
+
+
+        <provider
+            android:name=".util.BoxingProvider"
+            android:authorities="${applicationId}.file.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/boxing_file_provider" />
         </provider>
 
 
