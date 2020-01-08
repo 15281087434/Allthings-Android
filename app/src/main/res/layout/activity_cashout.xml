@@ -88,6 +88,7 @@
                     android:textSize="@dimen/font_ui_px_32.0" />
 
                 <TextView
+                    android:id="@+id/tv_delete"
                     android:layout_width="@dimen/x_ui_px_36.0"
                     android:layout_height="@dimen/x_ui_px_36.0"
                     android:layout_gravity="center_vertical|right"
