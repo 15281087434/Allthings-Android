@@ -199,6 +199,9 @@ public class CashOutActivity extends BaseActivity {
         finish();
     }
 
-
+    @OnClick(R.id.tv_delete)
+    public void onClear() {
+       etMoney.setText("");
+    }
 
 }
