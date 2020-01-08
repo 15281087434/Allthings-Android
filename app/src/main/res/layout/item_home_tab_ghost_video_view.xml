@@ -17,14 +17,14 @@
             android:id="@+id/tv_sai"
             android:layout_width="@dimen/x_ui_px_40.0"
             android:layout_height="@dimen/x_ui_px_40.0"
-            android:layout_marginTop="@dimen/x_ui_px_6.0"
-            android:text="赛"
 
+            android:text="赛"
+            android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/FFE7A722"
             android:visibility="gone"
             android:layout_marginRight="@dimen/x_ui_px_10.0"
-            android:textSize="@dimen/font_ui_px_30.0"
+            android:textSize="@dimen/x_ui_px_24.0"
             android:background="@drawable/tag_sai_bg_shape"/>
         <TextView
             android:id="@+id/titleTv"
@@ -33,7 +33,7 @@
             android:layout_gravity="left"
             android:textColor="@color/normal_color"
             android:textSize="@dimen/x_ui_px_40.0"
-
+            android:includeFontPadding="false"
             android:layout_marginRight="@dimen/x_ui_px_30.0"
             android:text="草船借箭是一个故事"
             android:maxLines="2"

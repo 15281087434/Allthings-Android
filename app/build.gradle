@@ -158,8 +158,8 @@ dependencies {
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     implementation 'com.zhy:okhttputils:2.6.2'
     //B站图片选择器
-    api 'com.github.xiaoyuanhu.boxing:boxing:1.0.4.1'
-    api 'com.github.xiaoyuanhu.boxing:boxing-impl:1.0.4.1'
+    implementation 'com.bilibili:boxing:1.0.1'
+    implementation 'com.bilibili:boxing-impl:1.0.1'
     implementation 'com.github.yalantis:ucrop:2.2.1'
     //图片压缩
     implementation 'top.zibin:Luban:1.1.3'
