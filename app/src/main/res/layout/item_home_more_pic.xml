@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:id="@+id/layout">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x_ui_px_28.0"
@@ -41,7 +41,7 @@
             android:ellipsize="end"
             android:textStyle="bold"
             />
-    </RelativeLayout>
+    </LinearLayout>
 
     <!--标签-->
     <LinearLayout

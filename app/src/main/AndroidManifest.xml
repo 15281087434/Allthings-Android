@@ -314,13 +314,16 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".auth.activity.RoyaltiesActivity" >
+        <activity android:name=".auth.activity.RoyaltiesActivity"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".auth.activity.CashOutActivity" >
+        <activity android:name=".auth.activity.CashOutActivity"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".auth.activity.CashOutRecordActivity" >
+        <activity android:name=".auth.activity.CashOutRecordActivity"
+            android:screenOrientation="portrait">
 
         </activity>
 
