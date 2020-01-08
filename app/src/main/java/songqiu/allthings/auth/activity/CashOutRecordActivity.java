@@ -33,6 +33,7 @@ import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ToastUtil;
@@ -53,6 +54,8 @@ public class CashOutRecordActivity extends BaseActivity {
     TextView rightTv;
     @BindView(R.id.line)
     LinearLayout line;
+    @BindView(R.id.hintTv)
+    TextView hintTv;
     @BindView(R.id.emptyLayout)
     LinearLayout emptyLayout;
     @BindView(R.id.rv_list)
@@ -164,5 +167,12 @@ public class CashOutRecordActivity extends BaseActivity {
     @OnClick(R.id.backImg)
     public void onBack(){
         finish();
+    }
+
+    @OnClick(R.id.hintTv)
+    public void onHintClick() {
+        CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(CashOutRecordActivity.this, hintTv);
+        copyButtonLibrary.init(hintTv);
+        ToastUtil.showToast(CashOutRecordActivity.this, "复制成功:" + hintTv.getText().toString());
     }
 }

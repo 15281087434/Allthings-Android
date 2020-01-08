@@ -334,13 +334,14 @@ public class HomePageFragment extends BaseFragment {
                         simplePagerTitleView.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.icon_tab_ghost), null, null, null);
                     }
                 }else if(list.get(index).tag.equals("solicit")){
-                    simplePagerTitleView.setText(list.get(index).name);
                     if (isZw) {
-                        simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.normal_color));
+                        simplePagerTitleView.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.icon_tab_solicit_selected), null, null, null);
+                    }else {
+                        simplePagerTitleView.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.icon_tab_solicit), null, null, null);
                     }
                 }else {
                     simplePagerTitleView.setText(list.get(index).name);
-                    if(!isGhost) {
+                    if(!isGhost || !isZw) {
                         simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.black));
                     }
                 }
