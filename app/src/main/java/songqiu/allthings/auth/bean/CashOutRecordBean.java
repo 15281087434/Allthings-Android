@@ -16,7 +16,7 @@ public class CashOutRecordBean {
     private String order_id;
     private String userid;
     private String type;
-    private int num;
+    private double num;
     private String zfb;
     private String zfb_name;
     private String created;
@@ -47,11 +47,11 @@ public class CashOutRecordBean {
         this.type = type;
     }
 
-    public int getNum() {
+    public double getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(double num) {
         this.num = num;
     }
 

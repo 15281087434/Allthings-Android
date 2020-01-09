@@ -56,7 +56,7 @@ public class CashOutActivity extends BaseActivity {
     EditText etMoney;
     @BindView(R.id.tv_tips)
     TextView tvTips;
-    double maxMoney , cashoutMoney;
+    double maxMoney, cashoutMoney;
     @BindView(R.id.shadowLayout)
     LinearLayout shadowLayout;
     @BindView(R.id.tv_cash_all)
@@ -64,6 +64,7 @@ public class CashOutActivity extends BaseActivity {
     @BindView(R.id.btn_cash)
     Button btnCash;
     CreationIncomeBean info;
+
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_cashout);
@@ -73,17 +74,17 @@ public class CashOutActivity extends BaseActivity {
                 .setColor(getResources().getColor(R.color.FFF9FAFD))
                 .init()
                 .setStatusTextColorAndPaddingTop(true, this);
-        info=getIntent().getParcelableExtra("info");
+        info = getIntent().getParcelableExtra("info");
         initData();
-        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        boolean dayModel = SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true);
         modeUi(dayModel);
 
     }
 
     private void initData() {
-        maxMoney= Double.parseDouble(info.now_money);
+        maxMoney = Double.parseDouble(info.now_money);
         tvTips.setText("可提现金额" + maxMoney + "元");
-        tvUserZfb.setText(info.zfb+"");
+        tvUserZfb.setText(info.zfb + "");
     }
 
 
@@ -102,6 +103,7 @@ public class CashOutActivity extends BaseActivity {
                     .setStatusTextColorAndPaddingTop(true, this);
         }
     }
+
     @Override
     public void init() {
         etMoney.addTextChangedListener(new TextWatcher() {
@@ -121,12 +123,25 @@ public class CashOutActivity extends BaseActivity {
                     cashoutMoney = 0;
                     btnCash.setEnabled(false);
                 } else {
-                    cashoutMoney = Double.valueOf(s.toString());
-                    if (cashoutMoney > 0) {
-                        btnCash.setEnabled(true);
+                    int posDot = s.toString().indexOf(".");
+                    if (posDot > 0) {
+                        if (s.length() - posDot - 1 > 2) {
+                            s.delete(posDot + 3, posDot + 4);
+
+                        }
                     }
 
+                    cashoutMoney = Double.valueOf(s.toString());
+
+
+
                 }
+
+
+                if (cashoutMoney > 0) {
+                    btnCash.setEnabled(true);
+                }
+
 
                 if (cashoutMoney > maxMoney) {
                     cashoutMoney = maxMoney;
@@ -146,12 +161,13 @@ public class CashOutActivity extends BaseActivity {
     @OnClick(R.id.tv_cash_all)
     public void onCashAll() {
         cashoutMoney = maxMoney;
-        etMoney.setText(cashoutMoney+"");
+        etMoney.setText(cashoutMoney + "");
         etMoney.setSelection(etMoney.getText().length());
-        if(cashoutMoney>0){
+        if (cashoutMoney > 0) {
             btnCash.setEnabled(true);
         }
     }
+
     public void getCreateCome() {
         Map<String, String> map = new HashMap<>();
         OkHttp.post(this, HttpServicePath.URL_CREATE_COME, map, new RequestCallBack() {
@@ -171,6 +187,7 @@ public class CashOutActivity extends BaseActivity {
             }
         });
     }
+
     @OnClick(R.id.btn_cash)
     public void onCash() {
         if (cashoutMoney <= 0) {
@@ -201,7 +218,7 @@ public class CashOutActivity extends BaseActivity {
 
     @OnClick(R.id.tv_delete)
     public void onClear() {
-       etMoney.setText("");
+        etMoney.setText("");
     }
 
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import songqiu.allthings.R;
@@ -38,7 +39,7 @@ public class CashOutRecordAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         CashOutRecordBean bean=list.get(position);
 
-        holder.getTextView(R.id.tv_money).setText(bean.getNum()+"元");
+        holder.getTextView(R.id.tv_money).setText(new DecimalFormat("#.00").format(bean.getNum())+"元");
         holder.getTextView(R.id.tv_time).setText(DateUtil.getTime(bean.getCreated()+"000","MM-dd HH:mm"));
         holder.getTextView(R.id.tv_stutas).setText(bean.getPay_name()+"");
         if(bean.getFlag().equals("3")){

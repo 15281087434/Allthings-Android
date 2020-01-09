@@ -73,7 +73,7 @@
                     android:layout_height="@dimen/x_ui_px_120.0"
                     android:layout_marginLeft="@dimen/x_ui_px_40.0"
                     android:layout_marginRight="@dimen/x_ui_px_40.0"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:maxLength="10"
                     android:paddingLeft="@dimen/x_ui_px_60.0"
                     android:textSize="@dimen/x_ui_px_60.0"
