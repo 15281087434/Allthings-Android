@@ -104,6 +104,13 @@ public class RealNameAuthActivity extends BaseActivity {
     @BindView(R.id.iv_card_forground)
     SuperImageView ivCardForground;
 
+    @BindView(R.id.fountObscuration)
+    SuperImageView fountObscuration;
+    @BindView(R.id.blackObscuration)
+    SuperImageView blackObscuration;
+    @BindView(R.id.handObscuration)
+    SuperImageView handObscuration;
+
     @BindView(R.id.iv_card_back)
 
     SuperImageView ibCardBack;
@@ -317,12 +324,15 @@ public class RealNameAuthActivity extends BaseActivity {
                         if (imageLoadType == 1) {
                             cardIdFront = uploadPicBean.imgurl;
                             GlideLoadUtils.getInstance().glideLoadNoDefault(RealNameAuthActivity.this, cardIdFront, ivCardForground);
+                            fountObscuration.setVisibility(View.VISIBLE);
                         } else if (imageLoadType == 2) {
                             cardIdBack = uploadPicBean.imgurl;
                             GlideLoadUtils.getInstance().glideLoadNoDefault(RealNameAuthActivity.this, cardIdBack, ibCardBack);
+                            blackObscuration.setVisibility(View.VISIBLE);
                         } else if (imageLoadType == 3) {
                             cardIdHand = uploadPicBean.imgurl;
                             GlideLoadUtils.getInstance().glideLoadNoDefault(RealNameAuthActivity.this, cardIdHand, ibCardHand);
+                            handObscuration.setVisibility(View.VISIBLE);
                         }
 
                     }

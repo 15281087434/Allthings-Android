@@ -2,20 +2,28 @@ package songqiu.allthings.auth.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
+import songqiu.allthings.adapter.OriginalApplyConditionAdapter;
+import songqiu.allthings.adapter.SignApplyConditionAdapter;
 import songqiu.allthings.auth.bean.AuthStateBean;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.constant.SnsConstants;
@@ -23,10 +31,10 @@ import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
+import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.ScrollLinearLayoutManager;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
-
-import static songqiu.allthings.constant.SnsConstants.URL_BASE_H5;
 
 /**
  * create by: ADMIN
@@ -47,9 +55,21 @@ public class AuthActivity extends BaseActivity {
     TextView tvAuthOriginal;
     @BindView(R.id.tv_auth_sign)
     TextView tvAuthSign;
-    private AuthStateBean stateBean;
     @BindView(R.id.shadowLayout)
     LinearLayout shadowLayout;
+
+    @BindView(R.id.originalRecycle)
+    RecyclerView originalRecycle;
+    @BindView(R.id.siginRecycle)
+    RecyclerView siginRecycle;
+    List<String> originalList;
+    List<String> siginList;
+
+    OriginalApplyConditionAdapter adapter;
+    SignApplyConditionAdapter signApplyConditionAdapter;
+
+    private AuthStateBean stateBean;
+
     boolean dayModel;
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -62,22 +82,24 @@ public class AuthActivity extends BaseActivity {
     }
     @Override
     public void init() {
-        OkHttp.post(this, HttpServicePath.URL_STATE_DATA,new HashMap<>(),new RequestCallBack(){
+        initRecycl();
+    }
 
-            @Override
-            public void httpResult(BaseBean baseBean) {
-                Gson gson = new Gson();
-                String data = gson.toJson(baseBean.data);
-                stateBean = gson.fromJson(data,AuthStateBean.class);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateViewState();
-                    }
-                });
-
-            }
-        });
+    public void initRecycl() {
+        originalList = new ArrayList<>();
+        siginList = new ArrayList<>();
+        adapter = new OriginalApplyConditionAdapter(this,originalList);
+        signApplyConditionAdapter = new SignApplyConditionAdapter(this,siginList);
+        ScrollLinearLayoutManager linearLayoutManager = new ScrollLinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.setmCanVerticalScroll(false);
+        originalRecycle.setLayoutManager(linearLayoutManager);
+        originalRecycle.setAdapter(adapter);
+        ScrollLinearLayoutManager linearLayoutManager1 = new ScrollLinearLayoutManager(this);
+        linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager1.setmCanVerticalScroll(false);
+        siginRecycle.setLayoutManager(linearLayoutManager1);
+        siginRecycle.setAdapter(signApplyConditionAdapter);
     }
 
     public void modeUi(boolean isDay) {
@@ -137,8 +159,32 @@ public class AuthActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        init();
+        getAuthenticationState();
     }
+
+    public void getAuthenticationState() {
+        OkHttp.post(this, HttpServicePath.URL_STATE_DATA,new HashMap<>(),new RequestCallBack(){
+            @Override
+            public void httpResult(BaseBean baseBean) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson = new Gson();
+                        String data = gson.toJson(baseBean.data);
+                        stateBean = gson.fromJson(data,AuthStateBean.class);
+                        if(null == stateBean) return;
+                        originalList.addAll(stateBean.data1);
+                        siginList.addAll(stateBean.data2);
+                        adapter.notifyDataSetChanged();
+                        signApplyConditionAdapter.notifyDataSetChanged();
+                        updateViewState();
+                    }
+                });
+
+            }
+        });
+    }
+
 
     @OnClick({R.id.tv_auth_original,R.id.tv_auth_sign,R.id.backImg})
     public void onAuth(View view){

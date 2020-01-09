@@ -104,6 +104,166 @@
             android:layout_marginLeft="@dimen/x_ui_px_30.0"
             android:layout_marginRight="@dimen/x_ui_px_30.0"
             android:background="#F0F0F0" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:layout_marginTop="@dimen/x_ui_px_140.0">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_creation_condition"
+                    android:layout_marginLeft="@dimen/x_ui_px_54.0"
+                    android:layout_marginBottom="@dimen/x_ui_px_8.0"
+                    android:layout_alignBottom="@+id/re1"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_creation_condition"
+                    android:layout_marginLeft="@dimen/x_ui_px_54.0"
+                    android:layout_marginBottom="@dimen/x_ui_px_8.0"
+                    android:layout_alignBottom="@+id/re2"
+                    />
+                <RelativeLayout
+                    android:id="@+id/re1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x_ui_px_46.0"
+                    android:layout_marginRight="@dimen/x_ui_px_46.0"
+                    android:background="@drawable/rectangle_f0f0f0_24px_white">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x_ui_px_88.0"
+                            android:background="@drawable/rectangle_f0f0f0_24px_f8f8f8"
+                            >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_centerInParent="true">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/creation_income_left"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="原创作者申请条件"
+                                    android:textColor="@color/FF808080"
+                                    android:textSize="@dimen/x_ui_px_32.0"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="@dimen/x_ui_px_28.0"/>
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/creation_income_right"
+                                    android:layout_marginLeft="@dimen/x_ui_px_28.0"
+                                    />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/originalRecycle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/x_ui_px_40.0"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:id="@+id/re2"
+                    android:layout_below="@+id/re1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x_ui_px_60.0"
+                    android:layout_marginLeft="@dimen/x_ui_px_46.0"
+                    android:layout_marginRight="@dimen/x_ui_px_46.0"
+                    android:background="@drawable/rectangle_f0f0f0_24px_white"
+                    android:layout_marginBottom="@dimen/x_ui_px_60.0">
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x_ui_px_88.0"
+                            android:background="@drawable/rectangle_f0f0f0_24px_f8f8f8">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_centerInParent="true">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/creation_income_left"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="签约作者申请条件"
+                                    android:textColor="@color/FF808080"
+                                    android:textSize="@dimen/x_ui_px_32.0"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="@dimen/x_ui_px_28.0"/>
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/creation_income_right"
+                                    android:layout_marginLeft="@dimen/x_ui_px_28.0"
+                                    />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/siginRecycle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/x_ui_px_40.0"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
     </LinearLayout>
 
 

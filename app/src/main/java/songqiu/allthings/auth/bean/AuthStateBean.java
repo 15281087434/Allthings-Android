@@ -1,5 +1,7 @@
 package songqiu.allthings.auth.bean;
 
+import java.util.List;
+
 /**
  * create by: ADMIN
  * time:2019/12/2417:11
@@ -35,4 +37,7 @@ public class AuthStateBean {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public List<String> data1;
+    public List<String> data2;
 }
