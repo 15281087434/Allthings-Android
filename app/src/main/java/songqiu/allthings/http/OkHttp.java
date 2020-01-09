@@ -53,7 +53,6 @@ import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.TokenManager;
 import songqiu.allthings.view.DialogFileUploading;
-import songqiu.allthings.view.LoadingDialog;
 
 /*******
  *
@@ -65,119 +64,6 @@ import songqiu.allthings.view.LoadingDialog;
  *
  ********/
 public class OkHttp {
-
-    public static void post(final Context context, LoadingDialog mProgressDialog, String requestPath, Map<String, String> params, final RequestCallBack listener) {
-        if (!NetWorkUtil.isNetworkConnected(context)) {
-            ToastUtil.showToast(context,"网络无连接，请检查网络！");
-            return;
-        }
-
-        String time = String.valueOf(System.currentTimeMillis()/1000);
-        Gson mGson = new Gson();
-        String my = mGson.toJson(params);
-        LogUtil.i("  传参:"+my);
-//        String BaseString = Base64.encodeToString(my.getBytes(), Base64.DEFAULT).replaceAll("\n","");
-//        LogUtil.i("************token:"+TokenManager.getRequestToken(context));
-        //拼接字符串
-        String strMap ="2"+time;
-        String strBaseString = Base64.encodeToString(strMap.getBytes(), Base64.DEFAULT).replaceAll("\n","");
-        StringBuffer sb = new StringBuffer();
-        sb.append(strBaseString);
-        sb.append(time);
-        sb.append(TokenManager.getRequestToken(context));
-        String currentString = sb.toString();
-//        LogUtil.i(currentString.trim());
-        String strMd5String =  Md5Util.md5(currentString);
-
-//        LogUtil.i("Md5:"+strMd5String);
-        Map<String ,String> map = new HashMap<>();
-        map.put("data",my);
-        map.put("sign",strMd5String);
-
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        String str = mGson.toJson(map);
-        RequestBody body = RequestBody.create(JSON, str);
-
-        //构造Request对象
-        Request.Builder mBuilder = new Request.Builder();
-        Request request = mBuilder.url(requestPath)
-                .addHeader("timestamp", time)
-                .addHeader("apiversion", MyApplication.getInstance().versionName)
-                .addHeader("osversion","2")
-                .addHeader("deviceid", MyApplication.getInstance().andoridId)
-                .addHeader("channel",MyApplication.getInstance().channel)
-                .addHeader("token", TokenManager.getRequestToken(MyApplication.getInstance()))
-                .post(body)
-                .build();
-        //构造Call对象
-        Call mCall = OkHttpUtil.getInstance().newCall(request);
-        mCall.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-//                String error = "系统异常！";
-//                Looper.prepare();
-//                Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-//                Looper.loop();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String str = response.body().string();
-                LogUtil.i(requestPath+"====>"+ str);
-                if(null != mProgressDialog) {
-                    mProgressDialog.cancel();
-                }
-                if(str.contains("DOCTYPE")) {
-                    new Thread(){
-
-                        public void run() {
-                            Looper.prepare();
-                            Toast.makeText(context, "服务器错误", Toast.LENGTH_SHORT).show();
-                            Looper.loop();
-                        }
-                    }.start();
-                    return;
-                }
-                Gson gson = new Gson();
-                BaseBean baseBean = gson.fromJson(str, BaseBean.class);
-                if(null != baseBean) {
-                    if(HttpRuslt.NO_LOGIN.equals(baseBean.code)) { //未登录
-                        SharedPreferencedUtils.setString(context, "SYSTOKEN","");
-                        SharedPreferencedUtils.setString(context,SharedPreferencedUtils.USER_ICON,"");
-                        SharedPreferencedUtils.setBoolean(context,SharedPreferencedUtils.LOGIN,false);
-                        String result = requestPath.substring(requestPath.length()-7,requestPath.length());
-                        if(result.equals("/follow")) {//首页关注路径
-                            EventBus.getDefault().post(new EventTags.ToLogin());
-                        }else {
-//                            Intent intent = new Intent(MyApplication.getInstance(), LoginActivity.class);
-//                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//                            MyApplication.getInstance().startActivity(intent);
-                        }
-                    }else if(HttpRuslt.BIND_PHONE.equals(baseBean.code)) { //去绑定手机号
-                        if(requestPath.contains("weixin_login")) {
-                            EventBus.getDefault().post(new EventTags.ToBaindPhone(1));
-                        }else if(requestPath.contains("qq_login")){
-                            EventBus.getDefault().post(new EventTags.ToBaindPhone(2));
-                        }
-                    }else if(HttpRuslt.BINDED_PHONE.equals(baseBean.code)) { //已绑定
-                        EventBus.getDefault().post(new EventTags.BaindedPhone());
-                    }else if(HttpRuslt.OK.equals(baseBean.code)) {
-                        listener.httpResult(baseBean);
-                    }else {
-                        new Thread(){
-
-                            public void run() {
-                                Looper.prepare();
-                                Toast.makeText(context, baseBean.msg, Toast.LENGTH_SHORT).show();
-                                Looper.loop();
-                            }
-                        }.start();
-                    }
-                }
-            }
-        });
-    }
-
 
     public static void postObject(final Context context, String requestPath, Map<String, Object> params, final RequestCallBack listener) {
         String time = String.valueOf(System.currentTimeMillis()/1000);
