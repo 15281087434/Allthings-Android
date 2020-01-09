@@ -13,12 +13,15 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.CreationIncomeBean;
@@ -205,6 +208,7 @@ public class CashOutActivity extends BaseActivity {
                     public void run() {
                         ToastUtil.showToast(baseBean.msg);
                         getCreateCome();
+                        EventBus.getDefault().post(new EventTags.BindAlipay());
                     }
                 });
             }

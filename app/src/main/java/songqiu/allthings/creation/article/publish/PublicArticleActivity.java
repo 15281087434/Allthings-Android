@@ -13,6 +13,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Surface;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
@@ -47,6 +49,7 @@ import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.DialogPrivacyListener;
 import songqiu.allthings.util.ClickUtil;
+import songqiu.allthings.util.KeyBoardUtils;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
@@ -63,7 +66,7 @@ import songqiu.allthings.view.DialogArticleCommon;
  *类描述：写文章
  *
  ********/
-public class PublicArticleActivity extends BaseActivity {
+public class PublicArticleActivity extends BaseActivity{
     @BindView(R.id.backImg)
     ImageView backImg;
     @BindView(R.id.titleTv)
@@ -76,7 +79,6 @@ public class PublicArticleActivity extends BaseActivity {
     LinearLayout line;
     @BindView(R.id.shadowLayout)
     LinearLayout shadowLayout;
-
     @BindView(R.id.webview)
     WebView webView;
     WebSettings webSettings;
@@ -88,8 +90,17 @@ public class PublicArticleActivity extends BaseActivity {
 
     private ValueCallback<Uri[]> uploadMessageAboveL;
     private final static int FILE_CHOOSER_RESULT_CODE = 10000;
+
+    boolean dayModel;
+
     @Override
     public void initView(Bundle savedInstanceState) {
+        dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+        if(dayModel) {
+            setTheme(R.style.AppTheme);
+        }else {
+            setTheme(R.style.AppThemeNight);
+        }
         setContentView(R.layout.activity_creation_article);
     }
 
@@ -97,7 +108,6 @@ public class PublicArticleActivity extends BaseActivity {
     public void init() {
         type = getIntent().getIntExtra("type",0);
         articleid = getIntent().getIntExtra("articleid",0);
-        boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
         modeUi(dayModel);
         titleTv.setText("写文章");
         rightTv.setVisibility(View.VISIBLE);
@@ -108,20 +118,21 @@ public class PublicArticleActivity extends BaseActivity {
     public void modeUi(boolean isDay) {
         if(isDay) {
             shadowLayout.setVisibility(View.GONE);
-            StatusBarUtils.with(this)
-                    .setColor(getResources().getColor(R.color.FFF9FAFD))
-                    .init()
-                    .setStatusTextColorAndPaddingTop(true, this);
+//            StatusBarUtils.with(this)
+//                    .setColor(getResources().getColor(R.color.FFF9FAFD))
+//                    .init()
+//                    .setStatusTextColorAndPaddingTop(true, this);
             initWebView(SnsConstants.RUL_EDIT_FILE);
         }else {
             shadowLayout.setVisibility(View.VISIBLE);
-            StatusBarUtils.with(this)
-                    .setColor(getResources().getColor(R.color.trans_6))
-                    .init()
-                    .setStatusTextColorAndPaddingTop(true, this);
+//            StatusBarUtils.with(this)
+//                    .setColor(getResources().getColor(R.color.trans_6))
+//                    .init()
+//                    .setStatusTextColorAndPaddingTop(true, this);
             initWebView(SnsConstants.RUL_EDIT_FILE_NIGHT);
         }
     }
+
 
     public void initWebView(String url) {
         getSolict();
@@ -325,6 +336,32 @@ public class PublicArticleActivity extends BaseActivity {
         }
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //防止内存泄漏
+        if (webView != null) {
+            // 如果先调用destroy()方法，则会命中if (isDestroyed()) return;这一行代码，需要先onDetachedFromWindow()，再
+            ViewParent parent = webView.getParent();
+            if (parent != null) {
+                ((ViewGroup) parent).removeView(webView);
+            }
+
+            webView.stopLoading();
+            // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
+            webView.getSettings().setJavaScriptEnabled(false);
+            webView.clearHistory();
+            webView.clearView();
+            webView.removeAllViews();
+            try {
+                webView.destroy();
+            } catch (Throwable ex) {
+
+            }
+        }
+    }
+
 
     @OnClick({R.id.backImg,R.id.saveTv,R.id.rightTv})
     public void onViewClick(View view) {

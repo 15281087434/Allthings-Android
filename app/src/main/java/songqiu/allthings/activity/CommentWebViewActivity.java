@@ -261,7 +261,7 @@ public class CommentWebViewActivity extends BaseActivity {
         // text是分享文本，所有平台都需要这个字段
         StringBuffer sb = new StringBuffer();
         if(type ==1){
-            sb.append("全新平台，高额奖金，多全方位宣传，“一字千金”等你来参加!");
+            sb.append("全新平台，高额奖金，多方位宣传，“一字千金”等你来参加!");
         }else {
             sb.append("看看这个应用，可以边看文章边赚钱，当天提现哦，记得输我的邀请码~");
             sb.append(SharedPreferencedUtils.getString(this,"SYSINVITATIONCODE"));
