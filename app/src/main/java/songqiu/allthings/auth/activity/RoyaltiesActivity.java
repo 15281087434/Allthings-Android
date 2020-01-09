@@ -114,6 +114,7 @@ public class RoyaltiesActivity extends BaseActivity {
                             .setContentTextSize(15)
                             .setRangDate(startTime,endTime)
                             .setType(new boolean[]{true, true, false, false, false, false})
+                            .setDate(endTime)
                             .build();
 
                     timePicker.show();
