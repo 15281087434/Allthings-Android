@@ -101,6 +101,19 @@ public class MyApplication extends Application {
         });
 
         SmartRefreshLayout.setDefaultRefreshFooterCreater((context, layout) -> new ClassicsFooter(context));
+//        SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
+//            @Override
+//            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+//                //指定为经典Footer，默认是 BallPulseFooter
+//                //设置脚的属性
+//                ClassicsFooter footer = new ClassicsFooter(context);
+//                // 设置背景颜色
+//                footer.setPrimaryColorId(R.color.transparency);
+//                // 设置字体颜色
+//                footer.setAccentColorId(R.color.normal_color);
+//                return footer;
+//            }
+//        });
 
         new Thread(new Runnable() {
             @Override

@@ -86,7 +86,7 @@
                         android:textColorHint="@color/bottom_tab_tv"
                         android:hint="昵称字数最多十个字哦"
                         android:gravity="right|center_vertical"
-                        android:layout_marginRight="@dimen/x_ui_px_85.0"/>
+                        android:paddingRight="@dimen/x_ui_px_85.0"/>
 
                 </LinearLayout>
 

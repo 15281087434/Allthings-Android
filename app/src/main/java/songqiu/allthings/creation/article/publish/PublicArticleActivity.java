@@ -349,7 +349,8 @@ public class PublicArticleActivity extends BaseActivity {
                                 JSONObject jsonObject = new JSONObject(strBaseString);
                                 String title = jsonObject.optString("title");
                                 String content = jsonObject.optString("content");
-                                if(StringUtil.isEmpty(title) || StringUtil.isEmpty(content)) {
+                                if(StringUtil.isEmpty(title) || StringUtil.isEmpty(content) || content.equals("<p><br></p>")
+                                        || content.equals("<p class=\"info\">请输入正文</p><p><br></p>")) {
                                     ToastUtil.showToast(PublicArticleActivity.this,"标题或者正文不能为空");
                                     return;
                                 }

@@ -166,6 +166,75 @@
                 android:orientation="vertical"
                 android:layout_weight="1">
 
+
+
+                <LinearLayout
+                    android:id="@+id/planLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_112.0"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="作者招募计划"
+                        android:textColor="@color/bottom_tab_tv"
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:layout_marginTop="@dimen/x_ui_px_26.0"
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        android:drawableLeft="@mipmap/article_plan"
+                        android:drawablePadding="@dimen/x_ui_px_20.0"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/arrow_next"
+                        android:layout_marginTop="@dimen/x_ui_px_36.0"
+                        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_1.0"
+                    android:background="@color/line_color"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+
+                <LinearLayout
+                    android:id="@+id/explainLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_112.0"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="作者福利说明"
+                        android:textColor="@color/bottom_tab_tv"
+                        android:textSize="@dimen/x_ui_px_36.0"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                        android:drawableLeft="@mipmap/article_strategy"
+                        android:drawablePadding="@dimen/x_ui_px_20.0"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/arrow_next"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x_ui_px_1.0"
+                    android:background="@color/line_color"
+                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+                    android:layout_marginRight="@dimen/x_ui_px_30.0"/>
                 <LinearLayout
                     android:id="@+id/authenticationLayout"
                     android:layout_width="match_parent"
@@ -200,39 +269,6 @@
                     android:layout_marginRight="@dimen/x_ui_px_30.0"/>
 
                 <LinearLayout
-                    android:id="@+id/planLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/x_ui_px_112.0"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="作者招募计划"
-                        android:textColor="@color/bottom_tab_tv"
-                        android:textSize="@dimen/x_ui_px_36.0"
-                        android:layout_marginTop="@dimen/x_ui_px_26.0"
-                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
-                        android:drawableLeft="@mipmap/article_plan"
-                        android:drawablePadding="@dimen/x_ui_px_20.0"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/arrow_next"
-                        android:layout_marginTop="@dimen/x_ui_px_36.0"
-                        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/x_ui_px_1.0"
-                    android:background="@color/line_color"
-                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
-                    android:layout_marginRight="@dimen/x_ui_px_30.0"/>
-
-                <LinearLayout
                     android:id="@+id/strategyLayout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x_ui_px_112.0"
@@ -242,40 +278,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="作者投稿协议"
-                        android:textColor="@color/bottom_tab_tv"
-                        android:textSize="@dimen/x_ui_px_36.0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/x_ui_px_30.0"
-                        android:drawableLeft="@mipmap/article_strategy"
-                        android:drawablePadding="@dimen/x_ui_px_20.0"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/arrow_next"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="@dimen/x_ui_px_30.0"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/x_ui_px_1.0"
-                    android:background="@color/line_color"
-                    android:layout_marginLeft="@dimen/x_ui_px_30.0"
-                    android:layout_marginRight="@dimen/x_ui_px_30.0"/>
-
-                <LinearLayout
-                    android:id="@+id/explainLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/x_ui_px_112.0"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="作者福利说明"
+                        android:text="投稿协议"
                         android:textColor="@color/bottom_tab_tv"
                         android:textSize="@dimen/x_ui_px_36.0"
                         android:layout_gravity="center_vertical"

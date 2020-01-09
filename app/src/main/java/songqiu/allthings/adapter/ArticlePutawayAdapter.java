@@ -62,17 +62,16 @@ public class ArticlePutawayAdapter extends RecyclerView.Adapter<ArticlePutawayAd
             viewHolder.applyTv.setVisibility(View.GONE);
             viewHolder.soldoutTv.setVisibility(View.GONE);
         }else {
+            viewHolder.applyTv.setVisibility(View.VISIBLE);
             viewHolder.soldoutTv.setVisibility(View.VISIBLE);
-            viewHolder.applyedTv.setVisibility(View.GONE);
-            if(list.get(position).is_show ==1 ) {
-                viewHolder.applyTv.setVisibility(View.VISIBLE);
-            }else {
-                viewHolder.applyTv.setVisibility(View.GONE);
-            }
-            if(list.get(position).level == 0 ) {
+            if(list.get(position).level==0) {
                 viewHolder.applyTv.setVisibility(View.GONE);
             }else {
-                viewHolder.applyTv.setVisibility(View.VISIBLE);
+                if(list.get(position).is_show ==0 ) {
+                    viewHolder.applyTv.setVisibility(View.GONE);
+                }else {
+                    viewHolder.applyTv.setVisibility(View.VISIBLE);
+                }
             }
         }
         if(list.get(position).article_level == 0) {

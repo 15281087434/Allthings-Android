@@ -29,6 +29,10 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +40,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.activity.MainActivity;
@@ -72,8 +77,6 @@ public class HomeSolicitFragment extends Fragment {
     int page = 1;
     List<HomeSolictBean> item = new ArrayList<>();
     HomeSolictAdapter adapter;
-    @BindView(R.id.line)
-    TextView line;
     @BindView(R.id.hintLayout)
     RelativeLayout hintLayout;
     @BindView(R.id.recycle)
@@ -87,6 +90,7 @@ public class HomeSolicitFragment extends Fragment {
     SmartRefreshLayout smartRefreshLayout;
 
     MainActivity activity;
+    boolean visible;
 
     @Nullable
     @Override
@@ -109,11 +113,27 @@ public class HomeSolicitFragment extends Fragment {
     }
 
     private void initView() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         initRecycle();
         getBanner();
         getSolict();
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        visible = isVisibleToUser;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void homeRefresh(EventTags.HomeRefresh homeRefresh) {
+        if(visible) {
+            page = 1;
+            smartRefreshLayout.autoRefresh();
+        }
+    }
 
     public void initRecycle() {
         adapter = new HomeSolictAdapter(activity, item);
@@ -191,7 +211,6 @@ public class HomeSolicitFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycle.setLayoutManager(linearLayoutManager);
         recycle.setAdapter(adapter);
-
 
         smartRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
@@ -311,5 +330,11 @@ public class HomeSolicitFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
