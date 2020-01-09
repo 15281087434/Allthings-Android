@@ -39,16 +39,16 @@
         app:layout_constraintLeft_toLeftOf="parent"/>
     <TextView
         android:id="@+id/tv_rank"
-        android:layout_width="@dimen/x_ui_px_120.0"
-        android:layout_height="@dimen/x_ui_px_48.0"
+        android:layout_width="@dimen/x_ui_px_96.0"
+        android:layout_height="@dimen/x_ui_px_46.0"
         android:layout_marginLeft="@dimen/x_ui_px_34.0"
-        tools:text=" 01"
-        android:textSize="@dimen/font_ui_px_40.0"
+        tools:text="1"
+        android:textSize="@dimen/font_ui_px_38.0"
         android:gravity="center"
         android:textStyle="bold"
-
+        android:paddingLeft="@dimen/x_ui_px_12.0"
         android:includeFontPadding="false"
-        android:visibility="gone"
+        android:visibility="visible"
         android:textColor="@color/white"
         android:background="@mipmap/icon_rank_bg"
         app:layout_constraintTop_toTopOf="parent"
@@ -129,7 +129,7 @@
             android:gravity="center"
             tools:text="0"
             android:textColor="@color/FF999999"
-            android:textSize="@dimen/x_ui_px_24.0"
+            android:textSize="@dimen/x_ui_px_27.0"
             android:visibility="visible"/>
 
 
@@ -141,8 +141,7 @@
             android:gravity="center"
             android:text="投Ta一票"
             android:textColor="@drawable/textview_tp_textcolor_selector"
-
-            android:textSize="@dimen/x_ui_px_24.0"
+            android:textSize="@dimen/x_ui_px_27.0"
             android:visibility="visible" />
 
     </LinearLayout>
