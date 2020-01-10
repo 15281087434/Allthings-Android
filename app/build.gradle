@@ -56,6 +56,17 @@ android {
         }
     }
 
+    //多渠道打包配置
+//    productFlavors {
+//        //渠道包
+//        app_360 {
+//            manifestPlaceholders = [channel: "app_360"]
+//        }
+//        app_qq {
+//            manifestPlaceholders = [channel: "app_qq"]
+//        }
+//    }
+
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
