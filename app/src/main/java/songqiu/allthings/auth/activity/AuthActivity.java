@@ -159,6 +159,8 @@ public class AuthActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        originalList.clear();
+        siginList.clear();
         getAuthenticationState();
     }
 

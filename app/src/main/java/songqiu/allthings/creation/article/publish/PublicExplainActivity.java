@@ -4,9 +4,11 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.text.Editable;
@@ -115,6 +117,7 @@ public class PublicExplainActivity extends BaseActivity {
 
     boolean canCamera;
     final int TAKE_PHOTOS_RESULT = 52;
+    final int TAILOR_PHOTOS_RESULT = 51;
     LinkedList<String> linkedList = new LinkedList<>();
     String add_url_tag = R.mipmap.item_setting_add_img + "";
     ArticleCoverAdapter gvAlbumAdapter;
@@ -323,9 +326,41 @@ public class PublicExplainActivity extends BaseActivity {
             contentUri =  Uri.parse("file://"+file.getAbsolutePath());
         }
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
         startActivityForResult(intent, TAKE_PHOTOS_RESULT);
+    }
+
+    /**
+     * 调用系统的裁剪
+     * @param uri
+     */
+    public void cropPicture(Uri uri) {
+        Intent cropIntent = new Intent("com.android.camera.action.CROP");
+        LogUtil.i("uri:"+uri);
+        cropIntent.setDataAndType(uri, "image/*");//7.0以上 输入的uri需要是provider提供的
+        // 开启裁剪：打开的Intent所显示的View可裁剪
+        cropIntent.putExtra("crop", "true");
+        // 裁剪宽高比
+        cropIntent.putExtra("aspectX", 1);
+        cropIntent.putExtra("aspectY", 1);
+        // 裁剪输出大小
+        cropIntent.putExtra("outputX", 150);
+        cropIntent.putExtra("outputY", 150);
+        cropIntent.putExtra("scale", true);
+        /**
+         * return-data
+         * 这个属性决定onActivityResult 中接收到的是什么数据类型，
+         * true data将会返回一个bitmap
+         * false，则会将图片保存到本地并将我们指定的对应的uri。
+         */
+        cropIntent.putExtra("return-data", false);
+        // 当 return-data 为 false 的时候需要设置输出的uri地址
+        cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);//输出的uri为普通的uri，通过provider提供的uri会出现无法保存的错误
+        // 图片输出格式
+        cropIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        cropIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//不加会出现无法加载此图片的错误
+        cropIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);// 这两句是在7.0以上版本当targeVersion大于23时需要
+        startActivityForResult(cropIntent, TAILOR_PHOTOS_RESULT);
     }
 
 
@@ -335,8 +370,47 @@ public class PublicExplainActivity extends BaseActivity {
         if (requestCode == TAKE_PHOTOS_RESULT && resultCode == RESULT_OK) {
             String path = FileUtil.checkLsength(FileUtil
                     .getTakePhotoPath("songqiu.allthings"));
-            uploadPic(path);
-        }else {
+            File imageFile = new File(path);
+            Uri inImageUri = null;//需要裁剪时输入的uri
+            if (imageFile == null && !imageFile.exists()) {
+                return;
+            }
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                inImageUri = Uri.fromFile(imageFile);
+            } else {
+                //Android 7.0系统开始 使用本地真实的Uri路径不安全,使用FileProvider封装共享Uri
+                inImageUri = FileProvider.getUriForFile(this, getPackageName() + ".fileProvider", imageFile);
+            }
+            cropPicture(inImageUri);
+        }else if (requestCode == TAILOR_PHOTOS_RESULT && resultCode == RESULT_OK) {
+//            String path = FileUtil.checkLsength(FileUtil
+//                    .getTakePhotoPath("songqiu.allthings"));
+//            uploadPic(path);
+            if(null != data) {
+                data.getExtras();
+                Uri uri = data.getData();
+                LogUtil.i("=======================uri:"+uri);
+            }
+        }
+//        else if(){
+//            Bundle extras = data.getExtras();
+//            bitmap_head = extras.getParcelable("data");
+//            if(bitmap_head!=null) {
+//                /**
+//                 * 上传服务器代码
+//                 */
+//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                bitmap_head.compress(Bitmap.CompressFormat.JPEG, 40, stream);
+//                byte[] b = stream.toByteArray();
+//                // 将图片流以字符串形式存储下来
+//                tp = Base64.encodeToString(b, Base64.DEFAULT);
+////				Logger.i("上传服务器代码。。。。");
+////				Logger.i("tp："+tp);
+////				setPicToView(head);//保存在SD卡中
+//                updateHeadIconTask();
+//            }
+//        }
+        else {
             BoxingDefaultConfig.getCompressedBitmap(this, requestCode, data, new BoxingDefaultConfig.OnLuBanCompressed() {
                 @Override
                 public void onCompressed(List<File> files) {

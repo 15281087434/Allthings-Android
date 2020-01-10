@@ -69,17 +69,15 @@ public class CommentWebViewActivity extends BaseActivity {
 
     @Override
     public void init() {
-
         url = getIntent().getStringExtra("url");
         articleid = getIntent().getIntExtra("articleid",0);
         if(getIntent().hasExtra("authType")){
             type=getIntent().getIntExtra("authType",0);
-            boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
-            setModelUi(dayModel);
+//            boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
+//            setModelUi(dayModel);
         //认证页不使用沉浸式
-        }else {
-            StatusBarUtils.with(CommentWebViewActivity.this).init().setStatusTextColorWhite(true, CommentWebViewActivity.this);
         }
+        StatusBarUtils.with(CommentWebViewActivity.this).init().setStatusTextColorWhite(true, CommentWebViewActivity.this);
         initWebView(url);
     }
 

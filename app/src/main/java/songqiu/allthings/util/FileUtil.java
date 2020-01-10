@@ -1,10 +1,14 @@
 package songqiu.allthings.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -31,6 +35,44 @@ public class FileUtil {
 		stbPath.append(File.separator);
 		return stbPath.toString();
 	}
+
+	//将Bitmap 图片保存到本地路径，并返回路径
+    public static String getBitmapPath(Bitmap bitmap) {
+        byte[] bytes = bitmapToBytes(bitmap);
+        String fileFullName = "";
+        String filePath = "";
+        FileOutputStream fos = null;
+        try {
+            if (filePath == null || filePath.trim().length() == 0) {
+                filePath = getTakePhotoPath("");
+            }
+            File file = new File(filePath);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            File fullFile = new File(filePath);
+            fileFullName = fullFile.getPath();
+            fos = new FileOutputStream(new File(filePath));
+            fos.write(bytes);
+        } catch (Exception e) {
+            fileFullName = "";
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    fileFullName = "";
+                }
+            }
+        }
+        return fileFullName;
+    }
+
+    public static byte[] bitmapToBytes(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return baos.toByteArray();
+    }
 
 
 	public static String checkLsength(String file) {
