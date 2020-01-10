@@ -150,8 +150,7 @@ public class HomeSolicitFragment extends Fragment {
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
-                                    item.get(position).setSupport_num(  item.get(position).getSupport_num()+1);
+                                    item.get(position).setSupport_num(item.get(position).getSupport_num()+1);
                                     RecyclerView.LayoutManager manager=recycle.getLayoutManager();
                                     View chatAt=manager.findViewByPosition(position+1);
                                     if(chatAt!=null){
@@ -277,26 +276,7 @@ public class HomeSolicitFragment extends Fragment {
                     public void run() {
                         if(page ==1) {
                             item.clear();
-//                            if(null == beans || 0 == beans.size()) {
-//                                emptyLayout.setVisibility(View.VISIBLE);
-//                                recycle.setVisibility(View.GONE);
-//                            }else {
-//                                emptyLayout.setVisibility(View.GONE);
-//                                recycle.setVisibility(View.VISIBLE);
-//                            }
                         }
-                        if(null == beans || 0==beans.size()) {
-//                            for (int i = 0; i < 10; i++) {
-//                                HomeSolictBean bean = new HomeSolictBean();
-//                                bean.setTitle("Test" + i);
-//                                bean.setCreated("2019-2");
-//                                bean.setUser_nickname("Test" + i);
-//                                bean.setSupport_num((10 - i) );
-//                                bean.setDescriptions("Test" + i);
-//                                beans.add(bean);
-//                            }
-                            return;
-                    }
                         item.addAll(beans);
                         adapter.notifyDataSetChanged();
                     }
