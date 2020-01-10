@@ -91,6 +91,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginLeft="@dimen/x_ui_px_30.0"
+
         android:layout_marginRight="@dimen/x_ui_px_30.0"
         android:layout_marginTop="@dimen/x_ui_px_20.0">
 
@@ -98,12 +99,17 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_width="0dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x_ui_px_46.0"
+                android:orientation="horizontal"
+
+                android:gravity="center_vertical">
             <TextView
                 android:id="@+id/tv_sai"
                 android:layout_width="@dimen/x_ui_px_40.0"
                 android:layout_height="@dimen/x_ui_px_40.0"
                 android:text="赛"
-                android:layout_marginTop="@dimen/tv_padding"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="@color/FFE7A722"
@@ -125,7 +131,7 @@
                 android:textStyle="bold"
                 tools:text="草船借箭是我国古典名著《三国演义》中赤壁之战的一个故事。借箭由周瑜故意提出限十天造十万支箭，机智的诸葛亮一眼识破是一条害人之计，却淡定表示“只需要三天”。"
                 />
-
+            </LinearLayout>
             <TextView
                 android:id="@+id/describeTv"
                 android:layout_width="wrap_content"
