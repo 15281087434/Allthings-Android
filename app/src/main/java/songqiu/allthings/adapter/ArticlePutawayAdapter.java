@@ -56,27 +56,19 @@ public class ArticlePutawayAdapter extends RecyclerView.Adapter<ArticlePutawayAd
         viewHolder.timeTv.setText("发布时间:"+ DateUtil.getTimeBig4(time));
         viewHolder.likeTv.setText(ShowNumUtil.showUnm(list.get(position).collect_num));
         viewHolder.lookTv.setText(ShowNumUtil.showUnm(list.get(position).view_num));
-        //已申请稿酬
+
+        viewHolder.applyedTv.setVisibility(View.GONE);
+        viewHolder.applyTv.setVisibility(View.GONE);
+        viewHolder.soldoutTv.setVisibility(View.GONE);
+
         if(list.get(position).is_apply == 1) {
             viewHolder.applyedTv.setVisibility(View.VISIBLE);
-            viewHolder.applyTv.setVisibility(View.GONE);
-            viewHolder.soldoutTv.setVisibility(View.GONE);
         }else {
-            viewHolder.applyedTv.setVisibility(View.GONE);
-            viewHolder.applyTv.setVisibility(View.VISIBLE);
-            viewHolder.soldoutTv.setVisibility(View.VISIBLE);
-            if(list.get(position).level==0) {
-                viewHolder.applyTv.setVisibility(View.GONE);
-            }else {
-                if(list.get(position).is_show ==0 ) {
-                    viewHolder.applyTv.setVisibility(View.GONE);
-                    viewHolder.soldoutTv.setVisibility(View.GONE);
-                }else {
-                    if(list.get(position).is_sb == 0 ) {
-                        viewHolder.soldoutTv.setVisibility(View.GONE);
-                        viewHolder.applyTv.setVisibility(View.VISIBLE);
-                    }
-                }
+            if(list.get(position).is_sb != 0) { //显示下架
+                viewHolder.soldoutTv.setVisibility(View.VISIBLE);
+            }
+            if(list.get(position).is_show !=0) { //显示申请
+                viewHolder.applyTv.setVisibility(View.VISIBLE);
             }
         }
         if(list.get(position).article_level == 0) {

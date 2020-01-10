@@ -62,7 +62,8 @@ public class HomeSolictAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public void setBannerBeans(List<BannerBean> bannerBeans) {
         this.bannerBeans = bannerBeans;
-        notifyItemChanged(0);
+//        notifyItemChanged(0);
+        notifyDataSetChanged();
     }
 
     List<BannerBean> bannerBeans;

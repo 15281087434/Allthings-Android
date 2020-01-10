@@ -85,6 +85,8 @@ public class HomeSolicitFragment extends Fragment {
     ImageView ivIcon;
     @BindView(R.id.tv_message)
     TextView tvMessage;
+    @BindView(R.id.emptyLayout)
+    LinearLayout emptyLayout;
 
     @BindView(R.id.smartRefreshLayout)
     SmartRefreshLayout smartRefreshLayout;
@@ -276,9 +278,18 @@ public class HomeSolicitFragment extends Fragment {
                     public void run() {
                         if(page ==1) {
                             item.clear();
+//                            if(null == beans || 0 ==beans.size()) {
+//                                emptyLayout.setVisibility(View.VISIBLE);
+//                                recycle.setVisibility(View.GONE);
+//                            }else {
+//                                emptyLayout.setVisibility(View.GONE);
+//                                recycle.setVisibility(View.VISIBLE);
+//                            }
                         }
-                        item.addAll(beans);
-                        adapter.notifyDataSetChanged();
+                        if(null != beans && 0!=beans.size()) {
+                            item.addAll(beans);
+                            adapter.notifyDataSetChanged();
+                        }
                     }
                 });
 
