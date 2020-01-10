@@ -337,9 +337,7 @@ public class HotGambitDetailActivity extends BaseActivity{
             oks.setText(hotGambitDetailBean.descriptions);
             if(!StringUtil.isEmpty(hotGambitDetailBean.photo)) {
                 if(!hotGambitDetailBean.photo.contains("http")) {
-                    if(!hotGambitDetailBean.photo.contains("http")) {
-                        hotGambitDetailBean.photo = HttpServicePath.BasePicUrl + hotGambitDetailBean.photo;
-                    }
+                     hotGambitDetailBean.photo = HttpServicePath.BasePicUrl + hotGambitDetailBean.photo;
                 }
                 oks.setImageUrl(hotGambitDetailBean.photo);
             }else {

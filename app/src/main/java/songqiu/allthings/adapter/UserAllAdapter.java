@@ -204,11 +204,12 @@ public class UserAllAdapter extends RecyclerView.Adapter {
         RequestOptions options = new RequestOptions()
                 .error(R.mipmap.pic_default)
                 .placeholder(R.mipmap.pic_default);
-        if (!item.get(position).photo.contains("http")) {
-            item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
+        if(!StringUtil.isEmpty(item.get(position).photo)) {
+            if (!item.get(position).photo.contains("http")) {
+                item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
+            }
+            Glide.with(context).load(item.get(position).photo).apply(options).into(holder.bigPicImg);
         }
-        Glide.with(context).load(item.get(position).photo).apply(options).into(holder.bigPicImg);
-
         holder.likeTv.setText(String.valueOf(item.get(position).up_num));
         holder.commentTv.setText(String.valueOf(item.get(position).comment_num));
         if (0 == item.get(position).is_up) {
@@ -275,11 +276,13 @@ public class UserAllAdapter extends RecyclerView.Adapter {
         RequestOptions options = new RequestOptions()
                 .error(R.mipmap.pic_default)
                 .placeholder(R.mipmap.pic_default);
-        if (!item.get(position).photo.contains("http")) {
-            item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
-        }
-        Glide.with(context).load(item.get(position).photo).apply(options).into(holder.rightPic);
 
+        if(!StringUtil.isEmpty(item.get(position).photo)) {
+            if (!item.get(position).photo.contains("http")) {
+                item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
+            }
+            Glide.with(context).load(item.get(position).photo).apply(options).into(holder.rightPic);
+        }
         holder.likeTv.setText(String.valueOf(item.get(position).up_num));
         holder.commentTv.setText(String.valueOf(item.get(position).comment_num));
         if (0 == item.get(position).is_up) {

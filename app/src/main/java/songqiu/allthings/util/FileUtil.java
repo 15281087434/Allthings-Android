@@ -36,38 +36,6 @@ public class FileUtil {
 		return stbPath.toString();
 	}
 
-	//将Bitmap 图片保存到本地路径，并返回路径
-    public static String getBitmapPath(Bitmap bitmap) {
-        byte[] bytes = bitmapToBytes(bitmap);
-        String fileFullName = "";
-        String filePath = "";
-        FileOutputStream fos = null;
-        try {
-            if (filePath == null || filePath.trim().length() == 0) {
-                filePath = getTakePhotoPath("");
-            }
-            File file = new File(filePath);
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-            File fullFile = new File(filePath);
-            fileFullName = fullFile.getPath();
-            fos = new FileOutputStream(new File(filePath));
-            fos.write(bytes);
-        } catch (Exception e) {
-            fileFullName = "";
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    fileFullName = "";
-                }
-            }
-        }
-        return fileFullName;
-    }
-
     public static byte[] bitmapToBytes(Bitmap bm) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
