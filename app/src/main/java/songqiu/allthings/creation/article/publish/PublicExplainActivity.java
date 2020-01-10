@@ -125,7 +125,6 @@ public class PublicExplainActivity extends BaseActivity {
 
     boolean canCamera;
     final int TAKE_PHOTOS_RESULT = 52;
-    final int TAILOR_PHOTOS_RESULT = 51;
     LinkedList<String> linkedList = new LinkedList<>();
     String add_url_tag = R.mipmap.item_setting_add_img + "";
     ArticleCoverAdapter gvAlbumAdapter;
@@ -331,7 +330,7 @@ public class PublicExplainActivity extends BaseActivity {
 
     // 拍照
     public void takePhotos() {
-
+        uris.clear();
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// 打开相机
         oriPhotoFile = null;
         try {
@@ -359,9 +358,7 @@ public class PublicExplainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TAKE_PHOTOS_RESULT && resultCode == RESULT_OK) {
-
             Uri inImageUri = null;//需要裁剪时输入的uri
-
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 inImageUri = Uri.fromFile(oriPhotoFile);
             } else {
@@ -371,20 +368,14 @@ public class PublicExplainActivity extends BaseActivity {
             pos = 0;
             startCropActivity(inImageUri);
         } else if (requestCode == UCrop.REQUEST_CROP) {
-//            String path = FileUtil.checkLsength(FileUtil
-//                    .getTakePhotoPath("songqiu.allthings"));
-//            uploadPic(path);
-
-            Uri uri = UCrop.getOutput(data);
-            uploadPic(uri.getPath());
-            LogUtil.i("=======================uri:" + uri);
-            pos++;
-            if (uris != null && uris.size() > 1 && pos < uris.size()) {
-
-                startCropActivity(uris.get(pos));
-
+            if(null != data) {
+                Uri uri = UCrop.getOutput(data);
+                uploadPic(uri.getPath());
+                pos++;
+                if (uris != null && uris.size() > 1 && pos < uris.size()) {
+                    startCropActivity(uris.get(pos));
+                }
             }
-
         } else {
             BoxingDefaultConfig.getCompressedBitmap(this, requestCode, data, new BoxingDefaultConfig.OnLuBanCompressed() {
                 @Override
@@ -760,12 +751,10 @@ public class PublicExplainActivity extends BaseActivity {
     private void startCropActivity(@NonNull Uri uri) {
         String destinationFileName = new Date().getTime() + ".jpg";
         UCrop.Options options = new UCrop.Options();
-
         options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
-
         UCrop.of(uri, Uri.fromFile(new File(getExternalCacheDir(), destinationFileName)))
-                .withAspectRatio(1, 1)
-                .withMaxResultSize(150, 150).withOptions(options)
+                .withAspectRatio(9, 5)
+                .withMaxResultSize(750, 330).withOptions(options)
                 .start(this);
     }
 }

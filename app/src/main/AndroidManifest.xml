@@ -24,7 +24,12 @@
             android:launchMode="standard"
             >
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".activity.GuideAdvertisingActivity"
@@ -232,12 +237,6 @@
             android:windowSoftInputMode="adjustPan"
             >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".creation.article.manage.ArticleManageActivity"
