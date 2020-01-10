@@ -10,6 +10,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,14 +31,19 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.yalantis.ucrop.UCrop;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -68,6 +75,7 @@ import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
+import songqiu.allthings.util.UCropIBoxingCrop;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.view.DialogArticleCommon;
 import songqiu.allthings.view.GridViewInScroll;
@@ -137,6 +145,11 @@ public class PublicExplainActivity extends BaseActivity {
     int module = 1; //1 无图 2大图 3左右 4三图
     String img; //单图，单图是字符串
     List<String> arryPic = new ArrayList<String>(); //多图，多图是数组
+    //原图像 URI
+    private Uri imgUriOri;
+
+    private File oriPhotoFile;
+    List<Uri> uris = new ArrayList<Uri>(); //多图，多图是数组
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -194,7 +207,7 @@ public class PublicExplainActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable content) {
-                if(!StringUtil.isEmpty(content.toString())) {
+                if (!StringUtil.isEmpty(content.toString())) {
                     descriptions = content.toString();
                     setRightTvBg();
                 }
@@ -204,18 +217,18 @@ public class PublicExplainActivity extends BaseActivity {
 
     public void initLabelGv() {
         articleLabelsList = new ArrayList<>();
-        labelsAdapter = new ArticleLabelsAdapter(PublicExplainActivity.this,articleLabelsList);
+        labelsAdapter = new ArticleLabelsAdapter(PublicExplainActivity.this, articleLabelsList);
         gridView.setAdapter(labelsAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(articleLabelsList.size()>position) {
-                    if(articleLabelsList.get(position).isClick) {
+                if (articleLabelsList.size() > position) {
+                    if (articleLabelsList.get(position).isClick) {
                         articleLabelsList.get(position).isClick = false;
                         keywords = "";
                         setRightTvBg();
-                    }else {
-                        for(ArticleLabelsBean articleLabelsBean:articleLabelsList) {
+                    } else {
+                        for (ArticleLabelsBean articleLabelsBean : articleLabelsList) {
                             articleLabelsBean.isClick = false;
                         }
                         articleLabelsList.get(position).isClick = true;
@@ -231,15 +244,15 @@ public class PublicExplainActivity extends BaseActivity {
     public void initGridView() {
         linkedList.clear();
         linkedList.add(add_url_tag);
-        gvAlbumAdapter = new ArticleCoverAdapter(this, linkedList,maxNum);
+        gvAlbumAdapter = new ArticleCoverAdapter(this, linkedList, maxNum);
         gvAlbum.setAdapter(gvAlbumAdapter);
         gvAlbumAdapter.setOnShowDialogListener(new ArticleCoverAdapter.ShowDialogListener() {
             @Override
             public void addImage() {
-                if(canCamera) {
+                if (canCamera) {
                     showDialog();
-                }else {
-                    ToastUtil.showToast(PublicExplainActivity.this,"请在设置-应用-见怪-权限中开启相机权限");
+                } else {
+                    ToastUtil.showToast(PublicExplainActivity.this, "请在设置-应用-见怪-权限中开启相机权限");
                 }
             }
 
@@ -250,10 +263,10 @@ public class PublicExplainActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         linkedList.remove(position);
                         gvAlbumAdapter.notifyDataSetChanged();
-                        if(null != arryPic && arryPic.size()> position) {
+                        if (null != arryPic && arryPic.size() > position) {
                             arryPic.remove(position);
-                            if(2==module || 3==module) {
-                                img ="";
+                            if (2 == module || 3 == module) {
+                                img = "";
                             }
                             setRightTvBg();
                         }
@@ -303,7 +316,7 @@ public class PublicExplainActivity extends BaseActivity {
                         takePhotos();
                         break;
                     case 1:
-                        Boxing.of(BoxingDefaultConfig.getInstance().getMultiConfig(maxNum+1 - linkedList.size()))
+                        Boxing.of(BoxingDefaultConfig.getInstance().getMultiConfig(maxNum + 1 - linkedList.size()))
                                 .withIntent(PublicExplainActivity.this, BuddingBoxingActivity.class)
                                 .start(PublicExplainActivity.this, BoxingDefaultConfig.IMAGE_REQUEST_CODE);
                         break;
@@ -318,106 +331,79 @@ public class PublicExplainActivity extends BaseActivity {
 
     // 拍照
     public void takePhotos() {
-        Uri contentUri;
-        File file = new File(FileUtil.getTakePhotoPath("songqiu.allthings"));
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            contentUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileProvider", file);
-        }else {
-            contentUri =  Uri.parse("file://"+file.getAbsolutePath());
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// 打开相机
+        oriPhotoFile = null;
+        try {
+            oriPhotoFile = createOriImageFile();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
-        startActivityForResult(intent, TAKE_PHOTOS_RESULT);
+        if (oriPhotoFile != null) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                imgUriOri = Uri.fromFile(oriPhotoFile);
+            } else {
+                imgUriOri = FileProvider.getUriForFile(this, getPackageName() + ".fileProvider", oriPhotoFile);
+            }
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);//私有目录读写权限
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUriOri);
+            startActivityForResult(intent, TAKE_PHOTOS_RESULT);
+        }
+
     }
 
-    /**
-     * 调用系统的裁剪
-     * @param uri
-     */
-    public void cropPicture(Uri uri) {
-        Intent cropIntent = new Intent("com.android.camera.action.CROP");
-        LogUtil.i("uri:"+uri);
-        cropIntent.setDataAndType(uri, "image/*");//7.0以上 输入的uri需要是provider提供的
-        // 开启裁剪：打开的Intent所显示的View可裁剪
-        cropIntent.putExtra("crop", "true");
-        // 裁剪宽高比
-        cropIntent.putExtra("aspectX", 1);
-        cropIntent.putExtra("aspectY", 1);
-        // 裁剪输出大小
-        cropIntent.putExtra("outputX", 150);
-        cropIntent.putExtra("outputY", 150);
-        cropIntent.putExtra("scale", true);
-        /**
-         * return-data
-         * 这个属性决定onActivityResult 中接收到的是什么数据类型，
-         * true data将会返回一个bitmap
-         * false，则会将图片保存到本地并将我们指定的对应的uri。
-         */
-        cropIntent.putExtra("return-data", false);
-        // 当 return-data 为 false 的时候需要设置输出的uri地址
-        cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);//输出的uri为普通的uri，通过provider提供的uri会出现无法保存的错误
-        // 图片输出格式
-        cropIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        cropIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//不加会出现无法加载此图片的错误
-        cropIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);// 这两句是在7.0以上版本当targeVersion大于23时需要
-        startActivityForResult(cropIntent, TAILOR_PHOTOS_RESULT);
-    }
-
+    //记录上传图片数组postion
+    int pos = 0;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TAKE_PHOTOS_RESULT && resultCode == RESULT_OK) {
-            String path = FileUtil.checkLsength(FileUtil
-                    .getTakePhotoPath("songqiu.allthings"));
-            File imageFile = new File(path);
+
             Uri inImageUri = null;//需要裁剪时输入的uri
-            if (imageFile == null && !imageFile.exists()) {
-                return;
-            }
+
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                inImageUri = Uri.fromFile(imageFile);
+                inImageUri = Uri.fromFile(oriPhotoFile);
             } else {
                 //Android 7.0系统开始 使用本地真实的Uri路径不安全,使用FileProvider封装共享Uri
-                inImageUri = FileProvider.getUriForFile(this, getPackageName() + ".fileProvider", imageFile);
+                inImageUri = FileProvider.getUriForFile(this, getPackageName() + ".fileProvider", oriPhotoFile);
             }
-            cropPicture(inImageUri);
-        }else if (requestCode == TAILOR_PHOTOS_RESULT && resultCode == RESULT_OK) {
+            pos = 0;
+            startCropActivity(inImageUri);
+        } else if (requestCode == UCrop.REQUEST_CROP) {
 //            String path = FileUtil.checkLsength(FileUtil
 //                    .getTakePhotoPath("songqiu.allthings"));
 //            uploadPic(path);
-            if(null != data) {
-                data.getExtras();
-                Uri uri = data.getData();
-                LogUtil.i("=======================uri:"+uri);
+
+            Uri uri = UCrop.getOutput(data);
+            uploadPic(uri.getPath());
+            LogUtil.i("=======================uri:" + uri);
+            pos++;
+            if (uris != null && uris.size() > 1 && pos < uris.size()) {
+
+                startCropActivity(uris.get(pos));
+
             }
-        }
-//        else if(){
-//            Bundle extras = data.getExtras();
-//            bitmap_head = extras.getParcelable("data");
-//            if(bitmap_head!=null) {
-//                /**
-//                 * 上传服务器代码
-//                 */
-//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                bitmap_head.compress(Bitmap.CompressFormat.JPEG, 40, stream);
-//                byte[] b = stream.toByteArray();
-//                // 将图片流以字符串形式存储下来
-//                tp = Base64.encodeToString(b, Base64.DEFAULT);
-////				Logger.i("上传服务器代码。。。。");
-////				Logger.i("tp："+tp);
-////				setPicToView(head);//保存在SD卡中
-//                updateHeadIconTask();
-//            }
-//        }
-        else {
+
+        } else {
             BoxingDefaultConfig.getCompressedBitmap(this, requestCode, data, new BoxingDefaultConfig.OnLuBanCompressed() {
                 @Override
                 public void onCompressed(List<File> files) {
                     if (null != files && 0 != files.size()) {
-                        for (int i = 0; i < files.size(); i++) {
-                            uploadPic(files.get(i).getPath());
+                        uris.clear();
+                        for (File file : files) {
+                            Uri inImageUri = null;//需要裁剪时输入的uri
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                                inImageUri = Uri.fromFile(file);
+                            } else {
+                                //Android 7.0系统开始 使用本地真实的Uri路径不安全,使用FileProvider封装共享Uri
+                                inImageUri = FileProvider.getUriForFile(PublicExplainActivity.this, getPackageName() + ".fileProvider", file);
+                            }
+                            uris.add(inImageUri);
                         }
+                        pos = 0;
+                        startCropActivity(uris.get(0));
+
                     }
                 }
             });
@@ -435,7 +421,8 @@ public class PublicExplainActivity extends BaseActivity {
                         Gson gson = new Gson();
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
-                        List<ArticleLabelsBean> list = gson.fromJson(data, new TypeToken<List<ArticleLabelsBean>>() {}.getType());
+                        List<ArticleLabelsBean> list = gson.fromJson(data, new TypeToken<List<ArticleLabelsBean>>() {
+                        }.getType());
                         articleLabelsList.addAll(list);
                         labelsAdapter.notifyDataSetChanged();
                         getSaveArticle();
@@ -457,15 +444,15 @@ public class PublicExplainActivity extends BaseActivity {
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
                         SaveArticleBean saveArticleBean = gson.fromJson(data, SaveArticleBean.class);
-                        if(null == saveArticleBean) return;
+                        if (null == saveArticleBean) return;
                         //内容描述
-                        if(!StringUtil.isEmpty(saveArticleBean.description)) {
+                        if (!StringUtil.isEmpty(saveArticleBean.description)) {
                             describeEt.setText(saveArticleBean.description);
                         }
                         //作品标签
-                        if(!StringUtil.isEmpty(saveArticleBean.keywords)) {
-                            for(int i = 0;i<articleLabelsList.size();i++) {
-                                if(articleLabelsList.get(i).name.equals(saveArticleBean.keywords)) {
+                        if (!StringUtil.isEmpty(saveArticleBean.keywords)) {
+                            for (int i = 0; i < articleLabelsList.size(); i++) {
+                                if (articleLabelsList.get(i).name.equals(saveArticleBean.keywords)) {
                                     keywords = saveArticleBean.keywords;
                                     articleLabelsList.get(i).isClick = true;
                                     labelsAdapter.notifyDataSetChanged();
@@ -473,37 +460,37 @@ public class PublicExplainActivity extends BaseActivity {
                             }
                         }
                         //封面
-                        if(saveArticleBean.module == 1) {
+                        if (saveArticleBean.module == 1) {
                             noPicClick();
                             setRightTvBg();
-                        }else if(saveArticleBean.module == 2) {
+                        } else if (saveArticleBean.module == 2) {
                             bigPicClick();
-                            if(!StringUtil.isEmpty(saveArticleBean.photo)) {
+                            if (!StringUtil.isEmpty(saveArticleBean.photo)) {
                                 img = saveArticleBean.photo;
-                                if(!saveArticleBean.photo.contains("http")) {
+                                if (!saveArticleBean.photo.contains("http")) {
                                     saveArticleBean.photo = HttpServicePath.BasePicUrl + saveArticleBean.photo;
                                 }
                                 linkedList.add(linkedList.size() - 1, saveArticleBean.photo);
                                 gvAlbumAdapter.notifyDataSetChanged();
                             }
                             setRightTvBg();
-                        }else if(saveArticleBean.module == 3) {
+                        } else if (saveArticleBean.module == 3) {
                             rightPicClick();
-                            if(!StringUtil.isEmpty(saveArticleBean.photo)) {
+                            if (!StringUtil.isEmpty(saveArticleBean.photo)) {
                                 img = saveArticleBean.photo;
-                                if(!saveArticleBean.photo.contains("http")) {
+                                if (!saveArticleBean.photo.contains("http")) {
                                     saveArticleBean.photo = HttpServicePath.BasePicUrl + saveArticleBean.photo;
                                 }
                                 linkedList.add(linkedList.size() - 1, saveArticleBean.photo);
                                 gvAlbumAdapter.notifyDataSetChanged();
                             }
                             setRightTvBg();
-                        }else if(saveArticleBean.module == 4) {
+                        } else if (saveArticleBean.module == 4) {
                             morePicClick();
-                            if(null != saveArticleBean.photos && 0 != saveArticleBean.photos.length) {
-                                for(int i = 0;i<saveArticleBean.photos.length;i++) {
+                            if (null != saveArticleBean.photos && 0 != saveArticleBean.photos.length) {
+                                for (int i = 0; i < saveArticleBean.photos.length; i++) {
                                     arryPic.add(saveArticleBean.photos[i]);
-                                    if(!saveArticleBean.photos[i].contains("http")) {
+                                    if (!saveArticleBean.photos[i].contains("http")) {
                                         saveArticleBean.photos[i] = HttpServicePath.BasePicUrl + saveArticleBean.photos[i];
                                         linkedList.add(linkedList.size() - 1, saveArticleBean.photos[i]);
                                     }
@@ -520,15 +507,15 @@ public class PublicExplainActivity extends BaseActivity {
 
     public void saveArticle() {
         Map<String, Object> map = new HashMap<>();
-        map.put("title",title);
-        map.put("descriptions",descriptions);
-        map.put("content",content);
-        map.put("keywords",keywords);
-        map.put("module",module);
-        if(module==2 || module ==3) {
-            map.put("img",img);
-        }else if(module==4) {
-            map.put("imgs",arryPic);
+        map.put("title", title);
+        map.put("descriptions", descriptions);
+        map.put("content", content);
+        map.put("keywords", keywords);
+        map.put("module", module);
+        if (module == 2 || module == 3) {
+            map.put("img", img);
+        } else if (module == 4) {
+            map.put("imgs", arryPic);
         }
         OkHttp.postObject(this, HttpServicePath.URL_SAVES_ARTICLE, map, new RequestCallBack() {
             @Override
@@ -536,7 +523,7 @@ public class PublicExplainActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.showToast(PublicExplainActivity.this,baseBean.msg);
+                        ToastUtil.showToast(PublicExplainActivity.this, baseBean.msg);
                     }
                 });
             }
@@ -545,15 +532,15 @@ public class PublicExplainActivity extends BaseActivity {
 
     public void addArticle() {
         Map<String, Object> map = new HashMap<>();
-        map.put("title",title);
-        map.put("descriptions",descriptions);
-        map.put("content",content);
-        map.put("keywords",keywords);
-        map.put("module",module);
-        if(module==2 || module ==3) {
-            map.put("img",img);
-        }else if(module==4) {
-            map.put("imgs",arryPic);
+        map.put("title", title);
+        map.put("descriptions", descriptions);
+        map.put("content", content);
+        map.put("keywords", keywords);
+        map.put("module", module);
+        if (module == 2 || module == 3) {
+            map.put("img", img);
+        } else if (module == 4) {
+            map.put("imgs", arryPic);
         }
         OkHttp.postObject(this, HttpServicePath.URL_ADD_ARTICLE, map, new RequestCallBack() {
             @Override
@@ -561,7 +548,7 @@ public class PublicExplainActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtil.showToast(PublicExplainActivity.this,"已提交审核，审核通过后发布");
+                        ToastUtil.showToast(PublicExplainActivity.this, "已提交审核，审核通过后发布");
                         Intent intent = new Intent(PublicExplainActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
@@ -574,8 +561,8 @@ public class PublicExplainActivity extends BaseActivity {
         showLoading();
         File file = new File(path);
         Map<String, String> map = new HashMap<>();
-        map.put("file",file.getName());
-        OkHttp.postFile(this, mDialog,HttpServicePath.URL_UPLOADS,map,file,new RequestCallBack() {
+        map.put("file", file.getName());
+        OkHttp.postFile(this, mDialog, HttpServicePath.URL_UPLOADS, map, file, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
                 runOnUiThread(new Runnable() {
@@ -584,14 +571,14 @@ public class PublicExplainActivity extends BaseActivity {
                         Gson gson = new Gson();
                         String data = gson.toJson(baseBean.data);
                         UploadPicBean uploadPicBean = gson.fromJson(data, UploadPicBean.class);
-                        if(null == uploadPicBean) return;
+                        if (null == uploadPicBean) return;
                         arryPic.add(uploadPicBean.imgurl);
                         //
                         linkedList.add(linkedList.size() - 1, path);
                         gvAlbumAdapter.notifyDataSetChanged();
 
                         //
-                        if(module == 2 || module == 3) {
+                        if (module == 2 || module == 3) {
                             img = uploadPicBean.imgurl;
                         }
                         setRightTvBg();
@@ -622,7 +609,7 @@ public class PublicExplainActivity extends BaseActivity {
         maxNum = 1;
         module = 2;
         arryPic.clear();
-        if(coverType != maxNum) {
+        if (coverType != maxNum) {
             coverType = maxNum;
             img = "";
             initGridView();
@@ -639,7 +626,7 @@ public class PublicExplainActivity extends BaseActivity {
         maxNum = 1;
         module = 3;
         arryPic.clear();
-        if(coverType != maxNum) {
+        if (coverType != maxNum) {
             coverType = maxNum;
             img = "";
             initGridView();
@@ -655,7 +642,7 @@ public class PublicExplainActivity extends BaseActivity {
         morePicLayout.setBackgroundResource(R.drawable.rectangle_normal_white);
         maxNum = 3;
         module = 4;
-        if(coverType != maxNum) {
+        if (coverType != maxNum) {
             coverType = maxNum;
             img = "";
             initGridView();
@@ -663,35 +650,35 @@ public class PublicExplainActivity extends BaseActivity {
     }
 
     public boolean canPublic() {
-        if(StringUtil.isEmpty(keywords))
+        if (StringUtil.isEmpty(keywords))
             return false;
-        if(module == 2 || module == 3) {
-            if(StringUtil.isEmpty(img))
+        if (module == 2 || module == 3) {
+            if (StringUtil.isEmpty(img))
                 return false;
         }
-        if(module == 4) {
-            if(arryPic.size() != 3) {
-                return  false;
+        if (module == 4) {
+            if (arryPic.size() != 3) {
+                return false;
             }
         }
 
-        if(StringUtil.isEmpty(descriptions) || descriptions.length()<20)
+        if (StringUtil.isEmpty(descriptions) || descriptions.length() < 20)
             return false;
         return true;
     }
 
     public void setRightTvBg() {
-        if(canPublic()) {
+        if (canPublic()) {
             rightTv.setClickable(true);
             rightTv.setTextColor(getResources().getColor(R.color.normal_color));
-        }else {
+        } else {
             rightTv.setClickable(false);
             rightTv.setTextColor(getResources().getColor(R.color.FFD2D2D2));
         }
     }
 
     public void initSaveDialog() {
-        DialogArticleCommon dialogArticleCommon = new DialogArticleCommon(this,"保存","是否保存已输入内容？");
+        DialogArticleCommon dialogArticleCommon = new DialogArticleCommon(this, "保存", "是否保存已输入内容？");
         dialogArticleCommon.setCanceledOnTouchOutside(true);
         dialogArticleCommon.setCancelable(true);
         dialogArticleCommon.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -709,19 +696,19 @@ public class PublicExplainActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.backImg,R.id.saveTv,R.id.rightTv,R.id.noPicLayout,R.id.bigPicLayout,R.id.rightPicLayout,R.id.morePicLayout})
+    @OnClick({R.id.backImg, R.id.saveTv, R.id.rightTv, R.id.noPicLayout, R.id.bigPicLayout, R.id.rightPicLayout, R.id.morePicLayout})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.backImg:
                 finish();
                 break;
             case R.id.saveTv:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     initSaveDialog();
                 }
                 break;
             case R.id.rightTv:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     addArticle();
                 }
                 break;
@@ -744,4 +731,41 @@ public class PublicExplainActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 创建原图像保存的文件
+     *
+     * @return
+     * @throws IOException
+     */
+    private File createOriImageFile() throws IOException {
+        String imgNameOri = "HomePic_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File pictureDirOri = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/OriPicture");
+        if (!pictureDirOri.exists()) {
+            pictureDirOri.mkdirs();
+        }
+        File image = File.createTempFile(
+                imgNameOri,         /* prefix */
+                ".jpg",             /* suffix */
+                pictureDirOri       /* directory */
+        );
+
+        return image;
+    }
+
+    /**
+     * 裁剪
+     *
+     * @param uri
+     */
+    private void startCropActivity(@NonNull Uri uri) {
+        String destinationFileName = new Date().getTime() + ".jpg";
+        UCrop.Options options = new UCrop.Options();
+
+        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+
+        UCrop.of(uri, Uri.fromFile(new File(getExternalCacheDir(), destinationFileName)))
+                .withAspectRatio(1, 1)
+                .withMaxResultSize(150, 150).withOptions(options)
+                .start(this);
+    }
 }
