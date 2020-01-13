@@ -696,6 +696,7 @@ public class GambitDetailActivity extends BaseActivity {
                     public void run() {
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
                         EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
+                        EventBus.getDefault().post(new EventTags.RefreshLook(url, mid));
                         if(url.equals(HttpServicePath.URL_LIKE)) {
                             gambitDetailBean.is_up = 1;
                             gambitDetailBean.up_num = gambitDetailBean.up_num + 1;
@@ -847,6 +848,7 @@ public class GambitDetailActivity extends BaseActivity {
                         commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString())+1));
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
                         EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
+                        EventBus.getDefault().post(new EventTags.VideoCommentNum(talkid,commentNumTv.getText().toString()));
                     }
                 });
             }
@@ -874,6 +876,9 @@ public class GambitDetailActivity extends BaseActivity {
                         DeleteCommentBean deleteCommentBean = gson.fromJson(data, DeleteCommentBean.class);
                         if(null != deleteCommentBean) {
                             commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString())-deleteCommentBean.num));
+                            EventBus.getDefault().post(new EventTags.GambitRefresh());
+                            EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
+                            EventBus.getDefault().post(new EventTags.VideoCommentNum(talkid,commentNumTv.getText().toString()));
                         }
 
                         if(null == item1) return;
@@ -982,6 +987,9 @@ public class GambitDetailActivity extends BaseActivity {
                 videoDetailCommentAdapter.notifyDataSetChanged();
                 int commentNum = Integer.valueOf(commentNumTv.getText().toString())+1;
                 commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
+                EventBus.getDefault().post(new EventTags.GambitRefresh());
+                EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
+                EventBus.getDefault().post(new EventTags.VideoCommentNum(talkid,commentNumTv.getText().toString()));
             }
         }
     }
@@ -1004,6 +1012,9 @@ public class GambitDetailActivity extends BaseActivity {
                 int commentNum = Integer.valueOf(commentNumTv.getText().toString())-deleteComment.getDeleteCommentNum();
                 commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
                 videoDetailCommentAdapter.notifyDataSetChanged();
+                EventBus.getDefault().post(new EventTags.GambitRefresh());
+                EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
+                EventBus.getDefault().post(new EventTags.VideoCommentNum(talkid,commentNumTv.getText().toString()));
             }
         }
     }

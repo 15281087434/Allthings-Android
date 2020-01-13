@@ -129,13 +129,13 @@ public class HomePageAttentionFragment extends BaseFragment {
             EventBus.getDefault().register(this);
         }
         initRecycle();
+        pageNo =1;
+        getData(pageNo,false);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        pageNo =1;
-        getData(pageNo,false);
     }
 
     @Override
@@ -230,8 +230,8 @@ public class HomePageAttentionFragment extends BaseFragment {
                             }
                             if (null != homeAttentionList && 0 != homeAttentionList.size()) {
                                 item.addAll(homeAttentionList);
-                                adapter.notifyDataSetChanged();
                             }
+                            adapter.notifyDataSetChanged();
                             if(ringDown) {
                                 new Handler().postDelayed(new Runnable(){
                                     public void run() {

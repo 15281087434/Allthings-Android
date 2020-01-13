@@ -984,6 +984,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        EventBus.getDefault().post(new EventTags.RefreshLook(url, mid));
                         if (url.equals(HttpServicePath.URL_LIKE)) {
                             articleDetailBean.is_up = 1;
                             articleDetailBean.up_num = articleDetailBean.up_num + 1;
@@ -1056,6 +1057,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         getComment(articleid, pageNo);
                         //评论数
                         commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString()) + 1));
+                        EventBus.getDefault().post(new EventTags.VideoCommentNum(articleid,commentNumTv.getText().toString()));
                     }
                 });
             }
@@ -1081,6 +1083,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                         DeleteCommentBean deleteCommentBean = gson.fromJson(data, DeleteCommentBean.class);
                         if (null != deleteCommentBean) {
                             commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString()) - deleteCommentBean.num));
+                            EventBus.getDefault().post(new EventTags.VideoCommentNum(articleid,commentNumTv.getText().toString()));
                         }
 
                         if (null == item1) return;
@@ -1405,6 +1408,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 videoDetailCommentAdapter.notifyDataSetChanged();
                 int commentNum = Integer.valueOf(commentNumTv.getText().toString()) + 1;
                 commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
+                EventBus.getDefault().post(new EventTags.VideoCommentNum(articleid,commentNumTv.getText().toString()));
             }
         }
     }
@@ -1427,6 +1431,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 int commentNum = Integer.valueOf(commentNumTv.getText().toString()) - deleteComment.getDeleteCommentNum();
                 commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
                 videoDetailCommentAdapter.notifyDataSetChanged();
+                EventBus.getDefault().post(new EventTags.VideoCommentNum(articleid,commentNumTv.getText().toString()));
             }
         }
     }
