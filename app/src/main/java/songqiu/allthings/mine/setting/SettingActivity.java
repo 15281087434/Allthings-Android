@@ -1,5 +1,6 @@
 package songqiu.allthings.mine.setting;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -166,9 +167,9 @@ public class SettingActivity extends BaseActivity {
             case R.id.aboutLayout: //关于我们
                 intent = new Intent(SettingActivity.this, CommentWebViewActivity.class);
                 if(dayModel) {
-                    intent.putExtra("url", SnsConstants.URL_ABOUT);
+                    intent.putExtra("url", SnsConstants.getAbout(MyApplication.getInstance().versionName,true));
                 }else {
-                    intent.putExtra("url", SnsConstants.URL_ABOUT_NIGHT);
+                    intent.putExtra("url", SnsConstants.getAbout(MyApplication.getInstance().versionName,false));
                 }
                 startActivity(intent);
                 break;

@@ -1672,7 +1672,7 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
                 break;
             case R.id.ll_tp:
                 if(ClickUtil.onClick()){
-                    //TODO 投票
+                    if(null == articleDetailBean) return;
                     HashMap<String,String>map =new HashMap<>();
                     map.put("mid",articleDetailBean.articleid+"");
                     map.put("activityid",articleDetailBean.activityid);

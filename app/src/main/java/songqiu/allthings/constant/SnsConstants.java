@@ -35,10 +35,16 @@ public class SnsConstants {
 	public static String URL_USER_PROTOCOL = URL_BASE_H5+"agreement.html";
 	//用户协议 夜间
 	public static String URL_USER_PROTOCOL_NIGHT = URL_BASE_H5+"agreement_black.html";
-	//关于我们 白天
-	public static String URL_ABOUT = URL_BASE_H5+"about.html";
-	//关于我们 夜间
-	public static String URL_ABOUT_NIGHT = URL_BASE_H5+"about_black.html";
+
+    //关于我们
+    public static String getAbout(String version,boolean isDay) {
+        if(isDay) {
+            return URL_BASE_H5+"about.html?version="+version;
+        }else {
+            return URL_BASE_H5+"about_black.html?version="+version;
+        }
+    }
+
 	//注销账号
 	public static String URL_ZHUXIAO =  URL_BASE_H5+"zhuxiao_info.html";
 

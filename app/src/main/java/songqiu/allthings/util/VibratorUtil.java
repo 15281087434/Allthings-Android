@@ -22,13 +22,13 @@ import java.io.IOException;
  ********/
 public class VibratorUtil {
 
-    //??
+
     public static void vibrate(final Activity activity, long milliseconds) {
         Vibrator vib = (Vibrator) activity.getSystemService(Service.VIBRATOR_SERVICE);
         vib.vibrate(milliseconds);
     }
 
-    //??
+
     public static void ringDown(Context mContext) {
         MediaPlayer mPlayer = null;
         AssetManager am = mContext.getAssets();
