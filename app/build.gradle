@@ -7,8 +7,8 @@ android {
         applicationId "songqiu.allthings"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 202000110
-        versionName "1.1.3"
+        versionCode 202000113
+        versionName "1.1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {

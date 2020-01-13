@@ -139,13 +139,16 @@ public class GuideActivity extends BaseActivity {
                     public void run() {
                         Gson gson = new Gson();
                         String data = gson.toJson(baseBean.data);
-                        //{"code":"200","msg":"返回成功","data":null}
-                        if (StringUtil.isEmpty(data)) {
+                        if(StringUtil.isEmpty(data)) return;
+                        versionBean = gson.fromJson(data, VersionBean.class);
+                        if(null == versionBean) {
                             getAdvertise();
-//                            toMainActivity();
                         }else {
-                            versionBean = gson.fromJson(data, VersionBean.class);
-                            initUploadVersionDialog(versionBean);
+                            if(versionBean.is_update == 0) {
+                                getAdvertise();
+                            }else {
+                                initUploadVersionDialog(versionBean);
+                            }
                         }
                     }
                 });
@@ -156,7 +159,7 @@ public class GuideActivity extends BaseActivity {
     public void initUploadVersionDialog(VersionBean versionBean) {
         if(null == versionBean) return;
         String version = "V "+versionBean.current_version;
-        DialogUploadVersion dialog = new DialogUploadVersion(this,versionBean.content,version,versionBean.type);
+        DialogUploadVersion dialog = new DialogUploadVersion(this,versionBean.content,version,versionBean.is_update);
         dialog.setCanceledOnTouchOutside(false);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
