@@ -651,6 +651,20 @@ public class HomePageSubitemFragment extends BaseFragment {
         }
     }
 
+    //视频评论数
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void videoCommentNum(EventTags.VideoCommentNum videoCommentNum) {
+        if(null == item || 0 == item.size()) return;
+        for(int i = 0;i<item.size();i++) {
+            if(item.get(i).articleid == videoCommentNum.getId()) {
+                if(!StringUtil.isEmpty(videoCommentNum.getNum())) {
+                    item.get(i).comment_num = Integer.valueOf(videoCommentNum.getNum());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void toDeleteItemById(EventTags.DeleteItemById deleteItemById) {
         if(null == item || 0 == item.size()) return;

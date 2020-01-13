@@ -493,6 +493,7 @@ public class VideoDetailActivity extends BaseActivity {
                 videoDetailCommentAdapter.notifyDataSetChanged();
                 int commentNum = Integer.valueOf(commentNumTv.getText().toString()) + 1;
                 commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
+                EventBus.getDefault().post(new EventTags.VideoCommentNum(articleid,commentNumTv.getText().toString()));
             }
         }
     }
@@ -515,6 +516,7 @@ public class VideoDetailActivity extends BaseActivity {
                 int commentNum = Integer.valueOf(commentNumTv.getText().toString()) - deleteComment.getDeleteCommentNum();
                 commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
                 videoDetailCommentAdapter.notifyDataSetChanged();
+                EventBus.getDefault().post(new EventTags.VideoCommentNum(articleid,commentNumTv.getText().toString()));
             }
         }
     }
@@ -893,6 +895,7 @@ public class VideoDetailActivity extends BaseActivity {
                         getComment(articleid, pageNo, false);
                         //评论数
                         commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString()) + 1));
+                        EventBus.getDefault().post(new EventTags.VideoCommentNum(articleid,commentNumTv.getText().toString()));
                     }
                 });
             }
@@ -918,6 +921,7 @@ public class VideoDetailActivity extends BaseActivity {
                         DeleteCommentBean deleteCommentBean = gson.fromJson(data, DeleteCommentBean.class);
                         if (null != deleteCommentBean) {
                             commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString()) - deleteCommentBean.num));
+                            EventBus.getDefault().post(new EventTags.VideoCommentNum(articleid,commentNumTv.getText().toString()));
                         }
 
                         if (null == item1) return;

@@ -22,7 +22,7 @@ public class HttpServicePath {
 //    public static String BaseUrl = "https://jianguaiapp.com/"; //正式 渠道
 
     //检测版本号
-    public static String URL_VERSION = BaseUrl+"version";
+    public static String URL_VERSION = BaseUrl+"new_version";
 
     //导航   zone	否	int	1=默认首页内的导航，2=快看内导航
     public static String URL_NAVIGATION = BaseUrl +"nav";

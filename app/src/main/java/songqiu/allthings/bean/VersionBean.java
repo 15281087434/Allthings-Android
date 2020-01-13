@@ -10,11 +10,7 @@ package songqiu.allthings.bean;
  *
  ********/
 public class VersionBean {
-//    "current_version": "2.01",
-//            "type": "1",
-//            "content": "1 更新ui\r\n2 增加夜间模式",
-//            "url": "http:\/\/www.baiud.com"
-    public int type; //升级方式 1=提示升级 2=强制升级
+    public int is_update; //0=不更新，1=强更，2=提示更新
     public String content;
     public String url;
     public String current_version;

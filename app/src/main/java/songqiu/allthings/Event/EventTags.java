@@ -131,6 +131,31 @@ public class EventTags {
         }
     }
 
+    public static class VideoCommentNum {
+        public String num;
+        public int id;
+        public VideoCommentNum(int id,String num) {
+            this.id = id;
+            this.num = num;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getNum() {
+            return num;
+        }
+
+        public void setNum(String num) {
+            this.num = num;
+        }
+    }
+
     public static class AllGambitAttention {
         public boolean isAttention;
         public int attentionNum;

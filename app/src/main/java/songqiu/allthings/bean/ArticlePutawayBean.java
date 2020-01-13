@@ -19,4 +19,5 @@ public class ArticlePutawayBean {
     public int article_level; //作品评级,0=不予评级,1=A,2=B,3=C,4=D,5=T
     public int level; //用户等级，1=原创，2=签约 0 只显示下架
     public int is_show;
+    public int is_sb;
 }

@@ -20,7 +20,7 @@ public class EarningsListBean {
 //            "type_name": "签到"
     public int id;
     public int userid;
-    public int change_num;
+    public float change_num;
     public int type;
     public String change_type;
     public long created;
