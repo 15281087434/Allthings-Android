@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
@@ -92,6 +94,7 @@ public class MyApplication extends Application {
         if(StringUtil.isEmpty(strCity)) {
             SharedPreferencedUtils.setString(this,"LOCATION_CITY","北京");
         }
+        getChannel();
         getAndroidId();
         getVersion();
 
@@ -186,11 +189,67 @@ public class MyApplication extends Application {
         }
     }
 
+
     private void getAndroidId() {
-        andoridId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+            andoridId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        }
 //        LogUtil.i("andoridId："+andoridId);
     }
 
+    /**
+     * 获取渠道信息
+     */
+    public void getChannel(){
+
+        PackageManager pm=getPackageManager();
+        try {
+            ApplicationInfo info =pm.getApplicationInfo(getPackageName(),
+                    PackageManager.GET_META_DATA);
+            String str=info.metaData.getCharSequence("CHANNEL").toString();
+
+
+            switch (str){
+                 case "guanfang":
+                     channel="1";
+                     break;
+                 case "oppo":
+                     channel="2";
+                     break;
+                 case "vivo":
+                     channel="3";
+                     break;
+                 case "huawei":
+                     channel="4";
+                     break;
+                 case "yingyongbao":
+                     channel="5";
+                     break;
+                 case "uc":
+                     channel="6";
+                     break;
+                 case "qh360":
+                     channel="7";
+                     break;
+                 case "baidu":
+                     channel="8";
+                     break;
+                 case "xiaomi":
+                     channel="9";
+                     break;
+                 case "meizhu":
+                     channel="10";
+                     break;
+                 case "lianxiang":
+                     channel="11";
+                     break;
+             }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            LogUtil.e("channel",channel+"==============================");
+        }
+    }
 
     /**
      * 获取版本号

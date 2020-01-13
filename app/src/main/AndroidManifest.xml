@@ -351,6 +351,9 @@
         </receiver>
 
         <service android:name=".service.DownloadService" />
+        <meta-data
+            android:name="CHANNEL"
+            android:value="${CHANNEL_VALUE}" />
     </application>
 
 
