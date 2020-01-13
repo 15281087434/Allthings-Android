@@ -10,11 +10,11 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.github.chrisbanes.photoview.OnPhotoTapListener;
-import com.github.chrisbanes.photoview.PhotoView;
 
 
 import songqiu.allthings.R;
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 
 /**
@@ -58,11 +58,10 @@ public class PhotoFragment extends Fragment {
                 return true;
             }
         });
-        mPhotoView.setOnPhotoTapListener(new OnPhotoTapListener() {
+        mPhotoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
             @Override
-            public void onPhotoTap(ImageView view, float x, float y){
+            public void onPhotoTap(View view, float x, float y) {
                 getActivity().finish();
-//                getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
             }
 
             public void onOutsidePhotoTap() {
