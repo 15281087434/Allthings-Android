@@ -19,4 +19,5 @@ public class AttentionGambitBean {
     public int hot_num;
     public int follow_num;
     public int id;
+      public String level;
 }

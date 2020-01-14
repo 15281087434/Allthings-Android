@@ -90,6 +90,7 @@ public class SearchVideoFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void SearchKeyword(EventTags.SearchKeyword searchKeyword) {
         getTxtSearch(pageNo,searchKeyword.getKeyWord(),false);
+        LogUtil.i("222222222222222222:"+searchKeyword.getKeyWord());
     }
 
     public void initRecyc() {
@@ -136,6 +137,9 @@ public class SearchVideoFragment extends BaseFragment {
                                 if(null == searchTxtList || 0 == searchTxtList.size()) {
                                     emptyLayout.setVisibility(View.VISIBLE);
                                     smartRefreshLayout.setVisibility(View.GONE);
+                                }else {
+                                    emptyLayout.setVisibility(View.GONE);
+                                    smartRefreshLayout.setVisibility(View.VISIBLE);
                                 }
                             }
                             if(null != searchTxtList && 0!= searchTxtList.size()) {

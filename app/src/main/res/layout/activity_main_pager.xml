@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white">
 
     <LinearLayout
@@ -38,19 +39,35 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/x_ui_px_30.0">
-
-                <ImageView
-                    android:id="@+id/userIcon"
-                    android:layout_width="@dimen/x_ui_px_80.0"
-                    android:layout_height="@dimen/x_ui_px_80.0"
+                <FrameLayout
+                    android:id="@+id/fl_userIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/x_ui_px_10.0"
                     android:layout_marginLeft="@dimen/x_ui_px_30.0"
-                    android:src="@mipmap/head_default"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/userIcon"
+                        android:layout_width="@dimen/x_ui_px_80.0"
+                        android:layout_height="@dimen/x_ui_px_80.0"
+
+                        android:src="@mipmap/head_default"
+                        />
+
+                    <ImageView
+                    android:id="@+id/iv_level"
+                    android:layout_width="@dimen/x_ui_px_22.0"
+                    android:layout_height="@dimen/x_ui_px_22.0"
+                    android:layout_gravity="end|bottom"
+
+
+
                     />
+                </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/userIcon"
+                    android:layout_toRightOf="@+id/fl_userIcon"
                     android:orientation="vertical"
                     android:layout_marginLeft="@dimen/x_ui_px_15.0"
                     android:layout_marginTop="@dimen/x_ui_px_10.0"
@@ -61,6 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        tools:text="芒果"
                         android:textColor="@color/white"
                         android:textSize="@dimen/x_ui_px_36.0"
                         android:textStyle="bold"/>
@@ -69,9 +87,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textColor="@color/white"
-                        android:layout_marginTop="@dimen/x_ui_px_12.0"
-                        android:textSize="@dimen/x_ui_px_28.0"
+                        tools:text="11111"
+                        android:textColor="@color/FF999999"
+                        android:layout_marginTop="@dimen/x_ui_px_6.0"
+                        android:textSize="@dimen/x_ui_px_24.0"
                         android:maxLines="2"
                         android:ellipsize="end"
                         android:lineSpacingExtra="@dimen/x_ui_px_8.0"/>

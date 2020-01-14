@@ -1,5 +1,7 @@
 package songqiu.allthings.util;
 
+import android.text.TextUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,9 +58,21 @@ public class TextVerifyUtil {
 		Matcher m = p.matcher(str);
 		return m.find();
 	}
+	public static boolean isCardId(String s){
+    	if(TextUtils.isEmpty(s)){
+    		return false;
+		}
+    	Pattern p=Pattern.compile("^[1-9]\\d{5}(18|19|20|(3\\d))\\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$");
+    	return p.matcher(s).find();
+	}
 
-
-
+	public static boolean isEmail(String s){
+		if(TextUtils.isEmpty(s)){
+			return false;
+		}
+		Pattern p=Pattern.compile("^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
+		return p.matcher(s).find();
+	}
 	public static class ValidateException extends Exception {
 		public ValidateException(String detailMessage) {
 			super(detailMessage);

@@ -15,6 +15,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,10 +81,14 @@ public class AllHotGambitActivity extends BaseActivity {
 
     @Override
     public void init() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         boolean dayModel = SharedPreferencedUtils.getBoolean(this,SharedPreferencedUtils.dayModel,true);
         modeUi(dayModel);
         titleTv.setText("全部话题");
         initRecyclerView();
+        getHotData(pageNo,false);
     }
 
     public void modeUi(boolean isDay) {
@@ -99,12 +105,6 @@ public class AllHotGambitActivity extends BaseActivity {
                     .init()
                     .setStatusTextColorAndPaddingTop(true, this);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getHotData(pageNo,false);
     }
 
     public void initRecyclerView() {
@@ -204,6 +204,42 @@ public class AllHotGambitActivity extends BaseActivity {
                 });
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void allGambitAttention(EventTags.AllGambitAttention allGambitAttention) {
+        if(null != list) {
+            for(int i = 0;i<list.size();i++) {
+                if(list.get(i).id == allGambitAttention.getId()) {
+                    if(allGambitAttention.getAttention()) { //关注
+                        list.get(i).is_follow = 1;
+                        list.get(i).follow_num = allGambitAttention.getAttentionNum();
+                    }else { //取消关注
+                        list.get(i).is_follow = 0;
+                        list.get(i).follow_num = allGambitAttention.getAttentionNum();
+                    }
+                    hotAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void allGambitHotNum(EventTags.AllGambitHotNum allGambitHotNum) {
+        if(null != list) {
+             for(int i = 0;i<list.size();i++) {
+                 if(list.get(i).id == allGambitHotNum.getId()) {
+                     list.get(i).hot_num = allGambitHotNum.getNum();
+                     hotAdapter.notifyDataSetChanged();
+                 }
+             }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @OnClick(R.id.backImg)

@@ -163,6 +163,8 @@
 
 
 
+
+-keep class songqiu.allthings.auth.bean.** { *; }
 -keep class songqiu.allthings.base.** { *; }
 -keep class songqiu.allthings.bean.** { *; }
 -keep class songqiu.allthings.util.** { *; }
@@ -328,6 +330,7 @@
 -keep class org.android.agoo.**{*;}
 -keep class android.os.**{*;}
 -keep class org.json.**{*;}
+
 -dontwarn com.taobao.**
 -dontwarn com.alibaba.**
 -dontwarn com.alipay.**

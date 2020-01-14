@@ -33,6 +33,8 @@ public class HeaderHolder extends RecyclerView.ViewHolder {
     public ImageView likeImg;
     @BindView(R.id.likeLayout)
     LinearLayout likeLayout;
+    @BindView(R.id.iv_level)
+    ImageView ivLevel;
 
     public HeaderHolder(View itemView) {
         super(itemView);

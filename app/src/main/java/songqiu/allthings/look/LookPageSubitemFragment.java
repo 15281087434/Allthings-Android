@@ -3,6 +3,7 @@ package songqiu.allthings.look;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,6 +57,8 @@ import songqiu.allthings.iterface.LookItemListener;
 import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.NetWorkUtil;
+import songqiu.allthings.util.ScreenUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
@@ -135,7 +138,11 @@ public class LookPageSubitemFragment extends BaseFragment {
            HeartVideoManager.getInstance().pause();
        }
     }
+    private int position_play = 0;//播放的位置
 
+
+    private boolean isLooper = true;
+    private int looperFlag = 0;//0,无自动播放，1.自动播放上一个，2自动播放下一个
     public void initRecycle() {
         item = new ArrayList<>();
         adapter = new LookTabClassAdapter(activity,item);
@@ -143,6 +150,139 @@ public class LookPageSubitemFragment extends BaseFragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycle.setLayoutManager(linearLayoutManager);
         recycle.setAdapter(adapter);
+        recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                //滑动停止后，
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && isLooper && looperFlag != 0) {
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                    switch (looperFlag) {
+
+                        case 1:
+                            int position_lastVisible=layoutManager.findLastVisibleItemPosition();
+                            if (position_lastVisible==position_play){
+                                //自动播放上一个
+                                position_play-=1;
+                            }else {
+                                //最后一个可见的item和滑出去的上次播放的view隔了N(N>=1)个Item,所以自动播放倒数第2个可见的item
+                                position_play=position_lastVisible-1;
+                            }
+
+                            break;
+                        case 2:
+                            int position_firstVisible=layoutManager.findFirstVisibleItemPosition();
+                            if (position_firstVisible==position_play){
+                                //自动播放下一个
+
+                                position_play+=1;
+                            }else {
+                                //第一个可见的item和滑出去的上次播放的view隔了N(N>=1)个Item,所以自动播放第2个可见的item
+                                position_play=position_firstVisible+1;
+
+                            }
+
+                            break;
+                    }
+
+                    item.get(position_play).state=1;
+
+                    recyclerView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            View childAt = layoutManager.findViewByPosition((position_play));
+                            if (childAt!=null&&item.get(position_play).ad==1&&item.get(position_play).type!=1){
+                                //视频开始播放
+                                HeartVideo video=childAt.findViewById(R.id.videoView);
+                                if(video!=null&& NetWorkUtil.getConnectedType(getContext())== ConnectivityManager.TYPE_WIFI) {
+                                    video.startSlence();
+                                }
+                            }
+//                            adapter.notifyItemRangeChanged(position_play,1);
+
+                            looperFlag = 0;//自动播放上一个
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (!isLooper) return;
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                View view = layoutManager.findViewByPosition(position_play);
+                //说明播放的view还未完全消失
+                if (view != null) {
+
+                    int y_t_rv = ScreenUtils.getViewScreenLocation(recyclerView)[1];//RV顶部Y坐标
+                    int y_b_rv = y_t_rv + recyclerView.getHeight();//RV底部Y坐标
+
+                    int y_t_view = ScreenUtils.getViewScreenLocation(view)[1];//播放的View顶部Y坐标
+                    int height_view = view.getHeight();
+                    int y_b_view = y_t_view + height_view;//播放的View底部Y坐标
+
+                    //上滑
+                    if (dy > 0) {
+                        //播放的View上滑，消失了3分之2了,停止播放，
+                        if ((y_t_rv > y_t_view) && ((y_t_rv - y_t_view) > height_view * 2f / 3)) {
+
+                            item.get(position_play).state=0;
+                            recyclerView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    View childAt = layoutManager.findViewByPosition((position_play));
+                                          if (childAt!=null&&item.get(position_play).ad==1&&item.get(position_play).type!=1){
+                                        //视频开始播放
+                                        HeartVideo video=childAt.findViewById(R.id.videoView);
+                                        if(video!=null) {
+                                            if (video == HeartVideoManager.getInstance().getCurrPlayVideo()) {
+                                                HeartVideoManager.getInstance().release();
+                                            }
+                                        }
+                                    }
+                                    looperFlag = 2;//自动播放上一个
+                                }
+                            });
+                        }
+
+                    } else if (dy < 0) {
+                        //下滑
+
+//                        LogUtils.log("y_t_rv", y_t_rv);
+//                        LogUtils.log("y_b_rv", y_b_rv);
+                        //播放的View下滑，消失了一半了,停止播放
+                        if ((y_b_view > y_b_rv) && ((y_b_view - y_b_rv) > height_view * 2f / 3)) {
+
+                            item.get(position_play).state=0;
+                            recyclerView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    View childAt = layoutManager.findViewByPosition((position_play));
+                                          if (childAt!=null&&item.get(position_play).ad==1&&item.get(position_play).type!=1){
+                                        //视频开始播放
+                                        HeartVideo video=childAt.findViewById(R.id.videoView);
+                                        if(video!=null) {
+                                            if (video == HeartVideoManager.getInstance().getCurrPlayVideo()) {
+                                                HeartVideoManager.getInstance().release();
+                                            }
+                                        }
+                                    }
+                                    looperFlag = 1;//自动播放上一个
+                                }
+                            });
+
+
+                        }
+                    }
+                }
+
+
+            }
+        });
         adapter.setLomeItemListener(new LookItemListener() {
             @Override
             public void addSetting(int position) {

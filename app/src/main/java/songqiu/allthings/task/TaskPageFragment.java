@@ -545,6 +545,7 @@ public class TaskPageFragment extends BaseFragment {
                                         VideoControl control = new VideoControl(activity);
                                         control.setInfo(info);
                                         videoView.setHeartVideoContent(control);
+
                                     }
                                     if(5==advertiseBean.change_type) { //大图无下载
                                         downloadLayout.setVisibility(View.GONE);

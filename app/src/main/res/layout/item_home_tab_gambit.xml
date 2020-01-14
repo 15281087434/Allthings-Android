@@ -11,21 +11,34 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/x_ui_px_140.0">
 
-        <ImageView
-            android:id="@+id/userIcon"
-            android:layout_width="@dimen/x_ui_px_72.0"
-            android:layout_height="@dimen/x_ui_px_72.0"
-            android:src="@mipmap/head_default"
-            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        <FrameLayout
+            android:id="@+id/fl_userIcon"
+            android:layout_width="wrap_content"
             android:layout_centerVertical="true"
-            />
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/userIcon"
+                android:layout_width="@dimen/x_ui_px_70.0"
+                android:layout_height="@dimen/x_ui_px_70.0"
+                android:src="@mipmap/head_default"/>
+
+            <ImageView
+                    android:id="@+id/iv_level"
+                    android:layout_width="@dimen/x_ui_px_20.0"
+                    android:layout_height="@dimen/x_ui_px_20.0"
+                    android:layout_gravity="end|bottom"
+
+
+                />
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_toRightOf="@+id/userIcon"
+            android:layout_toRightOf="@+id/fl_userIcon"
             android:layout_marginLeft="@dimen/x_ui_px_19.0"
             android:layout_marginRight="@dimen/x_ui_px_12.0"
             android:layout_centerVertical="true"

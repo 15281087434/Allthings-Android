@@ -16,6 +16,7 @@ import songqiu.allthings.R;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
+
 /**
  */
 
@@ -61,7 +62,6 @@ public class PhotoFragment extends Fragment {
             @Override
             public void onPhotoTap(View view, float x, float y) {
                 getActivity().finish();
-//                getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
             }
 
             public void onOutsidePhotoTap() {

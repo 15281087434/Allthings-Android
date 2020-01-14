@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,6 +37,7 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.PicParameterUtil;
 import songqiu.allthings.util.SharedPreferencedUtils;
@@ -127,6 +129,8 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
+
         holder.userName.setText(item.get(position).user_nickname);
         //变色
         if (item.get(position).descriptions.contains("#")) {
@@ -145,7 +149,7 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
         }
 
         long time = item.get(position).created * 1000;
-        holder.timeTv.setText(DateUtil.getTimeBig3(time));
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         if (0 == item.get(position).is_follow) { //未关注
             holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
@@ -258,6 +262,7 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         RequestOptions options1 = new RequestOptions()
 //                .circleCrop().transforms(new GlideCircleTransform(context))
                 .error(R.mipmap.pic_default_zhengfangxing)
@@ -315,7 +320,7 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             holder.contentTv.setText(item.get(position).descriptions);
         }
         long time = item.get(position).created * 1000;
-        holder.timeTv.setText(DateUtil.getTimeBig3(time));
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         if (0 == item.get(position).is_follow) { //未关注
             holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
@@ -441,6 +446,8 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
+
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         GambitMorePicAdapter gambitMorePicAdapter = new GambitMorePicAdapter(context,item.get(position).images);
         holder.gridView.setAdapter(gambitMorePicAdapter);
         holder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -471,7 +478,7 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
             holder.contentTv.setText(item.get(position).descriptions);
         }
         long time = item.get(position).created * 1000;
-        holder.timeTv.setText(DateUtil.getTimeBig3(time));
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         if (0 == item.get(position).is_follow) { //未关注
             holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
@@ -614,7 +621,8 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.shareTv)
         TextView shareTv;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public NoPicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -656,7 +664,8 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.shareTv)
         TextView shareTv;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public BigPicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -698,7 +707,8 @@ public class GambitCommonAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.shareTv)
         TextView shareTv;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public MoreViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

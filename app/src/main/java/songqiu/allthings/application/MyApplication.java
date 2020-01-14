@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
@@ -69,8 +71,8 @@ public class MyApplication extends Application {
     public String andoridId="";
     //版本号
     public String versionName;
-    //渠道号 官方安卓 1、OPPO 2、vivo 3、华为 4、应用宝 5 、UC 6、360 7、百度 8、小米 9 、魅族 10 、 联想 11
-    public String channel="1";
+    //渠道号 官方安卓 1、OPPO 2、vivo 3、华为 4、应用宝 5 、UC 6、360 7、百度 8、小米 9 、魅族 10
+    public String channel="2";
 
 
     public static MyApplication getInstance() {
@@ -101,6 +103,19 @@ public class MyApplication extends Application {
         });
 
         SmartRefreshLayout.setDefaultRefreshFooterCreater((context, layout) -> new ClassicsFooter(context));
+//        SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
+//            @Override
+//            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+//                //指定为经典Footer，默认是 BallPulseFooter
+//                //设置脚的属性
+//                ClassicsFooter footer = new ClassicsFooter(context);
+//                // 设置背景颜色
+//                footer.setPrimaryColorId(R.color.transparency);
+//                // 设置字体颜色
+//                footer.setAccentColorId(R.color.normal_color);
+//                return footer;
+//            }
+//        });
 
         new Thread(new Runnable() {
             @Override
@@ -117,6 +132,7 @@ public class MyApplication extends Application {
         initCloudChannel(getApplicationContext());
         //bugly
         CrashReport.initCrashReport(getApplicationContext(), "8283ddee60", false);
+        getChannel();
     }
 
 
@@ -173,11 +189,64 @@ public class MyApplication extends Application {
         }
     }
 
+
     private void getAndroidId() {
-        andoridId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+            andoridId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        }
 //        LogUtil.i("andoridId："+andoridId);
     }
 
+    /**
+     * 获取渠道信息
+     */
+    public void getChannel(){
+
+        PackageManager pm=getPackageManager();
+        try {
+            ApplicationInfo info =pm.getApplicationInfo(getPackageName(),
+                    PackageManager.GET_META_DATA);
+            String str=info.metaData.getCharSequence("CHANNEL").toString();
+
+
+            switch (str){
+                 case "guanfang":
+                     channel="1";
+                     break;
+                 case "oppo":
+                     channel="2";
+                     break;
+                 case "vivo":
+                     channel="3";
+                     break;
+                 case "huawei":
+                     channel="4";
+                     break;
+                 case "yingyongbao":
+                     channel="5";
+                     break;
+                 case "uc":
+                     channel="6";
+                     break;
+                 case "qh360":
+                     channel="7";
+                     break;
+                 case "baidu":
+                     channel="8";
+                     break;
+                 case "xiaomi":
+                     channel="9";
+                     break;
+                 case "meizhu":
+                     channel="10";
+                     break;
+             }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            LogUtil.e("channel",channel+"==============================");
+        }
+    }
 
     /**
      * 获取版本号

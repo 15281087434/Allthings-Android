@@ -87,10 +87,10 @@ public class HomePageChooseAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof TitleViewholder) {
             setTitleData((TitleViewholder) holder, position);
-        }else if (holder instanceof ContentViewholder) {
+        } else if (holder instanceof ContentViewholder) {
             setContentData((ContentViewholder) holder, position);
-        }else if(holder instanceof EmptyViewholder) {
-            setEmpty((EmptyViewholder)holder);
+        } else if (holder instanceof EmptyViewholder) {
+            setEmpty((EmptyViewholder) holder);
         }
     }
 
@@ -128,7 +128,8 @@ public class HomePageChooseAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(homeSubitemBean.photo).apply(options1).into(holder.rightPic);
-
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         holder.contentTv.setText(homeSubitemBean.title);
         holder.describeTv.setText(homeSubitemBean.descriptions);
         holder.lookNumTv.setText(String.valueOf(homeSubitemBean.view_num) + "次观看");
@@ -180,6 +181,8 @@ public class HomePageChooseAdapter extends RecyclerView.Adapter {
         ImageView rightPic;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
 
         public ContentViewholder(View itemView) {
             super(itemView);
@@ -194,6 +197,7 @@ public class HomePageChooseAdapter extends RecyclerView.Adapter {
         TextView tvMessage;
         @BindView(R.id.emptyLayout)
         LinearLayout emptyLayout;
+
         public EmptyViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

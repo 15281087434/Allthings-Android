@@ -24,6 +24,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -115,6 +117,9 @@ public class UserAllFragment extends BaseFragment {
 
     @Override
     public void init() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         initRecycle();
         getData(page,false);
     }
@@ -148,30 +153,6 @@ public class UserAllFragment extends BaseFragment {
 
             }
         });
-
-//        adapter.setHomeItemListener(new HomeItemListener() {
-//            @Override
-//            public void addSetting() {
-//                showShareWindow(1);
-//            }
-//
-//            @Override
-//            public void addLike(String url, int type, int mid,HomeSubitemBean homeSubitemBean) {
-//                like(url,type,mid,homeSubitemBean);
-//            }
-//
-//            @Override
-//            public void addFollow(int parentid, int type,List<HomeSubitemBean> item) {
-//                follow(parentid,type,item);
-//            }
-//
-//            @Override
-//            public void delete(int position) {
-//                if(null == item || 0 == item.size()) return;
-//                item.remove(position);
-//                adapter.notifyDataSetChanged();
-//            }
-//        });
 
 
         smartRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
@@ -313,6 +294,7 @@ public class UserAllFragment extends BaseFragment {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            EventBus.getDefault().post(new EventTags.RefreshLook(url, mid));
                             if(url.equals(HttpServicePath.URL_LIKE)) {
                                 userPagerBean.is_up = 1;
                                 userPagerBean.up_num = userPagerBean.up_num+1;
@@ -371,6 +353,49 @@ public class UserAllFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+
+    //视频评论数
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void videoCommentNum(EventTags.VideoCommentNum videoCommentNum) {
+        if(null == item || 0 == item.size()) return;
+        for(int i = 0;i<item.size();i++) {
+            if(item.get(i).articleid == videoCommentNum.getId()) {
+                if(!StringUtil.isEmpty(videoCommentNum.getNum())) {
+                    item.get(i).comment_num = Integer.valueOf(videoCommentNum.getNum());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshLook(EventTags.RefreshLook refreshLook) {
+        if(null == item || 0 == item.size()) return;
+        if(refreshLook.url.equals(HttpServicePath.URL_LIKE)) {
+            for(int i =0;i<item.size();i++) {
+                if(item.get(i).articleid == refreshLook.mid) {
+                    item.get(i).is_up = 1;
+                    item.get(i).up_num = item.get(i).up_num+1;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }else {
+            for(int i =0;i<item.size();i++) {
+                if(item.get(i).articleid == refreshLook.mid) {
+                    item.get(i).is_up = 0;
+                    item.get(i).up_num = item.get(i).up_num-1;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 }

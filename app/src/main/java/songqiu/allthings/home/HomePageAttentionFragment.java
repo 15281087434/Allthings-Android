@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.adapter.HomeAttentionAdapter;
-import songqiu.allthings.adapter.HomeTabClassAdapter;
+
 import songqiu.allthings.base.BaseFragment;
 import songqiu.allthings.bean.HomeAttentionBean;
 import songqiu.allthings.bean.HomeSubitemBean;
@@ -61,6 +62,7 @@ import songqiu.allthings.iterface.WindowShareListener;
 import songqiu.allthings.login.LoginActivity;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.ScreenUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
@@ -127,13 +129,13 @@ public class HomePageAttentionFragment extends BaseFragment {
             EventBus.getDefault().register(this);
         }
         initRecycle();
+        pageNo =1;
+        getData(pageNo,false);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        pageNo =1;
-        getData(pageNo,false);
     }
 
     @Override
@@ -228,8 +230,8 @@ public class HomePageAttentionFragment extends BaseFragment {
                             }
                             if (null != homeAttentionList && 0 != homeAttentionList.size()) {
                                 item.addAll(homeAttentionList);
-                                adapter.notifyDataSetChanged();
                             }
+                            adapter.notifyDataSetChanged();
                             if(ringDown) {
                                 new Handler().postDelayed(new Runnable(){
                                     public void run() {
@@ -473,6 +475,42 @@ public class HomePageAttentionFragment extends BaseFragment {
         smartRefreshLayout.setVisibility(View.VISIBLE);
         pageNo = 1;
         getData(pageNo,false);
+    }
+
+    //视频评论数
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void videoCommentNum(EventTags.VideoCommentNum videoCommentNum) {
+        if(null == item || 0 == item.size()) return;
+        for(int i = 0;i<item.size();i++) {
+            if(item.get(i).articleid == videoCommentNum.getId()) {
+                if(!StringUtil.isEmpty(videoCommentNum.getNum())) {
+                    item.get(i).comment_num = Integer.valueOf(videoCommentNum.getNum());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshLook(EventTags.RefreshLook refreshLook) {
+        if(null == item || 0 == item.size()) return;
+        if(refreshLook.url.equals(HttpServicePath.URL_LIKE)) {
+            for(int i =0;i<item.size();i++) {
+                if(item.get(i).articleid == refreshLook.mid) {
+                    item.get(i).is_up = 1;
+                    item.get(i).up_num = item.get(i).up_num+1;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }else {
+            for(int i =0;i<item.size();i++) {
+                if(item.get(i).articleid == refreshLook.mid) {
+                    item.get(i).is_up = 0;
+                    item.get(i).up_num = item.get(i).up_num-1;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import com.amap.api.location.AMapLocation;
@@ -49,6 +50,7 @@ import songqiu.allthings.http.OkHttp;
 import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.iterface.DialogPrivacyListener;
 import songqiu.allthings.iterface.DialogUploadVersionListener;
+import songqiu.allthings.util.FileUtil;
 import songqiu.allthings.util.LocationUtils;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.NetWorkUtil;
@@ -87,6 +89,8 @@ public class GuideActivity extends BaseActivity {
         StatusBarUtils.with(GuideActivity.this).init().setStatusTextColorWhite(true, GuideActivity.this);
         getDelRd();
         decidePrivacyExplainFirst();
+        //埋点
+        getRecord();
         SharedPreferencedUtils.setString(this,SharedPreferencedUtils.USER_ICON,"");
     }
 
@@ -98,6 +102,16 @@ public class GuideActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    public void getRecord() {
+        Map<String, String> map = new HashMap<>();
+        map.put("type",1+"");
+        OkHttp.post(this, HttpServicePath.URL_RECORD, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+            }
+        });
     }
 
     public void getDelRd() {
@@ -125,13 +139,16 @@ public class GuideActivity extends BaseActivity {
                     public void run() {
                         Gson gson = new Gson();
                         String data = gson.toJson(baseBean.data);
-                        //{"code":"200","msg":"返回成功","data":null}
-                        if (StringUtil.isEmpty(data)) {
+                        if(StringUtil.isEmpty(data)) return;
+                        versionBean = gson.fromJson(data, VersionBean.class);
+                        if(null == versionBean) {
                             getAdvertise();
-//                            toMainActivity();
                         }else {
-                            versionBean = gson.fromJson(data, VersionBean.class);
-                            initUploadVersionDialog(versionBean);
+                            if(versionBean.is_update == 0) {
+                                getAdvertise();
+                            }else {
+                                initUploadVersionDialog(versionBean);
+                            }
                         }
                     }
                 });
@@ -142,7 +159,7 @@ public class GuideActivity extends BaseActivity {
     public void initUploadVersionDialog(VersionBean versionBean) {
         if(null == versionBean) return;
         String version = "V "+versionBean.current_version;
-        DialogUploadVersion dialog = new DialogUploadVersion(this,versionBean.content,version,versionBean.type);
+        DialogUploadVersion dialog = new DialogUploadVersion(this,versionBean.content,version,versionBean.is_update);
         dialog.setCanceledOnTouchOutside(false);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
@@ -178,15 +195,27 @@ public class GuideActivity extends BaseActivity {
             public void run() {
                 //execute the task
                 Intent intent = new Intent(GuideActivity.this,MainActivity.class);
+
+                startActivity(intent);
+                finish();
+            }
+        }, 2000);
+    }
+    public void toMainActivity(AdvertiseBean advertiseBean) {
+        new Handler().postDelayed(new Runnable(){
+            public void run() {
+                //execute the task
+                Intent intent = new Intent(GuideActivity.this,MainActivity.class);
+                intent.putExtra("advertiseBean",advertiseBean);
                 startActivity(intent);
                 finish();
             }
         }, 2000);
     }
 
-
     public void getAdvertise() {
         if (!NetWorkUtil.isNetworkConnected(this)) {
+            Log.e("network",false+"");
             toMainActivity();
             return;
         }
@@ -202,16 +231,27 @@ public class GuideActivity extends BaseActivity {
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
                         List<AdvertiseBean> advertiseBeanListBean = gson.fromJson(data, new TypeToken<List<AdvertiseBean>>() {}.getType());
+                        AdvertiseBean advertiseBean0 =new AdvertiseBean();
+//                        advertiseBean0.url="http://mv.eastday.com/vvideo/20191203/20191203040233701204521_1.mp4";
+//                        advertiseBean0.video_url="http://pic.2265.com/upload/2019-11/20191118152510764860.png";
+//                        advertiseBean0.jump_url="http://pic.2265.com/upload/2019-11/20191118152510764860.png";
+//                        advertiseBean0.type=1;
+//                        advertiseBeanListBean.add(advertiseBean0);
                         if(null==advertiseBeanListBean || 0==advertiseBeanListBean.size()) {
                             toMainActivity();
                             return;
                         }
                         AdvertiseBean advertiseBean = advertiseBeanListBean.get(0);
+
                         if(null == advertiseBean) {
-                            toMainActivity();
+                            toMainActivity(advertiseBean);
                             return;
                         }
-                        toGuideAdvertising(advertiseBean);
+                        if(FileUtil.getAdsFile(GuideActivity.this,advertiseBean.url).exists()) {
+                            toGuideAdvertising(advertiseBean);
+                        }else {
+                            toMainActivity(advertiseBean);
+                        }
                     }
                 });
             }

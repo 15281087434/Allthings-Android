@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -117,6 +118,7 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -158,13 +160,9 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         }
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.tiemTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.tiemTv.setText("1天前");
-        } else {
-            holder.tiemTv.setText(DateUtil.getTimeBig1(time));
-        }
+
+            holder.tiemTv.setText(DateUtil.fromToday(new Date(time)));
+
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,6 +181,7 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -256,6 +255,7 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -313,6 +313,7 @@ public class SearchTxtAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));

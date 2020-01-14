@@ -11,7 +11,11 @@ import java.util.Date;
  * Created by Administrator on 2016/6/23.
  */
 public class DateUtil {
-
+    private static final long ONE_MINUTE = 60;
+    private static final long ONE_HOUR = 3600;
+    private static final long ONE_DAY = 86400;
+    private static final long ONE_MONTH = 2592000;
+    private static final long ONE_YEAR = 31104000;
     private final static long minute = 60 * 1000;// 1分钟
     private final static long hour = 60 * minute;// 1小时
     private final static long day = 24 * hour;// 1天
@@ -140,6 +144,8 @@ public class DateUtil {
         String currentDate = sdf.format(date);  //当期日期
         return currentDate;
     }
+
+
 
     public static String getDateType4(String time) {
         if (!TextUtils.isEmpty(time)) {
@@ -625,5 +631,45 @@ public class DateUtil {
 //        return dayNames[dayOfWeek];
         return dayOfWeek;
     }
+    public static String fromToday(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
 
+        long time = date.getTime() / 1000;
+        long now = new Date().getTime() / 1000;
+        long ago = now - time;
+        if(ago<=ONE_HOUR/60){
+            return "刚刚";
+        }else if (ago <= ONE_HOUR)
+            return ago / ONE_MINUTE + "分钟前";
+        else if (ago <= ONE_DAY)
+            return ago / ONE_HOUR + "小时前";
+        else if (ago <= ONE_DAY * 2)
+            return "昨天" ;
+//                    + calendar.get(Calendar.HOUR_OF_DAY) + "点"
+//                    + calendar.get(Calendar.MINUTE) + "分";
+        else if (ago <= ONE_DAY * 3)
+            return "前天";
+//                    + calendar.get(Calendar.HOUR_OF_DAY) + "点"
+//                    + calendar.get(Calendar.MINUTE) + "分";
+        else if (ago <= ONE_MONTH) {
+            long day = ago / ONE_DAY;
+            return day + "天前";
+//            + calendar.get(Calendar.HOUR_OF_DAY) + "点"
+//                    + calendar.get(Calendar.MINUTE) + "分";
+        } else if (ago <= ONE_YEAR) {
+            long month = ago / ONE_MONTH;
+            long day = ago % ONE_MONTH / ONE_DAY;
+//            return month + "个月" ;
+//            + day + "天前"
+//                    + calendar.get(Calendar.HOUR_OF_DAY) + "点"
+//                    + calendar.get(Calendar.MINUTE) + "分";
+            return (date.getMonth()+1)+"-"+date.getDay();
+        } else {
+//            long year = ago / ONE_YEAR;
+//            int month = calendar.get(Calendar.MONTH) + 1;// JANUARY which is 0 so month+1
+            return date.getYear()+"-"+(date.getMonth()+1)+"-"+date.getDay();
+        }
+
+    }
 }

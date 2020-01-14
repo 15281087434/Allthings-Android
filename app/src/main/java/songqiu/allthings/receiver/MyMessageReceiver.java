@@ -10,9 +10,14 @@ import com.alibaba.sdk.android.push.notification.CPushMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import songqiu.allthings.activity.MainActivity;
+import songqiu.allthings.http.BaseBean;
+import songqiu.allthings.http.HttpServicePath;
+import songqiu.allthings.http.OkHttp;
+import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.util.LogUtil;
 import songqiu.allthings.util.StringUtil;
 
@@ -39,20 +44,25 @@ public class MyMessageReceiver extends MessageReceiver {
     public void onMessage(Context context, CPushMessage cPushMessage) {
         LogUtil.i("=========================onMessage");
         Log.e("MyMessageReceiver", "onMessage, messageId: " + cPushMessage.getMessageId() + ", title: " + cPushMessage.getTitle() + ", content:" + cPushMessage.getContent());
+        getRecord(context);
     }
     @Override
     public void onNotificationOpened(Context context, String title, String summary, String extraMap) {
         //type 0：打开APP、 1：文章详情  target：id、 2：视频详情 target：id
+        LogUtil.i("=====>extraMap: " + extraMap);
+        //{type=1, _ALIYUN_NOTIFICATION_ID_=287894, target=0}
         if(!StringUtil.isEmpty(extraMap)) {
             try {
                 JSONObject jsonObject = new JSONObject(extraMap);
                 String type = jsonObject.optString("type");
 //                LogUtil.i("type:"+type);
-                 int target = jsonObject.optInt("target");
+                 int target = jsonObject.optInt("id");
+                 int isMoment = jsonObject.getInt("isMoment");
 //                LogUtil.i("target:"+target);
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra("type",type);
-                intent.putExtra("target",target);
+                intent.putExtra("id",target);
+                intent.putExtra("isMoment",isMoment);
                 context.startActivity(intent);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -76,5 +86,15 @@ public class MyMessageReceiver extends MessageReceiver {
     protected void onNotificationRemoved(Context context, String messageId) {
         LogUtil.i("=========================onNotificationRemoved");
         Log.e("MyMessageReceiver", "onNotificationRemoved");
+    }
+
+    public void getRecord(Context context) {
+        Map<String, String> map = new HashMap<>();
+        map.put("type",1+"");
+        OkHttp.post(context, HttpServicePath.URL_RECORD, map, new RequestCallBack() {
+            @Override
+            public void httpResult(BaseBean baseBean) {
+            }
+        });
     }
 }

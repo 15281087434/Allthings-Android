@@ -2,6 +2,8 @@ package songqiu.allthings.videodetail;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -55,18 +57,18 @@ import pl.droidsonroids.gif.GifImageView;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
-import songqiu.allthings.adapter.comment.CommentListAdapter;
 import songqiu.allthings.adapter.VideoDetailIntroAdapter;
+import songqiu.allthings.adapter.comment.CommentListAdapter;
 import songqiu.allthings.adapter.comment.CommentSubitemHolder;
 import songqiu.allthings.adapter.comment.HeaderHolder;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.AdvertiseBean;
 import songqiu.allthings.bean.CommentSubitemBean;
 import songqiu.allthings.bean.DeleteCommentBean;
+import songqiu.allthings.bean.DetailCommentListBean;
 import songqiu.allthings.bean.ReadAwardBean;
 import songqiu.allthings.bean.ReportBean;
 import songqiu.allthings.bean.VideoDetailBean;
-import songqiu.allthings.bean.DetailCommentListBean;
 import songqiu.allthings.bean.VideoDetailIntroBean;
 import songqiu.allthings.comment.CommentDetailActivity;
 import songqiu.allthings.http.BaseBean;
@@ -193,23 +195,23 @@ public class VideoDetailActivity extends BaseActivity {
     int progress;
     int circleTime = 300;
     public final int PROGRESS_CIRCLE_STARTING = 0x110;
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case PROGRESS_CIRCLE_STARTING:
                     progress = circleProgress.getProgress();
                     circleProgress.setProgress(++progress);
-                    if(progress >= 100){
+                    if (progress >= 100) {
                         handler.removeMessages(PROGRESS_CIRCLE_STARTING);
                         progress = 0;
                         circleProgress.setProgress(0);
                         circleProgress.setStatus(CustomCircleProgress.Status.End);//修改显示状态为完成
-                        if(null != videoDetailBean) {
+                        if (null != videoDetailBean) {
                             //调用接口
                             carryOutTime();
                         }
-                    }else{
+                    } else {
                         //延迟100ms后继续发消息，实现循环，直到progress=100
                         handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING, circleTime);
                     }
@@ -217,6 +219,45 @@ public class VideoDetailActivity extends BaseActivity {
             }
         }
     };
+    @BindView(R.id.settingImg)
+    ImageView settingImg;
+    @BindView(R.id.qqLayout)
+    LinearLayout qqLayout;
+    @BindView(R.id.weChatLayout)
+    LinearLayout weChatLayout;
+    @BindView(R.id.weChatFriendLayout)
+    LinearLayout weChatFriendLayout;
+    @BindView(R.id.linkLayout)
+    LinearLayout linkLayout;
+    @BindView(R.id.tv_re)
+    TextView tvRe;
+    @BindView(R.id.ll_complete)
+    LinearLayout llComplete;
+    @BindView(R.id.layout1)
+    LinearLayout layout1;
+    @BindView(R.id.lookImg)
+    ImageView lookImg;
+    @BindView(R.id.userLayout)
+    LinearLayout userLayout;
+    @BindView(R.id.likeLayout)
+    RelativeLayout likeLayout;
+    @BindView(R.id.shareFriendLayout)
+    RelativeLayout shareFriendLayout;
+    @BindView(R.id.shareWxLayout)
+    RelativeLayout shareWxLayout;
+
+    @BindView(R.id.advertisingCloseImg)
+    ImageView advertisingCloseImg;
+    @BindView(R.id.propressLayout)
+    LinearLayout propressLayout;
+
+
+    @BindView(R.id.showEdit)
+    TextView showEdit;
+    @BindView(R.id.lookCommentImg)
+    ImageView lookCommentImg;
+    @BindView(R.id.bottomLayout)
+    LinearLayout bottomLayout;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -232,11 +273,11 @@ public class VideoDetailActivity extends BaseActivity {
         boolean dayModel = SharedPreferencedUtils.getBoolean(this, SharedPreferencedUtils.dayModel, true);
         modeUi(dayModel);
         articleid = getIntent().getIntExtra("articleid", 0);
-        animationDrawable = (AnimationDrawable)videoGoldImg.getBackground();
+        animationDrawable = (AnimationDrawable) videoGoldImg.getBackground();
         viewPro();
         initRecycl();
         getVideoDtailData(articleid);
-        getComment(articleid, pageNo,false);
+        getComment(articleid, pageNo, false);
         getVoide();
         initBroadcastReceiver();
         getAdvertise();
@@ -254,19 +295,19 @@ public class VideoDetailActivity extends BaseActivity {
     private class MyBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            videoId = intent.getIntExtra("videoId",0);
+            videoId = intent.getIntExtra("videoId", 0);
             if ("start_video".equals(intent.getAction())) {
-                    //延迟100ms后继续发消息，实现循环，直到progress=100
-                    if(CheckLogin.isLogin(VideoDetailActivity.this)) {
-                        if(0!=videoId) {
+                //延迟100ms后继续发消息，实现循环，直到progress=100
+                if (CheckLogin.isLogin(VideoDetailActivity.this)) {
+                    if (0 != videoId) {
                         handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING, circleTime);
                     }
                 }
-            }else if("stop_video".equals(intent.getAction())) {
+            } else if ("stop_video".equals(intent.getAction())) {
                 //点击则变成关闭暂停状态
 //                LogUtil.i("***************stop_video："+circleProgress.getProgress());
-                if(CheckLogin.isLogin(VideoDetailActivity.this)) {
-                    if(0!=videoId) {
+                if (CheckLogin.isLogin(VideoDetailActivity.this)) {
+                    if (0 != videoId) {
                         circleProgress.setStatus(CustomCircleProgress.Status.End);
                         //注意，当我们暂停时，同时还要移除消息，不然的话进度不会被停止
                         handler.removeMessages(PROGRESS_CIRCLE_STARTING);
@@ -286,7 +327,7 @@ public class VideoDetailActivity extends BaseActivity {
         //注意，当我们暂停时，同时还要移除消息，不然的话进度不会被停止
         handler.removeMessages(PROGRESS_CIRCLE_STARTING);
         //将当前进度存入本地
-        SharedPreferencedUtils.setInteger(VideoDetailActivity.this,SharedPreferencedUtils.VEDIO_READ_TIME,circleProgress.getProgress());
+        SharedPreferencedUtils.setInteger(VideoDetailActivity.this, SharedPreferencedUtils.VEDIO_READ_TIME, circleProgress.getProgress());
     }
 
     public void viewPro() {
@@ -318,13 +359,13 @@ public class VideoDetailActivity extends BaseActivity {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 pageNo = pageNo + 1;
-                getComment(articleid, pageNo,false);
+                getComment(articleid, pageNo, false);
             }
 
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 pageNo = 1;
-                getComment(articleid, pageNo,true);
+                getComment(articleid, pageNo, true);
             }
         });
 
@@ -332,21 +373,22 @@ public class VideoDetailActivity extends BaseActivity {
         videoDetailCommentAdapter.setVideoDetailCommentItemListener(new VideoDetailCommentItemListener() {
             //一级评论点赞、取消点赞
             @Override
-            public void addLike(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean,RecyclerView.ViewHolder viewHolder) {
-                like(url, type, mid, videoDetailCommentBean,viewHolder);
+            public void addLike(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean, RecyclerView.ViewHolder viewHolder) {
+                like(url, type, mid, videoDetailCommentBean, viewHolder);
             }
+
             //二级评论点赞、取消点赞
             @Override
-            public void addSubitemLike(String url, int type, int mid, CommentSubitemBean commentSubitemBean,RecyclerView.ViewHolder viewHolder) {
-                like(url, type, mid, commentSubitemBean,viewHolder);
+            public void addSubitemLike(String url, int type, int mid, CommentSubitemBean commentSubitemBean, RecyclerView.ViewHolder viewHolder) {
+                like(url, type, mid, commentSubitemBean, viewHolder);
             }
 
             //回复评论
             @Override
-            public void toReply(int type,int grade,int pid,String name) {
+            public void toReply(int type, int grade, int pid, String name) {
                 if (null != videoDetailBean) {
                     if (1 == videoDetailBean.is_comment) {
-                        showPopupwindow(type,grade,pid,"回复@"+name);
+                        showPopupwindow(type, grade, pid, "回复@" + name);
                     } else {
                         ToastUtil.showToast(VideoDetailActivity.this, "暂时不能评论!");
                     }
@@ -355,31 +397,31 @@ public class VideoDetailActivity extends BaseActivity {
 
             //长按
             @Override
-            public void longClick(int id, int commentId, int article_id, int type, int position,int subPosition,String content) {
-                int userId = SharedPreferencedUtils.getInteger(VideoDetailActivity.this,"SYSUSERID",0);
-                if(userId == id) {
+            public void longClick(int id, int commentId, int article_id, int type, int position, int subPosition, String content) {
+                int userId = SharedPreferencedUtils.getInteger(VideoDetailActivity.this, "SYSUSERID", 0);
+                if (userId == id) {
                     //长按删除
-                    longClickDialog(VideoDetailActivity.this,true,commentId,article_id,type,position,subPosition,content);
-                }else {
+                    longClickDialog(VideoDetailActivity.this, true, commentId, article_id, type, position, subPosition, content);
+                } else {
                     //长按举报
-                    longClickDialog(VideoDetailActivity.this,false,commentId,article_id,type,position,subPosition,content);
+                    longClickDialog(VideoDetailActivity.this, false, commentId, article_id, type, position, subPosition, content);
                 }
             }
 
             //展开更多回复
             @Override
             public void showMoreComment(int mid) {
-                Intent intent = new Intent(VideoDetailActivity.this,CommentDetailActivity.class);
-                intent.putExtra("mid",mid);
-                intent.putExtra("type",1);
-                if(null != videoDetailBean) {
+                Intent intent = new Intent(VideoDetailActivity.this, CommentDetailActivity.class);
+                intent.putExtra("mid", mid);
+                intent.putExtra("type", 1);
+                if (null != videoDetailBean) {
                     if (1 == videoDetailBean.is_comment) {
-                        intent.putExtra("canToReply",true);
-                    }else {
-                        intent.putExtra("canToReply",false);
+                        intent.putExtra("canToReply", true);
+                    } else {
+                        intent.putExtra("canToReply", false);
                     }
-                }else {
-                    intent.putExtra("canToReply",true);
+                } else {
+                    intent.putExtra("canToReply", true);
                 }
                 startActivity(intent);
             }
@@ -402,13 +444,13 @@ public class VideoDetailActivity extends BaseActivity {
     //评论详情一级评论点赞通知
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void LikeComment(EventTags.LikeComment likeComment) {
-        if(null == item1) return;
-        for(int i = 0;i<item1.size();i++) {
-            if(likeComment.getMid() == item1.get(i).commentid) {
-                if(likeComment.getLike()) { //评论详情点赞
+        if (null == item1) return;
+        for (int i = 0; i < item1.size(); i++) {
+            if (likeComment.getMid() == item1.get(i).commentid) {
+                if (likeComment.getLike()) { //评论详情点赞
                     item1.get(i).up_num = item1.get(i).up_num + 1;
                     item1.get(i).is_up = 1;
-                }else {//评论详情取消点赞
+                } else {//评论详情取消点赞
                     item1.get(i).up_num = item1.get(i).up_num - 1;
                     item1.get(i).is_up = 0;
                 }
@@ -420,16 +462,16 @@ public class VideoDetailActivity extends BaseActivity {
     //评论详情二级评论点赞通知
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void LikeSubComment(EventTags.LikeSubComment likeSubComment) {
-        if(null == item1) return;
-        for(int i = 0;i<item1.size();i++) {
-            if(likeSubComment.getMid() == item1.get(i).commentid) {
-                if(null == item1.get(i).cdata1) return;
-                for(int j = 0;j<item1.get(i).cdata1.size();j++) {
-                    if(likeSubComment.getSubMid() == item1.get(i).cdata1.get(j).commentid) {
-                        if(likeSubComment.getLike()) {
+        if (null == item1) return;
+        for (int i = 0; i < item1.size(); i++) {
+            if (likeSubComment.getMid() == item1.get(i).commentid) {
+                if (null == item1.get(i).cdata1) return;
+                for (int j = 0; j < item1.get(i).cdata1.size(); j++) {
+                    if (likeSubComment.getSubMid() == item1.get(i).cdata1.get(j).commentid) {
+                        if (likeSubComment.getLike()) {
                             item1.get(i).cdata1.get(j).up_num = item1.get(i).cdata1.get(j).up_num + 1;
                             item1.get(i).cdata1.get(j).is_up = 1;
-                        }else {
+                        } else {
                             item1.get(i).cdata1.get(j).up_num = item1.get(i).cdata1.get(j).up_num - 1;
                             item1.get(i).cdata1.get(j).is_up = 0;
                         }
@@ -443,14 +485,15 @@ public class VideoDetailActivity extends BaseActivity {
     //评论详情增加评论通知
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void AddComment(EventTags.AddComment addComment) {
-        if(null == item1) return;
-        for(int i = 0;i<item1.size();i++) {
-            if(addComment.getMid() == item1.get(i).commentid) {
-                item1.get(i).cdata1.add(0,addComment.getCommentSubitemBean());
+        if (null == item1) return;
+        for (int i = 0; i < item1.size(); i++) {
+            if (addComment.getMid() == item1.get(i).commentid) {
+                item1.get(i).cdata1.add(0, addComment.getCommentSubitemBean());
                 item1.get(i).num = item1.get(i).num + 1;
                 videoDetailCommentAdapter.notifyDataSetChanged();
-                int commentNum = Integer.valueOf(commentNumTv.getText().toString())+1;
+                int commentNum = Integer.valueOf(commentNumTv.getText().toString()) + 1;
                 commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
+                EventBus.getDefault().post(new EventTags.VideoCommentNum(articleid,commentNumTv.getText().toString()));
             }
         }
     }
@@ -458,21 +501,22 @@ public class VideoDetailActivity extends BaseActivity {
     //评论详情删除评论通知
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void DeleteComment(EventTags.DeleteComment deleteComment) {
-        if(null == item1) return;
-        for(int i = 0;i<item1.size();i++) {
-            if(deleteComment.getMid() == item1.get(i).commentid) {
-                if(null == item1.get(i).cdata1) return;
-                for(int k = 0;k<item1.get(i).cdata1.size();k++) {
-                    if((deleteComment.getSubMid()== item1.get(i).cdata1.get(k).commentid) ||
-                            (deleteComment.getSubMid()== item1.get(i).cdata1.get(k).pid)) {
+        if (null == item1) return;
+        for (int i = 0; i < item1.size(); i++) {
+            if (deleteComment.getMid() == item1.get(i).commentid) {
+                if (null == item1.get(i).cdata1) return;
+                for (int k = 0; k < item1.get(i).cdata1.size(); k++) {
+                    if ((deleteComment.getSubMid() == item1.get(i).cdata1.get(k).commentid) ||
+                            (deleteComment.getSubMid() == item1.get(i).cdata1.get(k).pid)) {
                         item1.get(i).cdata1.remove(k);
                         k--;
                     }
                 }
                 item1.get(i).num = item1.get(i).num - deleteComment.getDeleteCommentNum();
-                int commentNum = Integer.valueOf(commentNumTv.getText().toString())-deleteComment.getDeleteCommentNum();
+                int commentNum = Integer.valueOf(commentNumTv.getText().toString()) - deleteComment.getDeleteCommentNum();
                 commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
                 videoDetailCommentAdapter.notifyDataSetChanged();
+                EventBus.getDefault().post(new EventTags.VideoCommentNum(articleid,commentNumTv.getText().toString()));
             }
         }
     }
@@ -530,7 +574,7 @@ public class VideoDetailActivity extends BaseActivity {
                             videoDetailCommentAdapter.notifyDataSetChanged();
                         }
 
-                        if(ringDown) {
+                        if (ringDown) {
                             VibratorUtil.ringDown(VideoDetailActivity.this);
                         }
                     }
@@ -587,11 +631,14 @@ public class VideoDetailActivity extends BaseActivity {
                         Gson gson = new Gson();
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
-                        List<AdvertiseBean> advertiseBeanListBean = gson.fromJson(data, new TypeToken<List<AdvertiseBean>>() {}.getType());
-                        if(null==advertiseBeanListBean || 0==advertiseBeanListBean.size()) return;
+                        List<AdvertiseBean> advertiseBeanListBean = gson.fromJson(data, new TypeToken<List<AdvertiseBean>>() {
+                        }.getType());
+                        if (null == advertiseBeanListBean || 0 == advertiseBeanListBean.size())
+                            return;
                         advertiseBean = advertiseBeanListBean.get(0);
                         if (null != advertiseBean) {
-                            String url = advertiseBean.url.replaceAll("\"","");;
+                            String url = advertiseBean.url.replaceAll("\"", "");
+                            ;
                             if (!StringUtil.isEmpty(url)) {
                                 if (!url.contains("http")) {
                                     url = HttpServicePath.BasePicUrl + url;
@@ -604,14 +651,14 @@ public class VideoDetailActivity extends BaseActivity {
                                 RequestOptions options = new RequestOptions()
                                         .error(R.mipmap.pic_default)
                                         .placeholder(R.mipmap.pic_default);
-                                GlideLoadUtils.getInstance().glideLoad(VideoDetailActivity.this,url,options,advertisingImg);
+                                GlideLoadUtils.getInstance().glideLoad(VideoDetailActivity.this, url, options, advertisingImg);
                                 if (2 == advertiseBean.change_type) { //大图无下载
                                     downloadLayout.setVisibility(View.GONE);
                                 }
-                            }else { //广告视频
+                            } else { //广告视频
                                 advertisingVideoView.setVisibility(View.VISIBLE);
                                 String path = advertiseBean.video_url;//
-                                if(!StringUtil.isEmpty(path)) {
+                                if (!StringUtil.isEmpty(path)) {
                                     HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(path).setImagePath(url).setSaveProgress(false).builder();
                                     VideoControl control = new VideoControl(VideoDetailActivity.this);
                                     control.setInfo(info);
@@ -633,31 +680,39 @@ public class VideoDetailActivity extends BaseActivity {
         if (null == videoDetailBean) return;
         prestrainLayout.setVisibility(View.GONE);
         if (!StringUtil.isEmpty(videoDetailBean.video_url)) {
-            if(null != VideoDetailActivity.this && !VideoDetailActivity.this.isDestroyed()) {
+            if (null != VideoDetailActivity.this && !VideoDetailActivity.this.isDestroyed()) {
                 if (!videoDetailBean.photo.contains("http")) {
                     videoDetailBean.photo = HttpServicePath.BasePicUrl + videoDetailBean.photo;
                 }
-                if(!StringUtil.isEmpty(videoDetailBean.video_url)) { //
+                if (!StringUtil.isEmpty(videoDetailBean.video_url)) { //
                     HeartVideoInfo info = HeartVideoInfo.Builder().setTitle("").setPath(videoDetailBean.video_url).setImagePath(videoDetailBean.photo)
                             .setSaveProgress(false).setVideoId(videoDetailBean.articleid).builder();
                     VideoControl control = new VideoControl(VideoDetailActivity.this);
                     control.setInfo(info);
                     videoView.setHeartVideoContent(control);
+                    videoView.setCompletionListener(new HeartVideo.OnCompletionListener() {
+                        @Override
+                        public void onCompleticon() {
+                        llComplete.setVisibility(View.VISIBLE);
+
+                            videoView.getHeartVideoControl().invokeTopAndBottomLayout(false);
+                        }
+                    });
                 }
             }
         }
-        lookNumTv.setText(ShowNumUtil.showUnm1(videoDetailBean.view_num)+"万次播放");
-        if(0==videoDetailBean.is_original) {
+        lookNumTv.setText(ShowNumUtil.showUnm1(videoDetailBean.view_num) + "次播放");
+        if (0 == videoDetailBean.is_original) {
             originalTv.setText("原创");
             originalTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
-        }else {
+        } else {
             originalTv.setText("转载");
         }
         titleTv.setText(videoDetailBean.title);
         if (!videoDetailBean.avatar.contains("http")) {
             videoDetailBean.avatar = HttpServicePath.BasePicUrl + videoDetailBean.avatar;
         }
-        GlideLoadUtils.getInstance().glideLoadHead(this,videoDetailBean.avatar,userIcon);
+        GlideLoadUtils.getInstance().glideLoadHead(this, videoDetailBean.avatar, userIcon);
         userName.setText(videoDetailBean.user_nickname);
         likeNumTv.setText(ShowNumUtil.showUnm(videoDetailBean.up_num));
         commentNumTv.setText(String.valueOf(videoDetailBean.comment_num));
@@ -690,11 +745,11 @@ public class VideoDetailActivity extends BaseActivity {
 //                }
 //            }
 //        }
-        circleProgress.setProgress(SharedPreferencedUtils.getInteger(VideoDetailActivity.this,SharedPreferencedUtils.VEDIO_READ_TIME,0));
+        circleProgress.setProgress(SharedPreferencedUtils.getInteger(VideoDetailActivity.this, SharedPreferencedUtils.VEDIO_READ_TIME, 0));
     }
 
     //一级评论点赞/取消点赞
-    public void like(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean,RecyclerView.ViewHolder viewHolder) {
+    public void like(String url, int type, int mid, DetailCommentListBean videoDetailCommentBean, RecyclerView.ViewHolder viewHolder) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type + "");
         map.put("mid", mid + "");
@@ -707,7 +762,7 @@ public class VideoDetailActivity extends BaseActivity {
                         if (url.equals(HttpServicePath.URL_LIKE)) {
                             videoDetailCommentBean.up_num = videoDetailCommentBean.up_num + 1;
                             videoDetailCommentBean.is_up = 1;
-                            if(viewHolder instanceof HeaderHolder) {
+                            if (viewHolder instanceof HeaderHolder) {
                                 ((HeaderHolder) viewHolder).likeNumTv.setText(String.valueOf(videoDetailCommentBean.up_num));
                                 ((HeaderHolder) viewHolder).likeNumTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
                                 ((HeaderHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
@@ -715,7 +770,7 @@ public class VideoDetailActivity extends BaseActivity {
                         } else {
                             videoDetailCommentBean.up_num = videoDetailCommentBean.up_num - 1;
                             videoDetailCommentBean.is_up = 0;
-                            if(viewHolder instanceof HeaderHolder) {
+                            if (viewHolder instanceof HeaderHolder) {
                                 ((HeaderHolder) viewHolder).likeNumTv.setText(String.valueOf(videoDetailCommentBean.up_num));
                                 ((HeaderHolder) viewHolder).likeNumTv.setTextColor(getResources().getColor(R.color.FF666666));
                                 ((HeaderHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
@@ -728,7 +783,7 @@ public class VideoDetailActivity extends BaseActivity {
     }
 
     //二级评论点赞/取消点赞
-    public void like(String url, int type, int mid, CommentSubitemBean commentSubitemBean,RecyclerView.ViewHolder viewHolder) {
+    public void like(String url, int type, int mid, CommentSubitemBean commentSubitemBean, RecyclerView.ViewHolder viewHolder) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type + "");
         map.put("mid", mid + "");
@@ -741,7 +796,7 @@ public class VideoDetailActivity extends BaseActivity {
                         if (url.equals(HttpServicePath.URL_LIKE)) {
                             commentSubitemBean.up_num = commentSubitemBean.up_num + 1;
                             commentSubitemBean.is_up = 1;
-                            if(viewHolder instanceof CommentSubitemHolder) {
+                            if (viewHolder instanceof CommentSubitemHolder) {
                                 ((CommentSubitemHolder) viewHolder).likeNumTv.setText(String.valueOf(commentSubitemBean.up_num));
                                 ((CommentSubitemHolder) viewHolder).likeNumTv.setTextColor(getResources().getColor(R.color.FFDE5C51));
                                 ((CommentSubitemHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like_pre);
@@ -749,7 +804,7 @@ public class VideoDetailActivity extends BaseActivity {
                         } else {
                             commentSubitemBean.up_num = commentSubitemBean.up_num - 1;
                             commentSubitemBean.is_up = 0;
-                            if(viewHolder instanceof CommentSubitemHolder) {
+                            if (viewHolder instanceof CommentSubitemHolder) {
                                 ((CommentSubitemHolder) viewHolder).likeNumTv.setText(String.valueOf(commentSubitemBean.up_num));
                                 ((CommentSubitemHolder) viewHolder).likeNumTv.setTextColor(getResources().getColor(R.color.FF666666));
                                 ((CommentSubitemHolder) viewHolder).likeImg.setImageResource(R.mipmap.item_like);
@@ -772,7 +827,7 @@ public class VideoDetailActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        EventBus.getDefault().post(new EventTags.RefreshLook(url,mid));
+                        EventBus.getDefault().post(new EventTags.RefreshLook(url, mid));
                         if (url.equals(HttpServicePath.URL_LIKE)) {
                             videoDetailBean.is_up = 1;
                             videoDetailBean.up_num = videoDetailBean.up_num + 1;
@@ -793,8 +848,8 @@ public class VideoDetailActivity extends BaseActivity {
     }
 
 
-    public void longClickDialog(Context context,boolean isMyself,int commentId,int article_id,int type,int position,int subPosition,String content) {
-        LongClickDialog dialog = new LongClickDialog(context,isMyself);
+    public void longClickDialog(Context context, boolean isMyself, int commentId, int article_id, int type, int position, int subPosition, String content) {
+        LongClickDialog dialog = new LongClickDialog(context, isMyself);
         dialog.showDialog();
         dialog.setOnItemClickListener(new LongClickDialog.OnItemClick() {
             @Override
@@ -802,15 +857,15 @@ public class VideoDetailActivity extends BaseActivity {
                 switch (pos) {
                     //复制
                     case 0:
-                        CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(VideoDetailActivity.this,content);
+                        CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(VideoDetailActivity.this, content);
                         copyButtonLibrary.init(content);
-                        ToastUtil.showToast(VideoDetailActivity.this,"复制成功");
+                        ToastUtil.showToast(VideoDetailActivity.this, "复制成功");
                         break;
                     case 1:
-                        if(isMyself) { //删除自己的评论
-                            delComment(commentId, article_id, type, position,subPosition);
-                        }else { //举报他人的评论
-                            showReportWindow(commentId,4);
+                        if (isMyself) { //删除自己的评论
+                            delComment(commentId, article_id, type, position, subPosition);
+                        } else { //举报他人的评论
+                            showReportWindow(commentId, 4);
                         }
                         break;
                 }
@@ -823,7 +878,7 @@ public class VideoDetailActivity extends BaseActivity {
     //type评论类型,1=文章，2=视频，3=话题
     //grade 评论等级，0=一级评论，1=二级评论，2=三级评论
     //pid 上级id,0=没有上级
-    public void addComment(int type, int articleid, String content,int grade,int pid) {
+    public void addComment(int type, int articleid, String content, int grade, int pid) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type + "");
         map.put("articleid", articleid + "");
@@ -837,9 +892,10 @@ public class VideoDetailActivity extends BaseActivity {
                     @Override
                     public void run() {
                         pageNo = 1;
-                        getComment(articleid, pageNo,false);
+                        getComment(articleid, pageNo, false);
                         //评论数
-                        commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString())+1));
+                        commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString()) + 1));
+                        EventBus.getDefault().post(new EventTags.VideoCommentNum(articleid,commentNumTv.getText().toString()));
                     }
                 });
             }
@@ -847,7 +903,7 @@ public class VideoDetailActivity extends BaseActivity {
     }
 
     //删除评论
-    public void delComment(int commentId, int article_id, int type, int position,int subPosition) {
+    public void delComment(int commentId, int article_id, int type, int position, int subPosition) {
         Map<String, String> map = new HashMap<>();
         map.put("commentid", commentId + "");
         map.put("articleid", article_id + "");
@@ -863,20 +919,21 @@ public class VideoDetailActivity extends BaseActivity {
                         String data = gson.toJson(baseBean.data);
                         if (StringUtil.isEmpty(data)) return;
                         DeleteCommentBean deleteCommentBean = gson.fromJson(data, DeleteCommentBean.class);
-                        if(null != deleteCommentBean) {
-                            commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString())-deleteCommentBean.num));
+                        if (null != deleteCommentBean) {
+                            commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString()) - deleteCommentBean.num));
+                            EventBus.getDefault().post(new EventTags.VideoCommentNum(articleid,commentNumTv.getText().toString()));
                         }
 
-                        if(null == item1) return;
-                        if(subPosition<0) { //长按一级评论的删除
+                        if (null == item1) return;
+                        if (subPosition < 0) { //长按一级评论的删除
                             item1.remove(position);
-                        }else { //删除二级或者三级评论的回复
+                        } else { //删除二级或者三级评论的回复
                             item1.get(position).num = item1.get(position).num - deleteCommentBean.num;
-                            if(null == item1.get(position).cdata1) return;
-                            for(int i = 0;i<item1.get(position).cdata1.size();i++) {
-                                if(commentId == item1.get(position).cdata1.get(i).commentid
+                            if (null == item1.get(position).cdata1) return;
+                            for (int i = 0; i < item1.get(position).cdata1.size(); i++) {
+                                if (commentId == item1.get(position).cdata1.get(i).commentid
                                         || commentId == item1.get(position).cdata1.get(i).pid
-                                        ) {
+                                ) {
                                     item1.get(position).cdata1.remove(i);
                                     i--;
                                 }
@@ -909,25 +966,25 @@ public class VideoDetailActivity extends BaseActivity {
                         if (StringUtil.isEmpty(data)) return;
                         ReadAwardBean readAwardBean = gson.fromJson(data, ReadAwardBean.class);
                         if (null == readAwardBean) return;
-                        goldTv.setText("+"+ readAwardBean.coin);
+                        goldTv.setText("+" + readAwardBean.coin);
                         videoAwardLayout.setVisibility(View.VISIBLE);
                         animationDrawable.start();
-                        new Handler().postDelayed(new Runnable(){
+                        new Handler().postDelayed(new Runnable() {
                             public void run() {
                                 //execute the task
                                 animationDrawable.stop();
                                 videoAwardLayout.setVisibility(View.GONE);
                             }
                         }, 1500);
-                        handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING,circleTime);
+                        handler.sendEmptyMessageDelayed(PROGRESS_CIRCLE_STARTING, circleTime);
                     }
                 });
             }
         });
     }
 
-    public void showPopupwindow(int type,int grade,int pid,String hint) {
-        CommentWindow fw = new CommentWindow(this,hint);
+    public void showPopupwindow(int type, int grade, int pid, String hint) {
+        CommentWindow fw = new CommentWindow(this, hint);
         fw.showAtLocation(titleTv, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         fw.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -946,7 +1003,7 @@ public class VideoDetailActivity extends BaseActivity {
             @Override
             public void publishComment(String comment) {
                 if (null != videoDetailBean) {
-                    addComment(type, videoDetailBean.articleid, comment,grade,pid);
+                    addComment(type, videoDetailBean.articleid, comment, grade, pid);
                 }
                 fw.dismiss();
             }
@@ -970,8 +1027,8 @@ public class VideoDetailActivity extends BaseActivity {
     }
 
     //举报弹窗
-    public void showReportWindow(int mid,int type) {
-        ReportPopupWindows rw = new ReportPopupWindows(this, reportList(),mid,type);
+    public void showReportWindow(int mid, int type) {
+        ReportPopupWindows rw = new ReportPopupWindows(this, reportList(), mid, type);
         WindowUtil.windowDeploy(this, rw, backImg);
     }
 
@@ -996,7 +1053,7 @@ public class VideoDetailActivity extends BaseActivity {
             }
             oks.setImageUrl(videoDetailBean.photo);
         } else {
-            oks.setImageUrl(HttpServicePath.BasePicUrl+"sharelog.png?time="+System.currentTimeMillis());
+            oks.setImageUrl(HttpServicePath.BasePicUrl + "sharelog.png?time=" + System.currentTimeMillis());
         }
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl(ShareUrl.getUrl(videoDetailBean.articleid, 2));
@@ -1045,7 +1102,7 @@ public class VideoDetailActivity extends BaseActivity {
             @Override
             public void report() {
                 if (null == videoDetailBean) return;
-                showReportWindow(videoDetailBean.articleid,2);
+                showReportWindow(videoDetailBean.articleid, 2);
                 rw.dismiss();
             }
 
@@ -1109,11 +1166,11 @@ public class VideoDetailActivity extends BaseActivity {
                         if (url.equals(HttpServicePath.URL_COLLECT)) {
                             videoDetailBean.is_collect = 1;
                             collectImg.setImageResource(R.mipmap.item_collect_pre);
-                            EventBus.getDefault().post(new EventTags.CollectEvent(mid,true));
+                            EventBus.getDefault().post(new EventTags.CollectEvent(mid, true));
                         } else {
                             videoDetailBean.is_collect = 0;
                             collectImg.setImageResource(R.mipmap.item_collect);
-                            EventBus.getDefault().post(new EventTags.CollectEvent(mid,false));
+                            EventBus.getDefault().post(new EventTags.CollectEvent(mid, false));
                         }
                     }
                 });
@@ -1141,17 +1198,17 @@ public class VideoDetailActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             HeartVideo heartVideo = HeartVideoManager.getInstance().getCurrPlayVideo();
-            if(null != heartVideo && heartVideo.getCurrModeStatus()== PlayerStatus.MODE_FULL_SCREEN) {
+            if (null != heartVideo && heartVideo.getCurrModeStatus() == PlayerStatus.MODE_FULL_SCREEN) {
                 HeartVideoManager.getInstance().getCurrPlayVideo().exitFullScreen();
-            }else {
+            } else {
                 finish();
             }
         }
         return false;
     }
 
-    @OnClick({R.id.titleLayout, R.id.backImg, R.id.showEdit, R.id.likeLayout, R.id.attentionTv,R.id.shareFriendLayout,R.id.shareWxLayout,
-            R.id.collectImg, R.id.settingImg, R.id.shareImg, R.id.lookCommentImg, R.id.userLayout,R.id.jumpLayout,R.id.advertisingImg})
+    @OnClick({R.id.titleLayout, R.id.backImg, R.id.showEdit, R.id.likeLayout, R.id.attentionTv, R.id.shareFriendLayout, R.id.shareWxLayout,
+            R.id.collectImg, R.id.settingImg, R.id.shareImg, R.id.lookCommentImg, R.id.userLayout, R.id.jumpLayout, R.id.advertisingImg})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.titleLayout:
@@ -1160,10 +1217,10 @@ public class VideoDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.showEdit:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null != videoDetailBean) {
                         if (1 == videoDetailBean.is_comment) {
-                            showPopupwindow(2,0,0,"优质评论会被优先展示哦!");
+                            showPopupwindow(2, 0, 0, "优质评论会被优先展示哦!");
                         } else {
                             ToastUtil.showToast(this, "暂时不能评论!");
                         }
@@ -1171,7 +1228,7 @@ public class VideoDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.likeLayout: //点赞
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null == videoDetailBean) return;
                     if (0 == videoDetailBean.is_up) {//去点赞
                         addLike(HttpServicePath.URL_LIKE, 2, videoDetailBean.articleid);
@@ -1184,7 +1241,7 @@ public class VideoDetailActivity extends BaseActivity {
 //                showReportWindow();
 //                break;
             case R.id.attentionTv: //关注
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null == videoDetailBean) return;
                     if (0 == videoDetailBean.is_follow) {//去关注
                         addFollow(videoDetailBean.userid, 1);
@@ -1194,7 +1251,7 @@ public class VideoDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.collectImg:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null == videoDetailBean) return;
                     if (0 == videoDetailBean.is_collect) {//去收藏
                         addCollect(HttpServicePath.URL_COLLECT, 2, videoDetailBean.articleid);
@@ -1204,12 +1261,12 @@ public class VideoDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.settingImg:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     showShareWindow(1);
                 }
                 break;
             case R.id.shareImg:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     showShareWindow(0);
                 }
                 break;
@@ -1223,7 +1280,7 @@ public class VideoDetailActivity extends BaseActivity {
                 break;
             case R.id.userLayout:
                 if (ClickUtil.onClick()) {
-                    if(null == videoDetailBean) return;
+                    if (null == videoDetailBean) return;
                     Intent intent = new Intent(VideoDetailActivity.this, UserPagerActivity.class);
                     intent.putExtra("userId", videoDetailBean.userid);
                     startActivity(intent);
@@ -1231,15 +1288,15 @@ public class VideoDetailActivity extends BaseActivity {
                 break;
             case R.id.jumpLayout:
             case R.id.advertisingImg:
-                if(ClickUtil.onClick()) {
-                    if(null == advertiseBean) return;
-                    Intent intent = new Intent(VideoDetailActivity.this,CommentWebViewActivity.class);
+                if (ClickUtil.onClick()) {
+                    if (null == advertiseBean) return;
+                    Intent intent = new Intent(VideoDetailActivity.this, CommentWebViewActivity.class);
                     intent.putExtra("url", advertiseBean.jump_url);
                     startActivity(intent);
                 }
                 break;
             case R.id.shareFriendLayout:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null != videoDetailBean) {
                         showShare(WechatMoments.NAME);
                         totalShare(2, videoDetailBean.articleid);
@@ -1247,7 +1304,7 @@ public class VideoDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.shareWxLayout:
-                if(ClickUtil.onClick()) {
+                if (ClickUtil.onClick()) {
                     if (null != videoDetailBean) {
                         showShare(Wechat.NAME);
                         totalShare(2, videoDetailBean.articleid);
@@ -1257,4 +1314,54 @@ public class VideoDetailActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 播放完毕后的功能列表（分享和重播）
+     * @param view
+     */
+    @OnClick({R.id.qqLayout,R.id.weChatLayout,R.id.weChatFriendLayout,R.id.linkLayout,R.id.tv_re})
+    public void onCompleteLayoutFun(View view){
+        switch (view.getId()){
+            case  R.id.qqLayout:
+                if (null != videoDetailBean) {
+                    showShare(QQ.NAME);
+                    totalShare(2, videoDetailBean.articleid);
+                }
+                break;
+            case  R.id.weChatLayout:
+                if (null != videoDetailBean) {
+                    showShare(Wechat.NAME);
+                    totalShare(2, videoDetailBean.articleid);
+                }
+                break;
+            case  R.id.weChatFriendLayout:
+                if (null != videoDetailBean) {
+                    showShare(WechatMoments.NAME);
+                    totalShare(2, videoDetailBean.articleid);
+                }
+                break;
+            case  R.id.linkLayout:
+                if (null != videoDetailBean) {
+                    copyToClipboard(VideoDetailActivity.this, videoDetailBean.video_url);
+                    ToastUtil.showToast("复制成功");
+                }
+                break;
+            case  R.id.tv_re:
+
+                llComplete.setVisibility(View.GONE);
+                videoView.restart();
+                videoView.getHeartVideoControl().invokeTopAndBottomLayout(true);
+
+                break;
+        }
+    }
+    //复制到剪贴板
+    private   void copyToClipboard(Context context, CharSequence content) {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(ClipData.newPlainText(null, content));
+            if (clipboard.hasPrimaryClip()) {
+                clipboard.getPrimaryClip().getItemAt(0).getText();
+            }
+        }
+    }
 }

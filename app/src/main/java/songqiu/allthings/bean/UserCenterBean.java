@@ -23,7 +23,7 @@ public class UserCenterBean {
     public String code;
     public String avatar;
     public int userid;
-
+    private String level;
     public int article_num;
     public int friend_num;
     public int fens_num;
@@ -34,5 +34,99 @@ public class UserCenterBean {
 
     public String android_url;
 
+    public String getUser_nickname() {
+        return user_nickname;
+    }
 
+    public void setUser_nickname(String user_nickname) {
+        this.user_nickname = user_nickname;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public int getArticle_num() {
+        return article_num;
+    }
+
+    public void setArticle_num(int article_num) {
+        this.article_num = article_num;
+    }
+
+    public int getFriend_num() {
+        return friend_num;
+    }
+
+    public void setFriend_num(int friend_num) {
+        this.friend_num = friend_num;
+    }
+
+    public int getFens_num() {
+        return fens_num;
+    }
+
+    public void setFens_num(int fens_num) {
+        this.fens_num = fens_num;
+    }
+
+    public int getReal_coin() {
+        return real_coin;
+    }
+
+    public void setReal_coin(int real_coin) {
+        this.real_coin = real_coin;
+    }
+
+    public int getTotal_coin() {
+        return total_coin;
+    }
+
+    public void setTotal_coin(int total_coin) {
+        this.total_coin = total_coin;
+    }
+
+    public int getToday_coin() {
+        return today_coin;
+    }
+
+    public void setToday_coin(int today_coin) {
+        this.today_coin = today_coin;
+    }
+
+    public String getAndroid_url() {
+        return android_url;
+    }
+
+    public void setAndroid_url(String android_url) {
+        this.android_url = android_url;
+    }
 }

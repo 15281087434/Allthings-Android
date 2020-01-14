@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -13,7 +13,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_above="@+id/bottomLayout">
 
             <FrameLayout
                 android:id="@+id/content"
@@ -32,22 +33,31 @@
 
         <!--底部tab-->
 
-        <View
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x_ui_px_1.0"
-            android:background="@color/line_color"
-            />
+<!--        <View-->
+<!--            android:id="@+id/line"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/x_ui_px_1.0"-->
+<!--            android:background="@color/line_color"-->
+<!--            android:visibility="gone"-->
+<!--            />-->
+
 
         <LinearLayout
             android:id="@+id/bottomLayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/x_ui_px_98.0"
+            android:layout_height="@dimen/x_ui_px_104.0"
             android:orientation="horizontal"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:background="@color/FFF9FAFD"
-            android:weightSum="4"
+            android:layout_alignParentBottom="true"
+            android:background="@mipmap/man_bottom"
+            android:layout_marginLeft="-10dp"
+            android:layout_marginRight="-10dp"
+            android:layout_marginBottom="-2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:weightSum="5"
             >
 
             <LinearLayout
@@ -56,7 +66,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                >
 
                 <ImageView
                     android:id="@+id/homePageImg"
@@ -104,6 +115,17 @@
 
 
             <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:visibility="invisible">
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/taskLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -134,7 +156,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                >
 
                 <ImageView
                     android:id="@+id/mineImg"
@@ -153,7 +176,46 @@
             </LinearLayout>
 
         </LinearLayout>
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/creationbg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/man_creation_bottom"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/x_ui_px_46.0"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+
+        <LinearLayout
+            android:id="@+id/creationLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/x_ui_px_14.0"
+            >
+
+            <ImageView
+                android:id="@+id/creationImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/tab_creation_normal" />
+
+            <TextView
+                android:id="@+id/creationTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="创作"
+                android:textColor="@color/FF666666"
+                android:textSize="@dimen/x_ui_px_22.0" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/shadowLayout"

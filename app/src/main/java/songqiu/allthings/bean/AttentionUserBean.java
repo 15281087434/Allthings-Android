@@ -18,4 +18,5 @@ public class AttentionUserBean {
     public String user_nickname;
     public String signature;
     public int userid;
+      public String level;
 }

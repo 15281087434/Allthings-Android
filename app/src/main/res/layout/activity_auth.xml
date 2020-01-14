@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/common_title_layout" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/x_ui_px_30.0"
+            android:gravity="center_vertical"
+
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/x_ui_px_36.0"
+                android:layout_height="@dimen/x_ui_px_36.0"
+                android:layout_marginRight="@dimen/x_ui_px_6.0"
+                android:src="@mipmap/auth_original" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="申请原创作者认证"
+                android:textColor="#666666"
+                android:textSize="@dimen/font_ui_px_34.0" />
+
+            <TextView
+                android:id="@+id/tv_auth_original"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableRight="@mipmap/arrow_next"
+                android:drawablePadding="@dimen/x_ui_px_20.0"
+                android:ellipsize="end"
+                android:gravity="right|center_vertical"
+                android:lines="1"
+                android:text="可申请"
+                android:textColor="@drawable/cashout_textcolor_selector"
+                android:textSize="@dimen/font_ui_px_34.0" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_2.0"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:background="#F0F0F0" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/x_ui_px_30.0"
+            android:gravity="center_vertical"
+
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/x_ui_px_36.0"
+                android:layout_height="@dimen/x_ui_px_36.0"
+                android:layout_marginRight="@dimen/x_ui_px_6.0"
+                android:src="@mipmap/auth_sign" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="申请签约作者认证"
+                android:textColor="#666666"
+                android:textSize="@dimen/font_ui_px_34.0" />
+
+            <TextView
+                android:id="@+id/tv_auth_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableRight="@mipmap/arrow_next"
+                android:drawablePadding="@dimen/x_ui_px_20.0"
+                android:ellipsize="end"
+                android:enabled="false"
+                android:gravity="right|center_vertical"
+                android:lines="1"
+                android:text="原创作者可申请"
+                android:textColor="@drawable/cashout_textcolor_selector"
+                android:textSize="@dimen/font_ui_px_34.0" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_2.0"
+            android:layout_marginLeft="@dimen/x_ui_px_30.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            android:background="#F0F0F0" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:layout_marginTop="@dimen/x_ui_px_140.0">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_creation_condition"
+                    android:layout_marginLeft="@dimen/x_ui_px_54.0"
+                    android:layout_marginBottom="@dimen/x_ui_px_8.0"
+                    android:layout_alignBottom="@+id/re1"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_creation_condition"
+                    android:layout_marginLeft="@dimen/x_ui_px_54.0"
+                    android:layout_marginBottom="@dimen/x_ui_px_8.0"
+                    android:layout_alignBottom="@+id/re2"
+                    />
+                <RelativeLayout
+                    android:id="@+id/re1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x_ui_px_46.0"
+                    android:layout_marginRight="@dimen/x_ui_px_46.0"
+                    android:background="@drawable/rectangle_f0f0f0_24px_white">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x_ui_px_88.0"
+                            android:background="@drawable/rectangle_f0f0f0_24px_f8f8f8"
+                            >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_centerInParent="true">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/creation_income_left"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="原创作者申请条件"
+                                    android:textColor="@color/FF808080"
+                                    android:textSize="@dimen/x_ui_px_32.0"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="@dimen/x_ui_px_28.0"/>
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/creation_income_right"
+                                    android:layout_marginLeft="@dimen/x_ui_px_28.0"
+                                    />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/originalRecycle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/x_ui_px_40.0"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:id="@+id/re2"
+                    android:layout_below="@+id/re1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x_ui_px_60.0"
+                    android:layout_marginLeft="@dimen/x_ui_px_46.0"
+                    android:layout_marginRight="@dimen/x_ui_px_46.0"
+                    android:background="@drawable/rectangle_f0f0f0_24px_white"
+                    android:layout_marginBottom="@dimen/x_ui_px_60.0">
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x_ui_px_88.0"
+                            android:background="@drawable/rectangle_f0f0f0_24px_f8f8f8">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_centerInParent="true">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/creation_income_left"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="签约作者申请条件"
+                                    android:textColor="@color/FF808080"
+                                    android:textSize="@dimen/x_ui_px_32.0"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="@dimen/x_ui_px_28.0"/>
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/creation_income_right"
+                                    android:layout_marginLeft="@dimen/x_ui_px_28.0"
+                                    />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/siginRecycle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/x_ui_px_40.0"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/trans_6"
+        android:orientation="vertical"
+        android:visibility="gone"></LinearLayout>
+
+</RelativeLayout>

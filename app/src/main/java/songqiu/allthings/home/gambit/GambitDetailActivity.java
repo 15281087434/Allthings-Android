@@ -33,6 +33,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +72,9 @@ import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
 import songqiu.allthings.util.GlideLoadUtils;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.PicParameterUtil;
+import songqiu.allthings.util.ScrollLinearLayoutManager;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
@@ -121,7 +124,7 @@ public class GambitDetailActivity extends BaseActivity {
     TextView commentNumTv;
     TextView lineTv;
     LinearLayout emptyLayout;
-
+    ImageView ivLevel;
 
 
     @BindView(R.id.commentRecycl)
@@ -206,6 +209,7 @@ public class GambitDetailActivity extends BaseActivity {
         commentNumTv = mHeadView.findViewById(R.id.commentNumTv);
         lineTv = mHeadView.findViewById(R.id.lineTv);
         emptyLayout = mHeadView.findViewById(R.id.emptyLayout);
+        ivLevel = mHeadView.findViewById(R.id.iv_level);
 
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -352,14 +356,10 @@ public class GambitDetailActivity extends BaseActivity {
         }
 
         long time = gambitDetailBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            timeTv.setText("1天前");
-        } else {
-            timeTv.setText(DateUtil.getTimeBig1(time));
-        }
 
+            timeTv.setText(DateUtil.fromToday(new Date(time))+ ImageResUtils.getLevelText(gambitDetailBean.level));
+
+        ivLevel.setImageResource(ImageResUtils.getLevelRes(gambitDetailBean.level));
         if (0 == gambitDetailBean.is_follow) {
             attentionTv.setText("关注");
             attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
@@ -457,7 +457,7 @@ public class GambitDetailActivity extends BaseActivity {
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
         oks.setTitle(gambitDetailBean.user_nickname);
         // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
-        oks.setTitleUrl(ShareUrl.getUrl(gambitDetailBean.id,3));
+        oks.setTitleUrl(ShareUrl.getUrl(gambitDetailBean.id,3,1));
         // text是分享文本，所有平台都需要这个字段
         oks.setText(gambitDetailBean.descriptions);
         if(null != gambitDetailBean.images && 0!=gambitDetailBean.images.length) {
@@ -696,6 +696,7 @@ public class GambitDetailActivity extends BaseActivity {
                     public void run() {
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
                         EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
+                        EventBus.getDefault().post(new EventTags.RefreshLook(url, mid));
                         if(url.equals(HttpServicePath.URL_LIKE)) {
                             gambitDetailBean.is_up = 1;
                             gambitDetailBean.up_num = gambitDetailBean.up_num + 1;
@@ -847,6 +848,7 @@ public class GambitDetailActivity extends BaseActivity {
                         commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString())+1));
                         EventBus.getDefault().post(new EventTags.GambitRefresh());
                         EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
+                        EventBus.getDefault().post(new EventTags.VideoCommentNum(talkid,commentNumTv.getText().toString()));
                     }
                 });
             }
@@ -874,6 +876,9 @@ public class GambitDetailActivity extends BaseActivity {
                         DeleteCommentBean deleteCommentBean = gson.fromJson(data, DeleteCommentBean.class);
                         if(null != deleteCommentBean) {
                             commentNumTv.setText(ShowNumUtil.showUnm(Integer.valueOf(commentNumTv.getText().toString())-deleteCommentBean.num));
+                            EventBus.getDefault().post(new EventTags.GambitRefresh());
+                            EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
+                            EventBus.getDefault().post(new EventTags.VideoCommentNum(talkid,commentNumTv.getText().toString()));
                         }
 
                         if(null == item1) return;
@@ -982,6 +987,9 @@ public class GambitDetailActivity extends BaseActivity {
                 videoDetailCommentAdapter.notifyDataSetChanged();
                 int commentNum = Integer.valueOf(commentNumTv.getText().toString())+1;
                 commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
+                EventBus.getDefault().post(new EventTags.GambitRefresh());
+                EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
+                EventBus.getDefault().post(new EventTags.VideoCommentNum(talkid,commentNumTv.getText().toString()));
             }
         }
     }
@@ -1004,6 +1012,9 @@ public class GambitDetailActivity extends BaseActivity {
                 int commentNum = Integer.valueOf(commentNumTv.getText().toString())-deleteComment.getDeleteCommentNum();
                 commentNumTv.setText(ShowNumUtil.showUnm(commentNum));
                 videoDetailCommentAdapter.notifyDataSetChanged();
+                EventBus.getDefault().post(new EventTags.GambitRefresh());
+                EventBus.getDefault().post(new EventTags.HotGambitDetailRefresh());
+                EventBus.getDefault().post(new EventTags.VideoCommentNum(talkid,commentNumTv.getText().toString()));
             }
         }
     }

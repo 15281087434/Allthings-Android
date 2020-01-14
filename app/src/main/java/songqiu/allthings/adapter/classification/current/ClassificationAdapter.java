@@ -20,10 +20,12 @@ import com.heartfor.heartvideo.video.HeartVideoInfo;
 import com.heartfor.heartvideo.video.HeartVideoManager;
 import com.heartfor.heartvideo.video.VideoControl;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.internal.fuseable.HasUpstreamObservableSource;
 import pl.droidsonroids.gif.GifImageView;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
@@ -37,6 +39,7 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ViewProportion;
@@ -145,6 +148,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -186,13 +190,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter {
         }
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -257,6 +255,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -299,13 +298,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter {
         }
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -358,6 +351,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -400,13 +394,9 @@ public class ClassificationAdapter extends RecyclerView.Adapter {
 
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.tiemTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.tiemTv.setText("1天前");
-        } else {
-            holder.tiemTv.setText(DateUtil.getTimeBig1(time));
-        }
+
+            holder.tiemTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
+
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -439,6 +429,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));

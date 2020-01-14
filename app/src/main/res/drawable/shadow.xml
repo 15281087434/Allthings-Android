@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                android:bottom="@dimen/x_ui_px_2.0"
+                android:left="@dimen/x_ui_px_2.0"
+                android:right="@dimen/x_ui_px_2.0"
+                android:top="@dimen/x_ui_px_2.0"/>
+            <solid android:color="#0DCCCCCC" />
+            <corners android:topLeftRadius="@dimen/x_ui_px_12.0" android:bottomLeftRadius="@dimen/x_ui_px_12.0" android:topRightRadius="@dimen/x_ui_px_12.0" android:bottomRightRadius="@dimen/x_ui_px_12.0"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                android:bottom="@dimen/x_ui_px_2.0"
+                android:left="@dimen/x_ui_px_2.0"
+                android:right="@dimen/x_ui_px_2.0"
+                android:top="@dimen/x_ui_px_2.0" />
+            <solid android:color="#10CCCCCC" />
+            <corners android:topLeftRadius="@dimen/x_ui_px_12.0" android:bottomLeftRadius="@dimen/x_ui_px_12.0" android:topRightRadius="@dimen/x_ui_px_12.0" android:bottomRightRadius="@dimen/x_ui_px_12.0"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                android:bottom="@dimen/x_ui_px_2.0"
+                android:left="@dimen/x_ui_px_2.0"
+                android:right="@dimen/x_ui_px_2.0"
+                android:top="@dimen/x_ui_px_2.0" />
+            <solid android:color="#15CCCCCC" />
+            <corners android:topLeftRadius="@dimen/x_ui_px_12.0"  android:bottomLeftRadius="@dimen/x_ui_px_12.0" android:topRightRadius="@dimen/x_ui_px_12.0" android:bottomRightRadius="@dimen/x_ui_px_12.0"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                android:bottom="@dimen/x_ui_px_2.0"
+                android:left="@dimen/x_ui_px_2.0"
+                android:right="@dimen/x_ui_px_2.0"
+                android:top="@dimen/x_ui_px_2.0" />
+            <solid android:color="#20CCCCCC" />
+            <corners android:topLeftRadius="@dimen/x_ui_px_12.0"  android:bottomLeftRadius="@dimen/x_ui_px_12.0" android:topRightRadius="@dimen/x_ui_px_12.0" android:bottomRightRadius="@dimen/x_ui_px_12.0"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                android:bottom="@dimen/x_ui_px_2.0"
+                android:left="@dimen/x_ui_px_2.0"
+                android:right="@dimen/x_ui_px_2.0"
+                android:top="@dimen/x_ui_px_2.0" />
+            <solid android:color="#25CCCCCC" />
+            <corners android:topLeftRadius="@dimen/x_ui_px_12.0"  android:bottomLeftRadius="@dimen/x_ui_px_12.0" android:topRightRadius="@dimen/x_ui_px_12.0" android:bottomRightRadius="@dimen/x_ui_px_12.0"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="#FFFFFF" />
+            <corners android:topLeftRadius="@dimen/x_ui_px_12.0"  android:bottomLeftRadius="@dimen/x_ui_px_12.0" android:topRightRadius="@dimen/x_ui_px_12.0" android:bottomRightRadius="@dimen/x_ui_px_12.0"/>
+        </shape>
+    </item>
+</layer-list>

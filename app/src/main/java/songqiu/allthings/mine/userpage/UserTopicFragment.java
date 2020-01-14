@@ -20,6 +20,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -106,14 +108,14 @@ public class UserTopicFragment extends BaseFragment {
 
     @Override
     public void init() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         initRecyclerView();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+        pageNo = 1;
         getData(pageNo,false);
     }
+
 
     public void initRecyclerView() {
         list = new ArrayList<>();
@@ -346,6 +348,7 @@ public class UserTopicFragment extends BaseFragment {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            EventBus.getDefault().post(new EventTags.RefreshFriend(url, mid));
                             if(url.equals(HttpServicePath.URL_LIKE)) {
                                 for(int i = 0;i<list.size();i++) {
                                     if(mid == list.get(i).id) {
@@ -434,5 +437,48 @@ public class UserTopicFragment extends BaseFragment {
         });
     }
 
+    //视频评论数
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void videoCommentNum(EventTags.VideoCommentNum videoCommentNum) {
+        if(null == list || 0 == list.size()) return;
+        for(int i = 0;i<list.size();i++) {
+            if(list.get(i).id == videoCommentNum.getId()) {
+                if(!StringUtil.isEmpty(videoCommentNum.getNum())) {
+                    list.get(i).comment_num = Integer.valueOf(videoCommentNum.getNum());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshLook(EventTags.RefreshLook refreshLook) {
+        if(null == list || 0 == list.size()) return;
+        if(refreshLook.url.equals(HttpServicePath.URL_LIKE)) {
+            for(int i =0;i<list.size();i++) {
+                if(list.get(i).id == refreshLook.mid) {
+                    list.get(i).is_up = 1;
+                    list.get(i).up_num = list.get(i).up_num+1;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }else {
+            for(int i =0;i<list.size();i++) {
+                if(list.get(i).id == refreshLook.mid) {
+                    list.get(i).is_up = 0;
+                    list.get(i).up_num = list.get(i).up_num-1;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
 }

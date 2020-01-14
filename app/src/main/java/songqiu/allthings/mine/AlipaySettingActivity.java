@@ -10,12 +10,15 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.EarningsBean;
@@ -117,6 +120,7 @@ public class AlipaySettingActivity extends BaseActivity {
                     @Override
                     public void run() {
                         ToastUtil.showToast(AlipaySettingActivity.this,baseBean.msg);
+                        EventBus.getDefault().post(new EventTags.BindAlipay());
                         finish();
                     }
                 });

@@ -51,12 +51,28 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/x_ui_px_30.0">
 
-            <ImageView
-                android:id="@+id/userIcon"
-                android:layout_width="@dimen/x_ui_px_72.0"
-                android:layout_height="@dimen/x_ui_px_72.0"
-                android:src="@mipmap/head_default"
-                />
+            <FrameLayout
+                android:id="@+id/fl_userIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/userIcon"
+                    android:layout_width="@dimen/x_ui_px_72.0"
+                    android:layout_height="@dimen/x_ui_px_72.0"
+
+                    android:src="@mipmap/head_default"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_level"
+                    android:layout_width="@dimen/x_ui_px_20.0"
+                    android:layout_height="@dimen/x_ui_px_20.0"
+                    android:layout_gravity="end|bottom"
+
+
+                    />
+            </FrameLayout>
+
 
             <TextView
                 android:id="@+id/userName"

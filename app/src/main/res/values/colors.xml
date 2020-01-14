@@ -123,40 +123,49 @@
     <color name="FF017170">#017170</color>
     <color name="FF173C45_66">#66173C45</color> <!--60%透明-->
     <color name="FF005E5D">#005E5D</color>
+    <color name="zw_bg">#676462</color>
+    <color name="FFE65C65">#FF4652</color> <!--热-->
+    <color name="FFDEB72D">#FFC700</color> <!--新-->
+    <color name="FF3086FE">#3086FE</color> <!--荐-->
 
-    <color name="FFE65C65">#E65C65</color> <!--热-->
-    <color name="FFDEB72D">#DEB72D</color> <!--新-->
 
     <!--0、1颜色-->
-    <color name="FF755FCF">#755FCF</color>
-    <color name="FF33755FCF">#33755FCF</color> <!--20%透明-->
+    <color name="FF755FCF">#9E85FF</color>
+    <color name="FF33755FCF">#409E85FF</color> <!--25%透明-->
     <!--2颜色-->
-    <color name="FF9B820D">#9B820D</color>
-    <color name="FF339B820D">#339B820D</color> <!--20%透明-->
+    <color name="FF9B820D">#E9C000</color>
+    <color name="FF339B820D">#40E9C000</color> <!--25%透明-->
     <!--3颜色-->
-    <color name="FF0E909E">#0E909E</color>
-    <color name="FF330E909E">#330E909E</color> <!--20%透明-->
+    <color name="FF0E909E">#01C7DC</color>
+    <color name="FF330E909E">#4001C7DC</color> <!--25%透明-->
     <!--4颜色-->
-    <color name="FF648854">#648854</color>
-    <color name="FF33648854">#33648854</color> <!--20%透明-->
+    <color name="FF648854">#6EC93A</color>
+    <color name="FF33648854">#406EC93A</color> <!--25%透明-->
     <!--5颜色-->
-    <color name="FFB45D6B">#B45D6B</color>
-    <color name="FF33B45D6B">#33B45D6B</color> <!--20%透明-->
+    <color name="FFB45D6B">#FE6981</color>
+    <color name="FF33B45D6B">#40FE6981</color> <!--25%透明-->
     <!--6颜色-->
-    <color name="FF206EDB">#206EDB</color>
-    <color name="FF33206EDB">#33206EDB</color> <!--20%透明-->
+    <color name="FF206EDB">#34A7FF</color>
+    <color name="FF33206EDB">#4034A7FF</color> <!--25%透明-->
     <!--7颜色-->
-    <color name="FFA47858">#A47858</color>
-    <color name="FF33A47858">#33A47858</color> <!--20%透明-->
+    <color name="FFA47858">#FEA462</color>
+    <color name="FF33A47858">#40FEA462</color> <!--25%透明-->
 
     <!--1 标签组-->
-    <color name="FF9C44A2">#9C44A2</color>
-    <color name="FF339C44A2">#339C44A2</color> <!--20%透明-->
+    <color name="FF9C44A2">#F581FC</color>
+    <color name="FF339C44A2">#40F581FC</color> <!--25%透明-->
     <!--2 标签组-->
-    <color name="FF1C8725">#1C8725</color>
-    <color name="FF331C8725">#331C8725</color> <!--20%透明-->
+    <color name="FF1C8725">#51CC8E</color>
+    <color name="FF331C8725">#4051CC8E</color> <!--25%透明-->
 
     <color name="FFD2D2D2">#D2D2D2</color>
+    <color name="FFF4F5F6">#F4F5F6</color>
+
+    <color name="FFBCBCBC">#bcbcbc</color>
+    <color name="FFF1FFFC">#F1FFFC</color>
+    <color name="FFF8F8F8">#F8F8F8</color>
+    <color name="FF808080">#808080</color>
+
 
 
 

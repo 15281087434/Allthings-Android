@@ -1,10 +1,14 @@
 package songqiu.allthings.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -31,6 +35,12 @@ public class FileUtil {
 		stbPath.append(File.separator);
 		return stbPath.toString();
 	}
+
+    public static byte[] bitmapToBytes(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return baos.toByteArray();
+    }
 
 
 	public static String checkLsength(String file) {
@@ -131,4 +141,18 @@ public class FileUtil {
 		return inSampleSize;
 	}
 
+	/**
+	 * 获取广告文件
+	 * @param context
+	 * @return
+	 */
+	public static File   getAdsFile(Context context,String url){
+		String fileName =  url.substring(url.lastIndexOf("/") + 1);
+		File appDir =new  File(context.getExternalCacheDir(), "ads");
+		if (!appDir.exists()) {
+			appDir.mkdir();
+		}
+		File file =new  File(appDir, fileName);
+		return file;
+	}
 }

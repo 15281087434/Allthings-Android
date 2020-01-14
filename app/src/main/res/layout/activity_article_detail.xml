@@ -182,20 +182,30 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/x_ui_px_30.0">
 
-
+                        <FrameLayout
+                            android:id="@+id/fl_userIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
                         <ImageView
                             android:id="@+id/userIcon"
                             android:layout_width="@dimen/x_ui_px_72.0"
                             android:layout_height="@dimen/x_ui_px_72.0"
                             android:src="@mipmap/head_default"
                             />
+                            <ImageView
+                    android:id="@+id/iv_level"
+                    android:layout_width="@dimen/x_ui_px_20.0"
+                    android:layout_height="@dimen/x_ui_px_20.0"
+                    android:layout_gravity="end|bottom"
 
+                                />
+                        </FrameLayout>
                         <TextView
                             android:id="@+id/userName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/x_ui_px_14.0"
-                            android:layout_toRightOf="@+id/userIcon"
+                            android:layout_toRightOf="@+id/fl_userIcon"
                             tools:text="大力 悬疑"
                             android:textSize="@dimen/x_ui_px_36.0"
                             android:textColor="@color/FF666666"
@@ -283,9 +293,57 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/x_ui_px_30.0"
                         tools:text=""
+                        android:lines="1"
+                        android:ellipsize="end"
                         android:textSize="@dimen/x_ui_px_24.0"
                         android:textColor="@color/FF999999"
                         />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_tp"
+                    android:layout_width="@dimen/x_ui_px_384.0"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="@dimen/x_ui_px_10.0"
+                    android:paddingLeft="@dimen/x_ui_px_60.0"
+                    android:layout_marginTop="@dimen/x_ui_px_50.0"
+                    android:paddingRight="@dimen/x_ui_px_60.0"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/x_ui_px_10.0"
+                    android:background="@drawable/btn_tp_shape"
+                    android:orientation="horizontal"
+                    android:layout_height="@dimen/x_ui_px_92.0">
+                    <ImageView
+                        android:layout_width="@dimen/x_ui_px_54.0"
+                        android:layout_height="@dimen/x_ui_px_40.0"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/icon_ticket"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginLeft="@dimen/x_ui_px_13.0"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/FF666666"
+                            android:textSize="@dimen/x_ui_px_31.0"
+                            android:text="投Ta一票"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/x_ui_px_19.0"
+                        android:gravity="center"
+                        android:id="@+id/tv_tickets"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:textColor="@color/FF999999"
+                        android:layout_height="wrap_content"
+                        android:text="已有0票"/>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -502,13 +560,18 @@
 
                 <!--广告结束-->
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/articleRecycle"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    >
+                    android:descendantFocusability="blocksDescendants">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/articleRecycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
 
-                </android.support.v7.widget.RecyclerView>
+                    </android.support.v7.widget.RecyclerView>
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/line1"

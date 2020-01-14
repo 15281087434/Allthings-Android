@@ -39,4 +39,5 @@ public class CommentSubitemBean implements Serializable{
     public String user_nickname;
     public String nickname;
     public int is_up;
+    public String level;
 }

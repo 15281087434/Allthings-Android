@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,13 +39,15 @@ import songqiu.allthings.util.StringUtil;
 public class CommentWindow extends PopupWindow{
     private View mView;
     CommentListener commentListener;
+    private EditText editText;
+    private TextView publishTv;
 
     public CommentWindow(Context context,String hintTv) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mView = inflater.inflate(R.layout.custom_edittext, null);
-        EditText editText = (EditText) mView.findViewById(R.id.editText);
-        TextView publishTv = (TextView) mView.findViewById(R.id.publishTv);
+         editText = (EditText) mView.findViewById(R.id.editText);
+         publishTv = (TextView) mView.findViewById(R.id.publishTv);
         //设置PopupWindow的View
         this.setContentView(mView);
         //设置PopupWindow弹出窗体的宽
@@ -78,6 +81,18 @@ public class CommentWindow extends PopupWindow{
             }
         }, 100);
     }
+    public CommentWindow(Context context,String content,String buttonText) {
+        this(context,"");
+        if(publishTv!=null){
+            publishTv.setText(buttonText);
+        }
+        if(editText!=null){
+            editText.setText(content+"");
+            editText.setSelection(content.length());
+        }
+
+    }
+
 
     public void initNichengEt(Context context,EditText editText,TextView publishTv) {
         editText.addTextChangedListener(new TextWatcher() {

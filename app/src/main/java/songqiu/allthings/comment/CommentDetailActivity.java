@@ -54,6 +54,7 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
@@ -95,7 +96,7 @@ public class CommentDetailActivity extends Activity {
     TextView contentTv;
     TextView timeTv;
     TextView userName;
-    ImageView userIcon;
+    ImageView userIcon,userLevel;
 
     int mid; //传递过来的评论id
     int type; //传递过来的type  1文章  2视频  3话题
@@ -185,6 +186,7 @@ public class CommentDetailActivity extends Activity {
         timeTv = mHeadView.findViewById(R.id.timeTv);
         userName = mHeadView.findViewById(R.id.userName);
         userIcon = mHeadView.findViewById(R.id.userIcon);
+        userLevel=mHeadView.findViewById(R.id.iv_level);
     }
 
     public void initSmartRefresh() {
@@ -215,11 +217,13 @@ public class CommentDetailActivity extends Activity {
             }
         }
         Glide.with(this).load(commentDetailBean.con1.avatar).apply(options).into(userIcon);
+
+        userLevel.setImageResource(ImageResUtils.getLevelRes(commentDetailBean.con1.level));
         userName.setText(commentDetailBean.con1.user_nickname);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         Date date = new Date(commentDetailBean.con1.created*1000);
-        String  time = simpleDateFormat.format(date);
-        timeTv.setText(DateUtil.getTimeFormatText(time, "yyyy-MM-dd HH:mm:ss"));
+//        String  time = simpleDateFormat.format(date);
+        timeTv.setText(DateUtil.fromToday(date)+ ImageResUtils.getLevelText(commentDetailBean.con1.level));
         contentTv.setText(commentDetailBean.con1.content);
         likeNumTv.setText(ShowNumUtil.showUnm(commentDetailBean.con1.up_num));
         if(0 == commentDetailBean.con1.is_up) {

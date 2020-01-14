@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="@dimen/x_ui_px_30.0"
+    android:layout_marginRight="@dimen/x_ui_px_30.0"
+    app:cardCornerRadius="@dimen/x_ui_px_12.0"
+    android:background="@color/white"
+    android:id="@+id/cl_bg"
+    android:layout_marginTop="@dimen/x_ui_px_4.0"
+    android:layout_marginBottom="@dimen/x_ui_px_30.0"
+    android:layout_height="wrap_content">
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x_ui_px_28.0"
+        android:layout_marginRight="@dimen/x_ui_px_28.0"
+        android:layout_marginTop="@dimen/x_ui_px_34.0"
+        tools:text="这是一个标题"
+        android:maxLines="2"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:ellipsize="end"
+        android:textSize="@dimen/font_ui_px_40.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <TextView
+        android:id="@+id/tv_rank"
+        android:layout_width="@dimen/x_ui_px_96.0"
+        android:layout_height="@dimen/x_ui_px_46.0"
+        android:layout_marginLeft="@dimen/x_ui_px_34.0"
+        tools:text="1"
+        android:textSize="@dimen/font_ui_px_38.0"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:paddingLeft="@dimen/x_ui_px_12.0"
+        android:includeFontPadding="false"
+        android:visibility="visible"
+        android:textColor="@color/white"
+        android:background="@mipmap/icon_rank_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <TextView
+        android:id="@+id/tv_contents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x_ui_px_28.0"
+        android:layout_marginRight="@dimen/x_ui_px_28.0"
+        android:layout_marginTop="@dimen/x_ui_px_8.0"
+        tools:text="这是内容1111111111111111"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textColor="@color/FF666666"
+        android:textSize="@dimen/font_ui_px_32.0"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_2.0"
+        android:background="@color/line_color"
+        android:layout_marginTop="@dimen/x_ui_px_28.0"
+        app:layout_constraintTop_toBottomOf="@+id/tv_contents"
+        android:layout_marginRight="@dimen/x_ui_px_28.0"
+        android:layout_marginLeft="@dimen/x_ui_px_28.0"/>
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/line"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_96.0"
+        android:layout_marginRight="@dimen/x_ui_px_28.0"
+        android:layout_marginLeft="@dimen/x_ui_px_28.0"
+
+        android:orientation="horizontal">
+        <FrameLayout
+            android:id="@+id/fl_userIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/userIcon"
+                android:layout_width="@dimen/x_ui_px_52.0"
+                android:layout_height="@dimen/x_ui_px_52.0"
+                android:src="@mipmap/head_default"
+                />
+
+            <ImageView
+                android:id="@+id/iv_level"
+                android:layout_width="@dimen/x_ui_px_15.0"
+                android:layout_height="@dimen/x_ui_px_15.0"
+                android:layout_gravity="end|bottom"
+
+                />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/x_ui_px_28.0"
+            android:textColor="@color/FF666666"
+            android:text="大力·悬疑"
+            android:maxEms="5"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginLeft="@dimen/x_ui_px_16.0"/>
+        <ImageView
+            android:layout_width="@dimen/x_ui_px_32.0"
+            android:layout_height="@dimen/x_ui_px_24.0"
+            android:src="@mipmap/icon_ticket"/>
+        <TextView
+            android:id="@+id/tv_tickets"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/x_ui_px_35.0"
+            android:layout_marginLeft="@dimen/x_ui_px_10.0"
+            android:gravity="center"
+            tools:text="0"
+            android:textColor="@color/FF999999"
+            android:textSize="@dimen/x_ui_px_27.0"
+            android:visibility="visible"/>
+
+
+        <TextView
+            android:id="@+id/tv_tp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/x_ui_px_72.0"
+            android:layout_marginLeft="@dimen/x_ui_px_24.0"
+            android:gravity="center"
+            android:text="投Ta一票"
+            android:textColor="@drawable/textview_tp_textcolor_selector"
+            android:textSize="@dimen/x_ui_px_27.0"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

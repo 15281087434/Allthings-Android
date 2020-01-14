@@ -17,6 +17,7 @@ public class SharedPreferencedUtils {
     public static String FIRST_ENTER = "FIRST_ENTER";
     public static String FIRST_ENTER_GUIDE = "FIRST_ENTER_GUIDE";
     public static String USER_ICON = "USER_ICON";
+    public static String USER_LEVEL="USER_LEVEL";
 
 
     public static SharedPreferences getPreference(Context context) {

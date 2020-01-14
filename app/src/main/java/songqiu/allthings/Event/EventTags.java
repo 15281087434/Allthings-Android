@@ -102,6 +102,95 @@ public class EventTags {
 
     }
 
+    public static class BindAlipay {
+
+    }
+
+    public static class AllGambitHotNum {
+        public int num;
+        public int id;
+        public AllGambitHotNum(int id,int num) {
+            this.id = id;
+            this.num = num;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getNum() {
+            return num;
+        }
+
+        public void setNum(int num) {
+            this.num = num;
+        }
+    }
+
+    public static class VideoCommentNum {
+        public String num;
+        public int id;
+        public VideoCommentNum(int id,String num) {
+            this.id = id;
+            this.num = num;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getNum() {
+            return num;
+        }
+
+        public void setNum(String num) {
+            this.num = num;
+        }
+    }
+
+    public static class AllGambitAttention {
+        public boolean isAttention;
+        public int attentionNum;
+        public int id;
+        public AllGambitAttention(int id,boolean isAttention,int attentionNum) {
+            this.id = id;
+            this.isAttention = isAttention;
+            this.attentionNum = attentionNum;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getAttentionNum() {
+            return attentionNum;
+        }
+
+        public void setAttentionNum(int attentionNum) {
+            this.attentionNum = attentionNum;
+        }
+
+        public boolean getAttention() {
+            return isAttention;
+        }
+
+        public void setAttention(boolean isAttention) {
+            this.isAttention = isAttention;
+        }
+    }
+
     public static class DeleteComment {
         public int mid;
         public int subMid;
@@ -296,6 +385,7 @@ public class EventTags {
         }
     }
 
+
     public static class ShowDot { //是否显示红点
         public boolean show;
         public int position;
@@ -319,6 +409,31 @@ public class EventTags {
             this.position = position;
         }
     }
+
+    public static class RefreshFriend { //刷新视频列表
+        public String url;
+        public int mid;
+        public RefreshFriend(String url,int mid) {
+            this.url = url;
+            this.mid = mid;
+        }
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public int getMid() {
+            return mid;
+        }
+
+        public void setMid(int mid) {
+            this.mid = mid;
+        }
+    }
+
 
     public static class RefreshLook { //刷新视频列表
         public String url;

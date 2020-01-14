@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/x_ui_px_356.0"
+    android:background="@color/white"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_250.0"
+        android:background="#676462"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <!-- 滑动广告-->
+    <songqiu.allthings.view.banner.RollPagerView
+        android:id="@+id/roll_page_mine"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_304.0"
+        app:rollviewpager_hint_gravity="center"
+        app:rollviewpager_play_delay="3000"
+        android:layout_marginTop="@dimen/x_ui_px_15.0"
+        android:layout_marginLeft="@dimen/x_ui_px_30.0"
+        android:layout_marginRight="@dimen/x_ui_px_30.0"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x_ui_px_92.0"
+        android:elevation="@dimen/x_ui_px_6.0"
+        android:textColor="#2E9DFB"
+        android:textSize="@dimen/font_ui_px_28.0"
+        android:gravity="center"
+        android:visibility="gone"
+        android:clickable="false"
+        android:layout_marginRight="@dimen/x_ui_px_34.0"
+        android:layout_marginLeft="@dimen/x_ui_px_34.0"
+        android:background="@drawable/item_solicit_textview_shape"
+        android:layout_marginTop="@dimen/x_ui_px_30.0"
+        app:layout_constraintTop_toBottomOf="@+id/roll_page_mine"
+        android:text="优秀作品展示"/>
+</android.support.constraint.ConstraintLayout>

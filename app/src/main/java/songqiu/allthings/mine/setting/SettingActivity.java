@@ -1,5 +1,6 @@
 package songqiu.allthings.mine.setting;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +35,8 @@ import songqiu.allthings.util.ToastUtil;
 import songqiu.allthings.util.TokenManager;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 import songqiu.allthings.util.theme.ThemeManager;
+
+import static songqiu.allthings.util.SharedPreferencedUtils.USER_LEVEL;
 
 /*******
  *
@@ -135,6 +138,7 @@ public class SettingActivity extends BaseActivity {
                 SharedPreferencedUtils.setString(SettingActivity.this, "SYSAVATAR", "");
                 SharedPreferencedUtils.setString(SettingActivity.this, "SYSINVITATIONCODE", "");
                 SharedPreferencedUtils.setInteger(SettingActivity.this, "SYSUSERID", 0);
+                SharedPreferencedUtils.setString(SettingActivity.this,SharedPreferencedUtils.USER_LEVEL,"0");
                 SharedPreferencedUtils.setString(this,SharedPreferencedUtils.USER_ICON,"");
                 SharedPreferencedUtils.setBoolean(SettingActivity.this,SharedPreferencedUtils.LOGIN,false);
                 intent = new Intent(SettingActivity.this,LoginActivity.class);
@@ -163,9 +167,9 @@ public class SettingActivity extends BaseActivity {
             case R.id.aboutLayout: //关于我们
                 intent = new Intent(SettingActivity.this, CommentWebViewActivity.class);
                 if(dayModel) {
-                    intent.putExtra("url", SnsConstants.URL_ABOUT);
+                    intent.putExtra("url", SnsConstants.getAbout(MyApplication.getInstance().versionName,true));
                 }else {
-                    intent.putExtra("url", SnsConstants.URL_ABOUT_NIGHT);
+                    intent.putExtra("url", SnsConstants.getAbout(MyApplication.getInstance().versionName,false));
                 }
                 startActivity(intent);
                 break;

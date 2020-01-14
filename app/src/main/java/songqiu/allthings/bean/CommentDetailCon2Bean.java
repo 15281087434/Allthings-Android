@@ -37,5 +37,6 @@ public class CommentDetailCon2Bean {
     public String user_nickname;
     public String nickname;
     public int is_up;
+    public String level;
 
 }

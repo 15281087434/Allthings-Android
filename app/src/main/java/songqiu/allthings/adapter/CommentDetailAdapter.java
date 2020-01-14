@@ -29,6 +29,7 @@ import songqiu.allthings.bean.CommentDetailCon2Bean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 
@@ -79,7 +80,8 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<CommentDetailAdap
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(bean.created*1000);
         String  time = simpleDateFormat.format(date);
-        holder.timeTv.setText(DateUtil.getTimeFormatText(time, "yyyy-MM-dd HH:mm:ss"));
+        holder.timeTv.setText(DateUtil.fromToday(date)+ImageResUtils.getLevelText(bean.level));
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(bean.level));
         if(!StringUtil.isEmpty(bean.nickname)) {
             String content = "回复 "+bean.nickname+" : "+bean.content;
             //变色
@@ -168,6 +170,8 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<CommentDetailAdap
         LinearLayout likeLayout;
         @BindView(R.id.layout)
         RelativeLayout layout;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

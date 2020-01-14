@@ -58,7 +58,7 @@ public class DialogUploadVersion extends Dialog{
         ImageView closeImg = view.findViewById(R.id.closeImg);
         describeTv.setText(content);
         versionTv.setText(version);
-        if(2== type) {
+        if(1== type) {
             closeImg.setVisibility(View.GONE);
         }
 //        ImageView headImg = view.findViewById(R.id.headImg);

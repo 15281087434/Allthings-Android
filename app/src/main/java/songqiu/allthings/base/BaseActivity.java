@@ -28,7 +28,6 @@ import songqiu.allthings.http.RequestCallBack;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.SwipeUtils;
 import songqiu.allthings.view.DialogFileUploading;
-import songqiu.allthings.view.LoadingDialog;
 
 /*******
  *

@@ -66,4 +66,6 @@ public class LookVideoBean {
     public int comment_num;
     public int is_up;
     public int is_follow;
+    public int state;
+    public String level;
 }

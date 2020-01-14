@@ -298,6 +298,7 @@ public class HotGambitDetailActivity extends BaseActivity{
 
     public void initUi(HotGambitDetailBean hotGambitDetailBean) {
         if (null == hotGambitDetailBean) return;
+        EventBus.getDefault().post(new EventTags.AllGambitHotNum(hotGambitDetailBean.id,hotGambitDetailBean.hot_num));
         contentTv.setText(hotGambitDetailBean.descriptions);
         hotNumTv.setText(ShowNumUtil.showUnm(hotGambitDetailBean.hot_num) + " 热度");
         attentionNumTv.setText(ShowNumUtil.showUnm(hotGambitDetailBean.follow_num) + " 关注");
@@ -336,9 +337,7 @@ public class HotGambitDetailActivity extends BaseActivity{
             oks.setText(hotGambitDetailBean.descriptions);
             if(!StringUtil.isEmpty(hotGambitDetailBean.photo)) {
                 if(!hotGambitDetailBean.photo.contains("http")) {
-                    if(!hotGambitDetailBean.photo.contains("http")) {
-                        hotGambitDetailBean.photo = HttpServicePath.BasePicUrl + hotGambitDetailBean.photo;
-                    }
+                     hotGambitDetailBean.photo = HttpServicePath.BasePicUrl + hotGambitDetailBean.photo;
                 }
                 oks.setImageUrl(hotGambitDetailBean.photo);
             }else {
@@ -678,12 +677,14 @@ public class HotGambitDetailActivity extends BaseActivity{
                             hotGambitDetailBean.is_follow = 0;
                             hotGambitDetailBean.follow_num = hotGambitDetailBean.follow_num -1;
                             attentionNumTv.setText(ShowNumUtil.showUnm(hotGambitDetailBean.follow_num) + " 关注");
+                            EventBus.getDefault().post(new EventTags.AllGambitAttention(hotGambitDetailBean.id,false,hotGambitDetailBean.follow_num));
                         } else {
                             attentionTv.setText("已关注");
                             attentionTv.setBackgroundResource(R.drawable.rectangle_common_no_attention);
                             hotGambitDetailBean.is_follow = 1;
                             hotGambitDetailBean.follow_num = hotGambitDetailBean.follow_num +1;
                             attentionNumTv.setText(ShowNumUtil.showUnm(hotGambitDetailBean.follow_num) + " 关注");
+                            EventBus.getDefault().post(new EventTags.AllGambitAttention(hotGambitDetailBean.id,true,hotGambitDetailBean.follow_num));
                         }
                     }
                 });

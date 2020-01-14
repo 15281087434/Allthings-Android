@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_90.0"
+            android:background="@color/FFF9FAFD">
+
+            <ImageView
+                android:id="@+id/backImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/arrow_back"
+                android:layout_marginLeft="@dimen/x_ui_px_14.0"
+                android:padding="@dimen/x_ui_px_16.0"
+                />
+
+            <TextView
+                android:id="@+id/titleTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/x_ui_px_35.0"
+                android:textColor="@color/bottom_tab_tv"
+                android:layout_centerInParent="true"
+                android:textStyle="bold"
+                android:text=""
+                />
+
+            <TextView
+                android:id="@+id/saveTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="保存"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x_ui_px_40.0"
+                android:textSize="@dimen/x_ui_px_32.0"
+                android:textColor="@color/normal_color"
+                android:layout_toLeftOf="@+id/rightTv"
+                />
+
+            <TextView
+                android:id="@+id/rightTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="下一步"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x_ui_px_30.0"
+                android:textSize="@dimen/x_ui_px_32.0"
+                android:textColor="@color/normal_color"
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_ui_px_1.0"
+            android:background="@color/line_color"
+            android:orientation="horizontal"
+            >
+        </LinearLayout>
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/shadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/trans_6"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+
+</RelativeLayout>

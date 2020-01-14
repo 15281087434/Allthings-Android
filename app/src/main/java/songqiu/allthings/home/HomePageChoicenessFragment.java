@@ -36,7 +36,6 @@ import songqiu.allthings.activity.MainActivity;
 import songqiu.allthings.adapter.BannerLooperAdapter;
 import songqiu.allthings.adapter.HeaderViewAdapter;
 import songqiu.allthings.adapter.HomePageChooseAdapter;
-import songqiu.allthings.adapter.HomeTabClassAdapter;
 import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.base.BaseFragment;
 import songqiu.allthings.bean.BannerBean;
@@ -192,9 +191,6 @@ public class HomePageChoicenessFragment extends BaseFragment {
                                 if(1==bannerBeanList.size()) {
                                     rollPageHome.pause();
                                     rollPageHome.setHintViewVisibility(false);
-                                    rollPageHome.setScrollable(false);
-                                }else {
-                                    rollPageHome.setScrollable(true);
                                 }
                             }
                         }

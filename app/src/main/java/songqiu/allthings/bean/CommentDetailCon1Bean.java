@@ -38,5 +38,6 @@ public class CommentDetailCon1Bean {
     public String user_nickname;
     public int comment_num;
     public int is_up;
+      public String level;
 
 }

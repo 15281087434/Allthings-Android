@@ -1,27 +1,33 @@
 package songqiu.allthings.activity;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.Message;
+import android.util.DisplayMetrics;
+import android.view.Surface;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+import com.heartfor.heartvideo.video.HeartVideo;
+
+import java.io.File;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 import songqiu.allthings.R;
 import songqiu.allthings.base.BaseActivity;
 import songqiu.allthings.bean.AdvertiseBean;
-import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.util.ClickUtil;
-import songqiu.allthings.util.GlideLoadUtils;
-import songqiu.allthings.util.LogUtil;
-import songqiu.allthings.util.StringUtil;
+import songqiu.allthings.util.FileUtil;
 import songqiu.allthings.util.statusbar.StatusBarUtils;
 
 /*******
@@ -40,6 +46,14 @@ public class GuideAdvertisingActivity extends BaseActivity {
 
     AdvertiseBean advertiseBean;
     boolean enterable = true;
+    File file;
+
+    @BindView(R.id.jumpTv)
+    TextView jumpTv;
+    private MediaPlayer player;
+    @BindView(R.id.surface)
+    SurfaceView surfaceView;
+    private MyTimer myTimer;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -49,8 +63,8 @@ public class GuideAdvertisingActivity extends BaseActivity {
     @Override
     public void init() {
         StatusBarUtils.with(GuideAdvertisingActivity.this).init().setStatusTextColorWhite(true, GuideAdvertisingActivity.this);
-        advertiseBean = (AdvertiseBean)getIntent().getSerializableExtra("advertiseBean");
-        if(null != advertiseBean) {
+        advertiseBean = (AdvertiseBean) getIntent().getSerializableExtra("advertiseBean");
+        if (null != advertiseBean) {
             setAdvertising(advertiseBean);
         }
         toMainActivity();
@@ -58,45 +72,127 @@ public class GuideAdvertisingActivity extends BaseActivity {
 
 
     public void toMainActivity() {
-        new Handler().postDelayed(new Runnable(){
-            public void run() {
-                //execute the task
-                if(enterable) {
-                    Intent intent = new Intent(GuideAdvertisingActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        }, 5000);
+
+//        new Handler().postDelayed(new Runnable() {
+//            public void run() {
+//                //execute the task
+//                if (enterable) {
+//                    Intent intent = new Intent(GuideAdvertisingActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            }
+//        }, 5000);
+        jumpTv.setText("5s跳过");
+        myTimer = new MyTimer(5*1000,1000);
+        myTimer.start();
     }
 
     public void setAdvertising(AdvertiseBean advertiseBean) {
-        if(StringUtil.isEmpty(advertiseBean.url)) return;
-        String url = advertiseBean.url.replaceAll("\"","");;
-        if(!StringUtil.isEmpty(url)) {
-            if (!url.contains("http")) {
-                url = HttpServicePath.BasePicUrl + url;
+
+        //获取缓存的广告文件
+        File ads = FileUtil.getAdsFile(this, advertiseBean.url);
+
+        if (ads.exists()) {
+            if (advertiseBean.type == 2) {
+                //当广告类型为视频文件时播放缓存视频
+                player = new MediaPlayer();
+                player.setVolume(0, 0);
+
+                try {
+                    player.setDataSource(ads.getAbsolutePath());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                    @Override
+                    public boolean onError(MediaPlayer mp, int what, int extra) {
+                        if (surfaceView != null) {
+                            surfaceView.setVisibility(View.GONE);
+                        }
+                        return false;
+                    }
+                });
+                player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        int videoWidth = mp.getVideoWidth();
+                        int videoHeight = mp.getVideoHeight();
+
+                        DisplayMetrics dm = new DisplayMetrics();
+                        getWindowManager().getDefaultDisplay().getMetrics(dm);
+                        int mSurfaceViewWidth = dm.widthPixels;
+                        int mSurfaceViewHeight = dm.heightPixels;
+
+                        int w = mSurfaceViewHeight * videoWidth / videoHeight;
+                        int margin = (mSurfaceViewWidth - w) / 2;
+                        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+                        lp.setMargins(margin, 0, margin, 0);
+                        surfaceView.setLayoutParams(lp);
+                        player.start();
+                    }
+                });
+
+                surfaceView.setVisibility(View.VISIBLE);
+                surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+                    @Override
+                    public void surfaceCreated(SurfaceHolder holder) {
+                        player.setDisplay(holder);
+                        player.prepareAsync();
+                    }
+
+                    @Override
+                    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+                    }
+
+                    @Override
+                    public void surfaceDestroyed(SurfaceHolder holder) {
+
+                    }
+                });
+            } else if (advertiseBean.url.endsWith("gif")) {
+                try {
+                    GifDrawable gifDrawable = new GifDrawable(FileUtil.getAdsFile(this, advertiseBean.url).getAbsolutePath());
+                    img.setImageDrawable(gifDrawable);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    img.setImageBitmap(BitmapFactory.decodeFile(FileUtil.getAdsFile(this, advertiseBean.url).getAbsolutePath()));
+                }
+
+
+
+            } else {
+                img.setImageBitmap(BitmapFactory.decodeFile(FileUtil.getAdsFile(this, advertiseBean.url).getAbsolutePath()));
             }
+        } else {
+            Intent intent = new Intent(GuideAdvertisingActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
-        if(1==advertiseBean.type) { //广告图片
-//            RequestOptions options = new RequestOptions()
-//                    .error(R.mipmap.pic_default_zhengfangxing)
-//                    .placeholder(R.mipmap.pic_default_zhengfangxing);
-            //.apply(options)
-            GlideLoadUtils.getInstance().glideLoadNoDefault(GuideAdvertisingActivity.this,url,img);
-        }
+
+
     }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(myTimer!=null){
+            myTimer.cancel();
+        }
+        if (player != null) {
+            player.stop();
+            player.release();
+        }
+
     }
 
     @OnClick(R.id.jumpTv)
     public void onViewClick() {
-        if(ClickUtil.onClick()) {
+        if (ClickUtil.onClick()) {
             enterable = false;
-            Intent intent = new Intent(GuideAdvertisingActivity.this,MainActivity.class);
+            Intent intent = new Intent(GuideAdvertisingActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
@@ -104,12 +200,32 @@ public class GuideAdvertisingActivity extends BaseActivity {
 
     @OnClick(R.id.img)
     public void onJump() {
-        if(ClickUtil.onClick()) {
-            if(null == advertiseBean) return;
-            Intent intent = new Intent(this,CommentWebViewActivity.class);
+        if (ClickUtil.onClick()) {
+            if (null == advertiseBean) return;
+            Intent intent = new Intent(this, CommentWebViewActivity.class);
             intent.putExtra("url", advertiseBean.jump_url);
             startActivity(intent);
             finish();
+        }
+    }
+    private  class MyTimer extends CountDownTimer{
+
+        public MyTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            jumpTv.setText("跳过"+millisUntilFinished/1000+"s");
+        }
+
+        @Override
+        public void onFinish() {
+            if (enterable) {
+                Intent intent = new Intent(GuideAdvertisingActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 }

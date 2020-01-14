@@ -3,14 +3,15 @@ package songqiu.allthings.mine;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,12 +26,13 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import songqiu.allthings.Event.EventTags;
 import songqiu.allthings.R;
 import songqiu.allthings.activity.CommentWebViewActivity;
 import songqiu.allthings.activity.MainActivity;
-import songqiu.allthings.adapter.BannerLooperAdapter;
 import songqiu.allthings.adapter.BannerMineAdapter;
 import songqiu.allthings.articledetail.ArticleDetailActivity;
 import songqiu.allthings.base.BaseFragment;
@@ -39,7 +41,6 @@ import songqiu.allthings.bean.InviteParameterBean;
 import songqiu.allthings.bean.RedNewsBean;
 import songqiu.allthings.bean.UserCenterBean;
 import songqiu.allthings.constant.SnsConstants;
-import songqiu.allthings.home.gambit.HotGambitDetailActivity;
 import songqiu.allthings.http.BaseBean;
 import songqiu.allthings.http.HttpServicePath;
 import songqiu.allthings.http.OkHttp;
@@ -55,7 +56,7 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.CopyButtonLibrary;
 import songqiu.allthings.util.GlideCircleTransform;
-import songqiu.allthings.util.LogUtil;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ToastUtil;
@@ -97,12 +98,16 @@ public class MinePageFragment extends BaseFragment {
     String token;
 
     MainActivity activity;
+    @BindView(R.id.iv_level)
+    ImageView ivLevel;
+    Unbinder unbinder;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         activity = (MainActivity) context;//保存Context引用
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -127,9 +132,9 @@ public class MinePageFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         token = TokenManager.getRequestToken(activity);
-        if(StringUtil.isEmpty(token)) {
+        if (StringUtil.isEmpty(token)) {
             initUi(false);
-        }else {
+        } else {
             initUi(true);
             getUserCenter();
             getDot();
@@ -149,35 +154,36 @@ public class MinePageFragment extends BaseFragment {
             }
             //0 不跳转 1 跳转文章 2视频 3 h5url 4 收入记录页面 5 邀请好友页面
             Intent intent;
-            if(1==mBannerList.get(position).jump_type) { //文章
-                intent= new Intent(activity, ArticleDetailActivity.class);
+            if (1 == mBannerList.get(position).jump_type) { //文章
+                intent = new Intent(activity, ArticleDetailActivity.class);
                 intent.putExtra("articleid", mBannerList.get(position).url_id);
                 startActivity(intent);
-            }else if(2==mBannerList.get(position).jump_type) { //视频
-                intent= new Intent(activity, VideoDetailActivity.class);
+            } else if (2 == mBannerList.get(position).jump_type) { //视频
+                intent = new Intent(activity, VideoDetailActivity.class);
                 intent.putExtra("articleid", mBannerList.get(position).url_id);
                 startActivity(intent);
-            }else if(3==mBannerList.get(position).jump_type) { //h5
-                intent= new Intent(activity, CommentWebViewActivity.class);
+            } else if (3 == mBannerList.get(position).jump_type) { //h5
+                intent = new Intent(activity, CommentWebViewActivity.class);
                 intent.putExtra("url", mBannerList.get(position).url);
                 startActivity(intent);
-            }else if(4==mBannerList.get(position).jump_type) { //
-                if(StringUtil.isEmpty(token)) {
-                    intent = new Intent(activity,LoginActivity.class);
-                }else {
-                    intent = new Intent(activity,IncomeRecordActivity.class);
+            } else if (4 == mBannerList.get(position).jump_type) { //
+                if (StringUtil.isEmpty(token)) {
+                    intent = new Intent(activity, LoginActivity.class);
+                } else {
+                    intent = new Intent(activity, IncomeRecordActivity.class);
                 }
                 startActivity(intent);
-            }else if(5==mBannerList.get(position).jump_type) { //邀请好友
-                if(StringUtil.isEmpty(token)) {
-                    intent = new Intent(activity,LoginActivity.class);
+            } else if (5 == mBannerList.get(position).jump_type) { //邀请好友
+                if (StringUtil.isEmpty(token)) {
+                    intent = new Intent(activity, LoginActivity.class);
                     startActivity(intent);
-                }else {
+                } else {
                     getInviteParameter();
                 }
             }
         });
     }
+
     public void initBanner() {
         mBannerList = new ArrayList<>();
         mBannerAdapter = new BannerMineAdapter(roll_page_mine, (ArrayList<BannerBean>) mBannerList);
@@ -188,67 +194,74 @@ public class MinePageFragment extends BaseFragment {
         getBanner();
     }
 
-    public void initUi(boolean isLogin){
-       if(isLogin) {
-           String nickName = SharedPreferencedUtils.getString(activity,"SYSNICKNAME");
-           String invitationCode = SharedPreferencedUtils.getString(activity,"SYSINVITATIONCODE");
-           userName.setText(nickName);
-           userCode.setText("点击复制邀请码:"+invitationCode);
-           userCode.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   String str = userCode.getText().toString();
-                   String[] strArray = str.split(":");
-                   if(null != strArray && strArray.length>=2) {
-                       String code = strArray[1];
-                       CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(activity,code);
-                       copyButtonLibrary.init(code);
-                       ToastUtil.showToast(activity,"复制成功:"+code);
-                   }
-               }
-           });
-       }else {
-           userName.setText("点此登录");
-           userCode.setText("登录后,享受更好的阅读体验");
-           userIcon.setImageResource(R.mipmap.head_default);
-           allGoldTv.setText("0");
-           todayGoldTv.setText("0");
-       }
+    public void initUi(boolean isLogin) {
+        if (isLogin) {
+            String nickName = SharedPreferencedUtils.getString(activity, "SYSNICKNAME");
+            String invitationCode = SharedPreferencedUtils.getString(activity, "SYSINVITATIONCODE");
+            String level=SharedPreferencedUtils.getString(activity,SharedPreferencedUtils.USER_LEVEL,"0");
+            userName.setText(nickName);
+            userCode.setText("点击复制邀请码:" + invitationCode);
+
+            ivLevel.setImageResource(ImageResUtils.getLevelRes(level));
+            userCode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String str = userCode.getText().toString();
+                    String[] strArray = str.split(":");
+                    if (null != strArray && strArray.length >= 2) {
+                        String code = strArray[1];
+                        CopyButtonLibrary copyButtonLibrary = new CopyButtonLibrary(activity, code);
+                        copyButtonLibrary.init(code);
+                        ToastUtil.showToast(activity, "复制成功:" + code);
+                    }
+                }
+            });
+        } else {
+            userName.setText("点此登录");
+            userCode.setText("登录后,享受更好的阅读体验");
+            userIcon.setImageResource(R.mipmap.head_default);
+            ivLevel.setImageResource(0);
+            allGoldTv.setText("0");
+            todayGoldTv.setText("0");
+        }
     }
 
     public void initUiData(UserCenterBean userCenterBean) {
-        if(null == userCenterBean) return;
+        if (null == userCenterBean) return;
         allGoldTv.setText(String.valueOf(userCenterBean.total_coin));
         todayGoldTv.setText(String.valueOf(userCenterBean.today_coin));
         userName.setText(userCenterBean.user_nickname);
-        userCode.setText("点击复制邀请码:"+userCenterBean.code);
-        if(StringUtil.isEmpty(SharedPreferencedUtils.getString(activity,"SYSINVITATIONCODE"))) {
+        userCode.setText("点击复制邀请码:" + userCenterBean.code);
+        ivLevel.setImageResource(ImageResUtils.getLevelRes(userCenterBean.getLevel()));
+
+        if (StringUtil.isEmpty(SharedPreferencedUtils.getString(activity, "SYSINVITATIONCODE"))) {
             SharedPreferencedUtils.setString(activity, "SYSINVITATIONCODE", userCenterBean.code);
         }
 
-        if(StringUtil.isEmpty(SharedPreferencedUtils.getString(activity,SharedPreferencedUtils.USER_ICON))) {
-            SharedPreferencedUtils.setString(activity,SharedPreferencedUtils.USER_ICON,userCenterBean.avatar);
+        if (StringUtil.isEmpty(SharedPreferencedUtils.getString(activity, SharedPreferencedUtils.USER_ICON))) {
+            SharedPreferencedUtils.setString(activity, SharedPreferencedUtils.USER_ICON, userCenterBean.avatar);
             loadUserIcon(userCenterBean);
-        }else {
-            if(!SharedPreferencedUtils.getString(activity,SharedPreferencedUtils.USER_ICON).equals(userCenterBean.avatar)) {
-                SharedPreferencedUtils.setString(activity,SharedPreferencedUtils.USER_ICON,userCenterBean.avatar);
+        } else {
+            if (!SharedPreferencedUtils.getString(activity, SharedPreferencedUtils.USER_ICON).equals(userCenterBean.avatar)) {
+                SharedPreferencedUtils.setString(activity, SharedPreferencedUtils.USER_ICON, userCenterBean.avatar);
                 loadUserIcon(userCenterBean);
             }
         }
+        SharedPreferencedUtils.setString(activity,SharedPreferencedUtils.USER_LEVEL,userCenterBean.getLevel());
         //存入userid
         SharedPreferencedUtils.setInteger(activity, "SYSUSERID", userCenterBean.userid);
         SnsConstants.URL_DOWNLOAD = userCenterBean.android_url;
     }
 
     public void loadUserIcon(UserCenterBean userCenterBean) {
-        if(null == userCenterBean) return;
+        if (null == userCenterBean) return;
         RequestOptions options = new RequestOptions()
                 .circleCrop().transforms(new GlideCircleTransform(activity))
                 .error(R.mipmap.head_default)
                 .placeholder(R.mipmap.head_default);
-        if(!StringUtil.isEmpty(userCenterBean.avatar)) {
-            if(!userCenterBean.avatar.contains("http")) {
-                userCenterBean.avatar = HttpServicePath.BasePicUrl+userCenterBean.avatar;
+        if (!StringUtil.isEmpty(userCenterBean.avatar)) {
+            if (!userCenterBean.avatar.contains("http")) {
+                userCenterBean.avatar = HttpServicePath.BasePicUrl + userCenterBean.avatar;
             }
         }
         Glide.with(activity).load(userCenterBean.avatar).apply(options).into(userIcon);
@@ -256,29 +269,27 @@ public class MinePageFragment extends BaseFragment {
 
     public void getBanner() {
         Map<String, String> map = new HashMap<>();
-        map.put("type",3+""); //1、文章  2、话题 3、会员中心
+        map.put("type", 3 + ""); //1、文章  2、话题 3、会员中心
         OkHttp.post(activity, HttpServicePath.URL_BANNER, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
-                if(null != activity) {
+                if (null != activity) {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Gson gson = new Gson();
                             String data = gson.toJson(baseBean.data);
                             if (StringUtil.isEmpty(data)) return;
-                            List<BannerBean> bannerBeanList = gson.fromJson(data, new TypeToken<List<BannerBean>>() {}.getType());
-                            if(null != bannerBeanList && 0!=bannerBeanList.size()) {
+                            List<BannerBean> bannerBeanList = gson.fromJson(data, new TypeToken<List<BannerBean>>() {
+                            }.getType());
+                            if (null != bannerBeanList && 0 != bannerBeanList.size()) {
                                 mBannerList.addAll(bannerBeanList);
                                 mBannerAdapter.notifyDataSetChanged();
-                                if(1==bannerBeanList.size()) {
+                                if (1 == bannerBeanList.size()) {
                                     roll_page_mine.pause();
                                     roll_page_mine.setHintViewVisibility(false);
-                                    roll_page_mine.setScrollable(false);
-                                }else {
-                                    roll_page_mine.setScrollable(true);
                                 }
-                            }else {
+                            } else {
                                 roll_page_mine.setVisibility(View.GONE);
                             }
                         }
@@ -293,12 +304,14 @@ public class MinePageFragment extends BaseFragment {
         OkHttp.post(activity, HttpServicePath.URL_USER_CENTER, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
-                if(null != activity) {
+                if (null != activity) {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
                             Gson gson = new Gson();
                             String data = gson.toJson(baseBean.data);
+                            Log.e("user", data);
                             if (StringUtil.isEmpty(data)) return;
                             UserCenterBean userCenterBean = gson.fromJson(data, UserCenterBean.class);
                             initUiData(userCenterBean);
@@ -314,7 +327,7 @@ public class MinePageFragment extends BaseFragment {
         OkHttp.post(activity, HttpServicePath.URL_INVITE_PARAMETER, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
-                if(null != activity) {
+                if (null != activity) {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -322,13 +335,13 @@ public class MinePageFragment extends BaseFragment {
                             String data = gson.toJson(baseBean.data);
                             if (StringUtil.isEmpty(data)) return;
                             inviteParameterBean = gson.fromJson(data, InviteParameterBean.class);
-                            if(null == inviteParameterBean) return;
-                            Intent intent = new Intent(activity,CommentWebViewActivity.class);
-                            boolean dayModel = SharedPreferencedUtils.getBoolean(activity,SharedPreferencedUtils.dayModel,true);
-                            if(dayModel) {
-                                intent.putExtra("url", SnsConstants.getUrlInviteFriend(inviteParameterBean.friend_num,inviteParameterBean.money,inviteParameterBean.total_coin));
-                            }else {
-                                intent.putExtra("url", SnsConstants.getUrlInviteFriendNight(inviteParameterBean.friend_num,inviteParameterBean.money,inviteParameterBean.total_coin));
+                            if (null == inviteParameterBean) return;
+                            Intent intent = new Intent(activity, CommentWebViewActivity.class);
+                            boolean dayModel = SharedPreferencedUtils.getBoolean(activity, SharedPreferencedUtils.dayModel, true);
+                            if (dayModel) {
+                                intent.putExtra("url", SnsConstants.getUrlInviteFriend(inviteParameterBean.friend_num, inviteParameterBean.money, inviteParameterBean.total_coin));
+                            } else {
+                                intent.putExtra("url", SnsConstants.getUrlInviteFriendNight(inviteParameterBean.friend_num, inviteParameterBean.money, inviteParameterBean.total_coin));
                             }
                             startActivity(intent);
                         }
@@ -343,7 +356,7 @@ public class MinePageFragment extends BaseFragment {
         OkHttp.post(activity, HttpServicePath.URL_RED_NEWS, map, new RequestCallBack() {
             @Override
             public void httpResult(BaseBean baseBean) {
-                if(null != activity) {
+                if (null != activity) {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -351,10 +364,10 @@ public class MinePageFragment extends BaseFragment {
                             String data = gson.toJson(baseBean.data);
                             if (StringUtil.isEmpty(data)) return;
                             RedNewsBean redNewsBean = gson.fromJson(data, RedNewsBean.class);
-                            if(null == redNewsBean)return;
-                            if(redNewsBean.num>0) {
+                            if (null == redNewsBean) return;
+                            if (redNewsBean.num > 0) {
                                 dotImg.setVisibility(View.VISIBLE);
-                            }else {
+                            } else {
                                 dotImg.setVisibility(View.GONE);
                             }
                         }
@@ -372,86 +385,86 @@ public class MinePageFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.settingLayout,R.id.toLoginLayou,R.id.collectLayout,R.id.attentionLayout,R.id.informImg,
-                R.id.feedbackAndHelpLayout,R.id.goldWithdrawLayout,R.id.incomeLayout,R.id.inviteLayout})
+    @OnClick({R.id.settingLayout, R.id.toLoginLayou, R.id.collectLayout, R.id.attentionLayout, R.id.informImg,
+            R.id.feedbackAndHelpLayout, R.id.goldWithdrawLayout, R.id.incomeLayout, R.id.inviteLayout})
     public void onViewClick(View view) {//attention
         Intent intent;
-        boolean dayModel = SharedPreferencedUtils.getBoolean(activity,SharedPreferencedUtils.dayModel,true);
+        boolean dayModel = SharedPreferencedUtils.getBoolean(activity, SharedPreferencedUtils.dayModel, true);
         switch (view.getId()) {
             case R.id.settingLayout:
-                if(ClickUtil.onClick()) {
-                    intent = new Intent(activity,SettingActivity.class);
+                if (ClickUtil.onClick()) {
+                    intent = new Intent(activity, SettingActivity.class);
                     startActivity(intent);
                 }
                 break;
             case R.id.toLoginLayou:
-                if(ClickUtil.onClick()) {
-                    if(StringUtil.isEmpty(token)) {
-                        intent = new Intent(activity,LoginActivity.class);
+                if (ClickUtil.onClick()) {
+                    if (StringUtil.isEmpty(token)) {
+                        intent = new Intent(activity, LoginActivity.class);
                         startActivity(intent);
-                    }else {
-                        intent = new Intent(activity,UserPagerActivity.class);
-                        intent.putExtra("userId",SharedPreferencedUtils.getInteger(activity,"SYSUSERID",0));
+                    } else {
+                        intent = new Intent(activity, UserPagerActivity.class);
+                        intent.putExtra("userId", SharedPreferencedUtils.getInteger(activity, "SYSUSERID", 0));
                         startActivity(intent);
                     }
                 }
                 break;
             case R.id.collectLayout:
-                if(ClickUtil.onClick()) {
-                    intent = new Intent(activity,CollectActivity.class);
+                if (ClickUtil.onClick()) {
+                    intent = new Intent(activity, CollectActivity.class);
                     startActivity(intent);
                 }
                 break;
             case R.id.attentionLayout:
-                if(ClickUtil.onClick()) {
-                    intent = new Intent(activity,AttentionActivity.class);
+                if (ClickUtil.onClick()) {
+                    intent = new Intent(activity, AttentionActivity.class);
                     startActivity(intent);
                 }
                 break;
             case R.id.informImg:
-                if(ClickUtil.onClick()) {
-                    if(StringUtil.isEmpty(token)) {
-                        intent = new Intent(activity,LoginActivity.class);
+                if (ClickUtil.onClick()) {
+                    if (StringUtil.isEmpty(token)) {
+                        intent = new Intent(activity, LoginActivity.class);
                         startActivity(intent);
-                    }else {
-                        intent = new Intent(activity,InformActivity.class);
+                    } else {
+                        intent = new Intent(activity, InformActivity.class);
                         startActivity(intent);
                     }
                 }
                 break;
             case R.id.feedbackAndHelpLayout:
-                if(ClickUtil.onClick()) {
-                    intent = new Intent(activity,FeedbackAndHelpActivity.class);
+                if (ClickUtil.onClick()) {
+                    intent = new Intent(activity, FeedbackAndHelpActivity.class);
                     startActivity(intent);
                 }
                 break;
             case R.id.goldWithdrawLayout://提现兑换
-                if(ClickUtil.onClick()) {
-                    if(StringUtil.isEmpty(token)) {
-                        intent = new Intent(activity,LoginActivity.class);
-                    }else {
-                        intent = new Intent(activity,WithdrawActivity.class);
-                        intent.putExtra("withdrawType",1);
+                if (ClickUtil.onClick()) {
+                    if (StringUtil.isEmpty(token)) {
+                        intent = new Intent(activity, LoginActivity.class);
+                    } else {
+                        intent = new Intent(activity, WithdrawActivity.class);
+                        intent.putExtra("withdrawType", 1);
                     }
                     startActivity(intent);
                 }
                 break;
             case R.id.incomeLayout: //收入记录
-                if(ClickUtil.onClick()) {
-                    if(StringUtil.isEmpty(token)) {
-                        intent = new Intent(activity,LoginActivity.class);
-                    }else {
-                        intent = new Intent(activity,IncomeRecordActivity.class);
+                if (ClickUtil.onClick()) {
+                    if (StringUtil.isEmpty(token)) {
+                        intent = new Intent(activity, LoginActivity.class);
+                    } else {
+                        intent = new Intent(activity, IncomeRecordActivity.class);
                     }
                     startActivity(intent);
                 }
                 break;
             case R.id.inviteLayout://邀请好友
-                if(ClickUtil.onClick()) {
-                    if(StringUtil.isEmpty(token)) {
-                        intent = new Intent(activity,LoginActivity.class);
+                if (ClickUtil.onClick()) {
+                    if (StringUtil.isEmpty(token)) {
+                        intent = new Intent(activity, LoginActivity.class);
                         startActivity(intent);
-                    }else {
+                    } else {
                         getInviteParameter();
                     }
                 }
@@ -459,4 +472,17 @@ public class MinePageFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

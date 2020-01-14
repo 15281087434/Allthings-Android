@@ -2,8 +2,10 @@ package songqiu.allthings.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import com.heartfor.heartvideo.video.HeartVideoInfo;
 import com.heartfor.heartvideo.video.HeartVideoManager;
 import com.heartfor.heartvideo.video.VideoControl;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,6 +36,8 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
+import songqiu.allthings.util.NetWorkUtil;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ViewProportion;
@@ -96,6 +101,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
             return new Viewholder(view);
 
         }
+
         return null;
     }
 
@@ -141,20 +147,16 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
             }
         }
+        String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
-
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.contentTv.setText(homeAttentionBean.title);
         holder.describeTv.setText(homeAttentionBean.descriptions);
         holder.userName.setText(homeAttentionBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeAttentionBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeAttentionBean.up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(homeAttentionBean.comment_num));
         holder.shareTv.setText(ShowNumUtil.showUnm(homeAttentionBean.share_num));
@@ -240,6 +242,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
             }
         }
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
         RequestOptions options1 = new RequestOptions()
                 .error(R.mipmap.pic_default_small)
@@ -250,18 +254,13 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(homeAttentionBean.photo).apply(options1).into(holder.rightPic);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.contentTv.setText(homeAttentionBean.title);
         holder.describeTv.setText(homeAttentionBean.descriptions);
         holder.userName.setText(homeAttentionBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeAttentionBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeAttentionBean.up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(homeAttentionBean.comment_num));
         holder.shareTv.setText(ShowNumUtil.showUnm(homeAttentionBean.share_num));
@@ -355,6 +354,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         RequestOptions options1 = new RequestOptions()
                 .error(R.mipmap.pic_default)
                 .placeholder(R.mipmap.pic_default);
@@ -363,19 +363,15 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.photo = HttpServicePath.BasePicUrl + homeAttentionBean.photo;
             }
         }
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.photo).apply(options1).into(holder.bigPicImg);
         holder.contentTv.setText(homeAttentionBean.title);
         holder.describeTv.setText(homeAttentionBean.descriptions);
         holder.userName.setText(homeAttentionBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeAttentionBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeAttentionBean.up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(homeAttentionBean.comment_num));
         holder.shareTv.setText(ShowNumUtil.showUnm(homeAttentionBean.share_num));
@@ -460,7 +456,10 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
             }
         }
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         if (null != item.get(position).photos) {
             ImageTextMorePicAdapter gambitMorePicAdapter = new ImageTextMorePicAdapter(context, item.get(position).photos);
             holder.gridView.setAdapter(gambitMorePicAdapter);
@@ -478,13 +477,7 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         holder.userName.setText(homeAttentionBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeAttentionBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeAttentionBean.up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(homeAttentionBean.comment_num));
         holder.shareTv.setText(ShowNumUtil.showUnm(homeAttentionBean.share_num));
@@ -566,6 +559,12 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
             VideoControl control = new VideoControl(context);
             control.setInfo(info);
             holder.videoView.setHeartVideoContent(control);
+            if(item.get(position).state==1&& NetWorkUtil.getConnectedType(context)== ConnectivityManager.TYPE_WIFI){
+
+                holder.videoView.startSlence();
+
+            }
+
         }
         RequestOptions options = new RequestOptions()
                 .circleCrop().transforms(new GlideCircleTransform(context))
@@ -576,18 +575,15 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
                 homeAttentionBean.avatar = HttpServicePath.BasePicUrl + homeAttentionBean.avatar;
             }
         }
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(homeAttentionBean.avatar).apply(options).into(holder.userIcon);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.titleTv.setText(homeAttentionBean.title);
         holder.userName.setText(homeAttentionBean.user_nickname);
         //判断时间 昨天  今天
         long time = homeAttentionBean.created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.likeTv.setText(ShowNumUtil.showUnm(homeAttentionBean.up_num));
         holder.commentTv.setText(ShowNumUtil.showUnm(homeAttentionBean.comment_num));
         holder.shareTv.setText(ShowNumUtil.showUnm(homeAttentionBean.share_num));
@@ -678,6 +674,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
     }
 
     public class TextViewholder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         @BindView(R.id.userIcon)
         ImageView userIcon;
         @BindView(R.id.userName)
@@ -706,7 +704,8 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.layout)
         LinearLayout layout;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public TextViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -744,7 +743,10 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.userLayout)
         RelativeLayout userLayout;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public RightPicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -782,6 +784,10 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.layout)
         LinearLayout layout;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public BigPicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -818,7 +824,10 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.layout)
         LinearLayout layout;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public MorePicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -855,7 +864,10 @@ public class HomeAttentionAdapter extends RecyclerView.Adapter {
         LinearLayout layout;
         @BindView(R.id.userLayout)
         RelativeLayout userLayout;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public Viewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

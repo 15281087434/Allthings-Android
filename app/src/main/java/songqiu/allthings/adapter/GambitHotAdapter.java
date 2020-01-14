@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,6 +33,7 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
 import songqiu.allthings.util.SharedPreferencedUtils;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
@@ -119,6 +121,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.userName.setText(item.get(position).user_nickname);
         //变色
         if (item.get(position).descriptions.contains("#")) {
@@ -136,7 +139,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
             holder.contentTv.setText(item.get(position).descriptions);
         }
         long time = item.get(position).created * 1000;
-        holder.timeTv.setText(DateUtil.getTimeBig3(time));
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         if (0 == item.get(position).is_follow) { //未关注
             holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
@@ -208,14 +211,18 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gambitItemListener.delete(2, item.get(position).id,item.get(position).userid);
+                if(null != item && 0 != item.size()) {
+                    gambitItemListener.delete(2, item.get(position).id,item.get(position).userid);
+                }
             }
         });
         //删除
         holder.myDeleteTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gambitItemListener.delete(1, item.get(position).id,item.get(position).userid);
+                if(null != item && 0 != item.size()) {
+                    gambitItemListener.delete(1, item.get(position).id,item.get(position).userid);
+                }
             }
         });
         //去主页
@@ -253,6 +260,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
             }
         }
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         RequestOptions options1 = new RequestOptions()
 //                .circleCrop().transforms(new GlideCircleTransform(context))
                 .error(R.mipmap.pic_default_zhengfangxing)
@@ -281,7 +289,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
             holder.contentTv.setText(item.get(position).descriptions);
         }
         long time = item.get(position).created * 1000;
-        holder.timeTv.setText(DateUtil.getTimeBig3(time));
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         if (0 == item.get(position).is_follow) { //未关注
             holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
@@ -409,6 +417,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         GambitMorePicAdapter gambitMorePicAdapter = new GambitMorePicAdapter(context,item.get(position).images);
         holder.gridView.setAdapter(gambitMorePicAdapter);
@@ -438,7 +447,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
             holder.contentTv.setText(item.get(position).descriptions);
         }
         long time = item.get(position).created * 1000;
-        holder.timeTv.setText(DateUtil.getTimeBig3(time));
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         if (0 == item.get(position).is_follow) { //未关注
             holder.attentionTv.setText("关注");
             holder.attentionTv.setBackgroundResource(R.drawable.rectangle_common_attention);
@@ -572,7 +581,8 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
         LinearLayout likeLayout;
         @BindView(R.id.commentTv)
         TextView commentTv;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         @BindView(R.id.otherLayout)
         LinearLayout otherLayout;
         @BindView(R.id.img)
@@ -583,6 +593,7 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
         LinearLayout shareLayout;
         @BindView(R.id.shareTv)
         TextView shareTv;
+
 
         public NoPicViewholder(View itemView) {
             super(itemView);
@@ -615,7 +626,8 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
         TextView commentTv;
         @BindView(R.id.layout)
         LinearLayout layout;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         @BindView(R.id.otherLayout)
         LinearLayout otherLayout;
         @BindView(R.id.img)
@@ -658,7 +670,8 @@ public class GambitHotAdapter extends RecyclerView.Adapter {
         TextView commentTv;
         @BindView(R.id.layout)
         LinearLayout layout;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         @BindView(R.id.otherLayout)
         LinearLayout otherLayout;
         @BindView(R.id.img)

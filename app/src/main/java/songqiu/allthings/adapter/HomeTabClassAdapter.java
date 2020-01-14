@@ -3,8 +3,10 @@ package songqiu.allthings.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.heartfor.heartvideo.video.HeartVideoInfo;
 import com.heartfor.heartvideo.video.HeartVideoManager;
 import com.heartfor.heartvideo.video.VideoControl;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,6 +40,8 @@ import songqiu.allthings.mine.userpage.UserPagerActivity;
 import songqiu.allthings.util.ClickUtil;
 import songqiu.allthings.util.DateUtil;
 import songqiu.allthings.util.GlideCircleTransform;
+import songqiu.allthings.util.ImageResUtils;
+import songqiu.allthings.util.NetWorkUtil;
 import songqiu.allthings.util.ShowNumUtil;
 import songqiu.allthings.util.StringUtil;
 import songqiu.allthings.util.ViewProportion;
@@ -239,6 +244,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         holder.titleTv.setText(item.get(position).title);
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
@@ -246,6 +253,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -287,13 +295,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         }
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -350,7 +352,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
             }
         }
-
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         Glide.with(context).load(item.get(position).photo).apply(options1).into(holder.bigPicImg);
         holder.titleTv.setText(item.get(position).title);
@@ -359,6 +362,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -401,13 +405,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         }
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -454,6 +452,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
             }
         }
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).photo).apply(options1).into(holder.rightPic);
         holder.titleTv.setText(item.get(position).title);
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
@@ -461,6 +461,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -503,13 +504,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
 
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.tiemTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.tiemTv.setText("1天前");
-        } else {
-            holder.tiemTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.tiemTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -543,6 +538,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         holder.userName.setText(item.get(position).user_nickname);
         //标签
         if(!StringUtil.isEmpty(item.get(position).keywords)) {
+            holder.keywordsTv.setVisibility(View.VISIBLE);
             holder.keywordsTv.setText(item.get(position).keywords);
             int colorIndex = item.get(position).color;
             holder.keywordsTv.setTextColor(context.getResources().getColor(MyApplication.getInstance().colorTextViewMap.get(colorIndex)));
@@ -550,6 +546,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         }else {
             holder.keywordsTv.setVisibility(View.GONE);
         }
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         //多标签
         if(null != item.get(position).labels && 0!=item.get(position).labels.length) {
             if(1==item.get(position).labels.length) {
@@ -639,6 +637,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
+          String is_match=item.get(position).is_match+"";
+        holder.tvSai.setVisibility(is_match.equals("1")?View.VISIBLE:View.GONE);
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         holder.titleTv.setText(item.get(position).title);
         holder.lookTv.setText(String.valueOf(item.get(position).view_num) + "次");
@@ -647,13 +647,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
 
         //判断时间 昨天  今天
         long time = item.get(position).created * 1000;
-        if (DateUtil.IsToday(time)) {
-            holder.timeTv.setText("刚刚");
-        } else if (DateUtil.IsYesterday(time)) {
-            holder.timeTv.setText("1天前");
-        } else {
-            holder.timeTv.setText(DateUtil.getTimeBig1(time));
-        }
+        holder.timeTv.setText(DateUtil.fromToday(new Date(time))+ImageResUtils.getLevelText(item.get(position).level));
         if (!StringUtil.isEmpty(item.get(position).photo)) {
             if (!item.get(position).photo.contains("http")) {
                 item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
@@ -665,6 +659,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
             VideoControl control = new VideoControl(context);
             control.setInfo(info);
             holder.videoView.setHeartVideoContent(control);
+
+
         }
 
         holder.toDetailLayout.setOnClickListener(new View.OnClickListener() {
@@ -713,12 +709,14 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).avatar = HttpServicePath.BasePicUrl + item.get(position).avatar;
             }
         }
+
         Glide.with(context).load(item.get(position).avatar).apply(options).into(holder.userIcon);
         if (!StringUtil.isEmpty(item.get(position).photo)) {
             if (!item.get(position).photo.contains("http")) {
                 item.get(position).photo = HttpServicePath.BasePicUrl + item.get(position).photo;
             }
         }
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         holder.commentTv.setText(String.valueOf(item.get(position).comment_num));
         if(!StringUtil.isEmpty(item.get(position).video_url)) {
             HeartVideoInfo info = HeartVideoInfo.Builder().setTitle(item.get(position).title).setPath(item.get(position).video_url)
@@ -726,6 +724,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
             VideoControl control = new VideoControl(context);
             control.setInfo(info);
             holder.videoView.setHeartVideoContent(control);
+
         }
 
         holder.userName.setText(item.get(position).user_nickname);
@@ -882,6 +881,9 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         VideoControl control = new VideoControl(context);
         control.setInfo(info);
         holder.videoView.setHeartVideoContent(control);
+        if(item.get(position).state==1&& NetWorkUtil.getConnectedType(context)== ConnectivityManager.TYPE_WIFI){
+            holder.videoView.startSlence();
+        }
 
         holder.titleTv.setText(item.get(position).title);
         if (4 == item.get(position).change_type) {
@@ -969,6 +971,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).url = HttpServicePath.BasePicUrl + item.get(position).url;
             }
         }
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         String image = item.get(position).url;
         String title = item.get(position).title;
         if(!StringUtil.isEmpty(path)) {
@@ -976,6 +979,9 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
             VideoControl control = new VideoControl(context);
             control.setInfo(info);
             holder.videoView.setHeartVideoContent(control);
+            if(item.get(position).state==1&& NetWorkUtil.getConnectedType(context)== ConnectivityManager.TYPE_WIFI){
+                holder.videoView.startSlence();
+            }
         }
         if (4 == item.get(position).change_type) {
             holder.downloadLayout.setVisibility(View.VISIBLE);
@@ -1019,6 +1025,7 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
                 item.get(position).head_url = HttpServicePath.BasePicUrl + item.get(position).head_url;
             }
         }
+        holder.ivLevel.setImageResource(ImageResUtils.getLevelRes(item.get(position).level));
         Glide.with(context).load(item.get(position).head_url).apply(options).into(holder.userIcon);
         //
         holder.userName.setText(item.get(position).ad_name);
@@ -1125,7 +1132,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         TextView labels1;
         @BindView(R.id.labels2)
         TextView labels2;
-
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public MorePicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -1168,7 +1176,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         TextView labels1;
         @BindView(R.id.labels2)
         TextView labels2;
-
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public RightPicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -1211,7 +1220,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         TextView labels1;
         @BindView(R.id.labels2)
         TextView labels2;
-
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public BigPicViewholder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -1252,7 +1262,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         TextView labels1;
         @BindView(R.id.labels2)
         TextView labels2;
-
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
 
         public NoPicViewholder(View itemView) {
             super(itemView);
@@ -1282,7 +1293,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         TextView setTopTv;
         @BindView(R.id.collectTv)
         TextView collectTv;
-
+        @BindView(R.id.tv_sai)
+        TextView tvSai;
         public CityAndChoiseVideoHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -1316,7 +1328,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         ImageView settingImg;
         @BindView(R.id.userLayout)
         LinearLayout userLayout;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public LookVideoHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -1388,6 +1401,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         ImageView settingImg;
         @BindView(R.id.toDetailLayout)
         RelativeLayout toDetailLayout;
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
 
         public VideoAdvertiseVideoHolder(View itemView) {
             super(itemView);
@@ -1412,7 +1427,8 @@ public class HomeTabClassAdapter extends RecyclerView.Adapter {
         RelativeLayout toDetailLayout;
         @BindView(R.id.layout)
         LinearLayout layout;
-
+        @BindView(R.id.iv_level)
+        ImageView ivLevel;
         public BigPicAdvertiseVideoHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

@@ -38,4 +38,5 @@ public class HotGambitDetailBean {
     public String updated;
     public String status;
     public int is_follow;
+    public String is_match;//是否为参赛作品
 }

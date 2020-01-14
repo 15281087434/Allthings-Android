@@ -1,5 +1,7 @@
 package songqiu.allthings.http;
 
+import songqiu.allthings.BuildConfig;
+
 /*******
  *
  *Created by 杨延辉
@@ -12,15 +14,17 @@ package songqiu.allthings.http;
 public class HttpServicePath {
 
 //    public static String BaseUrl = "https://jianguaiapp.com:100/"; //线上测试、审核
-//    public static String BaseUrl = "http://192.168.0.88/"; //测试  内网
+//    public static String BaseUrl = "http://192.168.0.88/";//测试  内网
+//    public static String BaseUrl = "https://jianguaiapp.com/";
+    public static String BaseUrl = BuildConfig.HTTP_URL;
 //    public static String BasePicUrl = "http://47.108.29.87:81"; //图片地址
-    public static String BasePicUrl = "http://1097.oss-cn-chengdu.aliyuncs.com/"; //OSS图片前缀
+    public static String BasePicUrl = BuildConfig.HTTP_PIC_URL; //OSS图片前缀
 
     //官方安卓 511、OPPO 512、vivo 513、华为 514、应用宝 515 、UC 516、360 517、百度 518、小米 519 魅族 520
-    public static String BaseUrl = "https://jianguaiapp.com:511/"; //正式 渠道
+//    public static String BaseUrl = "https://jianguaiapp.com/"; //正式 渠道
 
     //检测版本号
-    public static String URL_VERSION = BaseUrl+"version";
+    public static String URL_VERSION = BaseUrl+"new_version";
 
     //导航   zone	否	int	1=默认首页内的导航，2=快看内导航
     public static String URL_NAVIGATION = BaseUrl +"nav";
@@ -250,6 +254,69 @@ public class HttpServicePath {
 
     //标签搜索
     public static String URL_LABELS_SEARCH = BaseUrl+"labels_search";
+
+
+    //获取当前认证等级
+    public static final String URL_STATE_DATA=BaseUrl+"stat_data";
+
+    //申请认证
+    public static final String URL_STATE_APPLY=BaseUrl+"verify_data";
+
+    //实名认证
+    public static final String URL_REALNAME_AUTH=BaseUrl+"verify_user";
+
+    //稿酬收入记录
+    public static final String URL_GCLOGS=BaseUrl+"gc_log";
+
+    //稿酬订单记录
+    public static final String URL_GC_ORDER=BaseUrl+"gc_order";
+
+    //创作 数据标签
+    public static String URL_ARTICLE_LABEL = BaseUrl+"article_label";
+
+    //保存文章
+    public static String URL_SAVES_ARTICLE = BaseUrl+"saves_article";
+
+    //上传加载数据
+    public static String URL_SAVE_DATA = BaseUrl+"save_data";
+
+    //上传发布数据
+    public static String URL_ADD_ARTICLE = BaseUrl+"add_article";
+
+    //上传- 删除数据
+    public static String URL_DEL_DATA = BaseUrl+"del_data";
+
+    //上传-申请稿酬/下架
+    public static String URL_SQ_DATA = BaseUrl+"sq_data";
+
+    //创造收入
+    public static String URL_CREATE_COME = BaseUrl+"create_come";
+
+
+    //征文栏目
+    public static String URL_SOLICIT=BaseUrl+"solicit";
+
+    //征文投票
+    public static String URL_TP=BaseUrl+"vote";
+
+
+
+    //浏览文章
+    public static String URL_SHOW_DATA = BaseUrl+"show_data";
+
+
+    //创作 作品管理
+    public static String URL_MANAGE_DATA = BaseUrl+"manage_data"; //type	是	int	1=未上架，2=已上架
+
+    //埋点
+    public static String URL_RECORD = BaseUrl+"record"; //type 1 打开APP
+
+    //创作广播
+    public static String URL_BROADCAST = BaseUrl+"broadcast";
+
+
+
+
 
 
 }

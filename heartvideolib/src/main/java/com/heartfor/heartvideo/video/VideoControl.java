@@ -360,12 +360,13 @@ public class VideoControl extends HeartVideoParentControl implements View.OnClic
     public void invokeTopAndBottomLayout(boolean iaVisiable) {
         if (iaVisiable) {
             //显示
-            control_title_layout.setVisibility(GONE);
+            control_title_layout.setVisibility(VISIBLE);
             control_bottom_layout.setVisibility(VISIBLE);
         } else {
             //隐藏
             control_title_layout.setVisibility(GONE);
             control_bottom_layout.setVisibility(GONE);
+            control_center_play.setVisibility(GONE);
         }
     }
 

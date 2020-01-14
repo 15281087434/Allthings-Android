@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">见怪</string>
+    <dimen name="tv_padding">0dp</dimen>
+</resources>

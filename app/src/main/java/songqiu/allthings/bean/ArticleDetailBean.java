@@ -44,5 +44,12 @@ public class ArticleDetailBean {
     public long created;
     public int is_comment; // 1可以评论  0不能评论
     public int is_coin;//0显示转圈  1领取奖励已上限不显示转圈
-    public int is_original;  //0原创 1转载
+
+    public int is_original;  //1原创 0转载 //1月3号后台告知
+      public String level;
+    public String is_match;//是否为参赛作品
+    public String activity_name;//参赛名称
+    public String activityid;//参赛活动id
+    public int support_num;//参赛活动投票数
+    public int add_vote;//是否显示投票 1为显示
 }

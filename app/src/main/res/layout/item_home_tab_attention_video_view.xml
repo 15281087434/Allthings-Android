@@ -19,11 +19,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/userIcon"
-                android:layout_width="@dimen/x_ui_px_72.0"
-                android:layout_height="@dimen/x_ui_px_72.0"
-                android:src="@mipmap/head_default"/>
+            <FrameLayout
+                android:id="@+id/fl_userIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/userIcon"
+                    android:layout_width="@dimen/x_ui_px_80.0"
+                    android:layout_height="@dimen/x_ui_px_80.0"
+
+                    android:src="@mipmap/head_default"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_level"
+                    android:layout_width="@dimen/x_ui_px_22.0"
+                    android:layout_height="@dimen/x_ui_px_22.0"
+                    android:layout_gravity="end|bottom"
+
+                    />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -31,7 +46,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical"
                 android:layout_marginLeft="@dimen/x_ui_px_16.0"
-                android:layout_toRightOf="@+id/userIcon">
+                android:layout_toRightOf="@+id/fl_userIcon">
                 <TextView
                     android:id="@+id/userName"
                     android:layout_width="wrap_content"
@@ -67,23 +82,44 @@
             android:background="@drawable/rectangle_common_no_attention"/>
 
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/titleTv"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:textColor="@color/bottom_tab_tv"
-        android:textSize="@dimen/x_ui_px_40.0"
         android:layout_marginTop="@dimen/x_ui_px_32.0"
         android:layout_marginLeft="@dimen/x_ui_px_30.0"
-        android:layout_marginRight="@dimen/x_ui_px_30.0"
-        tools:text="草船借箭是我国古典名著《三国演义》中赤壁之战的一个故事。"
-        android:maxLines="2"
-        android:lineSpacingExtra="@dimen/x_ui_px_4.0"
-        android:ellipsize="end"
-        android:textStyle="bold"
-        />
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_sai"
+            android:layout_width="@dimen/x_ui_px_40.0"
+            android:layout_height="@dimen/x_ui_px_40.0"
+            android:text="赛"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/tv_padding"
+            android:gravity="center"
+            android:textColor="@color/FFE7A722"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/x_ui_px_10.0"
+            android:textSize="@dimen/x_ui_px_24.0"
+            android:background="@drawable/tag_sai_bg_shape"/>
+        <TextView
+            android:layout_marginTop="@dimen/x_ui_px_6.0"
+            android:id="@+id/titleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:includeFontPadding="false"
+            android:textColor="@color/bottom_tab_tv"
+            android:textSize="@dimen/x_ui_px_40.0"
+            android:layout_marginRight="@dimen/x_ui_px_30.0"
+            tools:text="草船借箭是我国古典名著《三国演义》中赤壁之战的一个故事。"
+            android:maxLines="2"
+            android:lineSpacingExtra="@dimen/x_ui_px_4.0"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+
 
     <com.heartfor.heartvideo.video.HeartVideo
         android:id="@+id/videoView"
