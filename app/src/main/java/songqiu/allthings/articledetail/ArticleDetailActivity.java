@@ -1159,6 +1159,9 @@ public class ArticleDetailActivity extends BaseActivity implements ThemeManager.
     }
 
     public void showPopupwindow(int type, int grade, int pid, String hint) {
+        if(this.isFinishing()) {
+            return;
+        }
         CommentWindow fw = new CommentWindow(this, hint);
         fw.showAtLocation(titleTv, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         fw.setOnDismissListener(new PopupWindow.OnDismissListener() {

@@ -17,6 +17,9 @@ import android.widget.PopupWindow;
  ********/
 public class WindowUtil {
     public static void windowDeploy (Activity context, PopupWindow rw, View view) {
+        if(context.isFinishing()){
+            return;
+        }
         rw.showAtLocation(view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         rw.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override

@@ -218,7 +218,9 @@ public class RealNameAuthActivity extends BaseActivity {
                 break;
         }
         if (type != 0) {
-
+            if(this.isFinishing()) {
+                return;
+            }
             CommentWindow fw = new CommentWindow(this, content, "完成");
             fw.showAtLocation(titleTv, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             fw.setOnDismissListener(new PopupWindow.OnDismissListener() {
